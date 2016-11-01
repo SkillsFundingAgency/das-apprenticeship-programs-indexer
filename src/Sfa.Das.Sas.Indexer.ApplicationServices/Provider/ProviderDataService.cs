@@ -97,11 +97,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
         {
             var records = _convertFromCsv.CsvTo<HeiProviderCsvRecord>(LoadHeiProvidersFromVsts());
 
-            var tmpList = (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != string.Empty select heiProviderCsvRecord.UkPrn).ToList();
+            var heiProvidersList = (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != null && heiProviderCsvRecord.OrgType == "Higher Education Organisation" select heiProviderCsvRecord.UkPrn).ToList();
 
-            tmpList = tmpList.Distinct().ToList();
+            heiProvidersList = heiProvidersList.Distinct().ToList();
 
-            return tmpList.ToDictionary(record => record, record => true);
+            return heiProvidersList.ToDictionary(record => record, record => true);
         }
 
         private string LoadHeiProvidersFromVsts()
