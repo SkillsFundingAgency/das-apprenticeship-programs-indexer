@@ -10,6 +10,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         public int StandardCode { get; set; }
 
         public int Ukprn { get; set; }
+        public bool Hei { get; set; }
 
         public string ProviderName { get; set; }
 

@@ -6,6 +6,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 
         public int Ukprn { get; set; }
 
+        public bool Hei { get; set; }
+
         public string ProviderName { get; set; }
 
         public string Phone { get; set; }

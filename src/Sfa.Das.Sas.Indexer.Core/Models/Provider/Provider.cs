@@ -8,6 +8,8 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
         public int Ukprn { get; set; }
 
+        public bool Hei { get; set; }
+
         public string Name { get; set; }
 
         public bool NationalProvider { get; set; }

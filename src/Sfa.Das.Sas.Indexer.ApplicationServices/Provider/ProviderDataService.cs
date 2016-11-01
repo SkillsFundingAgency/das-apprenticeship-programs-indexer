@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
+using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
 {
@@ -25,6 +28,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
         private readonly IMetaDataHelper _metaDataHelper;
 
         private readonly IAchievementRatesProvider _achievementRatesProvider;
+        private readonly IVstsClient _vstsClient;
+        private readonly IAppServiceSettings _appServiceSettings;
+        private readonly IConvertFromCsv _convertFromCsv;
 
         private readonly ILog _logger;
 
@@ -34,6 +40,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             IGetActiveProviders activeProviderClient,
             IMetaDataHelper metaDataHelper,
             IAchievementRatesProvider achievementRatesProvider,
+            IVstsClient vstsClient,
+            IAppServiceSettings appServiceSettings,
+            IConvertFromCsv convertFromCsv,
             ILog logger)
         {
             _features = features;
@@ -41,6 +50,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             _activeProviderClient = activeProviderClient;
             _metaDataHelper = metaDataHelper;
             _achievementRatesProvider = achievementRatesProvider;
+            _vstsClient = vstsClient;
+            _appServiceSettings = appServiceSettings;
+            _convertFromCsv = convertFromCsv;
             _logger = logger;
         }
 
@@ -57,11 +69,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             var byProvier = _achievementRatesProvider.GetAllByProvider();
             var national = _achievementRatesProvider.GetAllNational();
 
+            var heiProviders = Task.Run(() => GetHeiProviders());
+
             await Task.WhenAll(frameworks, standards, providers);
 
             var ps = providers.Result.ToArray();
+
             foreach (var provider in ps)
             {
+                provider.Hei = heiProviders.Result.ContainsKey(provider.Ukprn.ToString());
                 var byProvidersFiltered = byProvier.Where(bp => bp.Ukprn == provider.Ukprn);
                 provider.Frameworks.ForEach(m => UpdateFramework(m, frameworks.Result, byProvidersFiltered, national));
                 provider.Standards.ForEach(m => UpdateStandard(m, standards.Result, byProvidersFiltered, national));
@@ -75,6 +91,22 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             }
 
             return ps;
+        }
+
+        private async Task<Dictionary<string, bool>> GetHeiProviders()
+        {
+            var records = _convertFromCsv.CsvTo<HeiProviderCsvRecord>(LoadHeiProvidersFromVsts());
+
+            var tmpList = (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != string.Empty select heiProviderCsvRecord.UkPrn).ToList();
+
+            tmpList = tmpList.Distinct().ToList();
+
+            return tmpList.ToDictionary(record => record, record => true);
+        }
+
+        private string LoadHeiProvidersFromVsts()
+        {
+            return _vstsClient.GetFileContent($"hei/{_appServiceSettings.EnvironmentName}/hei.csv");
         }
 
         private static double? GetNationalOverallAchievementRate(List<AchievementRateNational> nationalAchievementRate)

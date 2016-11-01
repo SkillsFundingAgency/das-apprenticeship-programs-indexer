@@ -17,6 +17,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         public int Level { get; set; }
 
         public int Ukprn { get; set; }
+        public bool Hei { get; set; }
 
         public string ProviderName { get; set; }
 
