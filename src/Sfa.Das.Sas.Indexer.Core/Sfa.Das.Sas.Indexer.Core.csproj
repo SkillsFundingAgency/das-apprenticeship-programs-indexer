@@ -76,6 +76,7 @@
     <Compile Include="Models\Provider\Provider.cs" />
     <Compile Include="Models\Provider\StandardInformation.cs" />
     <Compile Include="Models\SatisfactionRateProvider.cs" />
+    <Compile Include="Services\ISatisfactionRatesProvider.cs" />
     <Compile Include="Services\IAchievementRatesProvider.cs" />
     <Compile Include="Services\IGenericIndexerHelper{T}.cs" />
     <Compile Include="Services\IGetActiveProviders.cs" />

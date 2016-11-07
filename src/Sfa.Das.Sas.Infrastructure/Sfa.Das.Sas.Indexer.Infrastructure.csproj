@@ -153,6 +153,7 @@
     <Compile Include="CourseDirectory\Models\Provider.cs" />
     <Compile Include="CourseDirectory\Models\ProviderCollection.cs" />
     <Compile Include="CourseDirectory\Models\Standard.cs" />
+    <Compile Include="DapperBD\SatisfactionRatesProvider.cs" />
     <Compile Include="DapperBD\AchievementRatesProvider.cs" />
     <Compile Include="DapperBD\DatabaseProvider.cs" />
     <Compile Include="DapperBD\IDatabaseProvider.cs" />
