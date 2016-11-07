@@ -7,7 +7,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
     public interface IProviderAppreticeshipDocument
     {
         int Ukprn { get; set; }
-        bool Hei { get; set; }
+        bool IsHigherEducationInstitute { get; set; }
         string ProviderName { get; set; }
         bool NationalProvider { get; set; }
         string ProviderMarketingInfo { get; set; }

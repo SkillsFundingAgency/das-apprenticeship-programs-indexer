@@ -8,7 +8,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
         public int Ukprn { get; set; }
 
-        public bool Hei { get; set; }
+        public bool IsHigherEducationInstitute { get; set; }
 
         public string Name { get; set; }
 

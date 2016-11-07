@@ -109,7 +109,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var providerDocument = new ProviderDocument
             {
                 Ukprn = provider.Ukprn,
-                Hei = provider.Hei,
+                IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
                 NationalProvider = provider.NationalProvider,
                 ProviderName = provider.Name,
                 Website = provider.ContactDetails.Website,
@@ -178,7 +178,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var firstLoc = deliveryLocations.FirstOrDefault();
 
             documentToPopulate.Ukprn = provider.Ukprn;
-            documentToPopulate.Hei = provider.Hei;
+            documentToPopulate.IsHigherEducationInstitute = provider.IsHigherEducationInstitute;
             documentToPopulate.ProviderName = provider.Name;
             documentToPopulate.NationalProvider = provider.NationalProvider;
             documentToPopulate.ProviderMarketingInfo = EscapeSpecialCharacters(provider.MarketingInfo);
