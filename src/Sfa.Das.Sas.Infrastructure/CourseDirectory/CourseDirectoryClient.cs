@@ -69,11 +69,9 @@
         {
             var records = _convertFromCsv.CsvTo<HeiProviderCsvRecord>(LoadHeiProvidersFromVsts());
 
-            var heiProvidersList = (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != null && heiProviderCsvRecord.OrgType == "Higher Education Organisation" select heiProviderCsvRecord.UkPrn).ToList();
+            var heiProviders = (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != null && heiProviderCsvRecord.OrgType == "Higher Education Organisation" select heiProviderCsvRecord.UkPrn).Distinct().ToList();
 
-            heiProvidersList = heiProvidersList.Distinct().ToList();
-
-            return heiProvidersList.ToDictionary(record => record, record => true);
+            return heiProviders.ToDictionary(record => record, record => true);
         }
 
         private string LoadHeiProvidersFromVsts()
