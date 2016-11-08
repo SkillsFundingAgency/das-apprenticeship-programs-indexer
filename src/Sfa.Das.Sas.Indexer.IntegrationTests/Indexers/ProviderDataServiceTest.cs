@@ -35,6 +35,8 @@
 
         private Mock<IAchievementRatesProvider> _achievementProvider;
 
+        private Mock<ISatisfactionRatesProvider> _satisfactionProvider;
+
         [SetUp]
         public void SetUp()
         {
@@ -43,6 +45,7 @@
             _mockActiveProviderRepository = new Mock<IGetActiveProviders>();
             _mockMetaDataHelper = new Mock<IMetaDataHelper>();
             _achievementProvider = new Mock<IAchievementRatesProvider>();
+            _satisfactionProvider = new Mock<ISatisfactionRatesProvider>();
 
             _mockMetaDataHelper.Setup(x => x.GetAllFrameworkMetaData()).Returns(FrameworkResults());
             _mockMetaDataHelper.Setup(x => x.GetAllStandardsMetaData()).Returns(StandardResults());
@@ -50,12 +53,15 @@
             _achievementProvider.Setup(m => m.GetAllByProvider()).Returns(GetAchievementData());
             _achievementProvider.Setup(m => m.GetAllNational()).Returns(GetNationalAchievementData());
 
+            _satisfactionProvider.Setup(m => m.GetAllLearnerSatisfactionByProvider()).Returns(GetLearnerSatisfactionRateData());
+
             _sut = new ProviderDataService(
                 _mockFeatures.Object,
                 _mockProviderRepository.Object,
                 _mockActiveProviderRepository.Object,
                 _mockMetaDataHelper.Object,
                 _achievementProvider.Object,
+                _satisfactionProvider.Object,
                 Mock.Of<ILog>());
         }
 
@@ -122,6 +128,33 @@
             standard?.NationalOverallAchievementRate.Should().Be(100);
         }
 
+        [Test]
+        public void ShouldUpdateLearnerSatisfactionRateIfAvailable()
+        {
+            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+
+            var result = _sut.GetProviders().Result;
+
+            Assert.AreEqual(3, result.Count);
+
+            result.Count(ls => ls.Ukprn == 456 && ls.LearnerSatisfaction == 67).Should().Be(1);
+            result.Count(ls => ls.Ukprn == 123 && ls.LearnerSatisfaction == 0).Should().Be(2);
+        }
+
+        [Test]
+        public void ShouldLeaveLearnerSatisfactionRateNullIfUnavailable()
+        {
+            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(ThreeProvidersTask());
+
+            var result = _sut.GetProviders().Result;
+
+            Assert.AreEqual(4, result.Count);
+            
+            result.Any(ls => ls.Ukprn == 789 && ls.LearnerSatisfaction == null).Should().Be(true);
+        }
+
         private IEnumerable<AchievementRateProvider> GetAchievementData()
         {
             return new List<AchievementRateProvider>
@@ -148,9 +181,33 @@
             };
         }
 
+        private IEnumerable<SatisfactionRateProvider> GetLearnerSatisfactionRateData()
+        {
+            return new List<SatisfactionRateProvider>
+            {
+                new SatisfactionRateProvider { Ukprn = 456, FinalScore = 67.1, TotalCount = 678, ResponseCount = 670},
+                new SatisfactionRateProvider { Ukprn = 123, FinalScore = 0, TotalCount = 879, ResponseCount = 0 }
+            };
+        }
+
         private Task<IEnumerable<Provider>> TwoProvidersTask()
         {
             return Task.FromResult(TwoProviders());
+        }
+
+        private Task<IEnumerable<Provider>> ThreeProvidersTask()
+        {
+            var providers = TwoProviders().Concat(new List<Provider>{new Provider
+            {
+                Ukprn = 789,
+                Frameworks = new List<FrameworkInformation>
+                {
+                    new FrameworkInformation { Code = 43, PathwayCode = 5, ProgType = 20 }
+                }
+            }
+            });
+
+            return Task.FromResult(providers);
         }
 
         private List<StandardMetaData> StandardResults()

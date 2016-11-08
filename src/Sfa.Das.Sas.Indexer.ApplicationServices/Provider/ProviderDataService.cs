@@ -26,6 +26,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
 
         private readonly IAchievementRatesProvider _achievementRatesProvider;
 
+        private readonly ISatisfactionRatesProvider _satisfactionRatesProvider;
+        
         private readonly ILog _logger;
 
         public ProviderDataService(
@@ -34,6 +36,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             IGetActiveProviders activeProviderClient,
             IMetaDataHelper metaDataHelper,
             IAchievementRatesProvider achievementRatesProvider,
+            ISatisfactionRatesProvider satisfactionRatesProvider,
             ILog logger)
         {
             _features = features;
@@ -41,6 +44,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             _activeProviderClient = activeProviderClient;
             _metaDataHelper = metaDataHelper;
             _achievementRatesProvider = achievementRatesProvider;
+            _satisfactionRatesProvider = satisfactionRatesProvider;
             _logger = logger;
         }
 
@@ -54,17 +58,23 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             var standards = Task.Run(() => _metaDataHelper.GetAllStandardsMetaData());
 
             // From database
-            var byProvier = _achievementRatesProvider.GetAllByProvider();
+            var byProvider = _achievementRatesProvider.GetAllByProvider();
             var national = _achievementRatesProvider.GetAllNational();
+
+            var learnerSatisfactionRates = _satisfactionRatesProvider.GetAllLearnerSatisfactionByProvider();
+            var employerSatisfactionRates = _satisfactionRatesProvider.GetAllEmployerSatisfactionByProvider();
 
             await Task.WhenAll(frameworks, standards, providers);
 
             var ps = providers.Result.ToArray();
             foreach (var provider in ps)
             {
-                var byProvidersFiltered = byProvier.Where(bp => bp.Ukprn == provider.Ukprn);
+                var byProvidersFiltered = byProvider.Where(bp => bp.Ukprn == provider.Ukprn);
                 provider.Frameworks.ForEach(m => UpdateFramework(m, frameworks.Result, byProvidersFiltered, national));
                 provider.Standards.ForEach(m => UpdateStandard(m, standards.Result, byProvidersFiltered, national));
+
+                SetLearnerSatisfactionRate(learnerSatisfactionRates, provider);
+                SetEmployerSatisfactionRate(employerSatisfactionRates, provider);
             }
 
             if (_features.FilterInactiveProviders)
@@ -75,6 +85,24 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             }
 
             return ps;
+        }
+
+        private static void SetLearnerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Provider provider)
+        {
+            var learnerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
+
+            provider.LearnerSatisfaction = learnerSatisfaction?.FinalScore != null
+                ? (double?) Math.Round(learnerSatisfaction?.FinalScore ?? 0.0)
+                : null;
+        }
+
+        private static void SetEmployerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Provider provider)
+        {
+            var employerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
+
+            provider.EmployerSatisfaction = employerSatisfaction?.FinalScore != null
+                ? (double?)Math.Round(employerSatisfaction?.FinalScore ?? 0.0)
+                : null;
         }
 
         private static double? GetNationalOverallAchievementRate(List<AchievementRateNational> nationalAchievementRate)

@@ -12,7 +12,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models
 
         public double? FinalScore { get; set; }
 
-        public int LearnerCount { get; set; }
+        public int TotalCount { get; set; }
 
         public int ResponseCount { get; set; }
     }

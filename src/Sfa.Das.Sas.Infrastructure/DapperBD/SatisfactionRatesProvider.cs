@@ -1,3 +1,9 @@
+using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using Dapper;
+using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
 {
     using System.Collections.Generic;
@@ -9,23 +15,25 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
     public class SatisfactionRatesProvider : ISatisfactionRatesProvider
     {
         private readonly IDatabaseProvider _databaseProvider;
+        private const string LearnerSatisfactionRatesTableName = "[dbo].[sr_learner]";
+        private const string EmployerSatisfactionRatesTableName = "[dbo].[sr_employer]";
 
         public SatisfactionRatesProvider(IDatabaseProvider databaseProvider)
         {
             _databaseProvider = databaseProvider;
         }
 
-        public IEnumerable<SatisfactionRateProvider> GetAllByProvider()
+        public IEnumerable<SatisfactionRateProvider> GetAllEmployerSatisfactionByProvider()
         {
-            var latestHybridYear = GetLatestNationalHybridEndYear();
+            var latestHybridYear = GetLatestNationalHybridEndYear(EmployerSatisfactionRatesTableName);
 
-            var query = @"
-                    SELECT [UKPRN], 
-                    [Final_Score],
-                    [Learners],
-                    [Responses],
-                    FROM [dbo].[sr_learner]
-                    WHERE [Hybrid_End_Year] = @date
+            var query = $@"
+                    SELECT  [UKPRN]
+                    ,       [Final_Score] AS FinalScore
+                    ,       [Employers] AS TotalCount
+                    ,       [Responses] AS ResponseCount
+                    FROM    {EmployerSatisfactionRatesTableName}
+                    WHERE   [Hybrid_End_Year] = @date
                     ";
 
             var results = _databaseProvider.Query<SatisfactionRateProvider>(query, new { date = latestHybridYear });
@@ -33,9 +41,27 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             return results;
         }
 
-        private string GetLatestNationalHybridEndYear()
+        public IEnumerable<SatisfactionRateProvider> GetAllLearnerSatisfactionByProvider()
         {
-            var query = @"SELECT MAX([Hybrid_End_Year]) FROM [dbo].[sr_learner]";
+            var latestHybridYear = GetLatestNationalHybridEndYear(LearnerSatisfactionRatesTableName);
+
+            var query = $@"
+                    SELECT  [UKPRN]
+                    ,       [Final_Score] AS FinalScore
+                    ,       [Learners] AS TotalCount
+                    ,       [Responses] AS ResponseCount
+                    FROM    {LearnerSatisfactionRatesTableName}
+                    WHERE   [Hybrid_End_Year] = @date
+                    ";
+
+            var results = _databaseProvider.Query<SatisfactionRateProvider>(query, new { date = latestHybridYear });
+
+            return results;
+        }
+
+        private string GetLatestNationalHybridEndYear(string tableName)
+        {
+            var query = $"SELECT MAX([Hybrid_End_Year]) FROM {tableName}";
 
             return _databaseProvider.ExecuteScalar<string>(query);
         }

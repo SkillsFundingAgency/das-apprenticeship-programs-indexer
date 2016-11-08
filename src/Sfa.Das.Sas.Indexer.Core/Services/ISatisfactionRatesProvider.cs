@@ -6,6 +6,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Services
 
     public interface ISatisfactionRatesProvider
     {
-        IEnumerable<SatisfactionRateProvider> GetAllByProvider();
+        IEnumerable<SatisfactionRateProvider> GetAllEmployerSatisfactionByProvider();
+        IEnumerable<SatisfactionRateProvider> GetAllLearnerSatisfactionByProvider();
     }
 }

@@ -45,6 +45,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
             For<IElasticsearchCustomClient>().Use<ElasticsearchCustomClient>();
             For<IDatabaseProvider>().Use<DatabaseProvider>();
             For<IAchievementRatesProvider>().Use<AchievementRatesProvider>();
+            For<ISatisfactionRatesProvider>().Use<SatisfactionRatesProvider>();
         }
     }
 }
