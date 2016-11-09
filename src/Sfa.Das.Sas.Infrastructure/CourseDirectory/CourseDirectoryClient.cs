@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
+using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Logging.Models;
 using Sfa.Das.Sas.Indexer.Core.Models;
@@ -19,13 +23,25 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
     {
         private readonly IInfrastructureSettings _settings;
         private readonly ICourseDirectoryProviderDataService _courseDirectoryProviderDataService;
+        private readonly IConvertFromCsv _convertFromCsv;
+        private readonly IVstsClient _vstsClient;
+        private readonly IAppServiceSettings _appServiceSettings;
         private readonly ILog _logger;
         private readonly HashSet<int> _locationNullErrors = new HashSet<int>();
 
-        public CourseDirectoryClient(IInfrastructureSettings settings, ICourseDirectoryProviderDataService courseDirectoryProviderDataService, ILog logger)
+        public CourseDirectoryClient(
+            IInfrastructureSettings settings,
+            ICourseDirectoryProviderDataService courseDirectoryProviderDataService,
+            IConvertFromCsv _convertFromCsv,
+            IVstsClient _vstsClient,
+            IAppServiceSettings _appServiceSettings,
+            ILog logger)
         {
             _settings = settings;
             _courseDirectoryProviderDataService = courseDirectoryProviderDataService;
+            this._convertFromCsv = _convertFromCsv;
+            this._vstsClient = _vstsClient;
+            this._appServiceSettings = _appServiceSettings;
             _logger = logger;
         }
 
@@ -48,6 +64,25 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             _courseDirectoryProviderDataService.Dispose();
 
             return selectedProviders;
+        }
+
+        public Dictionary<string, bool> GetEmployerProviders()
+        {
+            var records = _convertFromCsv.CsvTo<EmployerProviderCsvRecord>(LoadEmployerProvidersFromVsts());
+
+            var employerProviders = new Dictionary<string, bool>();
+
+            foreach (var employerProviderCsvRecord in records.Where(employerProviderCsvRecord => !employerProviders.ContainsKey(employerProviderCsvRecord.UkPrn.ToString())))
+            {
+                employerProviders.Add(employerProviderCsvRecord.UkPrn.ToString(), true);
+            }
+
+            return employerProviders;
+        }
+
+        private string LoadEmployerProvidersFromVsts()
+        {
+            return _vstsClient.GetFileContent($"employerProviders/{_appServiceSettings.EnvironmentName}/employerProviders.csv");
         }
 
         private void LogLocationNullErrors()

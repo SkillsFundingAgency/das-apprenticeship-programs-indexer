@@ -7,5 +7,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Services
     public interface IGetApprenticeshipProviders
     {
         Task<IEnumerable<Provider>> GetApprenticeshipProvidersAsync();
+
+        Dictionary<string, bool> GetEmployerProviders();
     }
 }

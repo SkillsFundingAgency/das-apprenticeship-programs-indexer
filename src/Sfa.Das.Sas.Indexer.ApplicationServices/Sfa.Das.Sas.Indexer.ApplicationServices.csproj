@@ -76,6 +76,7 @@
     <Compile Include="MetaData\IGenerateStandardMetaData.cs" />
     <Compile Include="MetaData\IGetFrameworkMetaData.cs" />
     <Compile Include="MetaData\IGetStandardMetaData.cs" />
+    <Compile Include="Provider\EmployerProviderCsvRecord.cs" />
     <Compile Include="Provider\IProviderDataService.cs" />
     <Compile Include="Provider\IProviderFeatures.cs" />
     <Compile Include="Provider\ProviderDataService.cs" />

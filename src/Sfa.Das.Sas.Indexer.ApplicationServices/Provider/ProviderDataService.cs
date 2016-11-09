@@ -47,6 +47,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
         public async Task<ICollection<Provider>> GetProviders()
         {
             // From Course directory
+            var employerProviders = _providerRepository.GetEmployerProviders();
+
             var providers = Task.Run(() => _providerRepository.GetApprenticeshipProvidersAsync());
 
             // From LARS
@@ -62,6 +64,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             var ps = providers.Result.ToArray();
             foreach (var provider in ps)
             {
+                provider.IsEmployerProvider = employerProviders.ContainsKey(provider.Ukprn.ToString());
                 var byProvidersFiltered = byProvier.Where(bp => bp.Ukprn == provider.Ukprn);
                 provider.Frameworks.ForEach(m => UpdateFramework(m, frameworks.Result, byProvidersFiltered, national));
                 provider.Standards.ForEach(m => UpdateStandard(m, standards.Result, byProvidersFiltered, national));
