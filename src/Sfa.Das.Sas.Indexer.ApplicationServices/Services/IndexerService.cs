@@ -43,25 +43,31 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Services
 
             _log.Info($"Indexing documents for {_name}.");
 
-            await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
-
-            PauseWhileIndexingIsBeingRun();
-
-            var indexHasBeenCreated = _indexerHelper.IsIndexCorrectlyCreated(newIndexName);
-
-            if (indexHasBeenCreated)
+            try
             {
-                _indexerHelper.ChangeUnderlyingIndexForAlias(newIndexName);
+                await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
 
-                _log.Debug("Swap completed...");
+                PauseWhileIndexingIsBeingRun();
 
-                _indexerHelper.DeleteOldIndexes(scheduledRefreshDateTime);
+                var indexHasBeenCreated = _indexerHelper.IsIndexCorrectlyCreated(newIndexName);
+                if (indexHasBeenCreated)
+                {
+                    _indexerHelper.ChangeUnderlyingIndexForAlias(newIndexName);
+
+                    _log.Debug("Swap completed...");
+
+                    _indexerHelper.DeleteOldIndexes(scheduledRefreshDateTime);
+                }
+
+                stopwatch.Stop();
+                var properties = new Dictionary<string, object> { { "Alias", _indexSettings.IndexesAlias }, { "ExecutionTime", stopwatch.ElapsedMilliseconds }, { "IndexCorrectlyCreated", indexHasBeenCreated } };
+                _log.Debug($"Created {_name}", properties);
+                _log.Info($"{_name}ing complete.");
             }
-
-            stopwatch.Stop();
-            var properties = new Dictionary<string, object> { { "Alias", _indexSettings.IndexesAlias }, { "ExecutionTime", stopwatch.ElapsedMilliseconds }, { "IndexCorrectlyCreated", indexHasBeenCreated } };
-            _log.Debug($"Created {_name}", properties);
-            _log.Info($"{_name}ing complete.");
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing");
+            }
         }
 
         private void PauseWhileIndexingIsBeingRun()
