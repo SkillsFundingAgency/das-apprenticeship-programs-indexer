@@ -1,4 +1,7 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
+﻿using System.Diagnostics;
+using System.Reflection;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +9,6 @@
     using NLog;
     using NLog.Targets.ElasticSearch;
     using SFA.DAS.NLog.Targets.AzureEventHub;
-    using Sfa.Das.Sas.Indexer.ApplicationServices;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Logging.Models;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
@@ -29,7 +31,7 @@
         {
             _settings = settings;
             _loggerType = loggerType?.ToString() ?? "DefaultIndexLogger";
-            _version = VersionHelper.GetVersion();
+            _version = GetVersion();
         }
 
         public void Debug(object message)
@@ -110,6 +112,13 @@
         private void SendLog(object message, LogLevel level, Exception exception = null)
         {
             SendLog(message, level, new Dictionary<string, object>(), exception);
+        }
+
+        private string GetVersion()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return fileVersionInfo.ProductVersion;
         }
 
         private void SendLog(object message, LogLevel level, Dictionary<string, object> properties, Exception exception = null)

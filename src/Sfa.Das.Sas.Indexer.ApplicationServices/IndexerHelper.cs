@@ -7,7 +7,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices
     {
         public static string GetIndexNameAndDateExtension(DateTime dateTime, string indexName, string dateFormat = "yyyy-MM-dd-HH-mm")
         {
-            return $"{indexName}-{dateTime.ToString(dateFormat)}-{VersionHelper.GetVersion()} ".ToLower(CultureInfo.InvariantCulture);
+            return $"{indexName}-{dateTime.ToString(dateFormat)}".ToLower(CultureInfo.InvariantCulture);
         }
     }
 }
