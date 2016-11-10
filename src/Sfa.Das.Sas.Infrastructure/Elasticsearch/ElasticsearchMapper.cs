@@ -9,6 +9,7 @@ using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -19,10 +20,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
     public class ElasticsearchMapper : IElasticsearchMapper
     {
         private readonly ILog _logger;
+        private readonly IInfrastructureSettings _settings;
 
-        public ElasticsearchMapper(ILog logger)
+        public ElasticsearchMapper(ILog logger, IInfrastructureSettings settings)
         {
             _logger = logger;
+            _settings = settings;
         }
 
         public StandardDocument CreateStandardDocument(StandardMetaData standard)
@@ -58,7 +61,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             var doc = new FrameworkDocument
             {
-                FrameworkId = $"{frameworkMetaData.FworkCode}-{frameworkMetaData.ProgType}-{frameworkMetaData.PwayCode}",
+                FrameworkId = string.Format(_settings.FrameworkIdFormat, frameworkMetaData.FworkCode, frameworkMetaData.ProgType, frameworkMetaData.PwayCode),
                 Published = frameworkMetaData.Published,
                 Title = CreateFrameworkTitle(frameworkMetaData.NasTitle, frameworkMetaData.PathwayName),
                 FrameworkCode = frameworkMetaData.FworkCode,
