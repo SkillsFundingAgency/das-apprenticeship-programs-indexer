@@ -16,6 +16,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
             _settingsProvider = settingsProvider;
         }
 
+        public string FrameworkIdFormat => ConfigurationManager.AppSettings["FrameworkIdFormat"];
+
         public string CourseDirectoryUri => CloudConfigurationManager.GetSetting("CourseDirectoryUri");
 
         public string EnvironmentName => ConfigurationManager.AppSettings["EnvironmentName"];

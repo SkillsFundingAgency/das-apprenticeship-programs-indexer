@@ -53,17 +53,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
         public async Task IndexEntries(string indexName)
         {
             var entries = await LoadEntries();
-            try
-            {
-                _log.Debug("Indexing " + entries.Count + " providers");
+            _log.Debug("Indexing " + entries.Count + " providers");
 
-                await _searchIndexMaintainer.IndexEntries(indexName, entries).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Error indexing provider");
-                throw;
-            }
+            await _searchIndexMaintainer.IndexEntries(indexName, entries).ConfigureAwait(false);
         }
 
         public bool IsIndexCorrectlyCreated(string indexName)
