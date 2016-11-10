@@ -9,6 +9,7 @@ using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 {
@@ -30,12 +31,14 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         {
             var response = new StubResponse(400);
             var mockResponse = new Mock<IBulkResponse> { DefaultValue = DefaultValue.Mock };
+            var mockSettings = new Mock<IInfrastructureSettings>();
+            mockSettings.SetupGet(x => x.FrameworkIdFormat).Returns("{0}{1}{2}");
             MockElasticClient.Setup(x => x.CreateIndex(It.IsAny<IndexName>(), It.IsAny<Func<CreateIndexDescriptor, ICreateIndexRequest>>(), It.IsAny<string>())).Returns(response);
             MockElasticClient.Setup(x => x.BulkAsync(It.IsAny<IBulkRequest>(), It.IsAny<string>())).Returns(Task.FromResult<IBulkResponse>(mockResponse.Object));
 
             var indexMaintainer = new ElasticsearchApprenticeshipIndexMaintainer(
                 MockElasticClient.Object,
-                new ElasticsearchMapper(Mock.Of<ILog>()),
+                new ElasticsearchMapper(Mock.Of<ILog>(), mockSettings.Object),
                 Mock.Of<ILog>(),
                 Mock.Of<IElasticsearchConfiguration>());
 
@@ -49,12 +52,14 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         {
             var response = new StubResponse(400);
             var mockResponse = new Mock<IBulkResponse> { DefaultValue = DefaultValue.Mock };
+            var mockSettings = new Mock<IInfrastructureSettings>();
+            mockSettings.SetupGet(x => x.FrameworkIdFormat).Returns("{0}{1}{2}");
             MockElasticClient.Setup(x => x.CreateIndex(It.IsAny<IndexName>(), It.IsAny<Func<CreateIndexDescriptor, ICreateIndexRequest>>(), It.IsAny<string>())).Returns(response);
             MockElasticClient.Setup(x => x.BulkAsync(It.IsAny<IBulkRequest>(), It.IsAny<string>())).Returns(Task.FromResult<IBulkResponse>(mockResponse.Object));
 
             var indexMaintainer = new ElasticsearchApprenticeshipIndexMaintainer(
                 MockElasticClient.Object,
-                new ElasticsearchMapper(Mock.Of<ILog>()),
+                new ElasticsearchMapper(Mock.Of<ILog>(), mockSettings.Object),
                 Mock.Of<ILog>(),
                 Mock.Of<IElasticsearchConfiguration>());
 
