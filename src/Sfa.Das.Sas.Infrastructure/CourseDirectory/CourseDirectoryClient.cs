@@ -1,31 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
     using Sfa.Das.Sas.Indexer.Core.Extensions;
+    using Sfa.Das.Sas.Indexer.Core.Logging;
+    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+    using Sfa.Das.Sas.Indexer.Core.Services;
+    using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
     public sealed class CourseDirectoryClient : IGetApprenticeshipProviders
     {
         private readonly IInfrastructureSettings _settings;
         private readonly ICourseDirectoryProviderDataService _courseDirectoryProviderDataService;
+        private readonly IVstsClient _vstsClient;
+        private readonly IAppServiceSettings _appServiceSettings;
+        private readonly IConvertFromCsv _convertFromCsv;
         private readonly ILog _logger;
         private readonly HashSet<int> _locationNullErrors = new HashSet<int>();
 
-        public CourseDirectoryClient(IInfrastructureSettings settings, ICourseDirectoryProviderDataService courseDirectoryProviderDataService, ILog logger)
+        public CourseDirectoryClient(
+            IInfrastructureSettings settings,
+            ICourseDirectoryProviderDataService courseDirectoryProviderDataService,
+            IVstsClient vstsClient,
+            IAppServiceSettings appServiceSettings,
+            IConvertFromCsv convertFromCsv,
+            ILog logger)
         {
             _settings = settings;
             _courseDirectoryProviderDataService = courseDirectoryProviderDataService;
+            _vstsClient = vstsClient;
+            _appServiceSettings = appServiceSettings;
+            _convertFromCsv = convertFromCsv;
             _logger = logger;
         }
 
@@ -48,6 +63,18 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             _courseDirectoryProviderDataService.Dispose();
 
             return selectedProviders;
+        }
+
+        public ICollection<string> GetHeiProviders()
+        {
+            var records = _convertFromCsv.CsvTo<HeiProviderCsvRecord>(LoadHeiProvidersFromVsts());
+
+            return (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != null && heiProviderCsvRecord.OrgType == "Higher Education Organisation" select heiProviderCsvRecord.UkPrn).Distinct().ToList();
+        }
+
+        private string LoadHeiProvidersFromVsts()
+        {
+            return _vstsClient.GetFileContent($"hei/{_appServiceSettings.EnvironmentName}/hei.csv");
         }
 
         private void LogLocationNullErrors()

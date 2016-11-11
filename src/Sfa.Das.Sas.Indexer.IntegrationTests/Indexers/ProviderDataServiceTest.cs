@@ -1,4 +1,8 @@
-﻿namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
+using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+
+namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -71,6 +75,7 @@
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(true);
             _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -85,6 +90,7 @@
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -98,6 +104,7 @@
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -118,6 +125,7 @@
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -133,6 +141,7 @@
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -147,6 +156,7 @@
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(ThreeProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -185,9 +195,14 @@
         {
             return new List<SatisfactionRateProvider>
             {
-                new SatisfactionRateProvider { Ukprn = 456, FinalScore = 67.1, TotalCount = 678, ResponseCount = 670},
-                new SatisfactionRateProvider { Ukprn = 123, FinalScore = 0, TotalCount = 879, ResponseCount = 0 }
+                new SatisfactionRateProvider {Ukprn = 456, FinalScore = 67.1, TotalCount = 678, ResponseCount = 670},
+                new SatisfactionRateProvider {Ukprn = 123, FinalScore = 0, TotalCount = 879, ResponseCount = 0}
             };
+        }
+
+        private ICollection<string> HeiProviders()
+        {
+            return new List<string> { "123" };
         }
 
         private Task<IEnumerable<Provider>> TwoProvidersTask()

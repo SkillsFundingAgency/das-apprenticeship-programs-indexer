@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
+using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
 {
@@ -64,12 +67,18 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             var learnerSatisfactionRates = _satisfactionRatesProvider.GetAllLearnerSatisfactionByProvider();
             var employerSatisfactionRates = _satisfactionRatesProvider.GetAllEmployerSatisfactionByProvider();
 
+            var heiProviders = _providerRepository.GetHeiProviders();
+
             await Task.WhenAll(frameworks, standards, providers);
 
             var ps = providers.Result.ToArray();
+
             foreach (var provider in ps)
             {
                 var byProvidersFiltered = byProvider.Where(bp => bp.Ukprn == provider.Ukprn);
+
+                provider.IsHigherEducationInstitute = heiProviders.Contains(provider.Ukprn.ToString());
+
                 provider.Frameworks.ForEach(m => UpdateFramework(m, frameworks.Result, byProvidersFiltered, national));
                 provider.Standards.ForEach(m => UpdateStandard(m, standards.Result, byProvidersFiltered, national));
 
