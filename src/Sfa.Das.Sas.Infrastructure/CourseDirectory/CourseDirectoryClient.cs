@@ -65,13 +65,13 @@
             return selectedProviders;
         }
 
-        public Dictionary<string, bool> GetHeiProviders()
+        public ICollection<string> GetHeiProviders()
         {
             var records = _convertFromCsv.CsvTo<HeiProviderCsvRecord>(LoadHeiProvidersFromVsts());
 
             var heiProviders = (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != null && heiProviderCsvRecord.OrgType == "Higher Education Organisation" select heiProviderCsvRecord.UkPrn).Distinct().ToList();
 
-            return heiProviders.ToDictionary(record => record, record => true);
+            return heiProviders;
         }
 
         private string LoadHeiProvidersFromVsts()
