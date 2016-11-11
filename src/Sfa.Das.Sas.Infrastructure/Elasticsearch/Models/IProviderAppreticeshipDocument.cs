@@ -9,6 +9,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         int Ukprn { get; set; }
         string ProviderName { get; set; }
         bool NationalProvider { get; set; }
+        bool IsEmployerProvider { get; set; }
         string ProviderMarketingInfo { get; set; }
         string ApprenticeshipMarketingInfo { get; set; }
         string Phone { get; set; }

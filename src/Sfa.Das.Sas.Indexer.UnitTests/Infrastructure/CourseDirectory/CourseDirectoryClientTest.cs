@@ -3,6 +3,9 @@ using System.Linq;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
+using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Core.Services;
@@ -20,9 +23,18 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.CourseDirectory
         public void Setup()
         {
             var moqSettings = new Mock<IInfrastructureSettings>();
+            var moqAppServiceSettings = new Mock<IAppServiceSettings>();
             moqSettings.Setup(m => m.CourseDirectoryUri).Returns("http://www.fake.url/to.course/directory");
             var moqLogger = new Mock<ILog>();
-            var courseDirectoryClient = new CourseDirectoryClient(moqSettings.Object, new Stub.StubCourseDirectoryResponseClient(), moqLogger.Object);
+            var moqConvertFromCsv = new Mock<IConvertFromCsv>();
+            var moqVstsService = new Mock<IVstsClient>();
+            var courseDirectoryClient = new CourseDirectoryClient(
+                moqSettings.Object,
+                new Stub.StubCourseDirectoryResponseClient(),
+                moqConvertFromCsv.Object,
+                moqVstsService.Object,
+                moqAppServiceSettings.Object,
+                moqLogger.Object);
             _providers = courseDirectoryClient.GetApprenticeshipProvidersAsync().Result;
         }
 

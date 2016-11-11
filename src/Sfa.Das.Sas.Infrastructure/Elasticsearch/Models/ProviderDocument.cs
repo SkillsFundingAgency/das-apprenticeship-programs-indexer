@@ -8,6 +8,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 
         public string ProviderName { get; set; }
 
+        public bool IsEmployerProvider { get; set; }
+
         public string Phone { get; set; }
 
         public string Email { get; set; }
