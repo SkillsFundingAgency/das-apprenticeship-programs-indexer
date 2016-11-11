@@ -66,18 +66,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             return selectedProviders;
         }
 
-        public Dictionary<string, bool> GetEmployerProviders()
+        public ICollection<string> GetEmployerProviders()
         {
             var records = _convertFromCsv.CsvTo<EmployerProviderCsvRecord>(LoadEmployerProvidersFromVsts());
 
-            var employerProviders = new Dictionary<string, bool>();
-
-            foreach (var employerProviderCsvRecord in records.Where(employerProviderCsvRecord => !employerProviders.ContainsKey(employerProviderCsvRecord.UkPrn.ToString())))
-            {
-                employerProviders.Add(employerProviderCsvRecord.UkPrn.ToString(), true);
-            }
-
-            return employerProviders;
+            return records.Select(employerProviderCsvRecord => employerProviderCsvRecord.UkPrn.ToString()).ToList();
         }
 
         private string LoadEmployerProvidersFromVsts()

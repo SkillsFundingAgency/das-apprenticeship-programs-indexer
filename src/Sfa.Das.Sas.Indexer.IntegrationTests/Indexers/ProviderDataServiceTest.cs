@@ -64,6 +64,7 @@
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(true);
             _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
 
             var result = _sut.GetProviders().Result;
@@ -78,6 +79,7 @@
         public void ShouldntFilterProvidersIfTheFeatureIsDisabled()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
 
             var result = _sut.GetProviders().Result;
@@ -91,6 +93,7 @@
         public void ShouldUpdateFrameworkInformation()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
 
             var result = _sut.GetProviders().Result;
@@ -111,6 +114,7 @@
         public void ShouldUpdateStandardInformation()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
 
             var result = _sut.GetProviders().Result;
@@ -146,6 +150,11 @@
                 new AchievementRateNational { ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 77.8, HybridEndYear = "1995/1996" },
                 new AchievementRateNational { ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 88.7, HybridEndYear = "1993/1994" }
             };
+        }
+
+        private ICollection<string> GetEmployerProviders()
+        {
+            return new List<string> { "123" };
         }
 
         private Task<IEnumerable<Provider>> TwoProvidersTask()
