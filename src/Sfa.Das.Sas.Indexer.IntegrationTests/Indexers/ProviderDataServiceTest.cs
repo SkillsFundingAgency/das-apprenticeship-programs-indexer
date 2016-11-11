@@ -1,4 +1,8 @@
-﻿namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
+using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+
+namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -65,6 +69,7 @@
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(true);
             _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -79,6 +84,7 @@
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -92,6 +98,7 @@
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -112,6 +119,7 @@
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
@@ -146,6 +154,11 @@
                 new AchievementRateNational { ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 77.8, HybridEndYear = "1995/1996" },
                 new AchievementRateNational { ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 88.7, HybridEndYear = "1993/1994" }
             };
+        }
+
+        private ICollection<string> HeiProviders()
+        {
+            return new List<string> { "123" };
         }
 
         private Task<IEnumerable<Provider>> TwoProvidersTask()
