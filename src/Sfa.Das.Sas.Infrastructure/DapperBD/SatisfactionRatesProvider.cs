@@ -15,8 +15,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
     public class SatisfactionRatesProvider : ISatisfactionRatesProvider
     {
         private readonly IDatabaseProvider _databaseProvider;
-        private const string LearnerSatisfactionRatesTableName = "[dbo].[sr_learner]";
-        private const string EmployerSatisfactionRatesTableName = "[dbo].[sr_employer]";
+        private const string LearnerSatisfactionRatesTableName = "[dbo].[LearnerSatisf_2015_2016]";
+        private const string EmployerSatisfactionRatesTableName = "[dbo].[EmployerSatisf_2015_2016]";
 
         public SatisfactionRatesProvider(IDatabaseProvider databaseProvider)
         {
