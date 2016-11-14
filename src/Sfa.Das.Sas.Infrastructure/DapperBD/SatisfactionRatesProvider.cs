@@ -25,45 +25,32 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
 
         public IEnumerable<SatisfactionRateProvider> GetAllEmployerSatisfactionByProvider()
         {
-            var latestHybridYear = GetLatestNationalHybridEndYear(EmployerSatisfactionRatesTableName);
-
             var query = $@"
                     SELECT  [UKPRN]
                     ,       [Final_Score] AS FinalScore
                     ,       [Employers] AS TotalCount
                     ,       [Responses] AS ResponseCount
                     FROM    {EmployerSatisfactionRatesTableName}
-                    WHERE   [Hybrid_End_Year] = @date
                     ";
 
-            var results = _databaseProvider.Query<SatisfactionRateProvider>(query, new { date = latestHybridYear });
+            var results = _databaseProvider.Query<SatisfactionRateProvider>(query);
 
             return results;
         }
 
         public IEnumerable<SatisfactionRateProvider> GetAllLearnerSatisfactionByProvider()
         {
-            var latestHybridYear = GetLatestNationalHybridEndYear(LearnerSatisfactionRatesTableName);
-
             var query = $@"
                     SELECT  [UKPRN]
                     ,       [Final_Score] AS FinalScore
                     ,       [Learners] AS TotalCount
                     ,       [Responses] AS ResponseCount
                     FROM    {LearnerSatisfactionRatesTableName}
-                    WHERE   [Hybrid_End_Year] = @date
                     ";
 
-            var results = _databaseProvider.Query<SatisfactionRateProvider>(query, new { date = latestHybridYear });
+            var results = _databaseProvider.Query<SatisfactionRateProvider>(query);
 
             return results;
-        }
-
-        private string GetLatestNationalHybridEndYear(string tableName)
-        {
-            var query = $"SELECT MAX([Hybrid_End_Year]) FROM {tableName}";
-
-            return _databaseProvider.ExecuteScalar<string>(query);
         }
     }
 }
