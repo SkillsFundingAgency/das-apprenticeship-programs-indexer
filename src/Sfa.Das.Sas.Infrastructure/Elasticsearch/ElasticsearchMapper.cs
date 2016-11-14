@@ -158,7 +158,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 {
                     FrameworkCode = frameworkInformation.Code,
                     PathwayCode = frameworkInformation.PathwayCode,
-                    FrameworkId = $"{frameworkInformation.Code}-{frameworkInformation.ProgType}-{frameworkInformation.PathwayCode}",
+                    FrameworkId = string.Format(_settings.FrameworkIdFormat, frameworkInformation.Code, frameworkInformation.ProgType, frameworkInformation.PathwayCode),
                     Level = MapToLevelFromProgType(frameworkInformation.ProgType)
                 };
 
