@@ -24,17 +24,17 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.CourseDirectory
         public void Setup()
         {
             var moqSettings = new Mock<IInfrastructureSettings>();
+            var moqAppServiceSettings = new Mock<IAppServiceSettings>();
             moqSettings.Setup(m => m.CourseDirectoryUri).Returns("http://www.fake.url/to.course/directory");
             var moqLogger = new Mock<ILog>();
-            var moqVsts = new Mock<IVstsClient>();
-            var moqAppSettings = new Mock<IAppServiceSettings>();
-            var moqCsvConverter = new Mock<IConvertFromCsv>();
+            var moqConvertFromCsv = new Mock<IConvertFromCsv>();
+            var moqVstsService = new Mock<IVstsClient>();
             var courseDirectoryClient = new CourseDirectoryClient(
                 moqSettings.Object,
                 new Stub.StubCourseDirectoryResponseClient(),
-                moqVsts.Object,
-                moqAppSettings.Object,
-                moqCsvConverter.Object,
+                moqConvertFromCsv.Object,
+                moqVstsService.Object,
+                moqAppServiceSettings.Object,
                 moqLogger.Object);
             _providers = courseDirectoryClient.GetApprenticeshipProvidersAsync().Result;
         }

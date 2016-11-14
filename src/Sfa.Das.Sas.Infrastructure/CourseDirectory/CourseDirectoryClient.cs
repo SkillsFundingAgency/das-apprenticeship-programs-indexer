@@ -9,7 +9,6 @@
     using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
-    using Sfa.Das.Sas.Indexer.Core.Extensions;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Logging.Models;
     using Sfa.Das.Sas.Indexer.Core.Models;
@@ -22,25 +21,26 @@
     {
         private readonly IInfrastructureSettings _settings;
         private readonly ICourseDirectoryProviderDataService _courseDirectoryProviderDataService;
+        private readonly IConvertFromCsv _convertFromCsv;
         private readonly IVstsClient _vstsClient;
         private readonly IAppServiceSettings _appServiceSettings;
-        private readonly IConvertFromCsv _convertFromCsv;
+
         private readonly ILog _logger;
         private readonly HashSet<int> _locationNullErrors = new HashSet<int>();
 
         public CourseDirectoryClient(
             IInfrastructureSettings settings,
             ICourseDirectoryProviderDataService courseDirectoryProviderDataService,
-            IVstsClient vstsClient,
-            IAppServiceSettings appServiceSettings,
-            IConvertFromCsv convertFromCsv,
+            IConvertFromCsv _convertFromCsv,
+            IVstsClient _vstsClient,
+            IAppServiceSettings _appServiceSettings,
             ILog logger)
         {
             _settings = settings;
             _courseDirectoryProviderDataService = courseDirectoryProviderDataService;
-            _vstsClient = vstsClient;
-            _appServiceSettings = appServiceSettings;
-            _convertFromCsv = convertFromCsv;
+            this._convertFromCsv = _convertFromCsv;
+            this._vstsClient = _vstsClient;
+            this._appServiceSettings = _appServiceSettings;
             _logger = logger;
         }
 
@@ -63,6 +63,18 @@
             _courseDirectoryProviderDataService.Dispose();
 
             return selectedProviders;
+        }
+
+        public ICollection<string> GetEmployerProviders()
+        {
+            var records = _convertFromCsv.CsvTo<EmployerProviderCsvRecord>(LoadEmployerProvidersFromVsts());
+
+            return records.Select(employerProviderCsvRecord => employerProviderCsvRecord.UkPrn.ToString()).ToList();
+        }
+
+        private string LoadEmployerProvidersFromVsts()
+        {
+            return _vstsClient.GetFileContent($"employerProviders/{_appServiceSettings.EnvironmentName}/employerProviders.csv");
         }
 
         public ICollection<string> GetHeiProviders()

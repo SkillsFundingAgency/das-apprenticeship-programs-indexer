@@ -68,6 +68,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(true);
             _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -83,6 +84,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         public void ShouldntFilterProvidersIfTheFeatureIsDisabled()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -97,6 +99,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         public void ShouldUpdateFrameworkInformation()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -118,6 +121,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         public void ShouldUpdateStandardInformation()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -154,6 +158,11 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
                 new AchievementRateNational { ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 77.8, HybridEndYear = "1995/1996" },
                 new AchievementRateNational { ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 88.7, HybridEndYear = "1993/1994" }
             };
+        }
+
+        private ICollection<string> GetEmployerProviders()
+        {
+            return new List<string> { "123" };
         }
 
         private ICollection<string> HeiProviders()
