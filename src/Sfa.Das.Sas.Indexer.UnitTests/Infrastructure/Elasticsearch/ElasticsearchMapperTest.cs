@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using FluentAssertions;
 using Moq;
@@ -169,7 +170,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 
             document.FrameworkCode.Should().Be(99);
             document.PathwayCode.Should().Be(1122);
-            document.FrameworkId.Should().Be("99-20-1122");
+            document.FrameworkId.Should().Be(string.Format(_frameworkIdFormat, 99, 20, 1122));
             document.Level.Should().Be(4);
 
             document.Ukprn.Should().Be(4556);

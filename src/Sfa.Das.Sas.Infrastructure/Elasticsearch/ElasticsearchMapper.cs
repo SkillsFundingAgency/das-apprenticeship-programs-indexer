@@ -115,6 +115,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
                 NationalProvider = provider.NationalProvider,
                 ProviderName = provider.Name,
+                IsEmployerProvider = provider.IsEmployerProvider,
                 Website = provider.ContactDetails.Website,
                 Phone = provider.ContactDetails.Phone,
                 Email = provider.ContactDetails.Email,
@@ -157,7 +158,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 {
                     FrameworkCode = frameworkInformation.Code,
                     PathwayCode = frameworkInformation.PathwayCode,
-                    FrameworkId = $"{frameworkInformation.Code}-{frameworkInformation.ProgType}-{frameworkInformation.PathwayCode}",
+                    FrameworkId = string.Format(_settings.FrameworkIdFormat, frameworkInformation.Code, frameworkInformation.ProgType, frameworkInformation.PathwayCode),
                     Level = MapToLevelFromProgType(frameworkInformation.ProgType)
                 };
 
@@ -192,6 +193,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             documentToPopulate.ApprenticeshipInfoUrl = apprenticeshipInformation.InfoUrl;
             documentToPopulate.LearnerSatisfaction = provider.LearnerSatisfaction;
             documentToPopulate.EmployerSatisfaction = provider.EmployerSatisfaction;
+            documentToPopulate.IsEmployerProvider = provider.IsEmployerProvider;
             documentToPopulate.DeliveryModes = firstLoc == null ? new List<string>().ToArray() : GenerateListOfDeliveryModes(firstLoc.DeliveryModes);
             documentToPopulate.Website = firstLoc == null ? string.Empty : firstLoc.DeliveryLocation.Contact.Website;
             documentToPopulate.TrainingLocations = locations;

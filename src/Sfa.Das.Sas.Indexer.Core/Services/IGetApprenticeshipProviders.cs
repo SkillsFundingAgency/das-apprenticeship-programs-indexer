@@ -8,6 +8,8 @@ namespace Sfa.Das.Sas.Indexer.Core.Services
     {
         Task<IEnumerable<Provider>> GetApprenticeshipProvidersAsync();
 
+        ICollection<string> GetEmployerProviders();
+
         ICollection<string> GetHeiProviders();
     }
 }

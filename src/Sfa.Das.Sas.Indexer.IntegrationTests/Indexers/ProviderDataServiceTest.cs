@@ -74,6 +74,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(true);
             _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -89,6 +90,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         public void ShouldntFilterProvidersIfTheFeatureIsDisabled()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -103,6 +105,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         public void ShouldUpdateFrameworkInformation()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -124,6 +127,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         public void ShouldUpdateStandardInformation()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -140,6 +144,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         public void ShouldUpdateLearnerSatisfactionRateIfAvailable()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -155,6 +160,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         public void ShouldLeaveLearnerSatisfactionRateNullIfUnavailable()
         {
             _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(ThreeProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
@@ -198,6 +204,11 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
                 new SatisfactionRateProvider {Ukprn = 456, FinalScore = 67.1, TotalCount = 678, ResponseCount = 670},
                 new SatisfactionRateProvider {Ukprn = 123, FinalScore = 0, TotalCount = 879, ResponseCount = 0}
             };
+        }
+
+        private ICollection<string> GetEmployerProviders()
+        {
+            return new List<string> { "123" };
         }
 
         private ICollection<string> HeiProviders()
