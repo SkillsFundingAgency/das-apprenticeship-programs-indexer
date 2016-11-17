@@ -153,7 +153,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             Assert.AreEqual(3, result.Count);
 
             result.Count(ls => ls.Ukprn == 456 && ls.LearnerSatisfaction == 67).Should().Be(1);
-            result.Count(ls => ls.Ukprn == 123 && ls.LearnerSatisfaction == 0).Should().Be(2);
+            result.Count(ls => ls.Ukprn == 123 && ls.LearnerSatisfaction == null).Should().Be(2);
         }
 
         [Test]

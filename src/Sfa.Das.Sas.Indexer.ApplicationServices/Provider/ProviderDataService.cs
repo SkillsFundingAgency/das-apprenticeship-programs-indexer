@@ -103,7 +103,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
         {
             var learnerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
-            provider.LearnerSatisfaction = learnerSatisfaction?.FinalScore != null
+            provider.LearnerSatisfaction = learnerSatisfaction?.FinalScore != null && learnerSatisfaction.FinalScore > 0
                 ? (double?) Math.Round(learnerSatisfaction?.FinalScore ?? 0.0)
                 : null;
         }
@@ -112,7 +112,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
         {
             var employerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
-            provider.EmployerSatisfaction = employerSatisfaction?.FinalScore != null
+            provider.EmployerSatisfaction = employerSatisfaction?.FinalScore != null && employerSatisfaction.FinalScore > 0
                 ? (double?)Math.Round(employerSatisfaction?.FinalScore ?? 0.0)
                 : null;
         }
