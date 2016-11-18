@@ -66,7 +66,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         }
 
         [Test]
-        public void ShouldFilterProvidersIfTheFeatureIsEnabled()
+        public void ShouldFilterProviders()
         {
             _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
@@ -82,29 +82,16 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         }
 
         [Test]
-        public void ShouldntFilterProvidersIfTheFeatureIsDisabled()
-        {
-            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-            _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
-
-            var result = _sut.GetProviders().Result;
-
-            Assert.AreEqual(3, result.Count);
-
-            _mockProviderRepository.VerifyAll();
-        }
-
-        [Test]
         public void ShouldUpdateFrameworkInformation()
         {
+            _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
-            Assert.AreEqual(3, result.Count);
+            Assert.AreEqual(2, result.Count);
             var framework = result.FirstOrDefault()?.Frameworks.FirstOrDefault();
             var frameworkSecond = result.ElementAt(1)?.Frameworks.ElementAt(0);
             framework?.OverallCohort.Should().Be("68");
@@ -119,13 +106,14 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [Test]
         public void ShouldUpdateStandardInformation()
         {
+            _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
-            Assert.AreEqual(3, result.Count);
+            Assert.AreEqual(2, result.Count);
             var standard = result.SingleOrDefault(m => !m.Standards.IsNullOrEmpty())?.Standards.FirstOrDefault();
             standard?.OverallCohort.Should().Be("58");
             standard?.OverallAchievementRate.Should().Be(58);
@@ -135,6 +123,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [Test]
         public void ShouldUpdateLearnerSatisfactionRateIfAvailable()
         {
+            _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123, 456 });
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
@@ -150,14 +139,13 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [Test]
         public void ShouldLeaveLearnerSatisfactionRateNullIfUnavailable()
         {
+            _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 789 });
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(ThreeProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
             var result = _sut.GetProviders().Result;
 
-            Assert.AreEqual(4, result.Count);
-            
             result.Any(ls => ls.Ukprn == 789 && ls.LearnerSatisfaction == null).Should().Be(true);
         }
 
