@@ -18,7 +18,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.DependencyResolution
             For<IIndexSettings<IMaintainProviderIndex>>().Use<ProviderIndexSettings>();
             For<IGenericIndexerHelper<IMaintainProviderIndex>>().Use<ProviderIndexer>();
             For<IIndexerService<IMaintainProviderIndex>>().Use<IndexerService<IMaintainProviderIndex>>();
-            For<IProviderFeatures>().Use<ProviderIndexSettings>();
             For<IProviderDataService>().Use<ProviderDataService>();
 
             // Apprenticeships
