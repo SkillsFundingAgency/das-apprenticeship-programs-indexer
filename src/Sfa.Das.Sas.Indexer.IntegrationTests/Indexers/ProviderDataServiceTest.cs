@@ -33,8 +33,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 
         private Mock<IGetActiveProviders> _mockActiveProviderRepository;
 
-        private Mock<IProviderFeatures> _mockFeatures;
-
         private Mock<IMetaDataHelper> _mockMetaDataHelper;
 
         private Mock<IAchievementRatesProvider> _achievementProvider;
@@ -44,7 +42,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [SetUp]
         public void SetUp()
         {
-            _mockFeatures = new Mock<IProviderFeatures>();
             _mockProviderRepository = new Mock<IGetApprenticeshipProviders>();
             _mockActiveProviderRepository = new Mock<IGetActiveProviders>();
             _mockMetaDataHelper = new Mock<IMetaDataHelper>();
@@ -60,7 +57,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             _satisfactionProvider.Setup(m => m.GetAllLearnerSatisfactionByProvider()).Returns(GetLearnerSatisfactionRateData());
 
             _sut = new ProviderDataService(
-                _mockFeatures.Object,
                 _mockProviderRepository.Object,
                 _mockActiveProviderRepository.Object,
                 _mockMetaDataHelper.Object,
@@ -72,7 +68,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [Test]
         public void ShouldFilterProvidersIfTheFeatureIsEnabled()
         {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(true);
             _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
@@ -89,7 +84,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [Test]
         public void ShouldntFilterProvidersIfTheFeatureIsDisabled()
         {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
@@ -104,7 +98,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [Test]
         public void ShouldUpdateFrameworkInformation()
         {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
@@ -126,7 +119,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [Test]
         public void ShouldUpdateStandardInformation()
         {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
@@ -143,7 +135,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [Test]
         public void ShouldUpdateLearnerSatisfactionRateIfAvailable()
         {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
@@ -159,7 +150,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [Test]
         public void ShouldLeaveLearnerSatisfactionRateNullIfUnavailable()
         {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
             _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
             _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(ThreeProvidersTask());
             _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);

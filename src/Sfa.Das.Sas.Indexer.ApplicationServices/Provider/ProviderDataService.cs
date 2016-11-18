@@ -19,8 +19,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
 
     public class ProviderDataService : IProviderDataService
     {
-        private readonly IProviderFeatures _features;
-
         private readonly IGetApprenticeshipProviders _providerRepository;
 
         private readonly IGetActiveProviders _activeProviderClient;
@@ -34,7 +32,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
         private readonly ILog _logger;
 
         public ProviderDataService(
-            IProviderFeatures features,
             IGetApprenticeshipProviders providerRepository,
             IGetActiveProviders activeProviderClient,
             IMetaDataHelper metaDataHelper,
@@ -42,7 +39,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             ISatisfactionRatesProvider satisfactionRatesProvider,
             ILog logger)
         {
-            _features = features;
             _providerRepository = providerRepository;
             _activeProviderClient = activeProviderClient;
             _metaDataHelper = metaDataHelper;
@@ -89,14 +85,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
                 SetEmployerSatisfactionRate(employerSatisfactionRates, provider);
             }
 
-            if (_features.FilterInactiveProviders)
-            {
-                var activeProviders = _activeProviderClient.GetActiveProviders().ToList();
+            var activeProviders = _activeProviderClient.GetActiveProviders().ToList();
 
-                return ps.Where(x => activeProviders.Contains(x.Ukprn)).ToList();
-            }
-
-            return ps;
+            return ps.Where(x => activeProviders.Contains(x.Ukprn)).ToList();
         }
 
         private static void SetLearnerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Provider provider)

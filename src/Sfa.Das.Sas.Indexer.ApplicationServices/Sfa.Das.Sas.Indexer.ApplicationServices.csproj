@@ -79,7 +79,6 @@
     <Compile Include="Provider\EmployerProviderCsvRecord.cs" />
     <Compile Include="Provider\HeiProviderCsvRecord.cs" />
     <Compile Include="Provider\IProviderDataService.cs" />
-    <Compile Include="Provider\IProviderFeatures.cs" />
     <Compile Include="Provider\ProviderDataService.cs" />
     <Compile Include="Queue\IQueueMessage.cs" />
     <Compile Include="Queue\IMessageQueueService.cs" />
