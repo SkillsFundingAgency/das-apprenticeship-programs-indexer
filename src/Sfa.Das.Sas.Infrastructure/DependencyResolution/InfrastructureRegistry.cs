@@ -37,7 +37,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
             For<ICourseDirectoryProviderDataService>().Use(x => new CourseDirectoryProviderDataService());
             For<ILog>().Use(x => new NLogService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
             For<IUnzipStream>().Use<ZipFileExtractor>();
-            For<IGetApprenticeshipProviders>().Use<CourseDirectoryClient>();
+            For<IGetCourseDirectoryProviders>().Use<CourseDirectoryClient>();
+            For<ICourseDirectoryProviderMapper>().Use<CourseDirectoryProviderMapper>();
+            For<IGetApprenticeshipProviders>().Use<ProviderVstsClient>();
             For<IMaintainApprenticeshipIndex>().Use<ElasticsearchApprenticeshipIndexMaintainer>();
             For<IMaintainProviderIndex>().Use<ElasticsearchProviderIndexMaintainer>();
             For<IElasticsearchMapper>().Use<ElasticsearchMapper>();

@@ -1,8 +1,11 @@
+using System.Threading.Tasks;
+
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.MetaData
 {
     public interface IVstsClient
     {
         string GetFileContent(string path);
+        Task<string> GetFileContentAsync(string path);
 
         string Get(string url);
 

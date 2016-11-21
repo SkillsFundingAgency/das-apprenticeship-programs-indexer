@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Nest;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
 using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -79,19 +81,19 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         public virtual void SwapAliasIndex(string aliasName, string newIndexName)
         {
             var existingIndexesOnAlias = Client.GetIndicesPointingToAlias(aliasName);
-            var aliasRequest = new BulkAliasRequest { Actions = new List<IAliasAction>() };
+            var aliasRequest = new BulkAliasRequest {Actions = new List<IAliasAction>()};
 
             foreach (var existingIndexOnAlias in existingIndexesOnAlias)
             {
-                aliasRequest.Actions.Add(new AliasRemoveAction { Remove = new AliasRemoveOperation { Alias = aliasName, Index = existingIndexOnAlias } });
+                aliasRequest.Actions.Add(new AliasRemoveAction {Remove = new AliasRemoveOperation {Alias = aliasName, Index = existingIndexOnAlias}});
             }
 
-            aliasRequest.Actions.Add(new AliasAddAction { Add = new AliasAddOperation { Alias = aliasName, Index = newIndexName } });
+            aliasRequest.Actions.Add(new AliasAddAction {Add = new AliasAddOperation {Alias = aliasName, Index = newIndexName}});
 
             Client.Alias(aliasRequest);
         }
 
-        protected void LogResponse(IBulkResponse[] elementIndexResult, string documentType)
+        public void LogResponse(IBulkResponse[] elementIndexResult, string documentType)
         {
             var totalCount = 0;
             var took = 0;
@@ -116,14 +118,21 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             foreach (var item in result.ItemsWithErrors)
             {
-                var properties = new Dictionary<string, object> { { "DocumentType", documentType }, { "Index", item.Index }, { "Reason", item.Error.Reason }, { "Id", item.Id } };
+                var properties = new Dictionary<string, object> {{"DocumentType", documentType}, {"Index", item.Index}, {"Reason", item.Error.Reason}, {"Id", item.Id}};
                 Log.Warn($"Error indexing entry with id {item.Id}", properties);
             }
         }
 
         private void LogBulk(string documentType, int totalCount, int took, int errorCount)
         {
-            var properties = new Dictionary<string, object> { { "DocumentType", documentType }, { "TotalCount", totalCount }, { "Identifier", "DocumentCount" }, { "ExecutionTime", took }, { "ErrorCount", errorCount } };
+            var properties = new Dictionary<string, object>
+            {
+                {"DocumentType", documentType},
+                {"TotalCount", totalCount},
+                {"Identifier", "DocumentCount"},
+                {"ExecutionTime", took},
+                {"ErrorCount", errorCount}
+            };
             Log.Info($"Total of {totalCount - errorCount} / {totalCount} {documentType} documents were indexed successfully", properties);
         }
     }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
 using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
@@ -40,9 +41,31 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             return Get(url);
         }
 
+        public Task<string> GetFileContentAsync(string path)
+        {
+            var url = string.Format(_appServiceSettings.VstsGitGetFilesUrlFormat, path);
+            return GetAsync(url);
+        }
+
         public string Get(string url)
         {
             var timing = ExecutionTimer.GetTiming(() => _httpHelper.Get(url, _appServiceSettings.GitUsername, _appServiceSettings.GitPassword));
+
+            var logEntry = new DependencyLogEntry
+            {
+                Identifier = "VstsContent",
+                ResponseTime = timing.ElaspedMilliseconds,
+                Url = url
+            };
+
+            _logger.Debug("VSTS content", logEntry);
+
+            return timing.Result;
+        }
+
+        public Task<string> GetAsync(string url)
+        {
+            var timing = ExecutionTimer.GetTiming(() => _httpHelper.GetAsync(url, _appServiceSettings.GitUsername, _appServiceSettings.GitPassword));
 
             var logEntry = new DependencyLogEntry
             {

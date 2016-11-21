@@ -50,56 +50,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             _satisfactionRatesProvider = satisfactionRatesProvider;
             _logger = logger;
         }
-
-        public async Task<ICollection<Provider>> GetProviders()
-        {
-            // From Course directory
-            var employerProviders = _providerRepository.GetEmployerProviders();
-
-            var providers = Task.Run(() => _providerRepository.GetApprenticeshipProvidersAsync());
-
-            // From LARS
-            var frameworks = Task.Run(() => _metaDataHelper.GetAllFrameworkMetaData());
-            var standards = Task.Run(() => _metaDataHelper.GetAllStandardsMetaData());
-
-            // From database
-            var byProvider = _achievementRatesProvider.GetAllByProvider();
-            var national = _achievementRatesProvider.GetAllNational();
-
-            var learnerSatisfactionRates = _satisfactionRatesProvider.GetAllLearnerSatisfactionByProvider();
-            var employerSatisfactionRates = _satisfactionRatesProvider.GetAllEmployerSatisfactionByProvider();
-
-            var heiProviders = _providerRepository.GetHeiProviders();
-
-            await Task.WhenAll(frameworks, standards, providers);
-
-            var ps = providers.Result.ToArray();
-
-            foreach (var provider in ps)
-            {
-                var byProvidersFiltered = byProvider.Where(bp => bp.Ukprn == provider.Ukprn);
-
-                provider.IsEmployerProvider = employerProviders.Contains(provider.Ukprn.ToString());
-                provider.IsHigherEducationInstitute = heiProviders.Contains(provider.Ukprn.ToString());
-
-                provider.Frameworks.ForEach(m => UpdateFramework(m, frameworks.Result, byProvidersFiltered, national));
-                provider.Standards.ForEach(m => UpdateStandard(m, standards.Result, byProvidersFiltered, national));
-
-                SetLearnerSatisfactionRate(learnerSatisfactionRates, provider);
-                SetEmployerSatisfactionRate(employerSatisfactionRates, provider);
-            }
-
-            if (_features.FilterInactiveProviders)
-            {
-                var activeProviders = _activeProviderClient.GetActiveProviders().ToList();
-
-                return ps.Where(x => activeProviders.Contains(x.Ukprn)).ToList();
-            }
-
-            return ps;
-        }
-
-        private static void SetLearnerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Provider provider)
+        public void SetLearnerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Provider provider)
         {
             var learnerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
@@ -108,7 +59,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
                 : null;
         }
 
-        private static void SetEmployerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Provider provider)
+        public void SetEmployerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Provider provider)
         {
             var employerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
@@ -142,7 +93,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             return (achievementRateProviderLevel == "2" || achievementRateProviderLevel == "3") && achievementRateProviderLevel == level.ToString();
         }
 
-        private void UpdateStandard(StandardInformation si, List<StandardMetaData> standards, IEnumerable<AchievementRateProvider> achievementRates, IEnumerable<AchievementRateNational> nationalAchievementRates)
+        public void UpdateStandard(StandardInformation si, List<StandardMetaData> standards, IEnumerable<AchievementRateProvider> achievementRates, IEnumerable<AchievementRateNational> nationalAchievementRates)
         {
             var metaData = standards.Find(m => m.Id == si.Code);
 
@@ -167,7 +118,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             }
         }
 
-        private void UpdateFramework(FrameworkInformation fi, List<FrameworkMetaData> frameworks, IEnumerable<AchievementRateProvider> achievementRates, IEnumerable<AchievementRateNational> nationalAchievementRates)
+        public void UpdateFramework(FrameworkInformation fi, List<FrameworkMetaData> frameworks, IEnumerable<AchievementRateProvider> achievementRates, IEnumerable<AchievementRateNational> nationalAchievementRates)
         {
             var metaData = frameworks.Find(m =>
                 m.FworkCode == fi.Code &&

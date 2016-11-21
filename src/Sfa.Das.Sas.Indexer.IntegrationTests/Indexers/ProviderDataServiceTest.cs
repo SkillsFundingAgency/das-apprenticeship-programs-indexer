@@ -69,107 +69,107 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
                 Mock.Of<ILog>());
         }
 
-        [Test]
-        public void ShouldFilterProvidersIfTheFeatureIsEnabled()
-        {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(true);
-            _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
-            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-            _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
+        //[Test]
+        //public void ShouldFilterProvidersIfTheFeatureIsEnabled()
+        //{
+        //    _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(true);
+        //    _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(new[] { 123 });
+        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
+        //    _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
-            var result = _sut.GetProviders().Result;
+        //    var result = _sut.GetProviders().Result;
 
-            Assert.AreEqual(2, result.Count);
+        //    Assert.AreEqual(2, result.Count);
 
-            _mockActiveProviderRepository.VerifyAll();
-            _mockProviderRepository.VerifyAll();
-        }
+        //    _mockActiveProviderRepository.VerifyAll();
+        //    _mockProviderRepository.VerifyAll();
+        //}
 
-        [Test]
-        public void ShouldntFilterProvidersIfTheFeatureIsDisabled()
-        {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-            _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
+        //[Test]
+        //public void ShouldntFilterProvidersIfTheFeatureIsDisabled()
+        //{
+        //    _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
+        //    _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
-            var result = _sut.GetProviders().Result;
+        //    var result = _sut.GetProviders().Result;
 
-            Assert.AreEqual(3, result.Count);
+        //    Assert.AreEqual(3, result.Count);
 
-            _mockProviderRepository.VerifyAll();
-        }
+        //    _mockProviderRepository.VerifyAll();
+        //}
 
-        [Test]
-        public void ShouldUpdateFrameworkInformation()
-        {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-            _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
+        //[Test]
+        //public void ShouldUpdateFrameworkInformation()
+        //{
+        //    _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
+        //    _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
-            var result = _sut.GetProviders().Result;
+        //    var result = _sut.GetProviders().Result;
 
-            Assert.AreEqual(3, result.Count);
-            var framework = result.FirstOrDefault()?.Frameworks.FirstOrDefault();
-            var frameworkSecond = result.ElementAt(1)?.Frameworks.ElementAt(0);
-            framework?.OverallCohort.Should().Be("68");
-            framework?.OverallAchievementRate.Should().Be(68);
-            framework?.NationalOverallAchievementRate.Should().Be(78);
+        //    Assert.AreEqual(3, result.Count);
+        //    var framework = result.FirstOrDefault()?.Frameworks.FirstOrDefault();
+        //    var frameworkSecond = result.ElementAt(1)?.Frameworks.ElementAt(0);
+        //    framework?.OverallCohort.Should().Be("68");
+        //    framework?.OverallAchievementRate.Should().Be(68);
+        //    framework?.NationalOverallAchievementRate.Should().Be(78);
 
-            frameworkSecond?.OverallCohort.Should().BeNull();
-            frameworkSecond?.OverallAchievementRate.Should().Be(null);
-            frameworkSecond?.NationalOverallAchievementRate.Should().Be(null);
-        }
+        //    frameworkSecond?.OverallCohort.Should().BeNull();
+        //    frameworkSecond?.OverallAchievementRate.Should().Be(null);
+        //    frameworkSecond?.NationalOverallAchievementRate.Should().Be(null);
+        //}
 
-        [Test]
-        public void ShouldUpdateStandardInformation()
-        {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-            _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
+        //[Test]
+        //public void ShouldUpdateStandardInformation()
+        //{
+        //    _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
+        //    _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
-            var result = _sut.GetProviders().Result;
+        //    var result = _sut.GetProviders().Result;
 
-            Assert.AreEqual(3, result.Count);
-            var standard = result.SingleOrDefault(m => !m.Standards.IsNullOrEmpty())?.Standards.FirstOrDefault();
-            standard?.OverallCohort.Should().Be("58");
-            standard?.OverallAchievementRate.Should().Be(58);
-            standard?.NationalOverallAchievementRate.Should().Be(100);
-        }
+        //    Assert.AreEqual(3, result.Count);
+        //    var standard = result.SingleOrDefault(m => !m.Standards.IsNullOrEmpty())?.Standards.FirstOrDefault();
+        //    standard?.OverallCohort.Should().Be("58");
+        //    standard?.OverallAchievementRate.Should().Be(58);
+        //    standard?.NationalOverallAchievementRate.Should().Be(100);
+        //}
 
-        [Test]
-        public void ShouldUpdateLearnerSatisfactionRateIfAvailable()
-        {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-            _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
+        //[Test]
+        //public void ShouldUpdateLearnerSatisfactionRateIfAvailable()
+        //{
+        //    _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
+        //    _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
+        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
-            var result = _sut.GetProviders().Result;
+        //    var result = _sut.GetProviders().Result;
 
-            Assert.AreEqual(3, result.Count);
+        //    Assert.AreEqual(3, result.Count);
 
-            result.Count(ls => ls.Ukprn == 456 && ls.LearnerSatisfaction == 67).Should().Be(1);
-            result.Count(ls => ls.Ukprn == 123 && ls.LearnerSatisfaction == null).Should().Be(2);
-        }
+        //    result.Count(ls => ls.Ukprn == 456 && ls.LearnerSatisfaction == 67).Should().Be(1);
+        //    result.Count(ls => ls.Ukprn == 123 && ls.LearnerSatisfaction == null).Should().Be(2);
+        //}
 
-        [Test]
-        public void ShouldLeaveLearnerSatisfactionRateNullIfUnavailable()
-        {
-            _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-            _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-            _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(ThreeProvidersTask());
-            _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
+        //[Test]
+        //public void ShouldLeaveLearnerSatisfactionRateNullIfUnavailable()
+        //{
+        //    _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
+        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
+        //    _mockProviderRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(ThreeProvidersTask());
+        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
 
-            var result = _sut.GetProviders().Result;
+        //    var result = _sut.GetProviders().Result;
 
-            Assert.AreEqual(4, result.Count);
+        //    Assert.AreEqual(4, result.Count);
             
-            result.Any(ls => ls.Ukprn == 789 && ls.LearnerSatisfaction == null).Should().Be(true);
-        }
+        //    result.Any(ls => ls.Ukprn == 789 && ls.LearnerSatisfaction == null).Should().Be(true);
+        //}
 
         private IEnumerable<AchievementRateProvider> GetAchievementData()
         {

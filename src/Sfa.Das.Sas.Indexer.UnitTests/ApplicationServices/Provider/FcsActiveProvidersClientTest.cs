@@ -27,8 +27,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider
             var client = new FcsActiveProvidersClient(moqVstsClient.Object, appsettings, moqIConvertFromCsv.Object);
             var result = client.GetActiveProviders();
 
-            result.Count().Should().Be(2);
-            result.All(m => new[] { 26, 126 }.Contains(m)).Should().BeTrue();
+            result.Result.Count().Should().Be(2);
+            result.Result.All(m => new[] { 26, 126 }.Contains(m)).Should().BeTrue();
         }
     }
 }

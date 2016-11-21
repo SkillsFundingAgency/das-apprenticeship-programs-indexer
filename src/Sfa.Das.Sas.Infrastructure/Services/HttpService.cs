@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
@@ -34,6 +35,30 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
                     client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
 
                     return client.DownloadString(url);
+                }
+                catch (WebException ex)
+                {
+                    _logger.Warn(ex, $"Cannot download string from {url}");
+                    throw;
+                }
+            }
+        }
+
+        public Task<string> GetAsync(string url, string username, string pwd)
+        {
+            using (var client = new WebClient())
+            {
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{pwd}"));
+                    client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
+                }
+
+                try
+                {
+                    client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
+
+                    return client.DownloadStringTaskAsync(url);
                 }
                 catch (WebException ex)
                 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
 using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
@@ -23,15 +24,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider
             _convertFromCsv = convertFromCsv;
         }
 
-        public IEnumerable<int> GetActiveProviders()
+        public async Task<IEnumerable<int>> GetActiveProviders()
         {
-            var records = _convertFromCsv.CsvTo<ActiveProviderCsvRecord>(LoadProvidersFromVsts());
+            var loadProvidersFromVsts = await _vstsClient.GetFileContentAsync($"fcs/{_appServiceSettings.EnvironmentName}/fcs-active.csv");
+            var records = _convertFromCsv.CsvTo<ActiveProviderCsvRecord>(loadProvidersFromVsts);
             return records.Select(x => x.UkPrn);
-        }
-
-        private string LoadProvidersFromVsts()
-        {
-            return _vstsClient.GetFileContent($"fcs/{_appServiceSettings.EnvironmentName}/fcs-active.csv");
         }
     }
 }
