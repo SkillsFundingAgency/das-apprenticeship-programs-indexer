@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
-using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {

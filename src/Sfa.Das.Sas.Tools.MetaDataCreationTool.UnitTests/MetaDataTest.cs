@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
@@ -13,9 +13,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
     using FluentAssertions;
 
     using Moq;
-
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
     using Sfa.Das.Sas.Indexer.Core.Services;
     using Sfa.Das.Sas.Indexer.Infrastructure.Services;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
@@ -55,7 +52,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             metaData.GenerateStandardMetadataFiles();
             var result = metaData.GetStandardsMetaData();
 
-            result.Count.Should().Be(standardsFromLars.Count());
+            result.Count().Should().Be(standardsFromLars.Count());
         }
     }
 }

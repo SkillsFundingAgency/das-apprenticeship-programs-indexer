@@ -1,4 +1,5 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {
@@ -8,7 +9,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
     using System.Threading.Tasks;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-    using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory.Models;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
     public sealed class CourseDirectoryClient : IGetCourseDirectoryProviders

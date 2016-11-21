@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory.Models;
-using CourseDirectoryProvider = Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory.Models.Provider;
+using CourseDirectoryProvider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory.Provider;
 using Location = Sfa.Das.Sas.Indexer.Core.Models.Provider.Location;
 using Provider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 
@@ -42,7 +43,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             return providerImport;
         }
 
-        private IEnumerable<StandardInformation> GetStandardsFromIList(IList<Models.Standard> standards, IEnumerable<Location> providerLocations)
+        private IEnumerable<StandardInformation> GetStandardsFromIList(IList<Standard> standards, IEnumerable<Location> providerLocations)
         {
             return
                 standards.Select(
@@ -57,7 +58,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
                         }).ToList();
         }
 
-        private IEnumerable<FrameworkInformation> GetFrameworksFromIList(IList<Models.Framework> frameworks, IEnumerable<Das.Sas.Indexer.Core.Models.Provider.Location> providerLocations)
+        private IEnumerable<FrameworkInformation> GetFrameworksFromIList(IList<Framework> frameworks, IEnumerable<Das.Sas.Indexer.Core.Models.Provider.Location> providerLocations)
         {
             return
                 frameworks.Select(
@@ -117,7 +118,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             return modes;
         }
 
-        private Coordinate GetGeoPoint(Models.Location matchingLocation)
+        private Coordinate GetGeoPoint(ApplicationServices.Provider.Models.CourseDirectory.Location matchingLocation)
         {
             if (!matchingLocation.Address.Latitude.HasValue || !matchingLocation.Address.Longitude.HasValue)
             {
@@ -132,7 +133,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             return new Coordinate { Latitude = matchingLocation.Address.Latitude.Value, Longitude = matchingLocation.Address.Longitude.Value };
         }
 
-        private Core.Models.Provider.Location MapToLocationEntity(Models.Location matchingLocation)
+        private Core.Models.Provider.Location MapToLocationEntity(ApplicationServices.Provider.Models.CourseDirectory.Location matchingLocation)
         {
             var geopoint = GetGeoPoint(matchingLocation);
 

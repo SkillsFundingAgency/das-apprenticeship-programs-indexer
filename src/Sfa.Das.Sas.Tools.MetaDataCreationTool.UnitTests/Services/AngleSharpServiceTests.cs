@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services

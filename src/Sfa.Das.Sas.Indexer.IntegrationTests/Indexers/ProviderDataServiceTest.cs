@@ -1,6 +1,5 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
-using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 
 namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
@@ -17,7 +16,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
     using NUnit.Framework;
 
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Standard;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
@@ -33,8 +31,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 
         private Mock<IGetActiveProviders> _mockActiveProviderRepository;
 
-        private Mock<IProviderFeatures> _mockFeatures;
-
         private Mock<IMetaDataHelper> _mockMetaDataHelper;
 
         private Mock<IAchievementRatesProvider> _achievementProvider;
@@ -44,7 +40,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         [SetUp]
         public void SetUp()
         {
-            _mockFeatures = new Mock<IProviderFeatures>();
             _mockProviderRepository = new Mock<IGetApprenticeshipProviders>();
             _mockActiveProviderRepository = new Mock<IGetActiveProviders>();
             _mockMetaDataHelper = new Mock<IMetaDataHelper>();
@@ -59,14 +54,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 
             _satisfactionProvider.Setup(m => m.GetAllLearnerSatisfactionByProvider()).Returns(GetLearnerSatisfactionRateData());
 
-            _sut = new ProviderDataService(
-                _mockFeatures.Object,
-                _mockProviderRepository.Object,
-                _mockActiveProviderRepository.Object,
-                _mockMetaDataHelper.Object,
-                _achievementProvider.Object,
-                _satisfactionProvider.Object,
-                Mock.Of<ILog>());
+            _sut = new ProviderDataService( Mock.Of<ILog>());
         }
 
         //[Test]

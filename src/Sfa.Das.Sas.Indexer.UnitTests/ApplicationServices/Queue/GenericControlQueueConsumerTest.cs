@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Queue;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
 

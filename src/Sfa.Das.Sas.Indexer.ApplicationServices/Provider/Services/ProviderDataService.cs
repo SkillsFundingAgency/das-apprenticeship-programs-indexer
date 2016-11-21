@@ -1,0 +1,144 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
+using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+{
+    public class ProviderDataService : IProviderDataService
+    {
+        private readonly ILog _logger;
+
+        public ProviderDataService(ILog logger)
+        {
+            _logger = logger;
+        }
+
+        public void SetLearnerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Core.Models.Provider.Provider provider)
+        {
+            var learnerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
+
+            provider.LearnerSatisfaction = learnerSatisfaction?.FinalScore != null && learnerSatisfaction.FinalScore > 0
+                ? (double?) Math.Round(learnerSatisfaction?.FinalScore ?? 0.0)
+                : null;
+        }
+
+        public void SetEmployerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Core.Models.Provider.Provider provider)
+        {
+            var employerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
+
+            provider.EmployerSatisfaction = employerSatisfaction?.FinalScore != null && employerSatisfaction.FinalScore > 0
+                ? (double?)Math.Round(employerSatisfaction?.FinalScore ?? 0.0)
+                : null;
+        }
+
+        private static double? GetNationalOverallAchievementRate(List<AchievementRateNational> nationalAchievementRate)
+        {
+            var nationalOverallAchievementRate = nationalAchievementRate
+                .OrderByDescending(m => m.HybridEndYear)
+                .FirstOrDefault()?
+                .OverallAchievementRate;
+
+            if (nationalOverallAchievementRate != null)
+            {
+                return Math.Round((double)nationalOverallAchievementRate);
+            }
+
+            return null;
+        }
+
+        private static bool IsLevelFourOrHigher(string achievementRateProviderLevel, int level)
+        {
+            return achievementRateProviderLevel == "4+" && level > 3;
+        }
+
+        private static bool IsLevelTwoOrThree(string achievementRateProviderLevel, int level)
+        {
+            return (achievementRateProviderLevel == "2" || achievementRateProviderLevel == "3") && achievementRateProviderLevel == level.ToString();
+        }
+
+        public void UpdateStandard(StandardInformation si, IEnumerable<StandardMetaData> standards, IEnumerable<AchievementRateProvider> achievementRates, IEnumerable<AchievementRateNational> nationalAchievementRates)
+        {
+            var metaData = standards.FirstOrDefault(m => m.Id == si.Code);
+
+            if (metaData != null)
+            {
+                var achievementRate = achievementRates.Where(m =>
+                    IsEqual(m.Ssa2Code, metaData.SectorSubjectAreaTier2))
+                    .Where(m => TestLevel(m.ApprenticeshipLevel, metaData.NotionalEndLevel))
+                    .ToList();
+
+                var nationalAchievementRate = nationalAchievementRates.Where(m =>
+                    IsEqual(m.Ssa2Code, metaData.SectorSubjectAreaTier2))
+                    .Where(m => TestLevel(m.ApprenticeshipLevel, metaData.NotionalEndLevel))
+                    .ToList();
+
+                var rate = ExtractValues(achievementRate);
+                si.OverallAchievementRate = rate.Item1;
+                si.OverallCohort = rate.Item2;
+
+                si.NationalOverallAchievementRate =
+                    GetNationalOverallAchievementRate(nationalAchievementRate);
+            }
+        }
+
+        public void UpdateFramework(FrameworkInformation fi, IEnumerable<FrameworkMetaData> frameworks, IEnumerable<AchievementRateProvider> achievementRates, IEnumerable<AchievementRateNational> nationalAchievementRates)
+        {
+            var metaData = frameworks.FirstOrDefault(m =>
+                m.FworkCode == fi.Code &&
+                m.PwayCode == fi.PathwayCode &&
+                m.ProgType == fi.ProgType);
+
+            if (metaData != null)
+            {
+                var achievementRate = achievementRates.Where(m =>
+                    IsEqual(m.Ssa2Code, metaData.SectorSubjectAreaTier2))
+                    .Where(m => TestLevel(m.ApprenticeshipLevel, ApprenticeshipLevelMapper.MapToLevel(metaData.ProgType)))
+                    .ToList();
+
+                var nationalAchievementRate = nationalAchievementRates.Where(m =>
+                    IsEqual(m.Ssa2Code, metaData.SectorSubjectAreaTier2))
+                    .Where(m => TestLevel(m.ApprenticeshipLevel, ApprenticeshipLevelMapper.MapToLevel(metaData.ProgType)))
+                    .ToList();
+
+                var rate = ExtractValues(achievementRate);
+
+                fi.OverallAchievementRate = rate.Item1;
+
+                fi.OverallCohort = rate.Item2;
+
+                fi.NationalOverallAchievementRate =
+                    GetNationalOverallAchievementRate(nationalAchievementRate);
+            }
+        }
+
+        private Tuple<double?, string> ExtractValues(List<AchievementRateProvider> achievementRate)
+        {
+            if (achievementRate.Count > 1)
+            {
+                _logger.Warn($"Multiple achievement rates found - UPPRN: {achievementRate.FirstOrDefault()?.Ukprn}");
+            }
+
+            var v1 = achievementRate.FirstOrDefault()?.OverallAchievementRate != null
+                             ? (double?)Math.Round(achievementRate.FirstOrDefault()?.OverallAchievementRate ?? 0.0)
+                             : null;
+
+            var v2 = achievementRate.FirstOrDefault()?.OverallCohort;
+            return new Tuple<double?, string>(v1, v2);
+        }
+
+        private bool IsEqual(double d1, double d2)
+        {
+            return Math.Abs(d1 - d2) < 0.01;
+        }
+
+        private bool TestLevel(string achievementRateProviderLevel, int level)
+        {
+            return IsLevelTwoOrThree(achievementRateProviderLevel, level) || IsLevelFourOrHigher(achievementRateProviderLevel, level);
+        }
+    }
+}

@@ -1,10 +1,10 @@
 using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
-using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Queue;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Azure;

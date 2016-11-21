@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.WindowsAzure.Storage.Queue;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Queue;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Azure
 {

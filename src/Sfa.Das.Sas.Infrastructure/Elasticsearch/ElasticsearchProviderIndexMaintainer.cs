@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;

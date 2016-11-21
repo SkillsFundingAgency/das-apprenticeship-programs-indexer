@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;

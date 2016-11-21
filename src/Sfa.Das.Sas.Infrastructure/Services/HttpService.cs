@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
