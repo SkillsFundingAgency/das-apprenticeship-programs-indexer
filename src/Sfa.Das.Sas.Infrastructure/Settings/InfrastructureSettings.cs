@@ -18,7 +18,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string FrameworkIdFormat => ConfigurationManager.AppSettings["FrameworkIdFormat"];
 
+        public string UkrlpStakeholderId => ConfigurationManager.AppSettings["UkrlpStakeholderId"];
+
+        public string UkrlpProviderStatus => ConfigurationManager.AppSettings["UkrlpProviderStatus"];
+
+        public string UkrlpQueryId => ConfigurationManager.AppSettings["UkrlpQueryId"];
+
         public string CourseDirectoryUri => CloudConfigurationManager.GetSetting("CourseDirectoryUri");
+
+        public string UkrlpEndpointName => CloudConfigurationManager.GetSetting("UkrlpEndpointName");
 
         public string EnvironmentName => ConfigurationManager.AppSettings["EnvironmentName"];
 

@@ -14,6 +14,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
         string ApplicationName { get; }
 
         string AchievementRateDataBaseConnectionString { get; }
+
         string FrameworkIdFormat { get; }
+
+        string UkrlpStakeholderId { get; }
+
+        string UkrlpProviderStatus { get; }
+
+        string UkrlpQueryId { get; }
     }
 }
