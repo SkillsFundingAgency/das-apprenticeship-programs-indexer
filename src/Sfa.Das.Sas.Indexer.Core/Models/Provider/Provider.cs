@@ -12,6 +12,8 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
         public string Name { get; set; }
 
+        public string LegalName { get; set; }
+
         public bool IsEmployerProvider { get; set; }
 
         public bool NationalProvider { get; set; }
@@ -23,11 +25,13 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public double? EmployerSatisfaction { get; set; }
 
         public double? LearnerSatisfaction { get; set; }
-
+        
         public IEnumerable<FrameworkInformation> Frameworks { get; set; }
 
         public IEnumerable<Location> Locations { get; set; }
 
         public IEnumerable<StandardInformation> Standards { get; set; }
+
+        public IEnumerable<ContactAddress> Addresses { get; set; }
     }
 }

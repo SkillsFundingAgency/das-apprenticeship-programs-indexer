@@ -41,12 +41,15 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 
         private Mock<ISatisfactionRatesProvider> _satisfactionProvider;
 
+        private Mock<IUkrlpService> _mockUkrlpProviderService;
+
         [SetUp]
         public void SetUp()
         {
             _mockFeatures = new Mock<IProviderFeatures>();
             _mockProviderRepository = new Mock<IGetApprenticeshipProviders>();
             _mockActiveProviderRepository = new Mock<IGetActiveProviders>();
+            _mockUkrlpProviderService = new Mock<IUkrlpService>();
             _mockMetaDataHelper = new Mock<IMetaDataHelper>();
             _achievementProvider = new Mock<IAchievementRatesProvider>();
             _satisfactionProvider = new Mock<ISatisfactionRatesProvider>();
@@ -63,6 +66,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
                 _mockFeatures.Object,
                 _mockProviderRepository.Object,
                 _mockActiveProviderRepository.Object,
+                _mockUkrlpProviderService.Object,
                 _mockMetaDataHelper.Object,
                 _achievementProvider.Object,
                 _satisfactionProvider.Object,
