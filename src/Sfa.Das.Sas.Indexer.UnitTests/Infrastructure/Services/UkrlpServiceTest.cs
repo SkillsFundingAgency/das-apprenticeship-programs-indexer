@@ -6,7 +6,7 @@ using Sfa.Das.Sas.Indexer.Infrastructure.Mapping;
 using Sfa.Das.Sas.Indexer.Infrastructure.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-using Sfa.Das.Sas.Indexer.Infrastructure.Uklrp;
+using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
@@ -30,6 +30,10 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
             var models = Task.Run(() => sut.GetLearnerProviderInformationAsync(new [] { "1234" }));
 
             Assert.AreEqual(2, models.Result.Count);
+
+
+
+
         }
 
         private static response GetClientResponseMockValues()
@@ -55,7 +59,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
                     },
                     UnitedKingdomProviderReferenceNumber = "1234"
                 },
-                new ProviderRecordStructure {UnitedKingdomProviderReferenceNumber = "5678"}
+                new ProviderRecordStructure { UnitedKingdomProviderReferenceNumber = "5678" }
             };
 
             ProviderQueryResponse pqr = new ProviderQueryResponse { MatchingProviderRecords = prs };

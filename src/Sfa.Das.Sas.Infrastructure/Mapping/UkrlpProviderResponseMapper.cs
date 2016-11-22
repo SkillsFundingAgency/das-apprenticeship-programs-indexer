@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Uklrp;
+    using Ukrlp;
 
     public class UkrlpProviderResponseMapper : IUkrlpProviderResponseMapper
     {

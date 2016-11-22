@@ -1,7 +1,7 @@
 ﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
 {
     using System.Threading.Tasks;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Uklrp;
+    using Ukrlp;
 
     public interface IProviderQueryPortTypeClientWrapper
     {

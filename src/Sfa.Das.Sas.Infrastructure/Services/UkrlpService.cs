@@ -11,7 +11,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
     using System.Threading.Tasks;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Uklrp;
+    using Ukrlp;
 
     public class UkrlpService : IUkrlpService
     {
@@ -19,7 +19,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
         private readonly IProviderQueryPortTypeClientWrapper _providerClientWrapper;
         private readonly IUkrlpProviderResponseMapper _providerResponseMapper;
         private readonly ILog _logger;
-        private ProviderQueryPortTypeClient _client;
 
         public UkrlpService(
             IInfrastructureSettings infrastructureSettings,

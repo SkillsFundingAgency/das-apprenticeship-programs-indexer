@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Uklrp {
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp {
     
     
     /// <remarks/>
@@ -3075,12 +3075,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Uklrp {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ukrlp.co.uk.server.ws.v3", ConfigurationName="Uklrp.ProviderQueryPortType")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ukrlp.co.uk.server.ws.v3", ConfigurationName="Ukrlp.ProviderQueryPortType")]
     public interface ProviderQueryPortType {
         
         // CODEGEN: Generating message contract since the operation retrieveAllProviders is neither RPC nor document wrapped.
         [System.ServiceModel.OperationContractAttribute(Action="retrieveAllProviders", ReplyAction="*")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.faultDetail), Action="retrieveAllProviders", Name="faultDetail")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.faultDetail), Action="retrieveAllProviders", Name="faultDetail")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AONrangeStructure))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BasicLandAndPropertyUnitStructure))]
@@ -3089,10 +3089,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Uklrp {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PersonBirthDateStructure))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQueryResultStructure))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(authenticationDetails))]
-        Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.response retrieveAllProviders(Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryParam request);
+        Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.response retrieveAllProviders(Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryParam request);
         
         [System.ServiceModel.OperationContractAttribute(Action="retrieveAllProviders", ReplyAction="*")]
-        System.Threading.Tasks.Task<Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.response> retrieveAllProvidersAsync(Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryParam request);
+        System.Threading.Tasks.Task<Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.response> retrieveAllProvidersAsync(Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryParam request);
     }
     
     /// <remarks/>
@@ -3162,12 +3162,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Uklrp {
     public partial class ProviderQueryParam {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ukrlp.co.uk.server.ws.v3", Order=0)]
-        public Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryStructure ProviderQueryRequest;
+        public Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryStructure ProviderQueryRequest;
         
         public ProviderQueryParam() {
         }
         
-        public ProviderQueryParam(Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryStructure ProviderQueryRequest) {
+        public ProviderQueryParam(Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryStructure ProviderQueryRequest) {
             this.ProviderQueryRequest = ProviderQueryRequest;
         }
     }
@@ -3179,23 +3179,23 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Uklrp {
     public partial class response {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ukrlp.co.uk.server.ws.v3", Order=0)]
-        public Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryResponse ProviderQueryResponse;
+        public Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryResponse ProviderQueryResponse;
         
         public response() {
         }
         
-        public response(Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryResponse ProviderQueryResponse) {
+        public response(Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryResponse ProviderQueryResponse) {
             this.ProviderQueryResponse = ProviderQueryResponse;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ProviderQueryPortTypeChannel : Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryPortType, System.ServiceModel.IClientChannel {
+    public interface ProviderQueryPortTypeChannel : Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryPortType, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ProviderQueryPortTypeClient : System.ServiceModel.ClientBase<Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryPortType>, Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryPortType {
+    public partial class ProviderQueryPortTypeClient : System.ServiceModel.ClientBase<Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryPortType>, Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryPortType {
         
         public ProviderQueryPortTypeClient() {
         }
@@ -3217,26 +3217,26 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Uklrp {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.response Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryPortType.retrieveAllProviders(Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryParam request) {
+        Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.response Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryPortType.retrieveAllProviders(Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryParam request) {
             return base.Channel.retrieveAllProviders(request);
         }
         
-        public Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryResponse retrieveAllProviders(Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryStructure ProviderQueryRequest) {
-            Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryParam inValue = new Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryParam();
+        public Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryResponse retrieveAllProviders(Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryStructure ProviderQueryRequest) {
+            Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryParam inValue = new Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryParam();
             inValue.ProviderQueryRequest = ProviderQueryRequest;
-            Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.response retVal = ((Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryPortType)(this)).retrieveAllProviders(inValue);
+            Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.response retVal = ((Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryPortType)(this)).retrieveAllProviders(inValue);
             return retVal.ProviderQueryResponse;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.response> Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryPortType.retrieveAllProvidersAsync(Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryParam request) {
+        System.Threading.Tasks.Task<Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.response> Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryPortType.retrieveAllProvidersAsync(Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryParam request) {
             return base.Channel.retrieveAllProvidersAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.response> retrieveAllProvidersAsync(Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryStructure ProviderQueryRequest) {
-            Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryParam inValue = new Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryParam();
+        public System.Threading.Tasks.Task<Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.response> retrieveAllProvidersAsync(Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryStructure ProviderQueryRequest) {
+            Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryParam inValue = new Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryParam();
             inValue.ProviderQueryRequest = ProviderQueryRequest;
-            return ((Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryPortType)(this)).retrieveAllProvidersAsync(inValue);
+            return ((Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryPortType)(this)).retrieveAllProvidersAsync(inValue);
         }
     }
 }

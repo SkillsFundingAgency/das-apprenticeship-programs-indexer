@@ -183,7 +183,7 @@
     <Compile Include="Mapping\IUkrlpProviderResponseMapper.cs" />
     <Compile Include="Mapping\UkrlpProviderResponseMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\Uklrp\Reference.cs">
+    <Compile Include="Service References\Ukrlp\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -217,37 +217,37 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Service References\Uklrp\Reference.svcmap">
+    <None Include="Service References\Ukrlp\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\Uklrp\configuration.svcinfo" />
-    <None Include="Service References\Uklrp\configuration91.svcinfo" />
+    <None Include="Service References\Ukrlp\configuration.svcinfo" />
+    <None Include="Service References\Ukrlp\configuration91.svcinfo" />
     <None Include="app.config" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Service References\Uklrp\BS7666.xsd">
+    <None Include="Service References\Ukrlp\BS7666.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\Uklrp\CommonSimpleTypes-v1-3.xsd">
+    <None Include="Service References\Ukrlp\CommonSimpleTypes-v1-3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\Uklrp\PersonDescriptiveTypes.xsd">
+    <None Include="Service References\Ukrlp\PersonDescriptiveTypes.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\Uklrp\ProviderQueryServiceV4.wsdl" />
-    <None Include="Service References\Uklrp\ProviderQueryServiceV4.xsd">
+    <None Include="Service References\Ukrlp\ProviderQueryServiceV4.wsdl" />
+    <None Include="Service References\Ukrlp\ProviderQueryServiceV4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\Uklrp\Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.ProviderQueryResponse.datasource">
+    <None Include="Service References\Ukrlp\Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\Uklrp\Sfa.Das.Sas.Indexer.Infrastructure.Uklrp.response.datasource">
+    <None Include="Service References\Ukrlp\Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.response.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\Uklrp\UKRLP-CommonLibrary-v1-6.xsd">
+    <None Include="Service References\Ukrlp\UKRLP-CommonLibrary-v1-6.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Sfa.Das.Sas.Indexer.Infrastructure.ruleset" />
@@ -272,7 +272,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\Uklrp\" />
+    <WCFMetadataStorage Include="Service References\Ukrlp\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
