@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
@@ -47,17 +47,17 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             }
         }
 
-        public async Task IndexStandards(string indexName, ICollection<StandardMetaData> entries)
+        public async Task IndexStandards(string indexName, IEnumerable<StandardMetaData> entries)
         {
             await IndexApprenticeships(indexName, entries, ElasticsearchMapper.CreateStandardDocument).ConfigureAwait(true);
         }
 
-        public async Task IndexFrameworks(string indexName, ICollection<FrameworkMetaData> entries)
+        public async Task IndexFrameworks(string indexName, IEnumerable<FrameworkMetaData> entries)
         {
             await IndexApprenticeships(indexName, entries, ElasticsearchMapper.CreateFrameworkDocument).ConfigureAwait(true);
         }
 
-        private async Task IndexApprenticeships<T1, T2>(string indexName, ICollection<T1> entries, Func<T1, T2> method)
+        private async Task IndexApprenticeships<T1, T2>(string indexName, IEnumerable<T1> entries, Func<T1, T2> method)
             where T1 : class
             where T2 : class
         {

@@ -1,4 +1,4 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Queue;
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
 using Sfa.Das.Sas.Indexer.AzureWorkerRole.Settings;
 using Sfa.Das.Sas.Indexer.Core.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;

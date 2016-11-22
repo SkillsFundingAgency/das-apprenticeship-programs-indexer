@@ -1,10 +1,11 @@
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Indexer.ApplicationServices.MetaData;
-    using Indexer.ApplicationServices.Settings;
     using Indexer.Core.Logging;
     using Indexer.Core.Models;
     using Interfaces;

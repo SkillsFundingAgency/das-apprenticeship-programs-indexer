@@ -1,4 +1,5 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
@@ -7,8 +8,6 @@ using StructureMap;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
 {
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
-
     public sealed class MetaDataCreationRegistry : Registry
     {
         public MetaDataCreationRegistry()

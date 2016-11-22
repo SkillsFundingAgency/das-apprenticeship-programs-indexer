@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Rest;
 using Newtonsoft.Json.Linq;
-using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory.Models;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {

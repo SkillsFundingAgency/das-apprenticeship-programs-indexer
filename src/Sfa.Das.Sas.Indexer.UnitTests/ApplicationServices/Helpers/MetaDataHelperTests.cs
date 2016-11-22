@@ -5,8 +5,8 @@ using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool;
@@ -44,7 +44,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, null);
             var frameworks = metaDataManager.GetAllFrameworks();
 
-            Assert.AreEqual(1, frameworks.Count);
+            Assert.AreEqual(1, frameworks.Count());
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, null);
             var frameworks = metaDataManager.GetAllFrameworks();
 
-            Assert.AreEqual(1, frameworks.Count, "Should find one framework");
+            Assert.AreEqual(1, frameworks.Count(), "Should find one framework");
         }
 
         [Test]

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using LINQtoCSV;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Extensions;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Services

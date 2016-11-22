@@ -2,10 +2,12 @@
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
-using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Fsc;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider
@@ -27,8 +29,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider
             var client = new FcsActiveProvidersClient(moqVstsClient.Object, appsettings, moqIConvertFromCsv.Object);
             var result = client.GetActiveProviders();
 
-            result.Count().Should().Be(2);
-            result.All(m => new[] { 26, 126 }.Contains(m)).Should().BeTrue();
+            result.Result.Count().Should().Be(2);
+            result.Result.All(m => new[] { 26, 126 }.Contains(m)).Should().BeTrue();
         }
     }
 }

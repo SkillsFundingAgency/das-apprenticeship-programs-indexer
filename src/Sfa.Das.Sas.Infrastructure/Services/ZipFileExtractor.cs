@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {

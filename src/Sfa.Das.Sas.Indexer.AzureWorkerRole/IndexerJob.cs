@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Queue;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
 
 namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 {

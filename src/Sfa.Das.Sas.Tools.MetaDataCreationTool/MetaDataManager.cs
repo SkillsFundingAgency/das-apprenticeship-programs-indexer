@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
-using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Extensions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
@@ -61,7 +60,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             PushStandardsToGit(standards.Select(MapToFileContent).ToList());
         }
 
-        public List<StandardMetaData> GetStandardsMetaData()
+        public IEnumerable<StandardMetaData> GetStandardsMetaData()
         {
             var standards = _vstsService
                 .GetStandards()
@@ -72,9 +71,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             return standards;
         }
 
-        public List<FrameworkMetaData> GetAllFrameworks()
+        public IEnumerable<FrameworkMetaData> GetAllFrameworks()
         {
-            var frameworks = _larsDataService.GetListOfCurrentFrameworks().ToList();
+            var frameworks = _larsDataService.GetListOfCurrentFrameworks();
             UpdateFrameworkInformation(frameworks);
             return frameworks;
         }
