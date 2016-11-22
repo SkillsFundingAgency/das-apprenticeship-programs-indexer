@@ -17,14 +17,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly ILog _logger;
         private readonly IGetApprenticeshipProviders _providerRepository;
         private readonly IGetCourseDirectoryProviders _courseDirectoryClient;
+        private readonly IUkrlpService _ukrlpService;
         private readonly IMetaDataHelper _metaDataHelper;
         private readonly IAchievementRatesProvider _achievementRatesProvider;
         private readonly ISatisfactionRatesProvider _satisfactionRatesProvider;
         private readonly IGetActiveProviders _activeProviderClient;
-
-
+        
         public ProviderDataService(IGetApprenticeshipProviders providerRepository,
             IGetCourseDirectoryProviders courseDirectoryClient,
+            IUkrlpService ukrlpService,
             IMetaDataHelper metaDataHelper,
             IAchievementRatesProvider achievementRatesProvider,
             ISatisfactionRatesProvider satisfactionRatesProvider,
@@ -34,6 +35,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _logger = logger;
             _providerRepository = providerRepository;
             _courseDirectoryClient = courseDirectoryClient;
+            _ukrlpService = ukrlpService;
             _metaDataHelper = metaDataHelper;
             _achievementRatesProvider = achievementRatesProvider;
             _satisfactionRatesProvider = satisfactionRatesProvider;
@@ -150,11 +152,16 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             // From database
             await Task.WhenAll(frameworks, standards, courseDirectoryProviders, activeProviders);
+            
+            // From UKRLP
+            var ukrlpProviders = await _ukrlpService.GetLearnerProviderInformationAsync(activeProviders.Result.Select(activeProvider => activeProvider.ToString()).ToArray());
+
             return new ProviderSourceDto
             {
                 CourseDirectoryProviders = courseDirectoryProviders.Result,
                 ActiveProviders = activeProviders.Result,
                 CourseDirectoryUkPrns = courseDirectoryProviders.Result.Select(x => x.Ukprn).ToList(),
+                UkrlpProviders = ukrlpProviders,
                 Frameworks = frameworks.Result,
                 Standards = standards.Result,
                 EmployerProviders = _providerRepository.GetEmployerProviders(),

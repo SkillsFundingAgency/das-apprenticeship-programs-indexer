@@ -8,6 +8,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
     {
         public IEnumerable<string> EmployerProviders { get; set; }
         public IEnumerable<Models.CourseDirectory.Provider> CourseDirectoryProviders { get; set; }
+        public IEnumerable<Core.Models.Provider.Provider> UkrlpProviders { get; set; }
         public IEnumerable<int> ActiveProviders { get; set; }
         public IEnumerable<int> CourseDirectoryUkPrns { get; set; }
         public IEnumerable<FrameworkMetaData> Frameworks { get; set; }

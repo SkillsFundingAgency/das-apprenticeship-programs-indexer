@@ -64,6 +64,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             _sut = new ProviderDataService(
                 _mockProviderRepository.Object,
                 _mockCourseDirectoryRepository.Object,
+                _mockUkrlpProviderService.Object,
                 _mockMetaDataHelper.Object,
                 _achievementProvider.Object,
                 _satisfactionProvider.Object,

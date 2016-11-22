@@ -112,15 +112,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             foreach (var ukprn in source.ActiveProviders)
             {
-                CoreProvider provider;
+                CoreProvider provider = source.UkrlpProviders.FirstOrDefault(x => x.Ukprn == ukprn) ?? new CoreProvider { Ukprn = ukprn };
+
                 if (source.CourseDirectoryUkPrns.Contains(ukprn))
                 {
                     var courseDirectoryProvider = source.CourseDirectoryProviders.First(x => x.Ukprn == ukprn);
-                    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
-                }
-                else
-                {
-                    provider = new CoreProvider { Ukprn = ukprn};
+                    provider = _courseDirectoryProviderMapper.PopulateExistingProviderFromCD(courseDirectoryProvider, provider);
                 }
 
                 var byProvidersFiltered = source.AchievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);

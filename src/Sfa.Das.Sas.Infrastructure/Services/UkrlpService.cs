@@ -32,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<List<Provider>> GetLearnerProviderInformationAsync(string[] ukprns)
+        public async Task<IEnumerable<Provider>> GetLearnerProviderInformationAsync(string[] ukprns)
         {
             try
             {
@@ -55,8 +55,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
                 return response
                         .ProviderQueryResponse
                         .MatchingProviderRecords
-                        .Select(providerRecordStructure => _providerResponseMapper.MapFromUkrlpProviderRecord(providerRecordStructure))
-                        .ToList();
+                        .Select(providerRecordStructure => _providerResponseMapper.MapFromUkrlpProviderRecord(providerRecordStructure));
             }
             catch (Exception ex)
             {

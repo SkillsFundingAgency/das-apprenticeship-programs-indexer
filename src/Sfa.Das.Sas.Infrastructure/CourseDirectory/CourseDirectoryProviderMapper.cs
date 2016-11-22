@@ -43,6 +43,27 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             return providerImport;
         }
 
+        public Provider PopulateExistingProviderFromCD(CourseDirectoryProvider input, Provider prov)
+        {
+            var providerLocations = input.Locations.Select(MapToLocationEntity);
+
+            prov.Id = input.Id.ToString();
+
+            prov.Name = !string.IsNullOrEmpty(input.Name) ? input.Name : prov.LegalName;
+
+            prov.NationalProvider = input.NationalProvider;
+            prov.ContactDetails =
+                new ContactInformation {Email = input.Email, Phone = input.Phone, Website = input.Website};
+            prov.EmployerSatisfaction = input.EmployerSatisfaction;
+            prov.LearnerSatisfaction = input.LearnerSatisfaction;
+            prov.MarketingInfo = input.MarketingInfo;
+            prov.Standards = GetStandardsFromIList(input.Standards, providerLocations);
+            prov.Frameworks = GetFrameworksFromIList(input.Frameworks, providerLocations);
+            prov.Locations = providerLocations;
+
+            return prov;
+        }
+
         private IEnumerable<StandardInformation> GetStandardsFromIList(IList<Standard> standards, IEnumerable<Location> providerLocations)
         {
             return

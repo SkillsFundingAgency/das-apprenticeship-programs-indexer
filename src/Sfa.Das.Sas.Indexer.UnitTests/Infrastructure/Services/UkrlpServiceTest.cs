@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using Sfa.Das.Sas.Indexer.Core.Logging;
@@ -29,11 +30,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 
             var models = Task.Run(() => sut.GetLearnerProviderInformationAsync(new [] { "1234" }));
 
-            Assert.AreEqual(2, models.Result.Count);
-
-
-
-
+            Assert.AreEqual(2, models.Result.ToList().Count);
         }
 
         private static response GetClientResponseMockValues()
