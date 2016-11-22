@@ -113,11 +113,11 @@
     <Compile Include="ApplicationInterface\IndexerJobTests.cs" />
     <Compile Include="ApplicationServices\Helpers\MetaDataHelperTests.cs" />
     <Compile Include="ApplicationServices\Provider\FcsActiveProvidersClientTest.cs" />
-    <Compile Include="ApplicationServices\Queue\GenericControlQueueConsumerTest.cs" />
-    <Compile Include="ApplicationServices\Services\ApprenticeshipIndexerTests.cs" />
+    <Compile Include="ApplicationServices\Shared\Queue\GenericControlQueueConsumerTest.cs" />
+    <Compile Include="ApplicationServices\Apprenticeships\ApprenticeshipIndexerTests.cs" />
     <Compile Include="ApplicationServices\Services\IndexerServiceTests.cs" />
-    <Compile Include="ApplicationServices\Services\ProviderIndexerTests.cs" />
-    <Compile Include="ApplicationServices\Settings\AppServiceSettingsTests.cs" />
+    <Compile Include="ApplicationServices\Provider\Services\ProviderIndexerTests.cs" />
+    <Compile Include="ApplicationServices\Shared\Settings\AppServiceSettingsTests.cs" />
     <Compile Include="Core\Extensions\EnumExtensionsTests.cs" />
     <Compile Include="Core\Extensions\EnumWithDescription.cs" />
     <Compile Include="Core\Extensions\StringExtensionsTests.cs" />

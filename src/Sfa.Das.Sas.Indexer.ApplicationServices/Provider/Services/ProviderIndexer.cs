@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Extensions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Services;
+using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
@@ -21,51 +19,21 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly IProviderDataService _providerDataService;
 
         private readonly IIndexSettings<IMaintainProviderIndex> _settings;
-        private readonly IGetApprenticeshipProviders _providerRepository;
-        private readonly IGetCourseDirectoryProviders _courseDirectoryClient;
         private readonly ICourseDirectoryProviderMapper _courseDirectoryProviderMapper;
-        private readonly IMetaDataHelper _metaDataHelper;
-        private readonly IAchievementRatesProvider _achievementRatesProvider;
-        private readonly ISatisfactionRatesProvider _satisfactionRatesProvider;
-        private readonly IGetActiveProviders _activeProviderClient;
-
-        private ICollection<string> _employerProviders;
-        private IEnumerable<Models.CourseDirectory.Provider> _courseDirectoryProviders;
-        private IEnumerable<int> _activeProviders;
-        IEnumerable<int> _courseDirectoryUkPrns;
-        private IEnumerable<FrameworkMetaData> _frameworks;
-        private IEnumerable<StandardMetaData> _standards;
-        List<AchievementRateProvider> _achievementRateProviders;
-        IEnumerable<AchievementRateNational> _achievementRateNationals;
-        List<SatisfactionRateProvider> _learnerSatisfactionRates;
-        List<SatisfactionRateProvider> _employerSatisfactionRates;
-        ICollection<string> _heiProviders;
 
         private readonly ILog _log;
 
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
-            IGetApprenticeshipProviders providerRepository,
-            IGetCourseDirectoryProviders courseDirectoryClient,
             ICourseDirectoryProviderMapper courseDirectoryProviderMapper,
-            IMetaDataHelper metaDataHelper,
-            IAchievementRatesProvider achievementRatesProvider,
-            ISatisfactionRatesProvider satisfactionRatesProvider,
-            IGetActiveProviders activeProviderClient,
             IMaintainProviderIndex searchIndexMaintainer,
             IProviderDataService providerDataService,
             ILog log)
         {
             _settings = settings;
-            _providerRepository = providerRepository;
-            _courseDirectoryClient = courseDirectoryClient;
-            _courseDirectoryProviderMapper = courseDirectoryProviderMapper;
-            _metaDataHelper = metaDataHelper;
-            _achievementRatesProvider = achievementRatesProvider;
-            _satisfactionRatesProvider = satisfactionRatesProvider;
-            _activeProviderClient = activeProviderClient;
-            _searchIndexMaintainer = searchIndexMaintainer;
             _providerDataService = providerDataService;
+            _courseDirectoryProviderMapper = courseDirectoryProviderMapper;
+            _searchIndexMaintainer = searchIndexMaintainer;
             _log = log;
         }
 
@@ -118,13 +86,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task IndexEntries(string indexName)
         {
-            await LoadDatasetsAsync();
+            var source = _providerDataService.LoadDatasetsAsync().Result;
 
-            LoadDatasets();
+            var providers = CreateProviders(source).ToList();
 
-            var providers = CreateProviders().ToList();
-
-            var providerSiteEnteries = providers.Where(x => _courseDirectoryUkPrns.Contains(x.Ukprn)).ToList();
+            var providerSiteEnteries = providers.Where(x => source.CourseDirectoryUkPrns.Contains(x.Ukprn)).ToList();
 
             var bulkStandardTasks = new List<Task<IBulkResponse>>();
             var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
@@ -142,64 +108,34 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
         }
 
-        private IEnumerable<Core.Models.Provider.Provider> CreateProviders()
+        private IEnumerable<CoreProvider> CreateProviders(ProviderSourceDto source)
         {
-            foreach (var ukprn in _activeProviders)
+            foreach (var ukprn in source.ActiveProviders)
             {
-                Core.Models.Provider.Provider provider;
-                if (_courseDirectoryUkPrns.Contains(ukprn))
+                CoreProvider provider;
+                if (source.CourseDirectoryUkPrns.Contains(ukprn))
                 {
-                    var courseDirectoryProvider = _courseDirectoryProviders.First(x => x.Ukprn == ukprn);
+                    var courseDirectoryProvider = source.CourseDirectoryProviders.First(x => x.Ukprn == ukprn);
                     provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
                 }
                 else
                 {
-                    provider = new Core.Models.Provider.Provider {Ukprn = ukprn};
+                    provider = new CoreProvider { Ukprn = ukprn};
                 }
 
-                var byProvidersFiltered = _achievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);
+                var byProvidersFiltered = source.AchievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);
 
-                provider.IsEmployerProvider = _employerProviders.Contains(provider.Ukprn.ToString());
-                provider.IsHigherEducationInstitute = _heiProviders.Contains(provider.Ukprn.ToString());
+                provider.IsEmployerProvider = source.EmployerProviders.Contains(provider.Ukprn.ToString());
+                provider.IsHigherEducationInstitute = source.HeiProviders.Contains(provider.Ukprn.ToString());
 
-                provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, _frameworks, byProvidersFiltered, _achievementRateNationals));
-                provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, _standards, byProvidersFiltered, _achievementRateNationals));
+                provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
+                provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
 
-                _providerDataService.SetLearnerSatisfactionRate(_learnerSatisfactionRates, provider);
-                _providerDataService.SetEmployerSatisfactionRate(_employerSatisfactionRates, provider);
+                _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
+                _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
 
                 yield return provider;
             }
-        }
-
-        private void LoadDatasets()
-        {
-            _employerProviders = _providerRepository.GetEmployerProviders();
-            _achievementRateProviders = _achievementRatesProvider.GetAllByProvider().ToList();
-            _achievementRateNationals = _achievementRatesProvider.GetAllNational();
-
-            _learnerSatisfactionRates = _satisfactionRatesProvider.GetAllLearnerSatisfactionByProvider().ToList();
-            _employerSatisfactionRates = _satisfactionRatesProvider.GetAllEmployerSatisfactionByProvider().ToList();
-
-            _heiProviders = _providerRepository.GetHeiProviders();
-        }
-
-        private async Task LoadDatasetsAsync()
-        {
-            var courseDirectoryProviders = Task.Run(() => _courseDirectoryClient.GetApprenticeshipProvidersAsync());
-            var activeProviders = Task.Run(() => _activeProviderClient.GetActiveProviders());
-
-            // TODO replace this with elastic search
-            var frameworks = Task.Run(() => _metaDataHelper.GetAllFrameworkMetaData());
-            var standards = Task.Run(() => _metaDataHelper.GetAllStandardsMetaData());
-
-            // From database
-            await Task.WhenAll(frameworks, standards, courseDirectoryProviders, activeProviders);
-            _courseDirectoryProviders = courseDirectoryProviders.Result;
-            _activeProviders = activeProviders.Result;
-            _courseDirectoryUkPrns = courseDirectoryProviders.Result.Select(x => x.Ukprn).ToList();
-            _frameworks = frameworks.Result;
-            _standards = standards.Result;
         }
     }
 }

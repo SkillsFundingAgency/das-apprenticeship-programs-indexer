@@ -1,21 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     public class ProviderDataService : IProviderDataService
     {
         private readonly ILog _logger;
+        private readonly IGetApprenticeshipProviders _providerRepository;
+        private readonly IGetCourseDirectoryProviders _courseDirectoryClient;
+        private readonly IMetaDataHelper _metaDataHelper;
+        private readonly IAchievementRatesProvider _achievementRatesProvider;
+        private readonly ISatisfactionRatesProvider _satisfactionRatesProvider;
+        private readonly IGetActiveProviders _activeProviderClient;
 
-        public ProviderDataService(ILog logger)
+
+        public ProviderDataService(IGetApprenticeshipProviders providerRepository,
+            IGetCourseDirectoryProviders courseDirectoryClient,
+            IMetaDataHelper metaDataHelper,
+            IAchievementRatesProvider achievementRatesProvider,
+            ISatisfactionRatesProvider satisfactionRatesProvider,
+            IGetActiveProviders activeProviderClient,
+            ILog logger)
         {
             _logger = logger;
+            _providerRepository = providerRepository;
+            _courseDirectoryClient = courseDirectoryClient;
+            _metaDataHelper = metaDataHelper;
+            _achievementRatesProvider = achievementRatesProvider;
+            _satisfactionRatesProvider = satisfactionRatesProvider;
+            _activeProviderClient = activeProviderClient;
+
         }
 
         public void SetLearnerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Core.Models.Provider.Provider provider)
@@ -114,6 +137,33 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 fi.NationalOverallAchievementRate =
                     GetNationalOverallAchievementRate(nationalAchievementRate);
             }
+        }
+
+        public async Task<ProviderSourceDto> LoadDatasetsAsync()
+        {
+            var courseDirectoryProviders = Task.Run(() => _courseDirectoryClient.GetApprenticeshipProvidersAsync());
+            var activeProviders = Task.Run(() => _activeProviderClient.GetActiveProviders());
+
+            // TODO replace this with elastic search
+            var frameworks = Task.Run(() => _metaDataHelper.GetAllFrameworkMetaData());
+            var standards = Task.Run(() => _metaDataHelper.GetAllStandardsMetaData());
+
+            // From database
+            await Task.WhenAll(frameworks, standards, courseDirectoryProviders, activeProviders);
+            return new ProviderSourceDto
+            {
+                CourseDirectoryProviders = courseDirectoryProviders.Result,
+                ActiveProviders = activeProviders.Result,
+                CourseDirectoryUkPrns = courseDirectoryProviders.Result.Select(x => x.Ukprn).ToList(),
+                Frameworks = frameworks.Result,
+                Standards = standards.Result,
+                EmployerProviders = _providerRepository.GetEmployerProviders(),
+                AchievementRateProviders = _achievementRatesProvider.GetAllByProvider().ToList(),
+                AchievementRateNationals = _achievementRatesProvider.GetAllNational(),
+                LearnerSatisfactionRates = _satisfactionRatesProvider.GetAllLearnerSatisfactionByProvider().ToList(),
+                EmployerSatisfactionRates = _satisfactionRatesProvider.GetAllEmployerSatisfactionByProvider().ToList(),
+                HeiProviders = _providerRepository.GetHeiProviders()
+            };
         }
 
         private Tuple<double?, string> ExtractValues(List<AchievementRateProvider> achievementRate)

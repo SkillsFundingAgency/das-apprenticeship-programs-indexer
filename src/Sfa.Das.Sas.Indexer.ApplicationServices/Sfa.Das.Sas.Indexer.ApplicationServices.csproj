@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyResolution\ApplicationServicesRegistry.cs" />
+    <Compile Include="Provider\Services\ProviderSourceDto.cs" />
     <Compile Include="Shared\Utility\IHttpPost.cs" />
     <Compile Include="Shared\Utility\IRetryWebRequest.cs" />
     <Compile Include="Shared\IndexerHelper.cs" />
