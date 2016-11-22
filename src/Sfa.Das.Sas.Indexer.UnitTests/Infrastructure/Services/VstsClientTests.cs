@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Infrastructure.Services;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services

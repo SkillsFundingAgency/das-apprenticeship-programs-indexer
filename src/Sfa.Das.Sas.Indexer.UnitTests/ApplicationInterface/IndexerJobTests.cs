@@ -1,7 +1,8 @@
 ﻿using Moq;
 using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Queue;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
 using Sfa.Das.Sas.Indexer.AzureWorkerRole;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationInterface

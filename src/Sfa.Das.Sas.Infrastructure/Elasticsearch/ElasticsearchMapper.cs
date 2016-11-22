@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nest;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Extensions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
@@ -13,8 +14,6 @@ using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
-
     using JobRoleItem = Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models.JobRoleItem;
 
     public class ElasticsearchMapper : IElasticsearchMapper

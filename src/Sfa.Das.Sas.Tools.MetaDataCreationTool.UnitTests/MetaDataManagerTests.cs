@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
@@ -97,10 +98,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 
             var standardJson = metaDataManager.GetStandardsMetaData();
 
-            var standard = standardJson.Find(m => m.Id == 2);
+            var standard = standardJson.FirstOrDefault(m => m.Id == 2);
             standard.NotionalEndLevel.Should().Be(4);
 
-            var standard2 = standardJson.Find(m => m.Id == 3);
+            var standard2 = standardJson.FirstOrDefault(m => m.Id == 3);
             standard2.StandardPdfUrl.Should().BeNullOrEmpty();
             standard2.AssessmentPlanPdfUrl.Should().BeNullOrEmpty();
             standard2.NotionalEndLevel.Should().Be(0);
@@ -136,7 +137,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 
             var standardJson = metaDataManager.GetStandardsMetaData();
 
-            var standard = standardJson.Find(m => m.Id == 2);
+            var standard = standardJson.FirstOrDefault(m => m.Id == 2);
             standard.StandardPdfUrl.Should().Be("https://www.gov.uk/link/to/ApprenticeshipPDF");
             standard.AssessmentPlanPdfUrl.Should().Be("https://www.gov.uk/link/to/AssessmentPDF");
         }
@@ -168,7 +169,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 
             var standardJson = metaDataManager.GetStandardsMetaData();
 
-            var standard = standardJson.Find(m => m.Id == 2);
+            var standard = standardJson.FirstOrDefault(m => m.Id == 2);
             standard.StandardPdfUrl.Should().BeEmpty();
             standard.AssessmentPlanPdfUrl.Should().BeEmpty();
         }

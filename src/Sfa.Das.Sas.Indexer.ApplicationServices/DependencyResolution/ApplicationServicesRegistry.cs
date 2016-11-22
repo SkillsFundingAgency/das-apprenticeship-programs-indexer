@@ -1,7 +1,10 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Standard;
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Services;
 using StructureMap;
 
@@ -18,7 +21,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.DependencyResolution
             For<IIndexSettings<IMaintainProviderIndex>>().Use<ProviderIndexSettings>();
             For<IGenericIndexerHelper<IMaintainProviderIndex>>().Use<ProviderIndexer>();
             For<IIndexerService<IMaintainProviderIndex>>().Use<IndexerService<IMaintainProviderIndex>>();
-            For<IProviderFeatures>().Use<ProviderIndexSettings>();
             For<IProviderDataService>().Use<ProviderDataService>();
 
             // Apprenticeships

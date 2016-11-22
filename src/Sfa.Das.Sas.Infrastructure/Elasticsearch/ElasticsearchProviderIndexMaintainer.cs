@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
@@ -63,7 +63,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
         }
 
-        private List<Task<IBulkResponse>> IndexFrameworks(string indexName, ICollection<Provider> indexEntries)
+        public List<Task<IBulkResponse>> IndexFrameworks(string indexName, ICollection<Provider> indexEntries)
         {
             var bulkProviderLocation = new BulkProviderClient(indexName, Client);
 
@@ -96,7 +96,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return bulkProviderLocation.GetTasks();
         }
 
-        private List<Task<IBulkResponse>> IndexProviders(string indexName, ICollection<Provider> indexEntries)
+        public List<Task<IBulkResponse>> IndexProviders(string indexName, ICollection<Provider> indexEntries)
         {
             var bulkProviderLocation = new BulkProviderClient(indexName, Client);
 
@@ -109,7 +109,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return bulkProviderLocation.GetTasks();
         }
 
-        private List<Task<IBulkResponse>> IndexStandards(string indexName, IEnumerable<Provider> indexEntries)
+        public List<Task<IBulkResponse>> IndexStandards(string indexName, IEnumerable<Provider> indexEntries)
         {
             var bulkProviderLocation = new BulkProviderClient(indexName, Client);
 

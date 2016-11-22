@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using Polly;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
 

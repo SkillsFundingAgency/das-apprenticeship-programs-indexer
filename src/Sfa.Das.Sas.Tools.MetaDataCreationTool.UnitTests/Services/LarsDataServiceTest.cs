@@ -4,9 +4,8 @@ using System.Linq;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Infrastructure;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
@@ -119,7 +118,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -143,7 +142,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -167,7 +166,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -190,7 +189,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -224,7 +223,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -260,7 +259,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -316,7 +315,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -342,7 +341,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -371,7 +370,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
             frameworks.First().FworkCode.Should().Be(_framework.FworkCode);
         }
 
@@ -391,7 +390,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
             frameworks.First().FworkCode.Should().Be(_framework.FworkCode);
         }
 
@@ -411,7 +410,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
             frameworks.First().FworkCode.Should().Be(_framework.FworkCode);
         }
 
@@ -431,7 +430,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
             frameworks.First().FworkCode.Should().Be(_framework.FworkCode);
         }
 
@@ -451,7 +450,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
             frameworks.First().FworkCode.Should().Be(_framework.FworkCode);
         }
 
@@ -465,7 +464,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -484,7 +483,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 
@@ -503,7 +502,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var frameworks = _sut.GetListOfCurrentFrameworks();
 
             // Assert
-            frameworks.Count.Should().Be(1);
+            frameworks.Count().Should().Be(1);
 
             var framework = frameworks.First();
 

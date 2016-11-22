@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Rest;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
 using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory;
-using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory.Models;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Stub
 {

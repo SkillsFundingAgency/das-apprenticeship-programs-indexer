@@ -3,8 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Http;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
@@ -13,8 +13,6 @@ using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 {
     using System;
-
-    using Sfa.Das.Sas.Indexer.ApplicationServices.MetaData;
 
     [TestFixture]
     public class VstsTest
