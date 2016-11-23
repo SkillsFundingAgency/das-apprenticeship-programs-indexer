@@ -34,20 +34,21 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             _ukprnRequestUkprnBatchSize = _infrastructureSettings.UkrlpRequestUkprnBatchSize;
         }
 
-        public async Task<IEnumerable<Provider>> GetLearnerProviderInformationAsync(string[] ukprns)
+        public async Task<IEnumerable<Provider>> GetLearnerProviderInformationAsync(List<string> ukprns)
         {
             try
             {
                 var providerList = new List<Provider>();
-                var ukprnsList = ukprns.ToList();
                 var noOfUkprnsProcessed = 0;
+
+                var ukprnsListSize = ukprns.Count;
 
                 do
                 {
-                    var noOfUkprnsUnprocessed = ukprns.Length - noOfUkprnsProcessed;
-                    var noOfUkprnsToSend = noOfUkprnsUnprocessed > _ukprnRequestUkprnBatchSize ? _ukprnRequestUkprnBatchSize : noOfUkprnsUnprocessed;
+                    var numberOfUkprnsUnprocessed = ukprnsListSize - noOfUkprnsProcessed;
+                    var numberOfUkprnsToSend = numberOfUkprnsUnprocessed > _ukprnRequestUkprnBatchSize ? _ukprnRequestUkprnBatchSize : numberOfUkprnsUnprocessed;
 
-                    var tmpList = ukprnsList.GetRange(noOfUkprnsProcessed, noOfUkprnsToSend).ToArray();
+                    var ukprnToRequest = ukprns.GetRange(noOfUkprnsProcessed, numberOfUkprnsToSend).ToArray();
 
                     var response = await _providerClientWrapper.RetrieveAllProvidersAsync(new ProviderQueryStructure
                     {
@@ -55,7 +56,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
                         SchemaVersion = "?",
                         SelectionCriteria = new SelectionCriteriaStructure
                         {
-                            UnitedKingdomProviderReferenceNumberList = tmpList,
+                            UnitedKingdomProviderReferenceNumberList = ukprnToRequest,
                             CriteriaCondition = QueryCriteriaConditionType.AND,
                             CriteriaConditionSpecified = true,
                             StakeholderId = _infrastructureSettings.UkrlpStakeholderId,
@@ -69,8 +70,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
                         response.ProviderQueryResponse.MatchingProviderRecords.Select(providerRecordStructure => _providerResponseMapper.MapFromUkrlpProviderRecord(providerRecordStructure));
                     providerList.AddRange(batchRecords);
 
-                    noOfUkprnsProcessed += noOfUkprnsToSend;
-                } while (noOfUkprnsProcessed < ukprns.Length);
+                    noOfUkprnsProcessed += numberOfUkprnsToSend;
+                } while (noOfUkprnsProcessed < ukprnsListSize);
 
                 return providerList;
             }

@@ -90,15 +90,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             var providers = CreateProviders(source).ToList();
 
-            var providerSiteEnteries = providers.Where(x => source.CourseDirectoryUkPrns.Contains(x.Ukprn)).ToList();
+            var providerSiteEntries = providers.Where(x => source.CourseDirectoryUkPrns.Contains(x.Ukprn)).ToList();
 
             var bulkStandardTasks = new List<Task<IBulkResponse>>();
             var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
             var bulkProviderTasks = new List<Task<IBulkResponse>>();
 
-            _log.Debug("Indexing " + providerSiteEnteries.Count + " provider sites");
-            bulkStandardTasks.AddRange(_searchIndexMaintainer.IndexStandards(indexName, providerSiteEnteries));
-            bulkFrameworkTasks.AddRange(_searchIndexMaintainer.IndexFrameworks(indexName, providerSiteEnteries));
+            _log.Debug("Indexing " + providerSiteEntries.Count + " provider sites");
+            bulkStandardTasks.AddRange(_searchIndexMaintainer.IndexStandards(indexName, providerSiteEntries));
+            bulkFrameworkTasks.AddRange(_searchIndexMaintainer.IndexFrameworks(indexName, providerSiteEntries));
 
             _log.Debug("Indexing " + providers.Count + " providers");
             bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));

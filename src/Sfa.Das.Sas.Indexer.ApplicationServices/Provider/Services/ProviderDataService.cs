@@ -152,9 +152,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             // From database
             await Task.WhenAll(frameworks, standards, courseDirectoryProviders, activeProviders);
-            
+
             // From UKRLP
-            var ukrlpProviders = await _ukrlpService.GetLearnerProviderInformationAsync(activeProviders.Result.Select(activeProvider => activeProvider.ToString()).ToArray());
+            var ukrlpProviders = await _ukrlpService.GetLearnerProviderInformationAsync(activeProviders.Result.Select(activeProvider => activeProvider.ToString()).ToList());
 
             return new ProviderSourceDto
             {

@@ -6,6 +6,6 @@
 
     public interface IUkrlpService
     {
-        Task<IEnumerable<Provider>> GetLearnerProviderInformationAsync(string[] ukprns);
+        Task<IEnumerable<Provider>> GetLearnerProviderInformationAsync(List<string> ukprns);
     }
 }
