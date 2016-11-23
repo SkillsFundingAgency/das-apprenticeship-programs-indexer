@@ -114,6 +114,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
                 NationalProvider = provider.NationalProvider,
                 ProviderName = provider.Name,
+                LegalName = provider.LegalName,
+                Addresses = provider.Addresses,
                 IsEmployerProvider = provider.IsEmployerProvider,
                 Website = provider.ContactDetails.Website,
                 Phone = provider.ContactDetails.Phone,

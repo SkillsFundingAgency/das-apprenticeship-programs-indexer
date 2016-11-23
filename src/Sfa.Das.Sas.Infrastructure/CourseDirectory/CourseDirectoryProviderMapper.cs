@@ -51,9 +51,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 
             prov.Name = !string.IsNullOrEmpty(input.Name) ? input.Name : prov.LegalName;
 
+            if (string.IsNullOrEmpty(prov.LegalName))
+            {
+                
+            }
+
             prov.NationalProvider = input.NationalProvider;
-            prov.ContactDetails =
-                new ContactInformation {Email = input.Email, Phone = input.Phone, Website = input.Website};
+            prov.ContactDetails.Email = input.Email;
+            prov.ContactDetails.Phone = input.Phone;
+            prov.ContactDetails.Website = input.Website;
             prov.EmployerSatisfaction = input.EmployerSatisfaction;
             prov.LearnerSatisfaction = input.LearnerSatisfaction;
             prov.MarketingInfo = input.MarketingInfo;

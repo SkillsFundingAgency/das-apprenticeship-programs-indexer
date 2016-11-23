@@ -18,7 +18,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
         public bool NationalProvider { get; set; }
 
-        public ContactInformation ContactDetails { get; set; }
+        public ContactInformation ContactDetails { get; set; } = new ContactInformation();
 
         public string MarketingInfo { get; set; }
 
