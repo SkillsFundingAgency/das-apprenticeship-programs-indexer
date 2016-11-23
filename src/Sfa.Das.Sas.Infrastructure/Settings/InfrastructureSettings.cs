@@ -24,6 +24,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string UkrlpQueryId => ConfigurationManager.AppSettings["UkrlpQueryId"];
 
+        public int UkrlpRequestUkprnBatchSize => int.Parse(ConfigurationManager.AppSettings["UkrlpRequestUkprnBatchSize"]);
+
         public string CourseDirectoryUri => CloudConfigurationManager.GetSetting("CourseDirectoryUri");
 
         public string UkrlpEndpointName => CloudConfigurationManager.GetSetting("UkrlpEndpointName");

@@ -19,6 +19,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
         private readonly IProviderQueryPortTypeClientWrapper _providerClientWrapper;
         private readonly IUkrlpProviderResponseMapper _providerResponseMapper;
         private readonly ILog _logger;
+        private readonly int _ukprnRequestUkprnBatchSize;
 
         public UkrlpService(
             IInfrastructureSettings infrastructureSettings,
@@ -30,32 +31,48 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             _providerClientWrapper = providerClientWrapper;
             _providerResponseMapper = providerResponseMapper;
             _logger = logger;
+            _ukprnRequestUkprnBatchSize = _infrastructureSettings.UkrlpRequestUkprnBatchSize;
         }
 
         public async Task<IEnumerable<Provider>> GetLearnerProviderInformationAsync(string[] ukprns)
         {
             try
             {
-                var response = await _providerClientWrapper.RetrieveAllProvidersAsync(new ProviderQueryStructure
-                {
-                    QueryId = _infrastructureSettings.UkrlpQueryId,
-                    SchemaVersion = "?",
-                    SelectionCriteria = new SelectionCriteriaStructure
-                    {
-                        UnitedKingdomProviderReferenceNumberList = ukprns,
-                        CriteriaCondition = QueryCriteriaConditionType.AND,
-                        CriteriaConditionSpecified = true,
-                        StakeholderId = _infrastructureSettings.UkrlpStakeholderId,
-                        ApprovedProvidersOnly = YesNoType.No,
-                        ApprovedProvidersOnlySpecified = true,
-                        ProviderStatus = _infrastructureSettings.UkrlpProviderStatus
-                    }
-                });
+                var providerList = new List<Provider>();
+                var ukprnsList = ukprns.ToList();
+                var noOfUkprnsProcessed = 0;
 
-                return response
-                        .ProviderQueryResponse
-                        .MatchingProviderRecords
-                        .Select(providerRecordStructure => _providerResponseMapper.MapFromUkrlpProviderRecord(providerRecordStructure));
+                do
+                {
+                    var noOfUkprnsUnprocessed = ukprns.Length - noOfUkprnsProcessed;
+                    var noOfUkprnsToSend = noOfUkprnsUnprocessed > _ukprnRequestUkprnBatchSize ? _ukprnRequestUkprnBatchSize : noOfUkprnsUnprocessed;
+
+                    var tmpList = ukprnsList.GetRange(noOfUkprnsProcessed, noOfUkprnsToSend).ToArray();
+
+                    var response = await _providerClientWrapper.RetrieveAllProvidersAsync(new ProviderQueryStructure
+                    {
+                        QueryId = _infrastructureSettings.UkrlpQueryId,
+                        SchemaVersion = "?",
+                        SelectionCriteria = new SelectionCriteriaStructure
+                        {
+                            UnitedKingdomProviderReferenceNumberList = tmpList,
+                            CriteriaCondition = QueryCriteriaConditionType.AND,
+                            CriteriaConditionSpecified = true,
+                            StakeholderId = _infrastructureSettings.UkrlpStakeholderId,
+                            ApprovedProvidersOnly = YesNoType.No,
+                            ApprovedProvidersOnlySpecified = true,
+                            ProviderStatus = _infrastructureSettings.UkrlpProviderStatus
+                        }
+                    });
+
+                    var batchRecords =
+                        response.ProviderQueryResponse.MatchingProviderRecords.Select(providerRecordStructure => _providerResponseMapper.MapFromUkrlpProviderRecord(providerRecordStructure));
+                    providerList.AddRange(batchRecords);
+
+                    noOfUkprnsProcessed += noOfUkprnsToSend;
+                } while (noOfUkprnsProcessed < ukprns.Length);
+
+                return providerList;
             }
             catch (Exception ex)
             {
