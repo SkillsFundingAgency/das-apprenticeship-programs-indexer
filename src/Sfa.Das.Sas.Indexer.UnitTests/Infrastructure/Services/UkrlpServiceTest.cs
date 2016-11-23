@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
+﻿using System.Collections.Generic;
+
+namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -29,7 +31,7 @@
 
             var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, new UkrlpProviderResponseMapper(), Mock.Of<ILog>());
 
-            var models = Task.Run(() => sut.GetLearnerProviderInformationAsync(new [] { "1234" }));
+            var models = Task.Run(() => sut.GetLearnerProviderInformationAsync(new List<string> { "1234" }));
 
             Task.WaitAll(models);
 
