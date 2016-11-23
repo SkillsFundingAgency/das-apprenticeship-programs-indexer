@@ -1,16 +1,16 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Moq;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Infrastructure.Mapping;
-using Sfa.Das.Sas.Indexer.Infrastructure.Services;
-using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
-using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Moq;
+    using NUnit.Framework;
+    using Sfa.Das.Sas.Indexer.Core.Logging;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Mapping;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Services;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
+
     [TestFixture]
     public class UkrlpServiceTest
     {
@@ -23,12 +23,15 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
             mockInfrastructureSettings.SetupGet(x => x.UkrlpQueryId).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpStakeholderId).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpProviderStatus).Returns(It.IsAny<string>());
+            mockInfrastructureSettings.SetupGet(x => x.UkrlpRequestUkprnBatchSize).Returns(2);
 
             mockProviderQueryPortTypeClientWrapper.Setup(x => x.RetrieveAllProvidersAsync(It.IsAny<ProviderQueryStructure>())).Returns(Task.FromResult(GetClientResponseMockValues()));
 
             var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, new UkrlpProviderResponseMapper(), Mock.Of<ILog>());
 
             var models = Task.Run(() => sut.GetLearnerProviderInformationAsync(new [] { "1234" }));
+
+            Task.WaitAll(models);
 
             Assert.AreEqual(2, models.Result.ToList().Count);
         }
