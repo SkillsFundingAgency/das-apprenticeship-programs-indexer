@@ -67,6 +67,7 @@
     <Compile Include="Models\Framework\LearningDeliveryMetaData.cs" />
     <Compile Include="Models\JobRoleItem.cs" />
     <Compile Include="Models\Provider\Address.cs" />
+    <Compile Include="Models\Provider\ContactAddress.cs" />
     <Compile Include="Models\Provider\ContactInformation.cs" />
     <Compile Include="Models\Provider\DeliveryInformation.cs" />
     <Compile Include="Models\Provider\FrameworkInformation.cs" />

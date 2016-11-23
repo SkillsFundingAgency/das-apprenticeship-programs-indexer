@@ -1,25 +1,14 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-
-namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
+﻿namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-
-    using Castle.Core.Internal;
-
-    using FluentAssertions;
-
     using Moq;
-
     using NUnit.Framework;
-
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
     using Sfa.Das.Sas.Indexer.Core.Services;
     using CourseDirectoryProvider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory.Provider;
 
@@ -40,11 +29,14 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 
         private Mock<ISatisfactionRatesProvider> _satisfactionProvider;
 
+        private Mock<IUkrlpService> _mockUkrlpProviderService;
+
         [SetUp]
         public void SetUp()
         {
             _mockProviderRepository = new Mock<IGetApprenticeshipProviders>();
             _mockActiveProviderRepository = new Mock<IGetActiveProviders>();
+            _mockUkrlpProviderService = new Mock<IUkrlpService>();
             _mockMetaDataHelper = new Mock<IMetaDataHelper>();
             _achievementProvider = new Mock<IAchievementRatesProvider>();
             _satisfactionProvider = new Mock<ISatisfactionRatesProvider>();
@@ -61,6 +53,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             _sut = new ProviderDataService(
                 _mockProviderRepository.Object,
                 _mockCourseDirectoryRepository.Object,
+                _mockUkrlpProviderService.Object,
                 _mockMetaDataHelper.Object,
                 _achievementProvider.Object,
                 _satisfactionProvider.Object,

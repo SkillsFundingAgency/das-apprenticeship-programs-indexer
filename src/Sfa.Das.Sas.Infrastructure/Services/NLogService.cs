@@ -21,8 +21,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
         private string _version;
 #pragma warning disable CS0169
 #pragma warning disable S1144 // Unused private types or members should be removed
-        private ElasticSearchTarget _dummy; // Reference so assembly is copied to Primary output.
-        private ApplicationInsightsTarget _dummy2; // Reference so assembly is copied to Primary output.
+        private ElasticSearchTarget _dummy; // Reference so assembly is copied to PAON output.
+        private ApplicationInsightsTarget _dummy2; // Reference so assembly is copied to PAON output.
         private AzureEventHubTarget _dummy3;
 #pragma warning restore S1144 // Unused private types or members should be removed
 #pragma warning disable CS0169

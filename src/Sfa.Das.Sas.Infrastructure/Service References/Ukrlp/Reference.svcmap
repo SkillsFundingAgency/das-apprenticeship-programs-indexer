@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="42263f30-9f18-4471-84d2-d2ddefb123e2" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://testws.ukrlp.co.uk/UkrlpProviderQueryWS4/ProviderQueryServiceV4?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="CommonSimpleTypes-v1-3.xsd" MetadataType="Schema" ID="ad4cba02-24f7-4a49-9199-98e254b3842a" SourceId="1" SourceUrl="http://testws.ukrlp.co.uk/UkrlpProviderQueryWS4/ProviderQueryServiceV4?xsd=3" />
+    <MetadataFile FileName="ProviderQueryServiceV4.wsdl" MetadataType="Wsdl" ID="99aaefef-eef6-49ce-9885-456e0449a96c" SourceId="1" SourceUrl="http://testws.ukrlp.co.uk/UkrlpProviderQueryWS4/ProviderQueryServiceV4?wsdl" />
+    <MetadataFile FileName="PersonDescriptiveTypes.xsd" MetadataType="Schema" ID="ff6259a7-d08d-4f64-ac20-a6eddd652c81" SourceId="1" SourceUrl="http://testws.ukrlp.co.uk/UkrlpProviderQueryWS4/ProviderQueryServiceV4?xsd=4" />
+    <MetadataFile FileName="UKRLP-CommonLibrary-v1-6.xsd" MetadataType="Schema" ID="e1a302f4-1422-4436-bd6b-073900b431d3" SourceId="1" SourceUrl="http://testws.ukrlp.co.uk/UkrlpProviderQueryWS4/ProviderQueryServiceV4?xsd=2" />
+    <MetadataFile FileName="BS7666.xsd" MetadataType="Schema" ID="63b4cd63-9712-45a3-9940-d6d09aa1251c" SourceId="1" SourceUrl="http://testws.ukrlp.co.uk/UkrlpProviderQueryWS4/ProviderQueryServiceV4?xsd=5" />
+    <MetadataFile FileName="ProviderQueryServiceV4.xsd" MetadataType="Schema" ID="727e3293-60e1-43c9-b904-d0edb2b58e7c" SourceId="1" SourceUrl="http://testws.ukrlp.co.uk/UkrlpProviderQueryWS4/ProviderQueryServiceV4?xsd=1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

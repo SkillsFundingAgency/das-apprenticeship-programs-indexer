@@ -173,7 +173,16 @@
     <Compile Include="Elasticsearch\Models\TrainingLocation.cs" />
     <Compile Include="Elasticsearch\Models\ProviderDocument.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Mapping\IUkrlpProviderResponseMapper.cs" />
+    <Compile Include="Mapping\IUkrlpProviderWrapperMapper.cs" />
+    <Compile Include="Mapping\UkrlpProviderResponseMapper.cs" />
+    <Compile Include="Mapping\UkrlpProviderWrapperMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\Ukrlp\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Services\CsvService.cs" />
     <Compile Include="Elasticsearch\ElasticsearchClientFactory.cs" />
     <Compile Include="Services\FileHelper.cs" />
@@ -183,7 +192,10 @@
     <Compile Include="Services\NLogService.cs" />
     <Compile Include="CourseDirectory\CourseDirectoryClient.cs" />
     <Compile Include="Services\RetryService.cs" />
+    <Compile Include="Services\UkrlpService.cs" />
     <Compile Include="Services\VstsClient.cs" />
+    <Compile Include="Services\Wrappers\IUkrlpClient.cs" />
+    <Compile Include="Services\Wrappers\UkrlpClient.cs" />
     <Compile Include="Services\ZipFileExtractor.cs" />
     <Compile Include="Settings\AppConfigSettingsProvider.cs" />
     <Compile Include="Settings\ElasticsearchSettings.cs" />
@@ -196,18 +208,43 @@
     <Compile Include="Settings\MachineSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="NLog.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Service References\Ukrlp\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\Ukrlp\configuration.svcinfo" />
+    <None Include="Service References\Ukrlp\configuration91.svcinfo" />
     <None Include="app.config" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Service References\Ukrlp\BS7666.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Ukrlp\CommonSimpleTypes-v1-3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Ukrlp\PersonDescriptiveTypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Ukrlp\ProviderQueryServiceV4.wsdl" />
+    <None Include="Service References\Ukrlp\ProviderQueryServiceV4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Ukrlp\Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Ukrlp\Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Ukrlp\UKRLP-CommonLibrary-v1-6.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Sfa.Das.Sas.Indexer.Infrastructure.ruleset" />
     <None Include="stylecop.json" />
   </ItemGroup>
@@ -226,7 +263,12 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Ukrlp\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

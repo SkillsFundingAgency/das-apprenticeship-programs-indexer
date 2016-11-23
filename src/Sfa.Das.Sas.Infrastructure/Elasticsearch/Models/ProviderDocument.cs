@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 {
     public class ProviderDocument
@@ -9,6 +12,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         public bool IsHigherEducationInstitute { get; set; }
 
         public string ProviderName { get; set; }
+
+        public string LegalName { get; set; }
+
+        public IEnumerable<ContactAddress> Addresses { get; set; }
 
         public bool IsEmployerProvider { get; set; }
 

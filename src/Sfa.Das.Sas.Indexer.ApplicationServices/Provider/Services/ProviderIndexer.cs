@@ -90,15 +90,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             var providers = CreateProviders(source).ToList();
 
-            var providerSiteEnteries = providers.Where(x => source.CourseDirectoryUkPrns.Contains(x.Ukprn)).ToList();
+            var providerSiteEntries = providers.Where(x => source.CourseDirectoryUkPrns.Contains(x.Ukprn)).ToList();
 
             var bulkStandardTasks = new List<Task<IBulkResponse>>();
             var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
             var bulkProviderTasks = new List<Task<IBulkResponse>>();
 
-            _log.Debug("Indexing " + providerSiteEnteries.Count + " provider sites");
-            bulkStandardTasks.AddRange(_searchIndexMaintainer.IndexStandards(indexName, providerSiteEnteries));
-            bulkFrameworkTasks.AddRange(_searchIndexMaintainer.IndexFrameworks(indexName, providerSiteEnteries));
+            _log.Debug("Indexing " + providerSiteEntries.Count + " provider sites");
+            bulkStandardTasks.AddRange(_searchIndexMaintainer.IndexStandards(indexName, providerSiteEntries));
+            bulkFrameworkTasks.AddRange(_searchIndexMaintainer.IndexFrameworks(indexName, providerSiteEntries));
 
             _log.Debug("Indexing " + providers.Count + " providers");
             bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
@@ -112,16 +112,23 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             foreach (var ukprn in source.ActiveProviders)
             {
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString());
                 CoreProvider provider;
+                
                 if (source.CourseDirectoryUkPrns.Contains(ukprn))
                 {
+
                     var courseDirectoryProvider = source.CourseDirectoryProviders.First(x => x.Ukprn == ukprn);
                     provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
                 }
                 else
                 {
-                    provider = new CoreProvider { Ukprn = ukprn};
+                    provider = _courseDirectoryProviderMapper.CreateFrom(ukrlpProvider);
                 }
+
+                provider.LegalName = ukrlpProvider.ProviderName;
+                provider.Addresses = ukrlpProvider.ProviderContact.Select(_courseDirectoryProviderMapper.MapAddress);
+                
 
                 var byProvidersFiltered = source.AchievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);
 

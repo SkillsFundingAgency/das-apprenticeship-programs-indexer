@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 
@@ -8,6 +9,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
     {
         public IEnumerable<string> EmployerProviders { get; set; }
         public IEnumerable<Models.CourseDirectory.Provider> CourseDirectoryProviders { get; set; }
+        public UkrlpProviderResponse UkrlpProviders { get; set; }
         public IEnumerable<int> ActiveProviders { get; set; }
         public IEnumerable<int> CourseDirectoryUkPrns { get; set; }
         public IEnumerable<FrameworkMetaData> Frameworks { get; set; }

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
@@ -41,6 +43,64 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             };
 
             return providerImport;
+        }
+
+        public Provider PopulateExistingProviderFromCD(CourseDirectoryProvider input, Provider prov)
+        {
+            var providerLocations = input.Locations.Select(MapToLocationEntity);
+
+            prov.Id = input.Id.ToString();
+
+            prov.Name = input.Name;
+
+            
+            prov.NationalProvider = input.NationalProvider;
+            prov.ContactDetails.Email = input.Email;
+            prov.ContactDetails.Phone = input.Phone;
+            prov.ContactDetails.Website = input.Website;
+            prov.EmployerSatisfaction = input.EmployerSatisfaction;
+            prov.LearnerSatisfaction = input.LearnerSatisfaction;
+            prov.MarketingInfo = input.MarketingInfo;
+            prov.Standards = GetStandardsFromIList(input.Standards, providerLocations);
+            prov.Frameworks = GetFrameworksFromIList(input.Frameworks, providerLocations);
+            prov.Locations = providerLocations;
+
+            return prov;
+        }
+
+        public Provider CreateFrom(ApplicationServices.Provider.Models.UkRlp.Provider ukrlpProvider)
+        {
+            ProviderContact contact = GetPrimaryOrLegalContact(ukrlpProvider);
+
+            return new Provider
+            {
+                Ukprn = Convert.ToInt32(ukrlpProvider.UnitedKingdomProviderReferenceNumber),
+                Name = ukrlpProvider.ProviderName,
+                ContactDetails = new ContactInformation
+                {
+                    Email = contact.ContactEmail,
+                    Phone = contact.ContactTelephone1,
+                    Website = contact.ContactWebsiteAddress
+                }
+            };
+        }
+
+        public Core.Models.Provider.ContactAddress MapAddress(ProviderContact contact)
+        {
+            return new Core.Models.Provider.ContactAddress
+            {
+                Primary = contact.ContactAddress?.PAON,
+                PostCode = contact.ContactAddress?.PostCode,
+                Secondary = contact.ContactAddress?.SAON,
+                Town = contact.ContactAddress?.PostTown,
+                Street = contact.ContactAddress?.StreetDescription
+
+            };
+        }
+
+        private static ProviderContact GetPrimaryOrLegalContact(ApplicationServices.Provider.Models.UkRlp.Provider ukrlpProvider)
+        {
+            return ukrlpProvider.ProviderContact.OrderByDescending(x => x.ContactType).FirstOrDefault();
         }
 
         private IEnumerable<StandardInformation> GetStandardsFromIList(IList<Standard> standards, IEnumerable<Location> providerLocations)
