@@ -13,13 +13,7 @@
                 Ukprn = int.Parse(record.UnitedKingdomProviderReferenceNumber),
                 Name = record.ProviderName,
                 LegalName = record.ProviderName,
-                Addresses = record.ProviderContact?.Select(MapFromContactAddress).ToList(),
-                ContactDetails = new ContactInformation
-                {
-                    Email = record.ProviderContact?.First(c => c.ContactType == "P").ContactEmail,
-                    Phone = record.ProviderContact?.First(c => c.ContactType == "P").ContactTelephone1,
-                    Website = record.ProviderContact?.First(c => c.ContactType == "P").ContactWebsiteAddress
-                }
+                Addresses = record.ProviderContact?.Select(MapFromContactAddress).ToList()
             };
 
             return provider;
