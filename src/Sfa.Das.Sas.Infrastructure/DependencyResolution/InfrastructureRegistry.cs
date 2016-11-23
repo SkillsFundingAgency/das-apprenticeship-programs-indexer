@@ -11,7 +11,9 @@ using Sfa.Das.Sas.Indexer.Infrastructure.Azure;
 using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+using Sfa.Das.Sas.Indexer.Infrastructure.Mapping;
 using Sfa.Das.Sas.Indexer.Infrastructure.Services;
+using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using StructureMap;
 
@@ -48,6 +50,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
             For<IDatabaseProvider>().Use<DatabaseProvider>();
             For<IAchievementRatesProvider>().Use<AchievementRatesProvider>();
             For<ISatisfactionRatesProvider>().Use<SatisfactionRatesProvider>();
+            For<IUkrlpService>().Use<UkrlpService>();
+            For<IProviderQueryPortTypeClientWrapper>().Use<ProviderQueryPortTypeClientWrapper>();
+            For<IUkrlpProviderResponseMapper>().Use<UkrlpProviderResponseMapper>();
         }
     }
 }
