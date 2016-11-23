@@ -5,6 +5,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Mapping
 {
     public interface IUkrlpProviderResponseMapper
     {
-        Provider MapFromUkrlpProviderRecord(ProviderRecordStructure record);
+        //Provider MapFromUkrlpProviderRecord(Services.Wrappers.Provider record);
     }
 }

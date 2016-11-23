@@ -154,7 +154,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             await Task.WhenAll(frameworks, standards, courseDirectoryProviders, activeProviders);
 
             // From UKRLP
-            var ukrlpProviders = await _ukrlpService.GetLearnerProviderInformationAsync(activeProviders.Result.Select(activeProvider => activeProvider.ToString()).ToList());
+            var ukrlpProviders = _ukrlpService.GetProviders(activeProviders.Result);
 
             return new ProviderSourceDto
             {

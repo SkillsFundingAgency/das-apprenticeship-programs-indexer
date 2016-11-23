@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema xmlns="http://www.govtalk.gov.uk/people/bs7666" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.govtalk.gov.uk/people/bs7666" version="2.0" id="BS7666" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <xsd:annotation>
     <xsd:appinfo>
@@ -47,7 +47,7 @@
       </xsd:element>
       <xsd:element name="PAON" type="AONstructure">
         <xsd:annotation>
-          <xsd:documentation>Primary Addressable Object</xsd:documentation>
+          <xsd:documentation>PAON Addressable Object</xsd:documentation>
         </xsd:annotation>
       </xsd:element>
       <xsd:sequence>

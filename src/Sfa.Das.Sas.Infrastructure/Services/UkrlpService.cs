@@ -1,62 +1,59 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using Sfa.Das.Sas.Indexer.Infrastructure.Mapping;
-using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
+﻿using System.Linq;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.Core.Logging;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
     using Ukrlp;
+    using Provider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp.Provider;
 
     public class UkrlpService : IUkrlpService
     {
         private readonly IInfrastructureSettings _infrastructureSettings;
-        private readonly IProviderQueryPortTypeClientWrapper _providerClientWrapper;
-        private readonly IUkrlpProviderResponseMapper _providerResponseMapper;
+        private readonly IUkrlpClient _providerClient;
         private readonly ILog _logger;
         private readonly int _ukprnRequestUkprnBatchSize;
 
         public UkrlpService(
             IInfrastructureSettings infrastructureSettings,
-            IProviderQueryPortTypeClientWrapper providerClientWrapper,
-            IUkrlpProviderResponseMapper providerResponseMapper,
+            IUkrlpClient providerClient,
             ILog logger)
         {
             _infrastructureSettings = infrastructureSettings;
-            _providerClientWrapper = providerClientWrapper;
-            _providerResponseMapper = providerResponseMapper;
+            _providerClient = providerClient;
             _logger = logger;
             _ukprnRequestUkprnBatchSize = _infrastructureSettings.UkrlpRequestUkprnBatchSize;
         }
 
-        public async Task<IEnumerable<Provider>> GetLearnerProviderInformationAsync(List<string> ukprns)
+        public UkrlpProviderResponse GetProviders(IEnumerable<int> ukprns)
         {
             try
             {
                 var providerList = new List<Provider>();
                 var noOfUkprnsProcessed = 0;
 
-                var ukprnsListSize = ukprns.Count;
+                var ukprnsListSize = ukprns.Count();
 
                 do
                 {
                     var numberOfUkprnsUnprocessed = ukprnsListSize - noOfUkprnsProcessed;
                     var numberOfUkprnsToSend = numberOfUkprnsUnprocessed > _ukprnRequestUkprnBatchSize ? _ukprnRequestUkprnBatchSize : numberOfUkprnsUnprocessed;
 
-                    var ukprnToRequest = ukprns.GetRange(noOfUkprnsProcessed, numberOfUkprnsToSend).ToArray();
+                    var ukprnToRequest = ukprns.Skip(noOfUkprnsProcessed).Take(numberOfUkprnsToSend);
 
-                    var response = await _providerClientWrapper.RetrieveAllProvidersAsync(new ProviderQueryStructure
+                    var response = _providerClient.RetrieveAllProviders(new ProviderQueryStructure
                     {
                         QueryId = _infrastructureSettings.UkrlpQueryId,
                         SchemaVersion = "?",
                         SelectionCriteria = new SelectionCriteriaStructure
                         {
-                            UnitedKingdomProviderReferenceNumberList = ukprnToRequest,
+                            UnitedKingdomProviderReferenceNumberList = ukprnToRequest.Select(x => x.ToString()).ToArray(),
                             CriteriaCondition = QueryCriteriaConditionType.AND,
                             CriteriaConditionSpecified = true,
                             StakeholderId = _infrastructureSettings.UkrlpStakeholderId,
@@ -66,14 +63,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
                         }
                     });
 
-                    var batchRecords =
-                        response.ProviderQueryResponse.MatchingProviderRecords.Select(providerRecordStructure => _providerResponseMapper.MapFromUkrlpProviderRecord(providerRecordStructure));
-                    providerList.AddRange(batchRecords);
+                    providerList.AddRange(response);
 
                     noOfUkprnsProcessed += numberOfUkprnsToSend;
                 } while (noOfUkprnsProcessed < ukprnsListSize);
 
-                return providerList;
+                return new UkrlpProviderResponse { MatchingProviderRecords = providerList};
             }
             catch (Exception ex)
             {

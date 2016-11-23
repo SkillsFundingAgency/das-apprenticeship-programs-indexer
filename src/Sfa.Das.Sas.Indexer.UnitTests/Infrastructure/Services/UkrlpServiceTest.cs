@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
@@ -20,25 +21,49 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
         public void ShouldReturnProviderResults()
         {
             Mock<IInfrastructureSettings> mockInfrastructureSettings = new Mock<IInfrastructureSettings>();
-            Mock<IProviderQueryPortTypeClientWrapper> mockProviderQueryPortTypeClientWrapper = new Mock<IProviderQueryPortTypeClientWrapper>();
+            Mock<IUkrlpClient> mockProviderQueryPortTypeClientWrapper = new Mock<IUkrlpClient>();
 
             mockInfrastructureSettings.SetupGet(x => x.UkrlpQueryId).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpStakeholderId).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpProviderStatus).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpRequestUkprnBatchSize).Returns(2);
 
-            mockProviderQueryPortTypeClientWrapper.Setup(x => x.RetrieveAllProvidersAsync(It.IsAny<ProviderQueryStructure>())).Returns(Task.FromResult(GetClientResponseMockValues()));
+            mockProviderQueryPortTypeClientWrapper.Setup(x => x.RetrieveAllProviders(It.IsAny<ProviderQueryStructure>())).Returns(GetClientResponseMockValues());
 
-            var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, new UkrlpProviderResponseMapper(), Mock.Of<ILog>());
+            var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, Mock.Of<ILog>());
 
-            var models = Task.Run(() => sut.GetLearnerProviderInformationAsync(new List<string> { "1234" }));
+            var models = sut.GetProviders(new List<int> { 1234 });
+            
 
-            Task.WaitAll(models);
-
-            Assert.AreEqual(2, models.Result.ToList().Count);
+            Assert.AreEqual(2, models.MatchingProviderRecords.Count());
         }
 
-        private static response GetClientResponseMockValues()
+        private static IEnumerable<Provider> GetClientResponseMockValues()
+        {
+            yield return new Provider
+            {
+                ProviderName = "Abc Ltd",
+                ProviderContact = new[]
+                {
+                    new ProviderContact
+                    {
+                        ContactType = "P",
+                        ContactAddress = new ContactAddress
+                        {
+                            StreetDescription = "Down a Road",
+                            PostTown = "Coventry",
+                            PostCode = "EY6 7GH",
+                            PAON = "sdfsdf",
+                            SAON = "sdfsdf"
+                        }
+                    }
+                },
+                UnitedKingdomProviderReferenceNumber = "1234"
+            };
+            yield return new Provider { UnitedKingdomProviderReferenceNumber = "5678"};
+        }
+
+        private static response GetClientResponseMockValues2()
         {
             ProviderRecordStructure[] prs = {
                 new ProviderRecordStructure
