@@ -117,9 +117,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 LegalName = provider.LegalName,
                 Addresses = provider.Addresses,
                 IsEmployerProvider = provider.IsEmployerProvider,
-                Website = provider.ContactDetails.Website,
-                Phone = provider.ContactDetails.Phone,
-                Email = provider.ContactDetails.Email,
+                Website = provider.ContactDetails?.Website,
+                Phone = provider.ContactDetails?.Phone,
+                Email = provider.ContactDetails?.Email,
                 EmployerSatisfaction = provider.EmployerSatisfaction,
                 LearnerSatisfaction = provider.LearnerSatisfaction
             };
