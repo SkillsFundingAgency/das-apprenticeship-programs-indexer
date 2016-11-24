@@ -66,6 +66,8 @@
                     noOfUkprnsProcessed += numberOfUkprnsToSend;
                 } while (noOfUkprnsProcessed < ukprnsListSize);
 
+                _logger.Debug($"Retreived {providerList.Count} Providers from UKRLP");
+
                 return new UkrlpProviderResponse { MatchingProviderRecords = providerList};
             }
             catch (Exception ex)

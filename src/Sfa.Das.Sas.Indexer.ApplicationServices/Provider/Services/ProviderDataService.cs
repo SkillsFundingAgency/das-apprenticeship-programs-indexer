@@ -150,10 +150,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var frameworks = Task.Run(() => _metaDataHelper.GetAllFrameworkMetaData());
             var standards = Task.Run(() => _metaDataHelper.GetAllStandardsMetaData());
 
-            // From database
             await Task.WhenAll(frameworks, standards, courseDirectoryProviders, activeProviders);
 
-            // From UKRLP
+            _logger.Debug($"Finished loading frameworks, standards, course directory, active providers");
+
             var ukrlpProviders = _ukrlpService.GetProviders(activeProviders.Result);
 
             return new ProviderSourceDto

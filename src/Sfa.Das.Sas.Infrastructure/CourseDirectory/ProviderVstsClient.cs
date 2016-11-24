@@ -6,6 +6,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Hei;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
@@ -15,19 +16,22 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
         private readonly IConvertFromCsv _convertFromCsv;
         private readonly IVstsClient _vstsClient;
         private readonly IAppServiceSettings _appServiceSettings;
+        private readonly ILog _logger;
 
         public ProviderVstsClient(IConvertFromCsv _convertFromCsv,
             IVstsClient _vstsClient,
-            IAppServiceSettings _appServiceSettings)
+            IAppServiceSettings _appServiceSettings, ILog logger)
         {
             this._convertFromCsv = _convertFromCsv;
             this._vstsClient = _vstsClient;
             this._appServiceSettings = _appServiceSettings;
+            _logger = logger;
         }
 
         public ICollection<string> GetEmployerProviders()
         {
             var records = _convertFromCsv.CsvTo<EmployerProviderCsvRecord>(LoadEmployerProvidersFromVsts());
+            _logger.Debug($"Retreived {records.Count} Employer providers");
 
             return records.Select(employerProviderCsvRecord => employerProviderCsvRecord.UkPrn.ToString()).ToList();
         }

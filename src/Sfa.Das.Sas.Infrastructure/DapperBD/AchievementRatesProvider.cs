@@ -9,10 +9,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
     public class AchievementRatesProvider : IAchievementRatesProvider
     {
         private readonly IDatabaseProvider _databaseProvider;
+        private readonly ILog _logger;
 
-        public AchievementRatesProvider(IDatabaseProvider databaseProvider)
+        public AchievementRatesProvider(IDatabaseProvider databaseProvider, ILog logger)
         {
             _databaseProvider = databaseProvider;
+            _logger = logger;
         }
 
         public IEnumerable<AchievementRateProvider> GetAllByProvider()
@@ -30,7 +32,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
                     AND [Sector Subject Area Tier 2] <> 'All SSA T2'
                     AND [Apprenticeship Level] <> 'All'
                     ";
-            return _databaseProvider.Query<AchievementRateProvider>(query);
+            var achievementRateProviders = _databaseProvider.Query<AchievementRateProvider>(query);
+            _logger.Debug($"Retreived {achievementRateProviders.Count()} Provider rates");
+            return achievementRateProviders;
         }
 
         public IEnumerable<AchievementRateNational> GetAllNational()
@@ -56,7 +60,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
                     ";
 
             var results = _databaseProvider.Query<AchievementRateNational>(query, new { date = latestHybridYear });
-
+            _logger.Debug($"Retreived {results.Count()} Provider rates");
             return results;
         }
 
