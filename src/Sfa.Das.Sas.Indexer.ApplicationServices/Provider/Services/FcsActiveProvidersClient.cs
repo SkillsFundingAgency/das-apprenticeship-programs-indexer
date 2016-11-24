@@ -29,6 +29,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task<IEnumerable<int>> GetActiveProviders()
         {
+            _logger.Debug("Starting to retreive active providers");
             var loadProvidersFromVsts = await _vstsClient.GetFileContentAsync($"fcs/{_appServiceSettings.EnvironmentName}/fcs-active.csv");
             var records = _convertFromCsv.CsvTo<ActiveProviderCsvRecord>(loadProvidersFromVsts);
             _logger.Debug($"Retrieved {records.Count} providers on the FCS list");

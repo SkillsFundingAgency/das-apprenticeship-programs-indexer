@@ -30,6 +30,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 
         public async Task<IEnumerable<Provider>> GetApprenticeshipProvidersAsync()
         {
+            _logger.Debug("Starting to retrieve Course Directory Providers");
             var stopwatch = Stopwatch.StartNew();
             _courseDirectoryProviderDataService.BaseUri = new Uri(_settings.CourseDirectoryUri);
             var responseAsync = await _courseDirectoryProviderDataService.BulkprovidersWithOperationResponseAsync();

@@ -28,6 +28,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
         public IEnumerable<StandardMetaData> GetAllStandardsMetaData()
         {
+            _log.Debug("Starting to get LARS standards and meta data");
             var timing = ExecutionTimer.GetTiming(() => _metaDataReader.GetStandardsMetaData());
 
             _log.Debug("MetaDataHelper.GetAllStandardsMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
@@ -44,6 +45,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
         public IEnumerable<FrameworkMetaData> GetAllFrameworkMetaData()
         {
+            _log.Debug("Starting to get LARS frameworks and meta data");
             var timing = ExecutionTimer.GetTiming(() => _metaDataFrameworkReader.GetAllFrameworks());
 
             _log.Debug("MetaDataHelper.GetAllFrameworkMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
