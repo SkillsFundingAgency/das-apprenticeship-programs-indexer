@@ -88,8 +88,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task IndexEntries(string indexName)
         {
+            _log.Debug("Loading data at provider index");
             var source = _providerDataService.LoadDatasetsAsync().Result;
 
+            _log.Debug("Creating providers");
             var providers = CreateProviders(source).ToList();
 
             var providerSiteEntries = providers.Where(x => source.CourseDirectoryUkPrns.Contains(x.Ukprn)).ToList();
