@@ -34,7 +34,6 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 
             var models = sut.GetProviders(new List<int> { 1234 });
             
-
             Assert.AreEqual(2, models.MatchingProviderRecords.Count());
         }
 

@@ -14,18 +14,20 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
 
         private Mock<IIndexSettings<IMaintainProviderIndex>> _mockSettings;
         private Mock<IMaintainProviderIndex> _mockIndexMaintainer;
-        private Mock<ICourseDirectoryProviderMapper> _mockMapper;
+        private Mock<ICourseDirectoryProviderMapper> _mockCourseDirectoryProviderMapper;
+        private Mock<IUkrlpProviderMapper> _mockUkrlpProviderMapper;
 
         [SetUp]
         public void Setup()
         {
             _mockSettings = new Mock<IIndexSettings<IMaintainProviderIndex>>();
             _mockIndexMaintainer = new Mock<IMaintainProviderIndex>();
-            _mockMapper = new Mock<ICourseDirectoryProviderMapper>();
+            _mockCourseDirectoryProviderMapper = new Mock<ICourseDirectoryProviderMapper>();
 
             _sut = new ProviderIndexer(
                 _mockSettings.Object,
-                _mockMapper.Object,
+                _mockCourseDirectoryProviderMapper.Object,
+                _mockUkrlpProviderMapper.Object,
                 _mockIndexMaintainer.Object,
                 Mock.Of<IProviderDataService>(),
                 Mock.Of<ILog>());

@@ -20,12 +20,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         private readonly IIndexSettings<IMaintainProviderIndex> _settings;
         private readonly ICourseDirectoryProviderMapper _courseDirectoryProviderMapper;
-
+        private readonly IUkrlpProviderMapper _ukrlpProviderMapper;
         private readonly ILog _log;
 
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
             ICourseDirectoryProviderMapper courseDirectoryProviderMapper,
+            IUkrlpProviderMapper ukrlpProviderMapper,
             IMaintainProviderIndex searchIndexMaintainer,
             IProviderDataService providerDataService,
             ILog log)
@@ -33,6 +34,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _settings = settings;
             _providerDataService = providerDataService;
             _courseDirectoryProviderMapper = courseDirectoryProviderMapper;
+            _ukrlpProviderMapper = ukrlpProviderMapper;
             _searchIndexMaintainer = searchIndexMaintainer;
             _log = log;
         }
@@ -63,7 +65,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             if (!_searchIndexMaintainer.AliasExists(_settings.IndexesAlias))
             {
-                _log.Warn("Alias doesn't exists, creating a new one...");
+                _log.Warn("Alias doesn't exist, creating a new one...");
 
                 _searchIndexMaintainer.CreateIndexAlias(_settings.IndexesAlias, newIndexName);
             }
@@ -117,19 +119,17 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 
                 if (source.CourseDirectoryUkPrns.Contains(ukprn))
                 {
-
                     var courseDirectoryProvider = source.CourseDirectoryProviders.First(x => x.Ukprn == ukprn);
                     provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
                 }
                 else
                 {
-                    provider = _courseDirectoryProviderMapper.CreateFrom(ukrlpProvider);
+                    provider = _ukrlpProviderMapper.Map(ukrlpProvider);
                 }
 
                 provider.LegalName = ukrlpProvider.ProviderName;
-                provider.Addresses = ukrlpProvider.ProviderContact.Select(_courseDirectoryProviderMapper.MapAddress);
+                provider.Addresses = ukrlpProvider.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
                 
-
                 var byProvidersFiltered = source.AchievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);
 
                 provider.IsEmployerProvider = source.EmployerProviders.Contains(provider.Ukprn.ToString());

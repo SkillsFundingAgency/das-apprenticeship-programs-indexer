@@ -84,6 +84,7 @@
     <Compile Include="Provider\Models\UkRlp\Provider.cs" />
     <Compile Include="Provider\Models\UkRlp\ProviderContact.cs" />
     <Compile Include="Provider\Models\UkRlp\UkrlpProviderResponse.cs" />
+    <Compile Include="Provider\Services\IUkrlpProviderMapper.cs" />
     <Compile Include="Provider\Services\IUkrlpService.cs" />
     <Compile Include="Provider\Services\ProviderSourceDto.cs" />
     <Compile Include="Shared\Utility\IHttpPost.cs" />

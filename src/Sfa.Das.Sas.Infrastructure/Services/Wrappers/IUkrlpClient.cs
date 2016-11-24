@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
 {
-    using System.Threading.Tasks;
+    using System.Collections.Generic;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
     using Ukrlp;
 
