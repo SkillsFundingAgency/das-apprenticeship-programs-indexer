@@ -23,6 +23,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             _mockSettings = new Mock<IIndexSettings<IMaintainProviderIndex>>();
             _mockIndexMaintainer = new Mock<IMaintainProviderIndex>();
             _mockCourseDirectoryProviderMapper = new Mock<ICourseDirectoryProviderMapper>();
+            _mockUkrlpProviderMapper = new Mock<IUkrlpProviderMapper>();
 
             _sut = new ProviderIndexer(
                 _mockSettings.Object,
