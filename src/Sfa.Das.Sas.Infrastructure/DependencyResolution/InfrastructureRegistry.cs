@@ -52,7 +52,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
             For<ISatisfactionRatesProvider>().Use<SatisfactionRatesProvider>();
             For<IUkrlpService>().Use<UkrlpService>();
             For<IUkrlpClient>().Use<UkrlpClient>();
-            For<IUkrlpProviderWrapperMapper>().Use<UkrlpProviderWrapperMapper>();
+            For<IUkrlpProviderResponseMapper>().Use<UkrlpProviderResponseMapper>();
+            For<IUkrlpProviderMapper>().Use<UkrlpProviderMapper>();
         }
     }
 }

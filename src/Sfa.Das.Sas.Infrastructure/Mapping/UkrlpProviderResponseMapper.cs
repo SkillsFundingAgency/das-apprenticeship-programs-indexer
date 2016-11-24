@@ -1,35 +1,45 @@
-﻿////namespace Sfa.Das.Sas.Indexer.Infrastructure.Mapping
-////{
-////    using System.Linq;
-////    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-////    using UkrlpProviderContact = Services.Wrappers.ProviderContact;
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Mapping
+{
+    using System.Linq;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
 
-////    public class UkrlpProviderResponseMapper : IUkrlpProviderResponseMapper
-////    {
-////        public Provider MapFromUkrlpProviderRecord(Services.Wrappers.Provider record)
-//        {
-//            var provider = new Provider
-//            {
-//                Ukprn = int.Parse(record.UnitedKingdomProviderReferenceNumber),
-//                Name = record.ProviderName,
-//                LegalName = record.ProviderName,
-//                Addresses = record.ProviderContact?.Select(MapFromContactAddress).ToList()
-//            };
+    public class UkrlpProviderResponseMapper : IUkrlpProviderResponseMapper
+    {
+        public Provider MapFromUkrlpProviderRecord(ProviderRecordStructure record)
+        {
+            var provider = new Provider
+            {
+                UnitedKingdomProviderReferenceNumber = record.UnitedKingdomProviderReferenceNumber,
+                ProviderName = record.ProviderName,
+                ProviderContact = record.ProviderContact?.Select(MapFromContact)
+            };
 
-//            return provider;
-//        }
+            return provider;
+        }
 
-//        private ContactAddress MapFromContactAddress(UkrlpProviderContact contact)
-//        {
-//            return new ContactAddress
-//            {
-//                ContactType = contact?.ContactType,
-//                PostCode = contact?.ContactAddress?.PostCode,
-//                Primary = contact?.ContactAddress.Primary,
-//                Secondary = contact?.ContactAddress.Secondary,
-//                Street = contact?.ContactAddress?.StreetDescription,
-//                Town = contact?.ContactAddress?.PostTown
-//            };
-//        }
-//    }
-//}
+        private ProviderContact MapFromContact(ProviderContactStructure contact)
+        {
+            return new ProviderContact
+            {
+                ContactType = contact?.ContactType,
+                ContactAddress = MapFromContactAddress(contact?.ContactAddress),
+                ContactEmail = contact?.ContactEmail,
+                ContactWebsiteAddress = contact?.ContactWebsiteAddress,
+                ContactTelephone1 = contact?.ContactTelephone1
+            };
+        }
+
+        private ContactAddress MapFromContactAddress(BSaddressStructure contactAddress)
+        {
+            return new ContactAddress
+            {
+                PostCode = contactAddress?.PostCode,
+                PAON = contactAddress?.PAON?.Description,
+                SAON = contactAddress?.SAON?.Description,
+                StreetDescription = contactAddress?.StreetDescription,
+                PostTown = contactAddress?.PostTown
+            };
+        }
+    }
+}

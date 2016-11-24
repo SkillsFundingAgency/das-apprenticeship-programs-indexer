@@ -1,10 +1,8 @@
-﻿using System.Linq;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using System.Linq;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.Core.Logging;
