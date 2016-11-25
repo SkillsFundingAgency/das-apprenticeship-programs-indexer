@@ -36,7 +36,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             var responseAsync = await _courseDirectoryProviderDataService.BulkprovidersWithOperationResponseAsync();
 
             _logger.Debug(
-    "CourseDirectory.GetApprenticeshipProvidersAsync",
+    $"Retrieved {responseAsync.Body.Count} providers from course directory",
     new TimingLogEntry { ElaspedMilliseconds = stopwatch.Elapsed.TotalMilliseconds });
 
             _courseDirectoryProviderDataService.Dispose();
