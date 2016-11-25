@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool;
@@ -41,7 +42,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
                 .Returns(
                     new List<FrameworkMetaData> { new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 2 } });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, null);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, Mock.Of<ILog>());
             var frameworks = metaDataManager.GetAllFrameworks();
 
             Assert.AreEqual(1, frameworks.Count());
@@ -61,7 +62,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
                 .Returns(
                     new List<FrameworkMetaData> { new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 2 } });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, null);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, Mock.Of<ILog>());
             var frameworks = metaDataManager.GetAllFrameworks();
 
             Assert.AreEqual(1, frameworks.Count(), "Should find one framework");
@@ -103,7 +104,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
                         new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 21 }
                     });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, null);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, Mock.Of<ILog>());
             var framework = metaDataManager.GetAllFrameworks().FirstOrDefault();
 
             framework.Should().NotBeNull();
@@ -131,7 +132,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
                         new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 21 }
                     });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, null);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, Mock.Of<ILog>());
             var framework = metaDataManager.GetAllFrameworks().FirstOrDefault();
 
             framework.Should().NotBeNull();
@@ -158,7 +159,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
                         new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 21 }
                     });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, null);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, _mockVstsService.Object, mockSettings.Object, null, mockMetadataApiService.Object, Mock.Of<ILog>());
             var framework = metaDataManager.GetAllFrameworks().FirstOrDefault();
 
             framework.Should().NotBeNull();
