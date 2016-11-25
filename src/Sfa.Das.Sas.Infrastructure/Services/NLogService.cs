@@ -32,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
         public NLogService(Type loggerType, IInfrastructureSettings settings)
         {
             _settings = settings;
-            ApplicationName = _settings.ApplicationName;
+            ApplicationName = ApplicationName ??_settings.ApplicationName;
             _loggerType = loggerType?.ToString() ?? "DefaultIndexLogger";
             _version = GetVersion();
         }
