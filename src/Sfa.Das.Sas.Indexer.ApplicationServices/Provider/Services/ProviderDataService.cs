@@ -143,24 +143,26 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task<ProviderSourceDto> LoadDatasetsAsync()
         {
-            var courseDirectoryProviders = Task.Run(() => _courseDirectoryClient.GetApprenticeshipProvidersAsync());
-            var activeProviders = Task.Run(() => _activeProviderClient.GetActiveProviders());
+            var courseDirectoryProviders = await _courseDirectoryClient.GetApprenticeshipProvidersAsync();
+            var activeProviders = await _activeProviderClient.GetActiveProviders();
 
+            _logger.Debug($"Finished loading course directory and active providers");
+            
             // TODO replace this with elastic search
             var frameworks = Task.Run(() => _metaDataHelper.GetAllFrameworkMetaData());
             var standards = Task.Run(() => _metaDataHelper.GetAllStandardsMetaData());
 
-            await Task.WhenAll(frameworks, standards, courseDirectoryProviders, activeProviders);
+            await Task.WhenAll(frameworks, standards);
 
             _logger.Debug($"Finished loading frameworks, standards, course directory, active providers");
 
-            var ukrlpProviders = _ukrlpService.GetProviders(activeProviders.Result);
+            var ukrlpProviders = _ukrlpService.GetProviders(activeProviders);
 
             return new ProviderSourceDto
             {
-                CourseDirectoryProviders = courseDirectoryProviders.Result,
-                ActiveProviders = activeProviders.Result,
-                CourseDirectoryUkPrns = courseDirectoryProviders.Result.Select(x => x.Ukprn).ToList(),
+                CourseDirectoryProviders = courseDirectoryProviders,
+                ActiveProviders = activeProviders,
+                CourseDirectoryUkPrns = courseDirectoryProviders.Select(x => x.Ukprn).ToList(),
                 UkrlpProviders = ukrlpProviders,
                 Frameworks = frameworks.Result,
                 Standards = standards.Result,
