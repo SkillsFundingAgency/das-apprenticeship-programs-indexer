@@ -18,8 +18,8 @@
         [Explicit]
         public void ProviderTest()
         {
-            var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());
-            var sut = new AchievementRatesProvider(databaseProvider, Mock.Of<ILog>());
+            var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILogProvider>());
+            var sut = new AchievementRatesProvider(databaseProvider, Mock.Of<ILogProvider>());
 
             var result = sut.GetAllByProvider().ToArray();
 
@@ -39,7 +39,7 @@
         public void NationalTest()
         {
             var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());
-            var sut = new AchievementRatesProvider(databaseProvider, Mock.Of<ILog>());
+            var sut = new AchievementRatesProvider(databaseProvider, Mock.Of<ILogProvider>());
 
             var result = sut.GetAllNational().ToArray();
 

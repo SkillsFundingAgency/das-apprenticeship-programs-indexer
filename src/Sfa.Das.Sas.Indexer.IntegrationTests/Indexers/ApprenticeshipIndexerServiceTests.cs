@@ -48,7 +48,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             moqMetaDataHelper.Setup(m => m.GetAllStandardsMetaData()).Returns(GetStandardsTest().ToList());
             moqMetaDataHelper.Setup(m => m.GetAllFrameworkMetaData()).Returns(GetFrameworksTest().ToList());
 
-            var moqLog = new Mock<ILog>();
+            var moqLog = new Mock<ILogApprenticeships>();
 
             _indexerService = new ApprenticeshipIndexer(settings, maintanSearchIndex, moqMetaDataHelper.Object, moqLog.Object);
 

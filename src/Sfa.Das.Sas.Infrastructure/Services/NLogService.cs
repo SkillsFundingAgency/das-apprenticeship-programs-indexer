@@ -27,9 +27,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 #pragma warning restore S1144 // Unused private types or members should be removed
 #pragma warning disable CS0169
 
+        public string ApplicationName { get; set; }
+
         public NLogService(Type loggerType, IInfrastructureSettings settings)
         {
             _settings = settings;
+            ApplicationName = _settings.ApplicationName;
             _loggerType = loggerType?.ToString() ?? "DefaultIndexLogger";
             _version = GetVersion();
         }
@@ -129,7 +132,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
                 propertiesLocal = new Dictionary<string, object>(properties);
             }
 
-            propertiesLocal.Add("Application", _settings.ApplicationName);
+            propertiesLocal.Add("Application", ApplicationName);
             propertiesLocal.Add("Environment", _settings.EnvironmentName);
             propertiesLocal.Add("LoggerType", _loggerType);
             propertiesLocal.Add("Version", _version);
@@ -148,6 +151,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 
             ILogger log = LogManager.GetCurrentClassLogger();
             log.Log(logEvent);
+        }
+    }
+
+    public class NLogApprenticeshipService : NLogService, ILogApprenticeships
+    {
+        public NLogApprenticeshipService(Type loggerType, IInfrastructureSettings settings)
+            : base(loggerType, settings)
+        {
+            ApplicationName = "apprenticeship-programmes-indexer";
         }
     }
 }

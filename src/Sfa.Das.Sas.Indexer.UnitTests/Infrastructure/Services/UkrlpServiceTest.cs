@@ -30,7 +30,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 
             mockProviderQueryPortTypeClientWrapper.Setup(x => x.RetrieveAllProviders(It.IsAny<ProviderQueryStructure>())).Returns(GetClientResponseMockValues());
 
-            var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, Mock.Of<ILog>());
+            var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, Mock.Of<ILogProvider>());
 
             var models = sut.GetProviders(new List<int> { 1234 });
             

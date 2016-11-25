@@ -15,13 +15,13 @@
     {
         private readonly IInfrastructureSettings _infrastructureSettings;
         private readonly IUkrlpClient _providerClient;
-        private readonly ILog _logger;
+        private readonly ILogProvider _logger;
         private readonly int _ukprnRequestUkprnBatchSize;
 
         public UkrlpService(
             IInfrastructureSettings infrastructureSettings,
             IUkrlpClient providerClient,
-            ILog logger)
+            ILogProvider logger)
         {
             _infrastructureSettings = infrastructureSettings;
             _providerClient = providerClient;

@@ -16,12 +16,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
         private readonly IInfrastructureSettings _settings;
         private readonly ICourseDirectoryProviderDataService _courseDirectoryProviderDataService;
 
-        private readonly ILog _logger;
+        private readonly ILogProvider _logger;
 
         public CourseDirectoryClient(
             IInfrastructureSettings settings,
             ICourseDirectoryProviderDataService courseDirectoryProviderDataService,
-            ILog logger)
+            ILogProvider logger)
         {
             _settings = settings;
             _courseDirectoryProviderDataService = courseDirectoryProviderDataService;

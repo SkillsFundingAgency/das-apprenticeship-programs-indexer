@@ -31,7 +31,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
                 _mockUkrlpProviderMapper.Object,
                 _mockIndexMaintainer.Object,
                 Mock.Of<IProviderDataService>(),
-                Mock.Of<ILog>());
+                Mock.Of<ILogProvider>());
         }
 
         [Test]

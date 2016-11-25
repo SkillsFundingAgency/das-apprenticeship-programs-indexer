@@ -1,9 +1,3 @@
-using System.Data;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using Dapper;
-using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-
 namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
 {
     using System.Collections.Generic;
@@ -15,12 +9,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
     public class SatisfactionRatesProvider : ISatisfactionRatesProvider
     {
         private readonly IDatabaseProvider _databaseProvider;
+        private readonly ILogProvider _log;
         private const string LearnerSatisfactionRatesTableName = "[dbo].[LearnerSatisf_2015_2016]";
         private const string EmployerSatisfactionRatesTableName = "[dbo].[EmployerSatisf_2015_2016]";
 
-        public SatisfactionRatesProvider(IDatabaseProvider databaseProvider)
+        public SatisfactionRatesProvider(IDatabaseProvider databaseProvider, ILogProvider log)
         {
             _databaseProvider = databaseProvider;
+            _log = log;
         }
 
         public IEnumerable<SatisfactionRateProvider> GetAllEmployerSatisfactionByProvider()
@@ -34,8 +30,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
                     ";
 
             var results = _databaseProvider.Query<SatisfactionRateProvider>(query);
-
-            return results;
+            _log.Debug($"Retrieved {results.Count()} employer satisfaction rates");
+             return results;
         }
 
         public IEnumerable<SatisfactionRateProvider> GetAllLearnerSatisfactionByProvider()
@@ -49,7 +45,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
                     ";
 
             var results = _databaseProvider.Query<SatisfactionRateProvider>(query);
-
+            _log.Debug($"Retrieved {results.Count()} leaner satisfaction rates");
             return results;
         }
     }

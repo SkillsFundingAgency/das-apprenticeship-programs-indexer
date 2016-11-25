@@ -38,6 +38,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
             For<IInfrastructureSettings>().Use<InfrastructureSettings>();
             For<ICourseDirectoryProviderDataService>().Use(x => new CourseDirectoryProviderDataService());
             For<ILog>().Use(x => new NLogService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
+            For<ILogProvider>().Use(x => new NLogProviderService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
+            For<ILogApprenticeships>().Use(x => new NLogApprenticeshipService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
             For<IUnzipStream>().Use<ZipFileExtractor>();
             For<IGetCourseDirectoryProviders>().Use<CourseDirectoryClient>();
             For<ICourseDirectoryProviderMapper>().Use<CourseDirectoryProviderMapper>();

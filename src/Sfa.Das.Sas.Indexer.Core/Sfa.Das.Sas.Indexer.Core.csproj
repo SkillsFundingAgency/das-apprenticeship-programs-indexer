@@ -51,6 +51,8 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Logging\ILogApprenticeships.cs" />
+    <Compile Include="Logging\ILogProvider.cs" />
     <Compile Include="Logging\Metrics\ExecutionTimer.cs" />
     <Compile Include="Logging\Metrics\ExecutionTimerResult{T}.cs" />
     <Compile Include="Logging\Models\DependencyLogEntry.cs" />

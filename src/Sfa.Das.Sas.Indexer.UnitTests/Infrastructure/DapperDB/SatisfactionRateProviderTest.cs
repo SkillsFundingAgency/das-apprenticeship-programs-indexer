@@ -19,7 +19,7 @@
         public void ProviderTest()
         {
             var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());
-            var sut = new SatisfactionRatesProvider(databaseProvider);
+            var sut = new SatisfactionRatesProvider(databaseProvider, Mock.Of<ILogProvider>());
 
             var result = sut.GetAllLearnerSatisfactionByProvider().ToArray();
 

@@ -9,9 +9,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
     public class AchievementRatesProvider : IAchievementRatesProvider
     {
         private readonly IDatabaseProvider _databaseProvider;
-        private readonly ILog _logger;
+        private readonly ILogProvider _logger;
 
-        public AchievementRatesProvider(IDatabaseProvider databaseProvider, ILog logger)
+        public AchievementRatesProvider(IDatabaseProvider databaseProvider, ILogProvider logger)
         {
             _databaseProvider = databaseProvider;
             _logger = logger;
