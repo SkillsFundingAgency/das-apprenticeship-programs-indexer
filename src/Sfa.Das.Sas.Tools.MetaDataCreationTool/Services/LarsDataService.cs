@@ -50,7 +50,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             _logger.Debug("Zip file downloaded");
 
             var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameStandards);
-            _logger.Debug($"Extracted contrent. Length: {fileContent.Length}");
+            _logger.Debug($"Extracted content. Length: {fileContent.Length}");
 
             var standards = _csvService.ReadFromString<LarsStandard>(fileContent);
             _logger.Debug($"Read: {standards.Count} standards from file.");
