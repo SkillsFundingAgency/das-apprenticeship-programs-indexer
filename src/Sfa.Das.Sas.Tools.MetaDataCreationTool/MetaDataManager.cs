@@ -68,7 +68,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 .ToList();
             _logger.Debug($"Retrieved {standards.Count} standards from VSTS");
 
-            UpdateStandardsInformationFromLars(standards);
+            UpdateStandardsInformationFromLarsAndResolveUrls(standards);
             return standards;
         }
 
@@ -76,7 +76,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         {
             var frameworks = _larsDataService.GetListOfCurrentFrameworks();
             _logger.Debug($"Retrieved {frameworks.Count()} frameworks from LARS");
-            UpdateFrameworkInformation(frameworks);
+            UpdateFrameworkInformationFromVSTS(frameworks);
             return frameworks;
         }
 
@@ -106,8 +106,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             return new FileContents(gitFilePath, json);
         }
 
-        private void UpdateFrameworkInformation(IEnumerable<FrameworkMetaData> frameworks)
+        private void UpdateFrameworkInformationFromVSTS(IEnumerable<FrameworkMetaData> frameworks)
         {
+            int updated = 0;
             var repositoryFrameworks = _vstsService.GetFrameworks();
 
             foreach (var framework in frameworks)
@@ -130,11 +131,15 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 framework.EntryRequirements = repositoryFramework.EntryRequirements;
                 framework.ProfessionalRegistration = repositoryFramework.ProfessionalRegistration;
                 framework.FrameworkOverview = repositoryFramework.FrameworkOverview;
+                updated++;
             }
+
+            _logger.Debug($"Updated {updated} frameworks from VSTS");
         }
 
-        private void UpdateStandardsInformationFromLars(IEnumerable<StandardMetaData> standards)
+        private void UpdateStandardsInformationFromLarsAndResolveUrls(IEnumerable<StandardMetaData> standards)
         {
+            int updated = 0;
             var currentStandards = _larsDataService.GetListOfCurrentStandards().ToArray();
 
             foreach (var standard in standards)
@@ -151,7 +156,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 standard.AssessmentPlanPdfUrl = GetLinkUri(standardFromLars.StandardUrl, "Assessment");
                 standard.SectorSubjectAreaTier1 = standardFromLars.SectorSubjectAreaTier1;
                 standard.SectorSubjectAreaTier2 = standardFromLars.SectorSubjectAreaTier2;
+                updated++;
             }
+
+            _logger.Debug($"Updated {updated} standards from LARS and resolved PDF urls");
         }
 
         private string GetLinkUri(string link, string linkTitle)
