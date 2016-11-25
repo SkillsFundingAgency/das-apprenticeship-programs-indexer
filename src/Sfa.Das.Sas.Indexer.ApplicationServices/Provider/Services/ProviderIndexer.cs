@@ -125,13 +125,18 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     var courseDirectoryProvider = source.CourseDirectoryProviders.First(x => x.Ukprn == ukprn);
                     provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
                 }
-                else
+                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString()))
                 {
                     provider = _ukrlpProviderMapper.Map(ukrlpProvider);
                 }
+                else
+                {
+                    // skip this provider if they don't exist in Course Directory or UKRLP
+                    continue;
+                }
 
-                provider.LegalName = ukrlpProvider.ProviderName;
-                provider.Addresses = ukrlpProvider.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
+                provider.LegalName = ukrlpProvider?.ProviderName;
+                provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
 
                 var byProvidersFiltered = source.AchievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);
 
