@@ -31,6 +31,7 @@
 
         public UkrlpProviderResponse GetProviders(IEnumerable<int> ukprns)
         {
+            _logger.Debug("Starting to get providers from UKRLP");
             try
             {
                 var providerList = new List<Provider>();
