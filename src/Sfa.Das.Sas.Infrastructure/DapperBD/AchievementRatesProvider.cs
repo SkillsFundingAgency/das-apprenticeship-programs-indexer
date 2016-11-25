@@ -60,7 +60,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
                     ";
 
             var results = _databaseProvider.Query<AchievementRateNational>(query, new { date = latestHybridYear });
-            _logger.Debug($"Retreived {results.Count()} Provider rates");
+            _logger.Debug($"Retreived {results.Count()} national provider rates");
             return results;
         }
 
