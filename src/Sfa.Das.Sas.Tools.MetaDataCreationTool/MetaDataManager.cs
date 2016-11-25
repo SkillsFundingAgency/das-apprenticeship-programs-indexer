@@ -66,6 +66,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 .GetStandards()
                 .Where(m => m.Published)
                 .ToList();
+            _logger.Debug($"Retrieved {standards.Count} standards from VSTS");
 
             UpdateStandardsInformationFromLars(standards);
             return standards;
@@ -74,6 +75,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         public IEnumerable<FrameworkMetaData> GetAllFrameworks()
         {
             var frameworks = _larsDataService.GetListOfCurrentFrameworks();
+            _logger.Debug($"Retrieved {frameworks.Count()} frameworks from LARS");
             UpdateFrameworkInformation(frameworks);
             return frameworks;
         }
