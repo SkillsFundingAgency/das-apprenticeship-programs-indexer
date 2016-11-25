@@ -72,8 +72,8 @@
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);
-                throw;
+                _logger.Warn(ex, ex.Message);
+                return new UkrlpProviderResponse();
             }
         }
     }

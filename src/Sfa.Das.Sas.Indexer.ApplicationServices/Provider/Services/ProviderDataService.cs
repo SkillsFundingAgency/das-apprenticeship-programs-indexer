@@ -154,7 +154,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             await Task.WhenAll(frameworks, standards);
 
-            _logger.Debug($"Finished loading frameworks, standards, course directory, active providers");
+            _logger.Debug($"Finished loading frameworks, standards");
 
             var ukrlpProviders = _ukrlpService.GetProviders(activeProviders);
 
