@@ -34,6 +34,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string ApplicationName => ConfigurationManager.AppSettings["ApplicationName"];
 
+        public double HttpClientTimeout => Convert.ToDouble(ConfigurationManager.AppSettings["HttpClient.Timeout"]);
+
         public string AchievementRateDataBaseConnectionString => _settingsProvider.GetSetting("AchievementRateDataBaseConnectionString");
 
         public IEnumerable<Uri> ElasticServerUrls => GetElasticIPs("ElasticServerUrls");

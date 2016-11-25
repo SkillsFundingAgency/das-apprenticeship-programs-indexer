@@ -1,4 +1,5 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
+﻿using System.Net.Http;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory

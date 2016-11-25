@@ -24,5 +24,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
         string UkrlpQueryId { get; }
 
         int UkrlpRequestUkprnBatchSize { get; }
+        double HttpClientTimeout { get; }
     }
 }

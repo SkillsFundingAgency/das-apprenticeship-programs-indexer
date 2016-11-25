@@ -11,14 +11,17 @@ using System.Threading.Tasks;
 using Microsoft.Rest;
 using Newtonsoft.Json.Linq;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
+using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {
     public class CourseDirectoryProviderDataService : ServiceClient<CourseDirectoryProviderDataService>, ICourseDirectoryProviderDataService
     {
-        public CourseDirectoryProviderDataService()
+        private readonly IInfrastructureSettings _settings;
+
+        public CourseDirectoryProviderDataService(IInfrastructureSettings settings)
         {
-            
+            _settings = settings;
         }
 
         /// <summary>
@@ -156,6 +159,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             int? version = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromMilliseconds(_settings.HttpClientTimeout);
+
             // Tracing
             var shouldTrace = ServiceClientTracing.IsEnabled;
             string invocationId = null;
@@ -210,7 +216,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
                 ServiceClientTracing.SendRequest(invocationId, httpRequest);
             }
             cancellationToken.ThrowIfCancellationRequested();
-            var httpResponse = await HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            var httpResponse = await httpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
             if (shouldTrace)
             {
                 ServiceClientTracing.ReceiveResponse(invocationId, httpResponse);

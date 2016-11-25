@@ -8,16 +8,19 @@ using System.Threading.Tasks;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
+using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
     public class HttpService : IHttpGet, IHttpGetFile, IHttpPost
     {
         private readonly ILog _logger;
+        private readonly IInfrastructureSettings _settings;
 
-        public HttpService(ILog logger)
+        public HttpService(ILog logger, IInfrastructureSettings settings)
         {
             this._logger = logger;
+            _settings = settings;
         }
 
         public string Get(string url, string username, string pwd)
@@ -79,7 +82,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 
         public void Post(string url, string body, string user, string password)
         {
-            using (var client = new HttpClient())
+            using (var client = new HttpClient() { Timeout = TimeSpan.FromMilliseconds(_settings.HttpClientTimeout)})
             {
                 var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{user}:{password}"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
