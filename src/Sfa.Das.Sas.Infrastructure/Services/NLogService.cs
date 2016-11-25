@@ -33,7 +33,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             _settings = settings;
             ApplicationName = ApplicationName ??_settings.ApplicationName;
             _loggerType = loggerType?.ToString() ?? "DefaultIndexLogger";
-            GetVersion();
         }
 
         public void Debug(object message)
