@@ -36,7 +36,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
             For<IHttpGet>().Use<HttpService>();
             For<IHttpPost>().Use<HttpService>();
             For<IInfrastructureSettings>().Use<InfrastructureSettings>();
-            For<ICourseDirectoryProviderDataService>().Use(x => new CourseDirectoryProviderDataService());
+            For<ICourseDirectoryProviderDataService>().Use(x => new CourseDirectoryProviderDataService(x.GetInstance<IInfrastructureSettings>()));
             For<ILog>().Use(x => new NLogService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
             For<ILogProvider>().Use(x => new NLogProviderService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
             For<ILogApprenticeships>().Use(x => new NLogApprenticeshipService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
