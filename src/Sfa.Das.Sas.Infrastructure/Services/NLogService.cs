@@ -18,7 +18,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
         private readonly IInfrastructureSettings _settings;
 
         private readonly string _loggerType;
-        private string _version;
 #pragma warning disable CS0169
 #pragma warning disable S1144 // Unused private types or members should be removed
         private ElasticSearchTarget _dummy; // Reference so assembly is copied to PAON output.
@@ -34,7 +33,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             _settings = settings;
             ApplicationName = ApplicationName ??_settings.ApplicationName;
             _loggerType = loggerType?.ToString() ?? "DefaultIndexLogger";
-            _version = GetVersion();
+            GetVersion();
         }
 
         public void Debug(object message)
@@ -117,13 +116,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             SendLog(message, level, new Dictionary<string, object>(), exception);
         }
 
-        private string GetVersion()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            return fileVersionInfo.ProductVersion;
-        }
-
         private void SendLog(object message, LogLevel level, Dictionary<string, object> properties, Exception exception = null)
         {
             var propertiesLocal = new Dictionary<string, object>();
@@ -135,7 +127,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             propertiesLocal.Add("Application", ApplicationName);
             propertiesLocal.Add("Environment", _settings.EnvironmentName);
             propertiesLocal.Add("LoggerType", _loggerType);
-            propertiesLocal.Add("Version", _version);
 
             var logEvent = new LogEventInfo(level, _loggerType, message.ToString());
 

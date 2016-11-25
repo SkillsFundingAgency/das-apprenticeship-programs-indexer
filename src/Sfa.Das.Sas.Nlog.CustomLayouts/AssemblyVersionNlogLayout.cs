@@ -10,7 +10,7 @@ namespace Sfa.Das.Sas.Nlog.CustomLayouts
     public class AssemblyVersionNlogLayout : LayoutRenderer
     {
         // As we only need this to be called once it is placed in a static variable
-        private static readonly string AssemblyVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+        private static readonly string AssemblyVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
         protected override void Append(StringBuilder builder, LogEventInfo logEvent)
         {
