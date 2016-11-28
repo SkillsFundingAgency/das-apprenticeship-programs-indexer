@@ -18,7 +18,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
 
         public IEnumerable<Provider> RetrieveAllProviders(ProviderQueryStructure providerQueryStructure)
         {
+            _logger.Debug($"Creating UKRLP client.");
+
             var client = new ProviderQueryPortTypeClient();
+            _logger.Debug($"Address used for connecting to UKRLP: {client.ChannelFactory.Endpoint.Address}");
 
             var response = client.retrieveAllProvidersAsync(providerQueryStructure);
             _logger.Debug($"Retreived {response.Result.ProviderQueryResponse.MatchingProviderRecords.Length} Providers from UKRLP");
