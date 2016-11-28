@@ -20,7 +20,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
         {
             _logger.Debug($"Creating UKRLP client.");
 
-            var client = new ProviderQueryPortTypeClient();
+            var client = new ProviderQueryPortTypeClient("ProviderQueryPort");
             _logger.Debug($"Address used for connecting to UKRLP: {client.ChannelFactory.Endpoint.Address}");
 
             var response = client.retrieveAllProvidersAsync(providerQueryStructure);
