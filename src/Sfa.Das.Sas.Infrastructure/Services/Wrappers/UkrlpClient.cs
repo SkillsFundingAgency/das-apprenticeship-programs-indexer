@@ -22,12 +22,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
 
         public IEnumerable<Provider> RetrieveAllProviders(ProviderQueryStructure providerQueryStructure)
         {
-            _logger.Debug("Creating UKRLP client.");
             var client = new ProviderQueryPortTypeClient("ProviderQueryPort", _settings.UkrlpServiceEndpointUrl);
-            _logger.Debug($"Address used for connecting to UKRLP: {client.ChannelFactory.Endpoint.Address}");
 
             var response = client.retrieveAllProvidersAsync(providerQueryStructure);
-            _logger.Debug($"Retreived {response.Result.ProviderQueryResponse.MatchingProviderRecords.Length} Providers from UKRLP");
+            _logger.Debug($"Retrieved {response.Result.ProviderQueryResponse.MatchingProviderRecords.Length} Providers from UKRLP");
             var mapper = new UkrlpProviderResponseMapper();
             return response.Result.ProviderQueryResponse.MatchingProviderRecords.Select(mapper.MapFromUkrlpProviderRecord);
         }
