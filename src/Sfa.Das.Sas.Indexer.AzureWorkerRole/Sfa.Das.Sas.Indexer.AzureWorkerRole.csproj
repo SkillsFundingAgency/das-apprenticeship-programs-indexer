@@ -144,10 +144,6 @@
     <None Include="packages.config" />
     <None Include="Sfa.Das.Sas.Indexer.AzureWorkerRole.ruleset" />
     <None Include="stylecop.json" />
-    <None Include="Transform.App.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Transform.Nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
