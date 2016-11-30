@@ -22,12 +22,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
 
         public IEnumerable<Provider> RetrieveAllProviders(ProviderQueryStructure providerQueryStructure)
         {
-            var client = new ProviderQueryPortTypeClient("ProviderQueryPort", _settings.UkrlpServiceEndpointUrl);
-
-            var response = client.retrieveAllProvidersAsync(providerQueryStructure);
-            _logger.Debug($"Retrieved {response.Result.ProviderQueryResponse.MatchingProviderRecords.Length} Providers from UKRLP");
-            var mapper = new UkrlpProviderResponseMapper();
-            return response.Result.ProviderQueryResponse.MatchingProviderRecords.Select(mapper.MapFromUkrlpProviderRecord);
+            using (var client = new ProviderQueryPortTypeClient("ProviderQueryPort", _settings.UkrlpServiceEndpointUrl))
+            {
+                var response = client.retrieveAllProvidersAsync(providerQueryStructure);
+                _logger.Debug($"Retrieved {response.Result.ProviderQueryResponse.MatchingProviderRecords.Length} Providers from UKRLP");
+                var mapper = new UkrlpProviderResponseMapper();
+                return response.Result.ProviderQueryResponse.MatchingProviderRecords.Select(mapper.MapFromUkrlpProviderRecord);
+            }
         }
     }
 }
