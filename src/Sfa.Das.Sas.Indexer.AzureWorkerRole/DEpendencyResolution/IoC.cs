@@ -17,6 +17,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Sfa.Das.Sas.Indexer.ApplicationServices.DependencyResolution;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.DependencyResolution;
 using Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution;
 using StructureMap;
@@ -30,8 +31,12 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution
             return new Container(c =>
             {
                 c.AddRegistry<IndexerRegistry>();
-                c.AddRegistry<ApplicationServicesRegistry>();
+                c.AddRegistry<ApprenticeshipApplicationServicesRegistry>();
+                c.AddRegistry<ProviderApplicationServicesRegistry>();
+                c.AddRegistry<SharedApplicationServicesRegistry>();
                 c.AddRegistry<InfrastructureRegistry>();
+                c.AddRegistry<ProviderInfrastructureRegistry>();
+                c.AddRegistry<ApprenticeshipInfrastructureRegistry>();
                 c.AddRegistry<MetaDataCreationRegistry>();
             });
         }

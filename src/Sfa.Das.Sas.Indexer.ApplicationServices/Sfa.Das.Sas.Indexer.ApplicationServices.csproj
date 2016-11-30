@@ -79,7 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DependencyResolution\ApplicationServicesRegistry.cs" />
+    <Compile Include="Apprenticeship\DependencyResolution\ApprenticeshipApplicationServicesRegistry.cs" />
+    <Compile Include="Provider\DependencyResolution\ProviderApplicationServicesRegistry.cs" />
+    <Compile Include="Shared\DependencyResolution\SharedApplicationServicesRegistry.cs" />
     <Compile Include="Provider\Models\UkRlp\ContactAddress.cs" />
     <Compile Include="Provider\Models\UkRlp\Provider.cs" />
     <Compile Include="Provider\Models\UkRlp\ProviderContact.cs" />
@@ -119,8 +121,8 @@
     <Compile Include="Apprenticeship\Services\IMaintainApprenticeshipIndex.cs" />
     <Compile Include="Shared\IndexerServiceFactory.cs" />
     <Compile Include="Shared\Settings\AppServiceSettings.cs" />
-    <Compile Include="Apprenticeship\Services\IMetaDataHelper.cs" />
-    <Compile Include="Apprenticeship\Services\MetaDataHelper.cs" />
+    <Compile Include="Shared\Services\IMetaDataHelper.cs" />
+    <Compile Include="Shared\Services\MetaDataHelper.cs" />
     <Compile Include="Provider\Services\ProviderIndexer.cs" />
     <Compile Include="Apprenticeship\Services\ApprenticeshipIndexer.cs" />
     <Compile Include="Provider\Models\Fsc\ActiveProviderCsvRecord.cs" />
