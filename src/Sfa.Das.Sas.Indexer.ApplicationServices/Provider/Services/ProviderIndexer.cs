@@ -118,36 +118,38 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             {
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString());
 
-                if (ukrlpProvider != null)
+                CoreProvider provider;
+
+                if (source.CourseDirectoryUkPrns.Contains(ukprn))
                 {
-                    CoreProvider provider;
-
-                    if (source.CourseDirectoryUkPrns.Contains(ukprn))
-                    {
-                        var courseDirectoryProvider = source.CourseDirectoryProviders.First(x => x.Ukprn == ukprn);
-                        provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
-                    }
-                    else
-                    {
-                        provider = _ukrlpProviderMapper.Map(ukrlpProvider);
-                    }
-
-                    provider.LegalName = ukrlpProvider.ProviderName;
-                    provider.Addresses = ukrlpProvider.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
-
-                    var byProvidersFiltered = source.AchievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);
-
-                    provider.IsEmployerProvider = source.EmployerProviders.Contains(provider.Ukprn.ToString());
-                    provider.IsHigherEducationInstitute = source.HeiProviders.Contains(provider.Ukprn.ToString());
-
-                    provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
-                    provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
-
-                    _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
-                    _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
-
-                    yield return provider;
+                    var courseDirectoryProvider = source.CourseDirectoryProviders.First(x => x.Ukprn == ukprn);
+                    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
                 }
+                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString()))
+                {
+                    provider = _ukrlpProviderMapper.Map(ukrlpProvider);
+                }
+                else
+                {
+                    // skip this provider if they don't exist in Course Directory or UKRLP
+                    continue;
+                }
+
+                provider.LegalName = ukrlpProvider?.ProviderName;
+                provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
+
+                var byProvidersFiltered = source.AchievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);
+
+                provider.IsEmployerProvider = source.EmployerProviders.Contains(provider.Ukprn.ToString());
+                provider.IsHigherEducationInstitute = source.HeiProviders.Contains(provider.Ukprn.ToString());
+
+                provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
+                provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
+
+                _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
+                _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
+
+                yield return provider;
             }
         }
     }

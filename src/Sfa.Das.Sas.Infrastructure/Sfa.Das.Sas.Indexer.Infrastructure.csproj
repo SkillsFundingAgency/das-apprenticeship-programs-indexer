@@ -139,73 +139,74 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Azure\AzureCloudQueueService.cs" />
-    <Compile Include="Azure\AzureQueueMessage.cs" />
-    <Compile Include="CourseDirectory\CourseDirectoryProviderDataService.cs" />
-    <Compile Include="CourseDirectory\CourseDirectoryProviderDataServiceExtensions.cs" />
-    <Compile Include="CourseDirectory\CourseDirectoryProviderMapper.cs" />
-    <Compile Include="CourseDirectory\ICourseDirectoryProviderDataService.cs" />
-    <Compile Include="CourseDirectory\ProviderVstsClient.cs" />
-    <Compile Include="DapperBD\SatisfactionRatesProvider.cs" />
-    <Compile Include="DapperBD\AchievementRatesProvider.cs" />
-    <Compile Include="DapperBD\DatabaseProvider.cs" />
-    <Compile Include="DapperBD\IDatabaseProvider.cs" />
-    <Compile Include="DependencyResolution\InfrastructureRegistry.cs" />
-    <Compile Include="Elasticsearch\Configuration\ElasticsearchConfiguration.cs" />
-    <Compile Include="Elasticsearch\Configuration\IElasticsearchConfiguration.cs" />
-    <Compile Include="Elasticsearch\ElasticsearchCustomClient.cs" />
-    <Compile Include="Elasticsearch\ElasticsearchIndexMaintainerBase.cs" />
-    <Compile Include="Elasticsearch\ElasticsearchMapper.cs" />
-    <Compile Include="Elasticsearch\ElasticsearchProviderIndexMaintainer.cs" />
-    <Compile Include="Elasticsearch\ElasticsearchApprenticeshipIndexMaintainer.cs" />
-    <Compile Include="Elasticsearch\IElasticsearchCustomClient.cs" />
-    <Compile Include="Elasticsearch\Models\ApprenticeshipDocument.cs" />
-    <Compile Include="Elasticsearch\BulkProviderClient.cs" />
-    <Compile Include="Elasticsearch\Models\FrameworkDocument.cs" />
-    <Compile Include="Elasticsearch\IElasticsearchClientFactory.cs" />
-    <Compile Include="Elasticsearch\IElasticsearchMapper.cs" />
-    <Compile Include="Elasticsearch\IGenerateProviderIndexDefinitions.cs" />
-    <Compile Include="Elasticsearch\Models\Address.cs" />
-    <Compile Include="Elasticsearch\Models\FrameworkProvider.cs" />
-    <Compile Include="Elasticsearch\Models\IProviderAppreticeshipDocument.cs" />
-    <Compile Include="Elasticsearch\Models\JobRoleItem.cs" />
-    <Compile Include="Elasticsearch\Models\StandardProvider.cs" />
-    <Compile Include="Elasticsearch\Models\TrainingLocation.cs" />
-    <Compile Include="Elasticsearch\Models\ProviderDocument.cs" />
+    <Compile Include="Apprenticeship\DependencyResolution\ApprenticeshipInfrastructureRegistry.cs" />
+    <Compile Include="Provider\DependencyResolution\ProviderInfrastructureRegistry.cs" />
+    <Compile Include="Shared\Azure\AzureCloudQueueService.cs" />
+    <Compile Include="Shared\Azure\AzureQueueMessage.cs" />
+    <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataService.cs" />
+    <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataServiceExtensions.cs" />
+    <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderMapper.cs" />
+    <Compile Include="Provider\CourseDirectory\ICourseDirectoryProviderDataService.cs" />
+    <Compile Include="Provider\CourseDirectory\ProviderVstsClient.cs" />
+    <Compile Include="Provider\DapperBD\SatisfactionRatesProvider.cs" />
+    <Compile Include="Provider\DapperBD\AchievementRatesProvider.cs" />
+    <Compile Include="Provider\DapperBD\DatabaseProvider.cs" />
+    <Compile Include="Provider\DapperBD\IDatabaseProvider.cs" />
+    <Compile Include="Shared\DependencyResolution\InfrastructureRegistry.cs" />
+    <Compile Include="Shared\Elasticsearch\Configuration\ElasticsearchConfiguration.cs" />
+    <Compile Include="Shared\Elasticsearch\Configuration\IElasticsearchConfiguration.cs" />
+    <Compile Include="Shared\Elasticsearch\ElasticsearchCustomClient.cs" />
+    <Compile Include="Shared\Elasticsearch\ElasticsearchIndexMaintainerBase.cs" />
+    <Compile Include="Shared\Elasticsearch\ElasticsearchMapper.cs" />
+    <Compile Include="Provider\ElasticSearch\ElasticsearchProviderIndexMaintainer.cs" />
+    <Compile Include="Apprenticeship\ElasticSearch\ElasticsearchApprenticeshipIndexMaintainer.cs" />
+    <Compile Include="Shared\Elasticsearch\IElasticsearchCustomClient.cs" />
+    <Compile Include="Apprenticeship\Models\ApprenticeshipDocument.cs" />
+    <Compile Include="Shared\Elasticsearch\BulkProviderClient.cs" />
+    <Compile Include="Apprenticeship\Models\FrameworkDocument.cs" />
+    <Compile Include="Shared\Elasticsearch\IElasticsearchClientFactory.cs" />
+    <Compile Include="Shared\Elasticsearch\IElasticsearchMapper.cs" />
+    <Compile Include="Provider\Models\ElasticSearch\Address.cs" />
+    <Compile Include="Provider\Models\ElasticSearch\FrameworkProvider.cs" />
+    <Compile Include="Provider\Models\ElasticSearch\IProviderAppreticeshipDocument.cs" />
+    <Compile Include="Apprenticeship\Models\JobRoleItem.cs" />
+    <Compile Include="Provider\Models\ElasticSearch\StandardProvider.cs" />
+    <Compile Include="Provider\Models\ElasticSearch\TrainingLocation.cs" />
+    <Compile Include="Provider\Models\ElasticSearch\ProviderDocument.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Mapping\IUkrlpProviderResponseMapper.cs" />
-    <Compile Include="Mapping\UkrlpProviderMapper.cs" />
-    <Compile Include="Mapping\UkrlpProviderResponseMapper.cs" />
+    <Compile Include="Provider\Mapping\IUkrlpProviderResponseMapper.cs" />
+    <Compile Include="Provider\Mapping\UkrlpProviderMapper.cs" />
+    <Compile Include="Provider\Mapping\UkrlpProviderResponseMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\Ukrlp\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Services\CsvService.cs" />
-    <Compile Include="Elasticsearch\ElasticsearchClientFactory.cs" />
-    <Compile Include="Services\FileHelper.cs" />
-    <Compile Include="Services\HttpService.cs" />
-    <Compile Include="Services\Models\GitTree.cs" />
-    <Compile Include="Services\Models\Entity.cs" />
-    <Compile Include="Services\NLogProviderService.cs" />
-    <Compile Include="Services\NLogService.cs" />
-    <Compile Include="CourseDirectory\CourseDirectoryClient.cs" />
-    <Compile Include="Services\RetryService.cs" />
-    <Compile Include="Services\UkrlpService.cs" />
-    <Compile Include="Services\VstsClient.cs" />
-    <Compile Include="Services\Wrappers\IUkrlpClient.cs" />
-    <Compile Include="Services\Wrappers\UkrlpClient.cs" />
-    <Compile Include="Services\ZipFileExtractor.cs" />
-    <Compile Include="Settings\AppConfigSettingsProvider.cs" />
-    <Compile Include="Settings\ElasticsearchSettings.cs" />
-    <Compile Include="Settings\IElasticsearchSettings.cs" />
-    <Compile Include="Settings\InfrastructureSettings.cs" />
-    <Compile Include="Settings\IInfrastructureSettings.cs" />
-    <Compile Include="Settings\LarsSettings.cs" />
-    <Compile Include="Settings\ILarsSettings.cs" />
-    <Compile Include="Elasticsearch\Models\StandardDocument.cs" />
-    <Compile Include="Settings\MachineSettings.cs" />
+    <Compile Include="Shared\Services\CsvService.cs" />
+    <Compile Include="Shared\Elasticsearch\ElasticsearchClientFactory.cs" />
+    <Compile Include="Shared\Services\FileHelper.cs" />
+    <Compile Include="Shared\Services\HttpService.cs" />
+    <Compile Include="Shared\Models\Git\GitTree.cs" />
+    <Compile Include="Shared\Models\Git\Entity.cs" />
+    <Compile Include="Shared\Services\NLogProviderService.cs" />
+    <Compile Include="Shared\Services\NLogService.cs" />
+    <Compile Include="Provider\CourseDirectory\CourseDirectoryClient.cs" />
+    <Compile Include="Shared\Services\RetryService.cs" />
+    <Compile Include="Provider\Services\UkrlpService.cs" />
+    <Compile Include="Shared\Services\VstsClient.cs" />
+    <Compile Include="Provider\Services\Wrappers\IUkrlpClient.cs" />
+    <Compile Include="Provider\Services\Wrappers\UkrlpClient.cs" />
+    <Compile Include="Shared\Services\ZipFileExtractor.cs" />
+    <Compile Include="Shared\Settings\AppConfigSettingsProvider.cs" />
+    <Compile Include="Shared\Settings\ElasticsearchSettings.cs" />
+    <Compile Include="Shared\Settings\IElasticsearchSettings.cs" />
+    <Compile Include="Shared\Settings\InfrastructureSettings.cs" />
+    <Compile Include="Shared\Settings\IInfrastructureSettings.cs" />
+    <Compile Include="Shared\Settings\LarsSettings.cs" />
+    <Compile Include="Shared\Settings\ILarsSettings.cs" />
+    <Compile Include="Apprenticeship\Models\StandardDocument.cs" />
+    <Compile Include="Shared\Settings\MachineSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">
@@ -269,6 +270,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\Ukrlp\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -24,6 +24,7 @@
 
         public IList<string> GetLinks(string fromUrl, string selector, string textInTitle)
         {
+
             if (string.IsNullOrEmpty(fromUrl))
             {
                 return new List<string>();
@@ -32,14 +33,6 @@
             try
             {
                 var timing = ExecutionTimer.GetTiming(() => _httpGet.Get(fromUrl, null, null));
-
-                var logEntry = new DependencyLogEntry
-                {
-                    Identifier = "AngleSharp",
-                    ResponseTime = timing.ElaspedMilliseconds,
-                    Url = fromUrl
-                };
-                _logger.Debug("AngleSharp", logEntry);
 
                 var parser = new HtmlParser();
                 var result = parser.Parse(timing.Result);

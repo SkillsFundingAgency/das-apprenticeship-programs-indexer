@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp
 {
+    using System.Collections.Generic;
+
     public class UkrlpProviderResponse
     {
-        public IEnumerable<Provider> MatchingProviderRecords { get; set; }
+        public IEnumerable<Provider> MatchingProviderRecords { get; set; } = new List<Provider>();
     }
 }
