@@ -64,7 +64,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         {
             var standards = _vstsService
                 .GetStandards()
-                .Where(m => m.Published)
                 .ToList();
             _logger.Debug($"Retrieved {standards.Count} standards from VSTS");
 
