@@ -12,7 +12,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models
 
         public IEnumerable<FrameworkAimMetaData> FrameworkAimMetaData { get; set; }
 
-        public IEnumerable<FrameworkComponentTypeMetaData> FrameworkComponentTypeMetaData { get; set; }
+        public IEnumerable<ApprenticeshipComponentTypeMetaData> ApprenticeshipComponentTypeMetaData { get; set; }
 
         public IEnumerable<LearningDeliveryMetaData> LearningDeliveryMetaData { get; set; }
 

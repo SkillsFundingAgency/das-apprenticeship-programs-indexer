@@ -1,8 +1,8 @@
-﻿namespace Sfa.Das.Sas.Indexer.Core.Models.Framework
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
     using System;
 
-    public class LearningDeliveryMetaData
+    public class LearningDeliveryMetaDataDocument
     {
         public string LearnAimRef { get; set; }
 

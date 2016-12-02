@@ -143,13 +143,4 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             log.Log(logEvent);
         }
     }
-
-    public class NLogApprenticeshipService : NLogService, ILogApprenticeships
-    {
-        public NLogApprenticeshipService(Type loggerType, IInfrastructureSettings settings)
-            : base(loggerType, settings)
-        {
-            ApplicationName = "apprenticeship-programmes-indexer";
-        }
-    }
 }

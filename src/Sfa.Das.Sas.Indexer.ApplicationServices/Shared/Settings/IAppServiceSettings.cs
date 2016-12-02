@@ -10,7 +10,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         string CsvFileNameFrameworksAim { get; }
 
-        string CsvFileNameFrameworkComponentType { get; }
+        string CsvFileNameApprenticeshipComponentType { get; }
 
         string CsvFileNameLearningDelivery { get; }
 

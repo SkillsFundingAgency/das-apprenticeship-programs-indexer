@@ -1,8 +1,8 @@
-﻿namespace Sfa.Das.Sas.Indexer.Core.Models.Framework
-{
-    using System;
+﻿using System;
 
-    public class FundingMetaData
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
+{
+    public class FundingMetadataDocument
     {
         public string LearnAimRef { get; set; }
 

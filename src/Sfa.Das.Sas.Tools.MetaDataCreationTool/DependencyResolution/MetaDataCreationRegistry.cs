@@ -28,7 +28,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             // Meta Data factories
             For<IMetaDataFactory>().Use<FrameworkMetaDataFactory>();
             For<IMetaDataFactory>().Use<FrameworkAimMetaDataFactory>();
-            For<IMetaDataFactory>().Use<FrameworkComponentTypeMetaDataFactory>();
+            For<IMetaDataFactory>().Use<ApprenticeshipComponentTypeMetaDataFactory>();
             For<IMetaDataFactory>().Use<LearningDeliveryMetaDataFactory>();
             For<IMetaDataFactory>().Use<StandardMetaDataFactory>();
             For<IMetaDataFactory>().Use<FundingMetaDataFactory>();

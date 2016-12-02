@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Settings
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Settings
 {
     using System.Configuration;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;

@@ -1,9 +1,10 @@
-﻿namespace Sfa.Das.Sas.Indexer.Core.Models.Framework
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
     using System;
     using System.Collections.Generic;
+    using Sfa.Das.Sas.Indexer.Core.Models;
 
-    public class FrameworkMetaData : IIndexEntry
+    public class FrameworkLars
     {
         public int FworkCode { get; set; }
 

@@ -18,9 +18,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         public string CsvFileNameStandards => _settings.GetSetting("CsvFileNameStandards");
 
         public string CsvFileNameFrameworks => _settings.GetSetting("CsvFileNameFrameworks");
+
         public string CsvFileNameFrameworksAim => _settings.GetSetting("CsvFileNameFrameworksAim");
-        public string CsvFileNameFrameworkComponentType => _settings.GetSetting("CsvFileNameFrameworkComponentType");
+
+        public string CsvFileNameApprenticeshipComponentType => _settings.GetSetting("CsvFileNameApprenticeshipComponentType");
+
         public string CsvFileNameLearningDelivery => _settings.GetSetting("CsvFileNameLearningDelivery");
+
         public string CsvFileNameFunding => _settings.GetSetting("CsvFileNameFunding");
 
         public string EnvironmentName => _settings.GetSetting("EnvironmentName");

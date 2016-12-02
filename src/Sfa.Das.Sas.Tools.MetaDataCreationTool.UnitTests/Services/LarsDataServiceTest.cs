@@ -29,12 +29,12 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
         private List<string> _linkEndPoints;
         private FrameworkMetaData _framework;
         private FrameworkAimMetaData _frameworkAim;
-        private FrameworkComponentTypeMetaData _frameworkComponentType;
+        private ApprenticeshipComponentTypeMetaData _apprenticeshipComponentType;
         private LearningDeliveryMetaData _learningDelivery;
         private FundingMetaData _fundingMetaData;
         private List<FrameworkMetaData> _frameworkList;
         private List<FrameworkAimMetaData> _frameworkAimList;
-        private List<FrameworkComponentTypeMetaData> _frameworkComponentTypeList;
+        private List<ApprenticeshipComponentTypeMetaData> _apprenticeshipComponentTypeList;
         private List<LearningDeliveryMetaData> _learningDeliveryList;
         private List<FundingMetaData> _fundingList;
 
@@ -58,9 +58,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
                 EffectiveTo = DateTime.Now.AddDays(4)
             };
 
-            _frameworkComponentType = new FrameworkComponentTypeMetaData
+            _apprenticeshipComponentType = new ApprenticeshipComponentTypeMetaData
             {
-                FrameworkComponentType = 1,
+                ApprenticeshipComponentType = 1,
             };
 
             _frameworkAim = new FrameworkAimMetaData
@@ -68,7 +68,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
                 FworkCode = _framework.FworkCode,
                 PwayCode = _framework.PwayCode,
                 ProgType = _framework.ProgType,
-                FrameworkComponentType = _frameworkComponentType.FrameworkComponentType,
+                ApprenticeshipComponentType = _apprenticeshipComponentType.ApprenticeshipComponentType,
                 LearnAimRef = "5001738X"
             };
 
@@ -89,14 +89,14 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
 
             _frameworkList = new List<FrameworkMetaData> { _framework };
             _frameworkAimList = new List<FrameworkAimMetaData> { _frameworkAim };
-            _frameworkComponentTypeList = new List<FrameworkComponentTypeMetaData> { _frameworkComponentType };
+            _apprenticeshipComponentTypeList = new List<ApprenticeshipComponentTypeMetaData> { _apprenticeshipComponentType };
             _learningDeliveryList = new List<LearningDeliveryMetaData> { _learningDelivery };
             _fundingList = new List<FundingMetaData> { _fundingMetaData };
 
             _mockHttpGetFile.Setup(m => m.GetFile(It.IsAny<string>())).Returns(new MemoryStream());
             _mockCsvService.Setup(x => x.ReadFromString<FrameworkMetaData>(It.IsAny<string>())).Returns(_frameworkList);
             _mockCsvService.Setup(x => x.ReadFromString<FrameworkAimMetaData>(It.IsAny<string>())).Returns(_frameworkAimList);
-            _mockCsvService.Setup(x => x.ReadFromString<FrameworkComponentTypeMetaData>(It.IsAny<string>())).Returns(_frameworkComponentTypeList);
+            _mockCsvService.Setup(x => x.ReadFromString<ApprenticeshipComponentTypeMetaData>(It.IsAny<string>())).Returns(_apprenticeshipComponentTypeList);
             _mockCsvService.Setup(x => x.ReadFromString<LearningDeliveryMetaData>(It.IsAny<string>())).Returns(_learningDeliveryList);
             _mockCsvService.Setup(x => x.ReadFromString<FundingMetaData>(It.IsAny<string>())).Returns(_fundingList);
 
@@ -135,8 +135,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
         public void ShouldPopulateFrameworkWithKnowledgeQualifications()
         {
             // Assign
-            _frameworkComponentType.FrameworkComponentType = 2;
-            _frameworkAim.FrameworkComponentType = 2;
+            _apprenticeshipComponentType.ApprenticeshipComponentType = 2;
+            _frameworkAim.ApprenticeshipComponentType = 2;
 
             // Act
             var frameworks = _sut.GetListOfCurrentFrameworks();
@@ -159,8 +159,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
         public void ShouldPopulateFrameworkWithCombinedQualifications()
         {
             // Assign
-            _frameworkComponentType.FrameworkComponentType = 3;
-            _frameworkAim.FrameworkComponentType = 3;
+            _apprenticeshipComponentType.ApprenticeshipComponentType = 3;
+            _frameworkAim.ApprenticeshipComponentType = 3;
 
             // Act
             var frameworks = _sut.GetListOfCurrentFrameworks();
@@ -213,7 +213,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var newAim = new FrameworkAimMetaData
             {
                 FworkCode = _framework.FworkCode,
-                FrameworkComponentType = _frameworkComponentType.FrameworkComponentType,
+                ApprenticeshipComponentType = _apprenticeshipComponentType.ApprenticeshipComponentType,
                 LearnAimRef = newLearnDelivery.LearnAimRef
             };
 
@@ -249,7 +249,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var newAim = new FrameworkAimMetaData
             {
                 FworkCode = _framework.FworkCode,
-                FrameworkComponentType = _frameworkComponentType.FrameworkComponentType,
+                ApprenticeshipComponentType = _apprenticeshipComponentType.ApprenticeshipComponentType,
                 LearnAimRef = newLearnDelivery.LearnAimRef
             };
 
@@ -286,7 +286,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
                 FworkCode = _framework.FworkCode,
                 PwayCode = _framework.PwayCode,
                 ProgType = _framework.ProgType,
-                FrameworkComponentType = 2,
+                ApprenticeshipComponentType = 2,
                 LearnAimRef = learnRef
             });
 
@@ -295,18 +295,18 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
                 FworkCode = _framework.FworkCode,
                 PwayCode = _framework.PwayCode,
                 ProgType = _framework.ProgType,
-                FrameworkComponentType = 3, // Combined Component Type (should not be in any other type)
+                ApprenticeshipComponentType = 3, // Combined Component Type (should not be in any other type)
                 LearnAimRef = learnRef
             });
 
-            _frameworkComponentTypeList.Add(new FrameworkComponentTypeMetaData
+            _apprenticeshipComponentTypeList.Add(new ApprenticeshipComponentTypeMetaData
             {
-                FrameworkComponentType = 2
+                ApprenticeshipComponentType = 2
             });
 
-            _frameworkComponentTypeList.Add(new FrameworkComponentTypeMetaData
+            _apprenticeshipComponentTypeList.Add(new ApprenticeshipComponentTypeMetaData
             {
-                FrameworkComponentType = 3
+                ApprenticeshipComponentType = 3
             });
 
             _fundingList.Add(new FundingMetaData { LearnAimRef = learnRef, RateWeighted = 150, FundingCategory = "APP_ACT_COST" });

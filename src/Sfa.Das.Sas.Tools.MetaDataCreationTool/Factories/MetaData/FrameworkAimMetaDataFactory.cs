@@ -31,7 +31,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
                 LearnAimRef = values[3].RemoveQuotationMark(),
                 EffectiveFrom = values[4].SafeParseDate() ?? DateTime.MinValue,
                 EffectiveTo = values[5].SafeParseDate(),
-                FrameworkComponentType = values[6].RemoveQuotationMark().SafeParseInt()
+                ApprenticeshipComponentType = values[6].RemoveQuotationMark().SafeParseInt()
             };
         }
     }

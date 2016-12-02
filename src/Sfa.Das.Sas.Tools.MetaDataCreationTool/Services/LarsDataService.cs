@@ -72,7 +72,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
             var frameworkAimMetadata = GetLarsFrameworkAimData(zipStream);
 
-            var frameworkComponentTypeMetadata = GetLarsFrameworkComponentTypeMetadata(zipStream);
+            var apprenticeshipComponentTypeMetadata = GetLarsApprenticeshipComponentTypeMetadata(zipStream);
 
             var learningDeliveryMetadata = GetLarsLearningDeliveryMetaData(zipStream);
 
@@ -85,7 +85,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 Standards = standards,
                 Frameworks = frameworks,
                 FrameworkAimMetaData = frameworkAimMetadata,
-                FrameworkComponentTypeMetaData = frameworkComponentTypeMetadata,
+                ApprenticeshipComponentTypeMetaData = apprenticeshipComponentTypeMetadata,
                 LearningDeliveryMetaData = learningDeliveryMetadata,
                 FundingMetaData = fundingMetadata
             };
@@ -125,13 +125,13 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return frameworkAimMetaData;
         }
 
-        private ICollection<FrameworkComponentTypeMetaData> GetLarsFrameworkComponentTypeMetadata(Stream zipStream)
+        private ICollection<ApprenticeshipComponentTypeMetaData> GetLarsApprenticeshipComponentTypeMetadata(Stream zipStream)
         {
-            var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameFrameworkComponentType, true);
+            var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameApprenticeshipComponentType, true);
 
-            var frameworkComponentTypeMetadata = _csvService.ReadFromString<FrameworkComponentTypeMetaData>(fileContent);
+            var apprenticeshipComponentTypeMetadata = _csvService.ReadFromString<ApprenticeshipComponentTypeMetaData>(fileContent);
 
-            return frameworkComponentTypeMetadata;
+            return apprenticeshipComponentTypeMetadata;
         }
 
         private ICollection<LearningDeliveryMetaData> GetLarsLearningDeliveryMetaData(Stream zipStream)
@@ -164,14 +164,14 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
                 var qualifications =
                     (from aim in frameworkAims
-                     join comp in larsData.FrameworkComponentTypeMetaData on aim.FrameworkComponentType equals comp.FrameworkComponentType
+                     join comp in larsData.ApprenticeshipComponentTypeMetaData on aim.ApprenticeshipComponentType equals comp.ApprenticeshipComponentType
                      join ld in larsData.LearningDeliveryMetaData on aim.LearnAimRef equals ld.LearnAimRef
                      select new FrameworkQualification
                      {
                          Title = ld.LearnAimRefTitle.Replace("(QCF)", string.Empty).Trim(),
                          LearnAimRef = aim.LearnAimRef,
-                         CompetenceType = comp.FrameworkComponentType,
-                         CompetenceDescription = comp.FrameworkComponentTypeDesc
+                         CompetenceType = comp.ApprenticeshipComponentType,
+                         CompetenceDescription = comp.ApprenticeshipComponentTypeDesc
                      }).ToList();
 
                 // Determine if the qualifications are funded or not by the apprenticeship scheme
@@ -337,14 +337,14 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
                 var qualifications =
                     (from aim in frameworkAims
-                     join comp in metaData.FrameworkContentTypes on aim.FrameworkComponentType equals comp.FrameworkComponentType
+                     join comp in metaData.FrameworkContentTypes on aim.ApprenticeshipComponentType equals comp.ApprenticeshipComponentType
                      join ld in metaData.LearningDeliveries on aim.LearnAimRef equals ld.LearnAimRef
                      select new FrameworkQualification
                      {
                          Title = ld.LearnAimRefTitle.Replace("(QCF)", string.Empty).Trim(),
                          LearnAimRef = aim.LearnAimRef,
-                         CompetenceType = comp.FrameworkComponentType,
-                         CompetenceDescription = comp.FrameworkComponentTypeDesc
+                         CompetenceType = comp.ApprenticeshipComponentType,
+                         CompetenceDescription = comp.ApprenticeshipComponentTypeDesc
                      }).ToList();
 
                     // Determine if the qualifications are funded or not by the apprenticeship scheme
@@ -372,7 +372,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             _logger.Debug($"There are {metaData.Frameworks.Count} frameworks after filtering.");
 
             metaData.FrameworkAims = _csvService.ReadFromString<FrameworkAimMetaData>(larsCsvData.FrameworkAim);
-            metaData.FrameworkContentTypes = _csvService.ReadFromString<FrameworkComponentTypeMetaData>(larsCsvData.FrameworkContentType);
+            metaData.FrameworkContentTypes = _csvService.ReadFromString<ApprenticeshipComponentTypeMetaData>(larsCsvData.FrameworkContentType);
             metaData.LearningDeliveries = _csvService.ReadFromString<LearningDeliveryMetaData>(larsCsvData.LearningDelivery);
             metaData.Fundings = _csvService.ReadFromString<FundingMetaData>(larsCsvData.Funding);
 
@@ -409,7 +409,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 zipStream, _appServiceSettings.CsvFileNameFrameworksAim, true);
 
             csvData.FrameworkContentType = _fileExtractor.ExtractFileFromStream(
-                zipStream, _appServiceSettings.CsvFileNameFrameworkComponentType, true);
+                zipStream, _appServiceSettings.CsvFileNameApprenticeshipComponentType, true);
 
                 csvData.LearningDelivery = _fileExtractor.ExtractFileFromStream(
                     zipStream, _appServiceSettings.CsvFileNameLearningDelivery, true);
@@ -447,7 +447,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             public ICollection<FrameworkMetaData> Frameworks { get; set; }
             public ICollection<FrameworkAimMetaData> FrameworkAims { get; set; }
-            public ICollection<FrameworkComponentTypeMetaData> FrameworkContentTypes { get; set; }
+            public ICollection<ApprenticeshipComponentTypeMetaData> FrameworkContentTypes { get; set; }
             public ICollection<LearningDeliveryMetaData> LearningDeliveries { get; set; }
             public ICollection<FundingMetaData> Fundings { get; set; }
         }

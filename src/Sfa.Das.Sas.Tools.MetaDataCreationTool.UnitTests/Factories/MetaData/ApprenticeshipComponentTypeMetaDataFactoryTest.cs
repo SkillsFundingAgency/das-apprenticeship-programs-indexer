@@ -8,14 +8,14 @@ using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData;
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData
 {
     [TestFixture]
-    public class FrameworkComponentTypeMetaDataFactoryTest
+    public class ApprenticeshipComponentTypeMetaDataFactoryTest
     {
-        private FrameworkComponentTypeMetaDataFactory _sut;
+        private ApprenticeshipComponentTypeMetaDataFactory _sut;
 
         [SetUp]
         public void Init()
         {
-            _sut = new FrameworkComponentTypeMetaDataFactory();
+            _sut = new ApprenticeshipComponentTypeMetaDataFactory();
         }
 
         [Test]
@@ -38,12 +38,12 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData
             var data = new List<string> { "1", "Description 1", "Description 2", "2015-03-01", "2017-06-01" };
 
             // Act
-            var metaData = _sut.Create(data) as FrameworkComponentTypeMetaData;
+            var metaData = _sut.Create(data) as ApprenticeshipComponentTypeMetaData;
 
             // Assert
             metaData.Should().NotBeNull();
-            metaData.FrameworkComponentType.Should().Be(1);
-            metaData.FrameworkComponentTypeDesc.Should().Be("Description 1");
+            metaData.ApprenticeshipComponentType.Should().Be(1);
+            metaData.ApprenticeshipComponentTypeDesc.Should().Be("Description 1");
             metaData.EffectiveFrom.Should().Be(new DateTime(2015, 3, 1));
             metaData.EffectiveTo.Should().Be(new DateTime(2017, 6, 1));
         }
