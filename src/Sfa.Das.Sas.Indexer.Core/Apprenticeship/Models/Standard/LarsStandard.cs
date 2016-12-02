@@ -1,4 +1,4 @@
-﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Models
+﻿namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard
 {
     public sealed class LarsStandard
     {

@@ -33,6 +33,7 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution
                 c.AddRegistry<IndexerRegistry>();
                 c.AddRegistry<ApprenticeshipApplicationServicesRegistry>();
                 c.AddRegistry<ProviderApplicationServicesRegistry>();
+                c.AddRegistry<LarsApplicationServicesRegistry>();
                 c.AddRegistry<SharedApplicationServicesRegistry>();
                 c.AddRegistry<InfrastructureRegistry>();
                 c.AddRegistry<ProviderInfrastructureRegistry>();

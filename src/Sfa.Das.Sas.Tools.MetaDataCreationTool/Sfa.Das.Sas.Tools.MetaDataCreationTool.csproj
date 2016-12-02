@@ -111,7 +111,6 @@
     <Compile Include="Services\AngleSharpService.cs" />
     <Compile Include="Services\CsvService.cs" />
     <Compile Include="Services\Interfaces\IReadMetaDataFromCsv.cs" />
-    <Compile Include="Models\LarsStandard.cs" />
     <Compile Include="Services\Interfaces\IGitDynamicModelGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

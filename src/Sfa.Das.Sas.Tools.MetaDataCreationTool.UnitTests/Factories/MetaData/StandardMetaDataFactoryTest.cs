@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
-
-namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData
+﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData
 {
+    using System.Collections.Generic;
+    using FluentAssertions;
+    using NUnit.Framework;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData;
+
     [TestFixture]
     public class StandardMetaDataFactoryTest
     {

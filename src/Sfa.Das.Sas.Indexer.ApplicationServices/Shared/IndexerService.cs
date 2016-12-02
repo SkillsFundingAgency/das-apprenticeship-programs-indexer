@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
@@ -25,7 +26,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared
             _indexSettings = indexSettings;
             _indexerHelper = indexerHelper;
             _log = log;
-            _name = typeof(T) == typeof(IMaintainProviderIndex) ? "Provider Index" : "Apprenticeship Index";
+            _name = GetIndexTypeName(typeof(T));
         }
 
         public async Task CreateScheduledIndex(DateTime scheduledRefreshDateTime)
@@ -75,6 +76,16 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared
         {
             var time = _indexSettings.PauseTime;
             Thread.Sleep(int.Parse(time));
+        }
+
+        private string GetIndexTypeName(Type type)
+        {
+            if (type == typeof(IMaintainProviderIndex))
+            {
+                return "Provider Index";
+            }
+
+            return type == typeof(IMaintainLarsIndex) ? "Lars Index" : "Apprenticeship Index";
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
+    using System.Collections.Generic;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+
     public interface IMetaDataHelper
     {
         void UpdateMetadataRepository();
@@ -11,5 +12,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         IEnumerable<StandardMetaData> GetAllStandardsMetaData();
 
         IEnumerable<FrameworkMetaData> GetAllFrameworkMetaData();
+
+        LarsData GetAllApprenticeshipLarsMetaData();
     }
 }
