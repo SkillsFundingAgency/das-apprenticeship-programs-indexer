@@ -25,9 +25,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
             using (var client = new ProviderQueryPortTypeClient("ProviderQueryPort", _settings.UkrlpServiceEndpointUrl))
             {
                 var response = client.retrieveAllProviders(providerQueryStructure);
-                _logger.Debug($"Retrieved {response.MatchingProviderRecords.Length} Providers from UKRLP");
+                _logger.Debug($"Retrieved {response.MatchingProviderRecords?.Length} Providers from UKRLP");
                 var mapper = new UkrlpProviderResponseMapper();
-                return response.MatchingProviderRecords.Select(mapper.MapFromUkrlpProviderRecord);
+                return response.MatchingProviderRecords?.Select(mapper.MapFromUkrlpProviderRecord);
             }
         }
     }
