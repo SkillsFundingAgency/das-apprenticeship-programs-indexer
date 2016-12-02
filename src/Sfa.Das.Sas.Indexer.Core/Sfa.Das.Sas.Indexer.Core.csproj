@@ -65,7 +65,7 @@
     <Compile Include="Provider\Models\FEChoices\AchievementRateNational.cs" />
     <Compile Include="Provider\Models\FEChoices\AchievementRateProvider.cs" />
     <Compile Include="Apprenticeship\Models\Framework\FrameworkAimMetaData.cs" />
-    <Compile Include="Apprenticeship\Models\Framework\FrameworkComponentTypeMetaData.cs" />
+    <Compile Include="Apprenticeship\Models\Framework\ApprenticeshipComponentTypeMetaData.cs" />
     <Compile Include="Apprenticeship\Models\Framework\FrameworkMetaData.cs" />
     <Compile Include="Apprenticeship\Models\Framework\FrameworkQualification.cs" />
     <Compile Include="Apprenticeship\Models\Framework\FundingMetaData.cs" />
