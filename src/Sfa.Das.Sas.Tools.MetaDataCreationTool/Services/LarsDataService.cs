@@ -157,7 +157,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         private ICollection<ApprenticeshipFunding> GetApprenticeshipFunding(Stream zipStream)
         {
-            var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, "CSV/ApprenticeshipFunding.csv", true);
+            var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameApprenticeshipFunding, true);
 
             var apprenticeshipFunding = _csvService.ReadFromString<ApprenticeshipFunding>(fileContent);
 
