@@ -83,7 +83,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 Title = larsStandard.Title,
                 JobRoles = new List<string>(),
                 Keywords = new List<string>(),
-                TypicalLength = new TypicalLength { Unit = "m" },
                 OverviewOfRole = string.Empty,
                 EntryRequirements = string.Empty,
                 WhatApprenticesWillLearn = string.Empty,
@@ -123,7 +122,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 framework.Published = repositoryFramework.Published;
                 framework.JobRoleItems = repositoryFramework.JobRoleItems;
                 framework.Keywords = repositoryFramework.Keywords;
-                framework.TypicalLength = repositoryFramework.TypicalLength;
                 framework.CompletionQualifications = repositoryFramework.CompletionQualifications;
                 framework.EntryRequirements = repositoryFramework.EntryRequirements;
                 framework.ProfessionalRegistration = repositoryFramework.ProfessionalRegistration;

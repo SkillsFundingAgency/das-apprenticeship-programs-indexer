@@ -29,9 +29,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Framework
         public int FundingCap { get; set; }
 
         public int Duration { get; set; }
-
-        public TypicalLength TypicalLength { get; set; }
-
+        
         public double SectorSubjectAreaTier1 { get; set; }
 
         public double SectorSubjectAreaTier2 { get; set; }
