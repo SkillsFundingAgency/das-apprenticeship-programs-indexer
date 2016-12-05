@@ -143,6 +143,7 @@
     <Compile Include="Apprenticeship\ElasticSearch\ElasticsearchApprenticeshipIndexMaintainer.cs" />
     <Compile Include="Lars\DependencyResolution\LarsInfrastructureRegistry.cs" />
     <Compile Include="Lars\Models\ApprenticeshipComponentTypeMetaDataDocument.cs" />
+    <Compile Include="Lars\Models\ApprenticeshipFundingDocument.cs" />
     <Compile Include="Lars\Models\FrameworkAimMetaDataDocument.cs" />
     <Compile Include="Lars\Models\FrameworkLars.cs" />
     <Compile Include="Lars\Models\FundingMetadataDocument.cs" />

@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services
+﻿using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -20,5 +22,7 @@
         Task IndexApprenticeshipComponentTypeMetaData(string indexName, IEnumerable<ApprenticeshipComponentTypeMetaData> entries);
 
         Task IndexLearningDeliveryMetaData(string indexName, IEnumerable<LearningDeliveryMetaData> entries);
+
+        Task IndexApprenticeshipFunding(string indexName, IEnumerable<ApprenticeshipFunding> entries);
     }
 }

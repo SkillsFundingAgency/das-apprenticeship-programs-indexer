@@ -1,3 +1,5 @@
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
     using System.Collections.Generic;
@@ -24,7 +26,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         LearningDeliveryMetaDataDocument CreateLearningDeliveryMetaDataDocument(LearningDeliveryMetaData learningDeliveryMetaData);
 
-        ApprenticeshipComponentTypeMetaDataDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData);
+        ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFunding apprenticeshipFunding);
+
+         ApprenticeshipComponentTypeMetaDataDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData);
 
         int MapToLevelFromProgType(int level);
 

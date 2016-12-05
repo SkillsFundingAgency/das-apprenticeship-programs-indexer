@@ -1,3 +1,4 @@
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
@@ -75,6 +76,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         public async Task IndexLearningDeliveryMetaData(string indexName, IEnumerable<LearningDeliveryMetaData> entries)
         {
             await IndexEntries(indexName, entries, ElasticsearchMapper.CreateLearningDeliveryMetaDataDocument).ConfigureAwait(true);
+        }
+
+        public async Task IndexApprenticeshipFunding(string indexName, IEnumerable<ApprenticeshipFunding> entries)
+        {
+            await IndexEntries(indexName, entries, ElasticsearchMapper.CreateApprenticeshipFundingDocument).ConfigureAwait(true);
         }
 
         private async Task IndexEntries<T1, T2>(string indexName, IEnumerable<T1> entries, Func<T1, T2> method)

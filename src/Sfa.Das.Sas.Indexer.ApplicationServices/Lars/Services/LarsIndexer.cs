@@ -1,4 +1,5 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+﻿using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
@@ -45,6 +46,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             await IndexFrameworkAimMetaData(indexName, larsData.FrameworkAimMetaData).ConfigureAwait(false);
             await IndexLearningDeliveryMetaData(indexName, larsData.LearningDeliveryMetaData).ConfigureAwait(false);
             await IndexApprenticeshipComponentTypeMetaData(indexName, larsData.ApprenticeshipComponentTypeMetaData).ConfigureAwait(false);
+            await IndexApprenticeshipFunding(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(false);
         }
 
         public bool CreateIndex(string indexName)
@@ -168,6 +170,20 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
                 _log.Debug("Indexing " + learningDeliveryMetaData.Count() + " learning delivery metadata details");
 
                 await _searchIndexMaintainer.IndexLearningDeliveryMetaData(indexName, learningDeliveryMetaData).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing LARS LearningDeliveryMetaData");
+            }
+        }
+
+        private async Task IndexApprenticeshipFunding(string indexName, IEnumerable<ApprenticeshipFunding> larsDataApprenticeshipFunding)
+        {
+            try
+            {
+                _log.Debug("Indexing " + larsDataApprenticeshipFunding.Count() + " learning delivery metadata details");
+
+                await _searchIndexMaintainer.IndexApprenticeshipFunding(indexName, larsDataApprenticeshipFunding).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

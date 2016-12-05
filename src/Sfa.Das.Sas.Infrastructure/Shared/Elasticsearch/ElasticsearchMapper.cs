@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nest;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Extensions;
@@ -174,6 +175,21 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 LearnAimRef = learningDeliveryMetaData.LearnAimRef,
                 LearnAimRefTitle = learningDeliveryMetaData.LearnAimRefTitle,
                 LearnAimRefType = learningDeliveryMetaData.LearnAimRefType
+            };
+
+            return doc;
+        }
+
+        public ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFunding apprenticeshipFunding)
+        {
+            var doc = new ApprenticeshipFundingDocument
+            {
+                ProgType = apprenticeshipFunding.ProgType,
+                ApprenticeshipCode = apprenticeshipFunding.ApprenticeshipCode,
+                PwayCode = apprenticeshipFunding.PwayCode,
+                ReservedValue1 = apprenticeshipFunding.ReservedValue1,
+                ApprenticeshipType = apprenticeshipFunding.ApprenticeshipType,
+                MaxEmployerLevyCap = apprenticeshipFunding.MaxEmployerLevyCap
             };
 
             return doc;

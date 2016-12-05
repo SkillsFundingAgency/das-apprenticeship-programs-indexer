@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Apprenticeship\Models\ApprenticeshipFunding.cs" />
     <Compile Include="Apprenticeship\Models\LarsData.cs" />
     <Compile Include="Apprenticeship\Models\Standard\LarsStandard.cs" />
     <Compile Include="Shared\Exceptions\ConnectionException.cs" />

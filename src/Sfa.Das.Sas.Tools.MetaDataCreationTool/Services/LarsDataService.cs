@@ -78,6 +78,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
             var fundingMetadata = GetLarsFundingMetaData(zipStream);
 
+            var apprenticeshipFunding = GetApprenticeshipFunding(zipStream);
+
             CloseStream(zipStream);
 
             var larsData = new LarsData
@@ -87,7 +89,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 FrameworkAimMetaData = frameworkAimMetadata,
                 ApprenticeshipComponentTypeMetaData = apprenticeshipComponentTypeMetadata,
                 LearningDeliveryMetaData = learningDeliveryMetadata,
-                FundingMetaData = fundingMetadata
+                FundingMetaData = fundingMetadata,
+                ApprenticeshipFunding = apprenticeshipFunding
             };
 
             return larsData;
@@ -150,6 +153,15 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var fundingMetaData = _csvService.ReadFromString<FundingMetaData>(fileContent);
 
             return fundingMetaData;
+        }
+
+        private ICollection<ApprenticeshipFunding> GetApprenticeshipFunding(Stream zipStream)
+        {
+            var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, "CSV/ApprenticeshipFunding.csv", true);
+
+            var apprenticeshipFunding = _csvService.ReadFromString<ApprenticeshipFunding>(fileContent);
+
+            return apprenticeshipFunding;
         }
 
         private void AddQualificationsToFrameworks(LarsData larsData)

@@ -17,5 +17,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models
         public IEnumerable<LearningDeliveryMetaData> LearningDeliveryMetaData { get; set; }
 
         public IEnumerable<FundingMetaData> FundingMetaData { get; set; }
+
+        public IEnumerable<ApprenticeshipFunding> ApprenticeshipFunding { get; set; }
     }
 }
