@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 {
+    using System;
+
     public interface IAppServiceSettings
     {
         string CsvFileNameStandards { get; }
