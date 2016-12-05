@@ -17,6 +17,10 @@
 
         public double SectorSubjectAreaTier2 { get; set; }
 
+        public int FundingCap { get; set; }
+
+        public int Duration { get; set; }
+
         public TypicalLength TypicalLength { get; set; }
 
         [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]

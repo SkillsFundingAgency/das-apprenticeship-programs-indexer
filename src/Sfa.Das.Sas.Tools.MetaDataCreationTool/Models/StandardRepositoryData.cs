@@ -27,5 +27,9 @@
         public string ProfessionalRegistration { get; set; }
 
         public bool Published { get; set; }
+
+        public int Duration { get; set; }
+
+        public int FundingCap { get; set; }
     }
 }

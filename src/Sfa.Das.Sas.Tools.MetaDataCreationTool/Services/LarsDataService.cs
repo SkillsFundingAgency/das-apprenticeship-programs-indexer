@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
@@ -51,11 +52,17 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
             var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameStandards);
             _logger.Debug($"Extracted content. Length: {fileContent.Length}");
-
+            
             var standards = _csvService.ReadFromString<LarsStandard>(fileContent);
             _logger.Debug($"Read: {standards.Count} standards from file.");
 
+            var csvData = GetLarsCsvData(zipFilePath);
+
             zipStream.Close();
+
+            var larsMetaData = GetLarsMetaData(csvData);
+
+            AddDurationAndFundingToStandards(standards, larsMetaData);
 
             return standards;
         }
@@ -70,6 +77,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var larsMetaData = GetLarsMetaData(csvData);
 
             AddQualificationsToFrameworks(larsMetaData);
+            AddDurationAndFundingToFrameworks(larsMetaData);
 
             return larsMetaData.Frameworks;
         }
@@ -182,6 +190,46 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             }
         }
 
+        private void AddDurationAndFundingToFrameworks(LarsMetaData metaData)
+        {
+            foreach (var framework in metaData.Frameworks)
+            {
+                var fw =
+                    metaData.ApprenticeshipFundings.FirstOrDefault(fwk =>
+                        fwk.ApprenticeshipType == "FWK" &&
+                        fwk.ApprenticeshipCode == framework.FworkCode &&
+                        fwk.ProgType == framework.ProgType &&
+                        fwk.PwayCode == framework.PwayCode);
+
+                if (fw == null)
+                {
+                    continue;
+                }
+                
+                framework.Duration = fw.ReservedValue1;
+                framework.FundingCap = fw.MaxEmployerLevyCap;
+            }
+        }
+        
+        private void AddDurationAndFundingToStandards(ICollection<LarsStandard> standards, LarsMetaData metaData)
+        {
+            foreach (var std in standards)
+            {
+                var s =
+                    metaData.ApprenticeshipFundings.FirstOrDefault(stdrd =>
+                        stdrd.ApprenticeshipType == "STD" &&
+                        stdrd.ApprenticeshipCode == std.Id);
+
+                if (s == null)
+                {
+                    continue;
+                }
+
+                std.Duration = s.ReservedValue1;
+                std.FundingCap = s.MaxEmployerLevyCap;
+            }
+        }
+
         private LarsMetaData GetLarsMetaData(LarsCsvData larsCsvData)
         {
             var metaData = default(LarsMetaData);
@@ -196,6 +244,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             metaData.FrameworkContentTypes = _csvService.ReadFromString<FrameworkComponentTypeMetaData>(larsCsvData.FrameworkContentType);
             metaData.LearningDeliveries = _csvService.ReadFromString<LearningDeliveryMetaData>(larsCsvData.LearningDelivery);
             metaData.Fundings = _csvService.ReadFromString<FundingMetaData>(larsCsvData.Funding);
+            metaData.ApprenticeshipFundings = _csvService.ReadFromString<ApprenticeshipFundingMetaData>(larsCsvData.ApprenticeshipFundingAndDuration);
 
             return metaData;
         }
@@ -232,11 +281,14 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             csvData.FrameworkContentType = _fileExtractor.ExtractFileFromStream(
                 zipStream, _appServiceSettings.CsvFileNameFrameworkComponentType, true);
 
-                csvData.LearningDelivery = _fileExtractor.ExtractFileFromStream(
-                    zipStream, _appServiceSettings.CsvFileNameLearningDelivery, true);
+            csvData.LearningDelivery = _fileExtractor.ExtractFileFromStream(
+                zipStream, _appServiceSettings.CsvFileNameLearningDelivery, true);
 
-                csvData.Funding = _fileExtractor.ExtractFileFromStream(
-                    zipStream, _appServiceSettings.CsvFileNameFunding, true);
+            csvData.Funding = _fileExtractor.ExtractFileFromStream(
+                zipStream, _appServiceSettings.CsvFileNameFunding, true);
+
+            csvData.ApprenticeshipFundingAndDuration = _fileExtractor.ExtractFileFromStream(
+                zipStream, _appServiceSettings.CsvFileNameApprenticeshipFunding, true);
 
             zipStream.Close();
 
@@ -262,6 +314,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             public string FrameworkContentType { get; set; }
             public string LearningDelivery { get; set; }
             public string Funding { get; set; }
+            public string ApprenticeshipFundingAndDuration { get; set; }
         }
 
         private struct LarsMetaData
@@ -271,6 +324,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             public ICollection<FrameworkComponentTypeMetaData> FrameworkContentTypes { get; set; }
             public ICollection<LearningDeliveryMetaData> LearningDeliveries { get; set; }
             public ICollection<FundingMetaData> Fundings { get; set; }
+            public ICollection<ApprenticeshipFundingMetaData> ApprenticeshipFundings { get; set; }
         }
 
         private struct CategorisedQualifications

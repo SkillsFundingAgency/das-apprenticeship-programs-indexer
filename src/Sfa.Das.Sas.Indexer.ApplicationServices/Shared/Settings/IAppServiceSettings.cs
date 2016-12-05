@@ -16,6 +16,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         string CsvFileNameFunding { get; }
 
+        string CsvFileNameApprenticeshipFunding { get; }
+        
         string GitUsername { get; }
 
         string GitPassword { get; }

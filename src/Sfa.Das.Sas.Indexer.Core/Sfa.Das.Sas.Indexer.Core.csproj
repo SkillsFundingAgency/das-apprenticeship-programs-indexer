@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Apprenticeship\Models\ApprenticeshipFundingMetaData.cs" />
     <Compile Include="Shared\Exceptions\ConnectionException.cs" />
     <Compile Include="Shared\Exceptions\MappingException.cs" />
     <Compile Include="Shared\Extensions\EnumExtensions.cs" />

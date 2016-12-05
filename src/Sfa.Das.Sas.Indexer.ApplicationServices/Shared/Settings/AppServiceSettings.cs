@@ -23,6 +23,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         public string CsvFileNameLearningDelivery => _settings.GetSetting("CsvFileNameLearningDelivery");
         public string CsvFileNameFunding => _settings.GetSetting("CsvFileNameFunding");
 
+        public string CsvFileNameApprenticeshipFunding => _settings.GetSetting("CsvFileNameApprenticeshipFunding");
+
         public string EnvironmentName => _settings.GetSetting("EnvironmentName");
 
         public string VstsGitGetFilesUrl => $"{VstsGitBaseUrl}/items?scopePath={VstsGitStandardsFolderPath}&recursionLevel=Full&api-version=2.0";

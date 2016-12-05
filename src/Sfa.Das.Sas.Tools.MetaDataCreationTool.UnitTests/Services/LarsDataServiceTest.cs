@@ -6,6 +6,7 @@ using Moq;
 using NUnit.Framework;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
@@ -32,11 +33,13 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
         private FrameworkComponentTypeMetaData _frameworkComponentType;
         private LearningDeliveryMetaData _learningDelivery;
         private FundingMetaData _fundingMetaData;
+        private ApprenticeshipFundingMetaData _appFundingMetaData;
         private List<FrameworkMetaData> _frameworkList;
         private List<FrameworkAimMetaData> _frameworkAimList;
         private List<FrameworkComponentTypeMetaData> _frameworkComponentTypeList;
         private List<LearningDeliveryMetaData> _learningDeliveryList;
         private List<FundingMetaData> _fundingList;
+        private List<ApprenticeshipFundingMetaData> _fundingApprenticeshipsList;
 
         [SetUp]
         public void Init()
@@ -86,12 +89,23 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
                 FundingCategory = "APP_ACT_COST", // This category is used to determine an apprenticeship funded qualification
                 RateWeighted = 150
             };
+            
+            _appFundingMetaData = new ApprenticeshipFundingMetaData
+            {
+                ApprenticeshipType = "FWK",
+                ApprenticeshipCode = _framework.FworkCode,
+                PwayCode = _framework.PwayCode,
+                ProgType = _framework.ProgType,
+                ReservedValue1 = 18,
+                MaxEmployerLevyCap = 9000
+            };
 
             _frameworkList = new List<FrameworkMetaData> { _framework };
             _frameworkAimList = new List<FrameworkAimMetaData> { _frameworkAim };
             _frameworkComponentTypeList = new List<FrameworkComponentTypeMetaData> { _frameworkComponentType };
             _learningDeliveryList = new List<LearningDeliveryMetaData> { _learningDelivery };
             _fundingList = new List<FundingMetaData> { _fundingMetaData };
+            _fundingApprenticeshipsList = new List<ApprenticeshipFundingMetaData> { _appFundingMetaData };
 
             _mockHttpGetFile.Setup(m => m.GetFile(It.IsAny<string>())).Returns(new MemoryStream());
             _mockCsvService.Setup(x => x.ReadFromString<FrameworkMetaData>(It.IsAny<string>())).Returns(_frameworkList);
@@ -99,6 +113,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             _mockCsvService.Setup(x => x.ReadFromString<FrameworkComponentTypeMetaData>(It.IsAny<string>())).Returns(_frameworkComponentTypeList);
             _mockCsvService.Setup(x => x.ReadFromString<LearningDeliveryMetaData>(It.IsAny<string>())).Returns(_learningDeliveryList);
             _mockCsvService.Setup(x => x.ReadFromString<FundingMetaData>(It.IsAny<string>())).Returns(_fundingList);
+            _mockCsvService.Setup(x => x.ReadFromString<ApprenticeshipFundingMetaData>(It.IsAny<string>())).Returns(_fundingApprenticeshipsList);
 
             _mockAngleSharpService.Setup(x => x.GetLinks(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(_linkEndPoints);
 
