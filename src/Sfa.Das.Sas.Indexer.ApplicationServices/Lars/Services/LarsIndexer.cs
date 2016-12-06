@@ -190,7 +190,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             }
             catch (Exception ex)
             {
-                _log.Error(ex, "Error indexing LARS LearningDeliveryMetaData");
+                _log.Error(ex, "Error indexing LARS ApprenticeshipFundingDetails");
             }
         }
 
