@@ -1,7 +1,3 @@
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
-
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
     using System;
@@ -11,12 +7,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
     using System.Threading.Tasks;
     using Nest;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
     using Sfa.Das.Sas.Indexer.Core.Exceptions;
     using Sfa.Das.Sas.Indexer.Core.Logging;
-    using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 
     public sealed class ElasticsearchLarsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainLarsIndex
     {
@@ -84,7 +81,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             await IndexEntries(indexName, entries, ElasticsearchMapper.CreateLearningDeliveryMetaDataDocument).ConfigureAwait(true);
         }
 
-        public async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFunding> entries)
+        public async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFundingMetaData> entries)
         {
             await IndexEntries(indexName, entries, ElasticsearchMapper.CreateApprenticeshipFundingDocument).ConfigureAwait(true);
         }

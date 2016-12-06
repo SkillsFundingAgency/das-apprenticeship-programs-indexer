@@ -32,7 +32,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<IMetaDataFactory>().Use<StandardMetaDataFactory>();
             For<IMetaDataFactory>().Use<FundingMetaDataFactory>();
             For<IMetaDataFactory>().Use<ApprenticeshipFundingMetaDataFactory>();
-            For<IMetaDataFactory>().Use<ApprenticeshipFundingFactory>();
 
             For<IAppServiceSettings>().Use<AppServiceSettings>();
         }

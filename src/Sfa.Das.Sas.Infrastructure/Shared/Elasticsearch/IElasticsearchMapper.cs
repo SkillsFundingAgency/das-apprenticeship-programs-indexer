@@ -26,9 +26,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         LearningDeliveryMetaDataDocument CreateLearningDeliveryMetaDataDocument(LearningDeliveryMetaData learningDeliveryMetaData);
 
-        ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFunding apprenticeshipFunding);
+        ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFundingMetaData apprenticeshipFunding);
 
-         ApprenticeshipComponentTypeMetaDataDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData);
+        ApprenticeshipComponentTypeMetaDataDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData);
 
         int MapToLevelFromProgType(int level);
 

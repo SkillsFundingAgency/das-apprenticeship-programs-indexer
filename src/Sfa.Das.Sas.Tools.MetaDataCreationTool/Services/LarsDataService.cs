@@ -1,14 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
-
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     using System;
@@ -161,11 +150,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return fundingMetaData;
         }
 
-        private ICollection<ApprenticeshipFunding> GetApprenticeshipFunding(Stream zipStream)
+        private ICollection<ApprenticeshipFundingMetaData> GetApprenticeshipFunding(Stream zipStream)
         {
             var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameApprenticeshipFunding, true);
 
-            var apprenticeshipFunding = _csvService.ReadFromString<ApprenticeshipFunding>(fileContent);
+            var apprenticeshipFunding = _csvService.ReadFromString<ApprenticeshipFundingMetaData>(fileContent);
 
             return apprenticeshipFunding;
         }

@@ -169,7 +169,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             };
         }
 
-        public ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFunding apprenticeshipFunding)
+        public ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFundingMetaData apprenticeshipFunding)
         {
             return new ApprenticeshipFundingDocument
             {

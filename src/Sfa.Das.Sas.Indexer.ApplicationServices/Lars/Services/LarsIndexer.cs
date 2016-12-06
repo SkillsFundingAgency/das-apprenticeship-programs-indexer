@@ -1,18 +1,17 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Core.Apprenticeship.Models.Standard;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Core.Apprenticeship.Models.Standard;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Core.Services;
 
     public sealed class LarsIndexer : IGenericIndexerHelper<IMaintainLarsIndex>
@@ -36,10 +35,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
         public async Task IndexEntries(string indexName)
         {
-            //TODO: load LARS data
             var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
-
-            //TODO: index LARS data
+            
             await IndexStandards(indexName, larsData.Standards).ConfigureAwait(false);
             await IndexFrameworks(indexName, larsData.Frameworks).ConfigureAwait(false);
             await IndexFundingMetadata(indexName, larsData.FundingMetaData).ConfigureAwait(false);
@@ -180,11 +177,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             }
         }
 
-        private async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFunding> larsDataApprenticeshipFunding)
+        private async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFundingMetaData> larsDataApprenticeshipFunding)
         {
             try
             {
-                _log.Debug("Indexing " + larsDataApprenticeshipFunding.Count() + " learning delivery metadata details");
+                _log.Debug("Indexing " + larsDataApprenticeshipFunding.Count() + " apprenticeship funding metadata details");
 
                 await _searchIndexMaintainer.IndexApprenticeshipFundingDetails(indexName, larsDataApprenticeshipFunding).ConfigureAwait(false);
             }
