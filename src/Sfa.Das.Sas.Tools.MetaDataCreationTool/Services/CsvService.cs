@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
-
-namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
+﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
+
     public class CsvService : IReadMetaDataFromCsv
     {
         private readonly IGenericMetaDataFactory _metaDataFactory;
@@ -21,6 +21,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
             foreach (var line in csvString.Split('\n'))
             {
+                if (line == string.Empty) continue;
                 var values = line?.Split(new[] { "\",\"" }, StringSplitOptions.None);
 
                 var metaData = _metaDataFactory.Create<T>(values);

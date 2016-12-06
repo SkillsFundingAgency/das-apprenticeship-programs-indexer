@@ -1,11 +1,13 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
 
 namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
+
     public class IndexerJob : IIndexerJob
     {
         private readonly IGenericControlQueueConsumer _controlQueueConsumer;
@@ -20,7 +22,8 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
             var tasks = new List<Task>
             {
                 _controlQueueConsumer.CheckMessage<IMaintainApprenticeshipIndex>(),
-                _controlQueueConsumer.CheckMessage<IMaintainProviderIndex>()
+                _controlQueueConsumer.CheckMessage<IMaintainProviderIndex>(),
+                _controlQueueConsumer.CheckMessage<IMaintainLarsIndex>()
             };
 
             Task.WaitAll(tasks.ToArray());

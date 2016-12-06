@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;

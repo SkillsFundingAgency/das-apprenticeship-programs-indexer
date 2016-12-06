@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Newtonsoft.Json;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Extensions;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
-
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 {
-    public class MetaDataManager : IGetStandardMetaData, IGenerateStandardMetaData, IGetFrameworkMetaData
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Newtonsoft.Json;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+    using Sfa.Das.Sas.Indexer.Core.Extensions;
+    using Sfa.Das.Sas.Indexer.Core.Logging;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
+
+    public class MetaDataManager : IGetStandardMetaData, IGenerateStandardMetaData, IGetFrameworkMetaData, IGetLarsMetadata
     {
         private readonly IAppServiceSettings _appServiceSettings;
 
@@ -39,6 +41,27 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             _appServiceSettings = appServiceSettings;
             _logger = logger;
             _angleSharpService = angleSharpService;
+        }
+
+        public LarsData GetLarsData()
+        {
+            var larsData = _larsDataService.GetDataFromLars();
+            UpdateVstsStandards(larsData.Standards);
+            return larsData;
+        }
+
+        private void UpdateVstsStandards(IEnumerable<LarsStandard> larsDataStandards)
+        {
+            var currentMetaDataIds = _vstsService.GetExistingStandardIds().ToArray();
+
+            var standards = larsDataStandards
+                .Select(MapStandardData)
+                .Where(m => !currentMetaDataIds.Contains($"{m.Id}"))
+                .ToArray();
+
+            standards.ForEach(m => m.Published = false);
+
+            PushStandardsToGit(standards.Select(MapToFileContent).ToList());
         }
 
         public void GenerateStandardMetadataFiles()

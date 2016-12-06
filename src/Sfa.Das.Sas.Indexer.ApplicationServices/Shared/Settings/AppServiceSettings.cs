@@ -18,9 +18,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         public string CsvFileNameStandards => _settings.GetSetting("CsvFileNameStandards");
 
         public string CsvFileNameFrameworks => _settings.GetSetting("CsvFileNameFrameworks");
+
         public string CsvFileNameFrameworksAim => _settings.GetSetting("CsvFileNameFrameworksAim");
-        public string CsvFileNameFrameworkComponentType => _settings.GetSetting("CsvFileNameFrameworkComponentType");
+
+        public string CsvFileNameApprenticeshipComponentType => _settings.GetSetting("CsvFileNameApprenticeshipComponentType");
+
         public string CsvFileNameLearningDelivery => _settings.GetSetting("CsvFileNameLearningDelivery");
+
         public string CsvFileNameFunding => _settings.GetSetting("CsvFileNameFunding");
 
         public string CsvFileNameApprenticeshipFunding => _settings.GetSetting("CsvFileNameApprenticeshipFunding");
@@ -59,7 +63,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string QueueName(Type type)
         {
-            var name = type.Name.Replace("IMaintainApprenticeshipIndex", "Apprenticeship").Replace("IMaintainProviderIndex", "Provider") + ".QueueName";
+            var name = $"{type.Name.Replace("IMaintainApprenticeshipIndex", "Apprenticeship").Replace("IMaintainProviderIndex", "Provider").Replace("IMaintainLarsIndex", "Lars")}.QueueName";
             return _settings.GetSetting(name).ToLower();
         }
     }

@@ -1,6 +1,6 @@
-﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Models
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
-    public sealed class LarsStandard
+    public class StandardLars
     {
         public int Id { get; set; }
 
@@ -13,9 +13,5 @@
         public double SectorSubjectAreaTier1 { get; set; }
 
         public double SectorSubjectAreaTier2 { get; set; }
-
-        public int Duration { get; set; }
-
-        public int FundingCap { get; set; }
     }
 }

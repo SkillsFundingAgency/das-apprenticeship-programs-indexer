@@ -20,17 +20,19 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<IGetStandardMetaData>().Use<MetaDataManager>();
             For<IGenerateStandardMetaData>().Use<MetaDataManager>();
             For<IGetFrameworkMetaData>().Use<MetaDataManager>();
+            For<IGetLarsMetadata>().Use<MetaDataManager>();
             For<IJsonMetaDataConvert>().Use<JsonMetaDataConvert>();
             For<IGenericMetaDataFactory>().Use<LarsMetaDataFactory>();
 
             // Meta Data factories
             For<IMetaDataFactory>().Use<FrameworkMetaDataFactory>();
             For<IMetaDataFactory>().Use<FrameworkAimMetaDataFactory>();
-            For<IMetaDataFactory>().Use<FrameworkComponentTypeMetaDataFactory>();
+            For<IMetaDataFactory>().Use<ApprenticeshipComponentTypeMetaDataFactory>();
             For<IMetaDataFactory>().Use<LearningDeliveryMetaDataFactory>();
             For<IMetaDataFactory>().Use<StandardMetaDataFactory>();
             For<IMetaDataFactory>().Use<FundingMetaDataFactory>();
             For<IMetaDataFactory>().Use<ApprenticeshipFundingMetaDataFactory>();
+            For<IMetaDataFactory>().Use<ApprenticeshipFundingFactory>();
 
             For<IAppServiceSettings>().Use<AppServiceSettings>();
         }

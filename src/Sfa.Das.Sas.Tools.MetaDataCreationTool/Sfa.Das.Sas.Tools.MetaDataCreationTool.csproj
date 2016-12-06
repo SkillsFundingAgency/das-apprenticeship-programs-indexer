@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -83,9 +83,10 @@
     <Compile Include="Factories\IGenericMetaDataFactory.cs" />
     <Compile Include="Factories\LarsMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\FrameworkAimMetaDataFactory.cs" />
-    <Compile Include="Factories\MetaData\FrameworkComponentTypeMetaDataFactory.cs" />
+    <Compile Include="Factories\MetaData\ApprenticeshipComponentTypeMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\FrameworkMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\ApprenticeshipFundingMetaDataFactory.cs" />
+    <Compile Include="Factories\MetaData\ApprenticeshipFundingFactory.cs" />
     <Compile Include="Factories\MetaData\FundingMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\IMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\LearningDeliveryMetaDataFactory.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="Services\AngleSharpService.cs" />
     <Compile Include="Services\CsvService.cs" />
     <Compile Include="Services\Interfaces\IReadMetaDataFromCsv.cs" />
-    <Compile Include="Models\LarsStandard.cs" />
     <Compile Include="Services\Interfaces\IGitDynamicModelGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

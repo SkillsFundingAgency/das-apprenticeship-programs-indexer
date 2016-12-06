@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 {
+    using System;
+
     public interface IAppServiceSettings
     {
         string CsvFileNameStandards { get; }
@@ -10,13 +10,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         string CsvFileNameFrameworksAim { get; }
 
-        string CsvFileNameFrameworkComponentType { get; }
+        string CsvFileNameApprenticeshipComponentType { get; }
 
         string CsvFileNameLearningDelivery { get; }
 
-        string CsvFileNameFunding { get; }
-
         string CsvFileNameApprenticeshipFunding { get; }
+
+        string CsvFileNameFunding { get; }
         
         string GitUsername { get; }
 

@@ -1,8 +1,8 @@
-﻿namespace Sfa.Das.Sas.Indexer.Core.Models.Framework
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
     using System;
 
-    public class FrameworkAimMetaData
+    public class FrameworkAimMetaDataDocument
     {
         public int FworkCode { get; set; }
 

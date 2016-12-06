@@ -48,7 +48,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData
             metaData.LearnAimRef.Should().Be("Test123");
             metaData.EffectiveFrom.Should().Be(new DateTime(2015, 3, 1));
             metaData.EffectiveTo.Should().Be(new DateTime(2017, 6, 1));
-            metaData.FrameworkComponentType.Should().Be(4);
+            metaData.ApprenticeshipComponentType.Should().Be(4);
         }
     }
 }
