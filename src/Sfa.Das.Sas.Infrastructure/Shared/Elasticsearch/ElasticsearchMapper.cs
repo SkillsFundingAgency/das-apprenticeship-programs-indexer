@@ -32,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public StandardDocument CreateStandardDocument(StandardMetaData standard)
         {
-            var doc = new StandardDocument
+            return new StandardDocument
             {
                 StandardId = standard.Id,
                 Published = standard.Published,
@@ -51,13 +51,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2
             };
-
-            return doc;
         }
 
         public StandardLars CreateLarsStandardDocument(LarsStandard standard)
         {
-            var doc = new StandardLars
+            return new StandardLars
             {
                 Id = standard.Id,
                 Title = standard.Title,
@@ -66,8 +64,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2
             };
-
-            return doc;
         }
 
         public FrameworkDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData)
@@ -76,7 +72,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             frameworkMetaData.NasTitle = frameworkMetaData.NasTitle?.Trim();
             frameworkMetaData.PathwayName = frameworkMetaData.PathwayName?.Trim();
 
-            var doc = new FrameworkDocument
+            return new FrameworkDocument
             {
                 FrameworkId = string.Format(_settings.FrameworkIdFormat, frameworkMetaData.FworkCode, frameworkMetaData.ProgType, frameworkMetaData.PwayCode),
                 Published = frameworkMetaData.Published,
@@ -101,7 +97,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 KnowledgeQualification = frameworkMetaData.KnowledgeQualification,
                 CombinedQualification = frameworkMetaData.CombinedQualification
             };
-            return doc;
         }
 
         public FrameworkLars CreateLarsFrameworkDocument(FrameworkMetaData frameworkMetaData)
@@ -110,7 +105,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             frameworkMetaData.NasTitle = frameworkMetaData.NasTitle?.Trim();
             frameworkMetaData.PathwayName = frameworkMetaData.PathwayName?.Trim();
 
-            var doc = new FrameworkLars
+            return new FrameworkLars
             {
                 CombinedQualification = frameworkMetaData.CombinedQualification,
                 CompetencyQualification = frameworkMetaData.CompetencyQualification,
@@ -133,12 +128,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1,
                 TypicalLength = frameworkMetaData.TypicalLength
             };
-            return doc;
         }
 
         public FundingMetadataDocument CreateFundingMetaDataDocument(FundingMetaData fundingMetaData)
         {
-            var doc = new FundingMetadataDocument
+            return new FundingMetadataDocument
             {
                 EffectiveFrom = fundingMetaData.EffectiveFrom,
                 EffectiveTo = fundingMetaData.EffectiveTo,
@@ -146,13 +140,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 LearnAimRef = fundingMetaData.LearnAimRef,
                 RateWeighted = fundingMetaData.RateWeighted
             };
-
-            return doc;
         }
 
         public FrameworkAimMetaDataDocument CreateFrameworkAimMetaDataDocument(FrameworkAimMetaData frameworkAimMetaData)
         {
-            var doc = new FrameworkAimMetaDataDocument
+            return new FrameworkAimMetaDataDocument
             {
                 EffectiveFrom = frameworkAimMetaData.EffectiveFrom,
                 EffectiveTo = frameworkAimMetaData.EffectiveTo,
@@ -162,13 +154,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ProgType = frameworkAimMetaData.ProgType,
                 ApprenticeshipComponentType = frameworkAimMetaData.ApprenticeshipComponentType
             };
-
-            return doc;
         }
 
         public LearningDeliveryMetaDataDocument CreateLearningDeliveryMetaDataDocument(LearningDeliveryMetaData learningDeliveryMetaData)
         {
-            var doc = new LearningDeliveryMetaDataDocument
+            return new LearningDeliveryMetaDataDocument
             {
                 EffectiveFrom = learningDeliveryMetaData.EffectiveFrom,
                 EffectiveTo = learningDeliveryMetaData.EffectiveTo,
@@ -176,13 +166,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 LearnAimRefTitle = learningDeliveryMetaData.LearnAimRefTitle,
                 LearnAimRefType = learningDeliveryMetaData.LearnAimRefType
             };
-
-            return doc;
         }
 
         public ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFunding apprenticeshipFunding)
         {
-            var doc = new ApprenticeshipFundingDocument
+            return new ApprenticeshipFundingDocument
             {
                 ProgType = apprenticeshipFunding.ProgType,
                 ApprenticeshipCode = apprenticeshipFunding.ApprenticeshipCode,
@@ -191,13 +179,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ApprenticeshipType = apprenticeshipFunding.ApprenticeshipType,
                 MaxEmployerLevyCap = apprenticeshipFunding.MaxEmployerLevyCap
             };
-
-            return doc;
         }
 
         public ApprenticeshipComponentTypeMetaDataDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData)
         {
-            var doc = new ApprenticeshipComponentTypeMetaDataDocument
+            return new ApprenticeshipComponentTypeMetaDataDocument
             {
                 EffectiveTo = apprenticeshipComponentTypeMetaData.EffectiveTo,
                 EffectiveFrom = apprenticeshipComponentTypeMetaData.EffectiveFrom,
@@ -205,8 +191,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ApprenticeshipComponentTypeDesc = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc,
                 ApprenticeshipComponentTypeDesc2 = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc2
            };
-
-            return doc;
         }
 
         public int MapToLevelFromProgType(int progType)

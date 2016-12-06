@@ -78,7 +78,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             await IndexEntries(indexName, entries, ElasticsearchMapper.CreateLearningDeliveryMetaDataDocument).ConfigureAwait(true);
         }
 
-        public async Task IndexApprenticeshipFunding(string indexName, IEnumerable<ApprenticeshipFunding> entries)
+        public async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFunding> entries)
         {
             await IndexEntries(indexName, entries, ElasticsearchMapper.CreateApprenticeshipFundingDocument).ConfigureAwait(true);
         }

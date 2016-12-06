@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Sfa.Das.Sas.Indexer.Core.Extensions;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-
-namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
+﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Sfa.Das.Sas.Indexer.Core.Extensions;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+
     public class FrameworkAimMetaDataFactory : IMetaDataFactory
     {
         public Type MetaDataType => typeof(FrameworkAimMetaData);
+
         public object Create(IReadOnlyList<string> values)
         {
             if (values == null || values.Count() < 7)

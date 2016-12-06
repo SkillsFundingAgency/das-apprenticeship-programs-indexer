@@ -23,6 +23,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services
 
         Task IndexLearningDeliveryMetaData(string indexName, IEnumerable<LearningDeliveryMetaData> entries);
 
-        Task IndexApprenticeshipFunding(string indexName, IEnumerable<ApprenticeshipFunding> entries);
+        Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFunding> entries);
     }
 }

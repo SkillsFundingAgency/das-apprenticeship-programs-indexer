@@ -46,7 +46,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             await IndexFrameworkAimMetaData(indexName, larsData.FrameworkAimMetaData).ConfigureAwait(false);
             await IndexLearningDeliveryMetaData(indexName, larsData.LearningDeliveryMetaData).ConfigureAwait(false);
             await IndexApprenticeshipComponentTypeMetaData(indexName, larsData.ApprenticeshipComponentTypeMetaData).ConfigureAwait(false);
-            await IndexApprenticeshipFunding(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(false);
+            await IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(false);
+
+            var newTask = Task.Run(() => IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding));
+            Task.WaitAll(newTask);
         }
 
         public bool CreateIndex(string indexName)
@@ -177,13 +180,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             }
         }
 
-        private async Task IndexApprenticeshipFunding(string indexName, IEnumerable<ApprenticeshipFunding> larsDataApprenticeshipFunding)
+        private async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFunding> larsDataApprenticeshipFunding)
         {
             try
             {
                 _log.Debug("Indexing " + larsDataApprenticeshipFunding.Count() + " learning delivery metadata details");
 
-                await _searchIndexMaintainer.IndexApprenticeshipFunding(indexName, larsDataApprenticeshipFunding).ConfigureAwait(false);
+                await _searchIndexMaintainer.IndexApprenticeshipFundingDetails(indexName, larsDataApprenticeshipFunding).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
