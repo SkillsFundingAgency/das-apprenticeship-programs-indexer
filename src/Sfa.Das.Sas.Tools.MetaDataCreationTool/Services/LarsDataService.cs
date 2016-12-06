@@ -75,7 +75,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
             var fundingMetadata = GetLarsFundingMetaData(zipStream);
 
-            var apprenticeshipFunding = GetApprenticeshipFunding(zipStream);
+            var apprenticeshipFunding = GetApprenticeshipFundingMetaData(zipStream);
 
             CloseStream(zipStream);
 
@@ -150,7 +150,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return fundingMetaData;
         }
 
-        private ICollection<ApprenticeshipFundingMetaData> GetApprenticeshipFunding(Stream zipStream)
+        private ICollection<ApprenticeshipFundingMetaData> GetApprenticeshipFundingMetaData(Stream zipStream)
         {
             var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameApprenticeshipFunding, true);
 
