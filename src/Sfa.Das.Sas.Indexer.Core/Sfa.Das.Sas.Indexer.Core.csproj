@@ -46,12 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Apprenticeship\Models\ApprenticeshipFunding.cs" />
+    <Compile Include="Apprenticeship\Models\LarsData.cs" />
+    <Compile Include="Apprenticeship\Models\Standard\LarsStandard.cs" />
     <Compile Include="Shared\Exceptions\ConnectionException.cs" />
     <Compile Include="Shared\Exceptions\MappingException.cs" />
     <Compile Include="Shared\Extensions\EnumExtensions.cs" />
     <Compile Include="Shared\Extensions\ListExtensions.cs" />
     <Compile Include="Shared\Extensions\StringExtensions.cs" />
     <Compile Include="Shared\Logging\ILogApprenticeships.cs" />
+    <Compile Include="Shared\Logging\ILogLars.cs" />
     <Compile Include="Shared\Logging\ILogProvider.cs" />
     <Compile Include="Shared\Logging\Metrics\ExecutionTimer.cs" />
     <Compile Include="Shared\Logging\Metrics\ExecutionTimerResult{T}.cs" />
@@ -62,7 +66,7 @@
     <Compile Include="Provider\Models\FEChoices\AchievementRateNational.cs" />
     <Compile Include="Provider\Models\FEChoices\AchievementRateProvider.cs" />
     <Compile Include="Apprenticeship\Models\Framework\FrameworkAimMetaData.cs" />
-    <Compile Include="Apprenticeship\Models\Framework\FrameworkComponentTypeMetaData.cs" />
+    <Compile Include="Apprenticeship\Models\Framework\ApprenticeshipComponentTypeMetaData.cs" />
     <Compile Include="Apprenticeship\Models\Framework\FrameworkMetaData.cs" />
     <Compile Include="Apprenticeship\Models\Framework\FrameworkQualification.cs" />
     <Compile Include="Apprenticeship\Models\Framework\FundingMetaData.cs" />

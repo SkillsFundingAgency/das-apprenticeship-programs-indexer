@@ -80,6 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apprenticeship\DependencyResolution\ApprenticeshipApplicationServicesRegistry.cs" />
+    <Compile Include="Lars\DependencyResolution\LarsApplicationServicesRegistry.cs" />
+    <Compile Include="Lars\Services\LarsIndexer.cs" />
+    <Compile Include="Lars\Services\IMaintainLarsIndex.cs" />
+    <Compile Include="Lars\Settings\LarsIndexSettings.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderApplicationServicesRegistry.cs" />
     <Compile Include="Shared\DependencyResolution\SharedApplicationServicesRegistry.cs" />
     <Compile Include="Provider\Models\UkRlp\ContactAddress.cs" />
@@ -89,6 +93,7 @@
     <Compile Include="Provider\Services\IUkrlpProviderMapper.cs" />
     <Compile Include="Provider\Services\IUkrlpService.cs" />
     <Compile Include="Provider\Services\ProviderSourceDto.cs" />
+    <Compile Include="Shared\MetaData\IGetLarsMetadata.cs" />
     <Compile Include="Shared\Utility\IHttpPost.cs" />
     <Compile Include="Shared\Utility\IRetryWebRequest.cs" />
     <Compile Include="Shared\IndexerHelper.cs" />

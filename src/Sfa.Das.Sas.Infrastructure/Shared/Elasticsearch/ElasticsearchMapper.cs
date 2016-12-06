@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Nest;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Extensions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
@@ -10,6 +12,7 @@ using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
@@ -29,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public StandardDocument CreateStandardDocument(StandardMetaData standard)
         {
-            var doc = new StandardDocument
+            return new StandardDocument
             {
                 StandardId = standard.Id,
                 Published = standard.Published,
@@ -48,8 +51,19 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2
             };
+        }
 
-            return doc;
+        public StandardLars CreateLarsStandardDocument(LarsStandard standard)
+        {
+            return new StandardLars
+            {
+                Id = standard.Id,
+                Title = standard.Title,
+                NotionalEndLevel = standard.NotionalEndLevel,
+                StandardUrl = standard.StandardUrl,
+                SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
+                SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2
+            };
         }
 
         public FrameworkDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData)
@@ -58,7 +72,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             frameworkMetaData.NasTitle = frameworkMetaData.NasTitle?.Trim();
             frameworkMetaData.PathwayName = frameworkMetaData.PathwayName?.Trim();
 
-            var doc = new FrameworkDocument
+            return new FrameworkDocument
             {
                 FrameworkId = string.Format(_settings.FrameworkIdFormat, frameworkMetaData.FworkCode, frameworkMetaData.ProgType, frameworkMetaData.PwayCode),
                 Published = frameworkMetaData.Published,
@@ -83,7 +97,100 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 KnowledgeQualification = frameworkMetaData.KnowledgeQualification,
                 CombinedQualification = frameworkMetaData.CombinedQualification
             };
-            return doc;
+        }
+
+        public FrameworkLars CreateLarsFrameworkDocument(FrameworkMetaData frameworkMetaData)
+        {
+            // Trim off any whitespaces in the title or the Pathway Name
+            frameworkMetaData.NasTitle = frameworkMetaData.NasTitle?.Trim();
+            frameworkMetaData.PathwayName = frameworkMetaData.PathwayName?.Trim();
+
+            return new FrameworkLars
+            {
+                CombinedQualification = frameworkMetaData.CombinedQualification,
+                CompetencyQualification = frameworkMetaData.CompetencyQualification,
+                CompletionQualifications = frameworkMetaData.CompletionQualifications,
+                EffectiveFrom = frameworkMetaData.EffectiveFrom,
+                EffectiveTo = frameworkMetaData.EffectiveTo,
+                EntryRequirements = frameworkMetaData.EntryRequirements,
+                FrameworkOverview = frameworkMetaData.FrameworkOverview,
+                FworkCode = frameworkMetaData.FworkCode,
+                JobRoleItems = frameworkMetaData.JobRoleItems,
+                Keywords = frameworkMetaData.Keywords,
+                KnowledgeQualification = frameworkMetaData.KnowledgeQualification,
+                NasTitle = frameworkMetaData.NasTitle,
+                PathwayName = frameworkMetaData.PathwayName,
+                ProfessionalRegistration = frameworkMetaData.ProfessionalRegistration,
+                ProgType = frameworkMetaData.ProgType,
+                Published = frameworkMetaData.Published,
+                PwayCode = frameworkMetaData.PwayCode,
+                SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
+                SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1,
+                TypicalLength = frameworkMetaData.TypicalLength
+            };
+        }
+
+        public FundingMetadataDocument CreateFundingMetaDataDocument(FundingMetaData fundingMetaData)
+        {
+            return new FundingMetadataDocument
+            {
+                EffectiveFrom = fundingMetaData.EffectiveFrom,
+                EffectiveTo = fundingMetaData.EffectiveTo,
+                FundingCategory = fundingMetaData.FundingCategory,
+                LearnAimRef = fundingMetaData.LearnAimRef,
+                RateWeighted = fundingMetaData.RateWeighted
+            };
+        }
+
+        public FrameworkAimMetaDataDocument CreateFrameworkAimMetaDataDocument(FrameworkAimMetaData frameworkAimMetaData)
+        {
+            return new FrameworkAimMetaDataDocument
+            {
+                EffectiveFrom = frameworkAimMetaData.EffectiveFrom,
+                EffectiveTo = frameworkAimMetaData.EffectiveTo,
+                LearnAimRef = frameworkAimMetaData.LearnAimRef,
+                FworkCode = frameworkAimMetaData.FworkCode,
+                PwayCode = frameworkAimMetaData.PwayCode,
+                ProgType = frameworkAimMetaData.ProgType,
+                ApprenticeshipComponentType = frameworkAimMetaData.ApprenticeshipComponentType
+            };
+        }
+
+        public LearningDeliveryMetaDataDocument CreateLearningDeliveryMetaDataDocument(LearningDeliveryMetaData learningDeliveryMetaData)
+        {
+            return new LearningDeliveryMetaDataDocument
+            {
+                EffectiveFrom = learningDeliveryMetaData.EffectiveFrom,
+                EffectiveTo = learningDeliveryMetaData.EffectiveTo,
+                LearnAimRef = learningDeliveryMetaData.LearnAimRef,
+                LearnAimRefTitle = learningDeliveryMetaData.LearnAimRefTitle,
+                LearnAimRefType = learningDeliveryMetaData.LearnAimRefType
+            };
+        }
+
+        public ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFunding apprenticeshipFunding)
+        {
+            return new ApprenticeshipFundingDocument
+            {
+                ProgType = apprenticeshipFunding.ProgType,
+                ApprenticeshipCode = apprenticeshipFunding.ApprenticeshipCode,
+                PwayCode = apprenticeshipFunding.PwayCode,
+                ReservedValue1 = apprenticeshipFunding.ReservedValue1,
+                ApprenticeshipType = apprenticeshipFunding.ApprenticeshipType,
+                MaxEmployerLevyCap = apprenticeshipFunding.MaxEmployerLevyCap
+            };
+        }
+
+        public ApprenticeshipComponentTypeMetaDataDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData)
+        {
+            return new ApprenticeshipComponentTypeMetaDataDocument
+            {
+                EffectiveTo = apprenticeshipComponentTypeMetaData.EffectiveTo,
+                EffectiveFrom = apprenticeshipComponentTypeMetaData.EffectiveFrom,
+                ApprenticeshipComponentType = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentType,
+                ApprenticeshipComponentTypeDesc = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc,
+                ApprenticeshipComponentTypeDesc2 = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc2
+           };
         }
 
         public int MapToLevelFromProgType(int progType)

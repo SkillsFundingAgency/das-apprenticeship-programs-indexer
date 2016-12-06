@@ -83,8 +83,9 @@
     <Compile Include="Factories\IGenericMetaDataFactory.cs" />
     <Compile Include="Factories\LarsMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\FrameworkAimMetaDataFactory.cs" />
-    <Compile Include="Factories\MetaData\FrameworkComponentTypeMetaDataFactory.cs" />
+    <Compile Include="Factories\MetaData\ApprenticeshipComponentTypeMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\FrameworkMetaDataFactory.cs" />
+    <Compile Include="Factories\MetaData\ApprenticeshipFundingFactory.cs" />
     <Compile Include="Factories\MetaData\FundingMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\IMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\LearningDeliveryMetaDataFactory.cs" />
@@ -111,7 +112,6 @@
     <Compile Include="Services\AngleSharpService.cs" />
     <Compile Include="Services\CsvService.cs" />
     <Compile Include="Services\Interfaces\IReadMetaDataFromCsv.cs" />
-    <Compile Include="Models\LarsStandard.cs" />
     <Compile Include="Services\Interfaces\IGitDynamicModelGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

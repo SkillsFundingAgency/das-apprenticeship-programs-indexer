@@ -140,6 +140,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apprenticeship\DependencyResolution\ApprenticeshipInfrastructureRegistry.cs" />
+    <Compile Include="Apprenticeship\ElasticSearch\ElasticsearchApprenticeshipIndexMaintainer.cs" />
+    <Compile Include="Lars\DependencyResolution\LarsInfrastructureRegistry.cs" />
+    <Compile Include="Lars\Models\ApprenticeshipComponentTypeMetaDataDocument.cs" />
+    <Compile Include="Lars\Models\ApprenticeshipFundingDocument.cs" />
+    <Compile Include="Lars\Models\FrameworkAimMetaDataDocument.cs" />
+    <Compile Include="Lars\Models\FrameworkLars.cs" />
+    <Compile Include="Lars\Models\FundingMetadataDocument.cs" />
+    <Compile Include="Lars\Models\LearningDeliveryMetaDataDocument.cs" />
+    <Compile Include="Lars\Models\StandardLars.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderInfrastructureRegistry.cs" />
     <Compile Include="Shared\Azure\AzureCloudQueueService.cs" />
     <Compile Include="Shared\Azure\AzureQueueMessage.cs" />
@@ -159,7 +168,7 @@
     <Compile Include="Shared\Elasticsearch\ElasticsearchIndexMaintainerBase.cs" />
     <Compile Include="Shared\Elasticsearch\ElasticsearchMapper.cs" />
     <Compile Include="Provider\ElasticSearch\ElasticsearchProviderIndexMaintainer.cs" />
-    <Compile Include="Apprenticeship\ElasticSearch\ElasticsearchApprenticeshipIndexMaintainer.cs" />
+    <Compile Include="Lars\ElasticSearch\ElasticsearchLarsIndexMaintainer.cs" />
     <Compile Include="Shared\Elasticsearch\IElasticsearchCustomClient.cs" />
     <Compile Include="Apprenticeship\Models\ApprenticeshipDocument.cs" />
     <Compile Include="Shared\Elasticsearch\BulkProviderClient.cs" />
@@ -189,6 +198,8 @@
     <Compile Include="Shared\Services\HttpService.cs" />
     <Compile Include="Shared\Models\Git\GitTree.cs" />
     <Compile Include="Shared\Models\Git\Entity.cs" />
+    <Compile Include="Shared\Services\NLogLarsService.cs" />
+    <Compile Include="Shared\Services\NLogApprenticeshipService.cs" />
     <Compile Include="Shared\Services\NLogProviderService.cs" />
     <Compile Include="Shared\Services\NLogService.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryClient.cs" />

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Sfa.Das.Sas.Indexer.Core.Extensions;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
-
-namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
+﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
 {
+    using System;
+    using System.Collections.Generic;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+    using Sfa.Das.Sas.Indexer.Core.Extensions;
+
     public class StandardMetaDataFactory : IMetaDataFactory
     {
         public Type MetaDataType => typeof(LarsStandard);
