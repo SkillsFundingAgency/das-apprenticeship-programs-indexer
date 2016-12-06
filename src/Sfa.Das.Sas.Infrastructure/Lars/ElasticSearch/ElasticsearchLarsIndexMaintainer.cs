@@ -1,5 +1,6 @@
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -39,8 +40,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                     .NumberOfReplicas(_elasticsearchConfiguration.ApprenticeshipIndexReplicas())
                     .Analysis(a => _elasticsearchConfiguration.ApprenticeshipAnalysisDescriptor()))
                 .Mappings(ms => ms
-                    .Map<StandardDocument>(m => m.AutoMap())
-                    .Map<FrameworkDocument>(m => m.AutoMap())));
+                    .Map<ApprenticeshipFundingDocument>(m => m.AutoMap())
+                    .Map<LearningDeliveryMetaDataDocument>(m => m.AutoMap())
+                    .Map<FundingMetadataDocument>(m => m.AutoMap())
+                    .Map<FrameworkAimMetaDataDocument>(m => m.AutoMap())
+                    .Map<FrameworkLars>(m => m.AutoMap())
+                    .Map<StandardLars>(m => m.AutoMap())
+                    .Map<ApprenticeshipComponentTypeMetaDataDocument>(m => m.AutoMap())));
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {
