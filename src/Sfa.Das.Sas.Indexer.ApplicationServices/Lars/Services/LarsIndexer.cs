@@ -20,13 +20,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         private readonly IIndexSettings<IMaintainLarsIndex> _settings;
         private readonly IMaintainLarsIndex _searchIndexMaintainer;
         private readonly IMetaDataHelper _metaDataHelper;
-        private readonly ILogApprenticeships _log;
+        private readonly ILogLars _log;
 
         public LarsIndexer(
             IIndexSettings<IMaintainLarsIndex> settings,
             IMaintainLarsIndex searchIndexMaintainer,
             IMetaDataHelper metaDataHelper,
-            ILogApprenticeships log)
+            ILogLars log)
         {
             _settings = settings;
             _searchIndexMaintainer = searchIndexMaintainer;
@@ -47,9 +47,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             await IndexLearningDeliveryMetaData(indexName, larsData.LearningDeliveryMetaData).ConfigureAwait(false);
             await IndexApprenticeshipComponentTypeMetaData(indexName, larsData.ApprenticeshipComponentTypeMetaData).ConfigureAwait(false);
             await IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(false);
-
-            var newTask = Task.Run(() => IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding));
-            Task.WaitAll(newTask);
         }
 
         public bool CreateIndex(string indexName)
