@@ -13,5 +13,9 @@
         int ProviderIndexShards();
 
         int ProviderIndexReplicas();
+
+        int LarsIndexShards();
+
+        int LarsIndexReplicas();
     }
 }

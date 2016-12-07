@@ -15,5 +15,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
         string ProviderIndexShards { get; }
 
         string ProviderIndexReplicas { get; }
+
+        string LarsIndexShards { get; }
+
+        string LarsIndexReplicas { get; }
     }
 }

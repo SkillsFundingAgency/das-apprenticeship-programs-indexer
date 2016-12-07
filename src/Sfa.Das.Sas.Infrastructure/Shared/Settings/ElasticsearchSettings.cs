@@ -20,6 +20,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string ProviderIndexReplicas => GetSetting("ProviderIndexReplicas").FirstOrDefault();
 
+        public string LarsIndexShards => GetSetting("LarsIndexShards").FirstOrDefault();
+
+        public string LarsIndexReplicas => GetSetting("LarsIndexReplicas").FirstOrDefault();
+
         private string[] GetSetting(string configName)
         {
             var str = ConfigurationManager.AppSettings[configName];

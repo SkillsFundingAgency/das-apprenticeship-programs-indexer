@@ -8,6 +8,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
     public class FundingMetaDataFactory : IMetaDataFactory
     {
         public Type MetaDataType => typeof(FundingMetaData);
+
         public object Create(IReadOnlyList<string> values)
         {
             if (values == null || values.Count <= 5)
