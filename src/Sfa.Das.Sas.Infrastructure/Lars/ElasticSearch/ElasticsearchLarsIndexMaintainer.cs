@@ -51,10 +51,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {
-                _logger.Error(response.OriginalException.Message);
-                _logger.Error("Error creating LARS INDEX with indexname: " + indexName);
-
-                throw new ConnectionException($"Received non-200 response when trying to create the Lars Index, Status Code:{response.ApiCall.HttpStatusCode}");
+                throw new ConnectionException($"Received non-200 response when trying to create the Lars Index, Status Code:{response.ApiCall.HttpStatusCode}, Message: {response.OriginalException.Message}");
             }
         }
 
