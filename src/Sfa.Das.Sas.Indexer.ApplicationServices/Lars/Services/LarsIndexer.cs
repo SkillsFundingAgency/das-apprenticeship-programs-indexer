@@ -37,9 +37,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         public async Task IndexEntries(string indexName)
         {
             //TODO: load LARS data
+            _log.Debug("Retrieving Lars data");
             var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
 
             //TODO: index LARS data
+            _log.Debug("Indexing Lars data into index");
             await IndexStandards(indexName, larsData.Standards).ConfigureAwait(false);
             await IndexFrameworks(indexName, larsData.Frameworks).ConfigureAwait(false);
             await IndexFundingMetadata(indexName, larsData.FundingMetaData).ConfigureAwait(false);
@@ -47,6 +49,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             await IndexLearningDeliveryMetaData(indexName, larsData.LearningDeliveryMetaData).ConfigureAwait(false);
             await IndexApprenticeshipComponentTypeMetaData(indexName, larsData.ApprenticeshipComponentTypeMetaData).ConfigureAwait(false);
             await IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(false);
+            _log.Debug("Completed indexing Lars data");
         }
 
         public bool CreateIndex(string indexName)
@@ -97,7 +100,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         {
             try
             {
-                _log.Debug("Indexing " + standards.Count() + " standards");
+                _log.Debug("Indexing " + standards.Count() + " standards into Lars index");
 
                 await _searchIndexMaintainer.IndexStandards(indexName, standards).ConfigureAwait(false);
             }
@@ -111,7 +114,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         {
             try
             {
-                _log.Debug("Indexing " + frameworks.Count() + " frameworks");
+                _log.Debug("Indexing " + frameworks.Count() + " frameworks into Lars index");
 
                 await _searchIndexMaintainer.IndexFrameworks(indexName, frameworks).ConfigureAwait(false);
             }
@@ -125,7 +128,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         {
             try
             {
-                _log.Debug("Indexing " + fundingMetaData.Count() + " fundingMetaData details");
+                _log.Debug("Indexing " + fundingMetaData.Count() + " fundingMetaData details into Lars index");
 
                 await _searchIndexMaintainer.IndexFundingMetadata(indexName, fundingMetaData).ConfigureAwait(false);
             }
@@ -139,7 +142,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         {
             try
             {
-                _log.Debug("Indexing " + larsDataFrameworkAimMetaData.Count() + " fundingMetaData details");
+                _log.Debug("Indexing " + larsDataFrameworkAimMetaData.Count() + " frameworkaim details into Lars index");
 
                 await _searchIndexMaintainer.IndexFrameworkAimMetaData(indexName, larsDataFrameworkAimMetaData).ConfigureAwait(false);
             }
@@ -153,7 +156,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         {
             try
             {
-                _log.Debug("Indexing " + apprenticeshipComponentTypeMetaData.Count() + " apprenticeship component type details");
+                _log.Debug("Indexing " + apprenticeshipComponentTypeMetaData.Count() + " apprenticeship component type details into Lars index");
 
                 await _searchIndexMaintainer.IndexApprenticeshipComponentTypeMetaData(indexName, apprenticeshipComponentTypeMetaData).ConfigureAwait(false);
             }
@@ -167,7 +170,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         {
             try
             {
-                _log.Debug("Indexing " + learningDeliveryMetaData.Count() + " learning delivery metadata details");
+                _log.Debug("Indexing " + learningDeliveryMetaData.Count() + " learning delivery metadata details into Lars index");
 
                 await _searchIndexMaintainer.IndexLearningDeliveryMetaData(indexName, learningDeliveryMetaData).ConfigureAwait(false);
             }
