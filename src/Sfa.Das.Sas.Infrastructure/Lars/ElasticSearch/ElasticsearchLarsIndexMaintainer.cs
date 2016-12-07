@@ -39,7 +39,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var response = Client.CreateIndex(indexName, i => i
                 .Settings(settings => settings
                     .NumberOfShards(_elasticsearchConfiguration.LarsIndexShards())
-                    .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas())));
+                    .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
+                .Mappings(ms => ms
+                    .Map<ApprenticeshipFundingDocument>(m => m.AutoMap())
+                    .Map<LearningDeliveryMetaDataDocument>(m => m.AutoMap())
+                    .Map<FundingMetadataDocument>(m => m.AutoMap())
+                    .Map<FrameworkAimMetaDataDocument>(m => m.AutoMap())
+                    .Map<FrameworkLars>(m => m.AutoMap())
+                    .Map<StandardLars>(m => m.AutoMap())
+                    .Map<ApprenticeshipComponentTypeMetaDataDocument>(m => m.AutoMap())));
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {

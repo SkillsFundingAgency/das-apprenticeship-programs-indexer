@@ -44,8 +44,8 @@
 
         public int ProviderIndexReplicas() => !string.IsNullOrEmpty(_elasticsearchSettings.ProviderIndexReplicas) ? int.Parse(_elasticsearchSettings.ProviderIndexReplicas) : 0;
 
-        public int LarsIndexShards() => !string.IsNullOrEmpty(_elasticsearchSettings.ProviderIndexShards) ? int.Parse(_elasticsearchSettings.ProviderIndexShards) : 1;
+        public int LarsIndexShards() => !string.IsNullOrEmpty(_elasticsearchSettings.LarsIndexShards) ? int.Parse(_elasticsearchSettings.LarsIndexShards) : 1;
 
-        public int LarsIndexReplicas() => !string.IsNullOrEmpty(_elasticsearchSettings.ProviderIndexReplicas) ? int.Parse(_elasticsearchSettings.ProviderIndexReplicas) : 0;
+        public int LarsIndexReplicas() => !string.IsNullOrEmpty(_elasticsearchSettings.LarsIndexReplicas) ? int.Parse(_elasticsearchSettings.LarsIndexReplicas) : 0;
     }
 }

@@ -15,8 +15,8 @@
             {
                 ApprenticeshipType = values[0].RemoveQuotationMark(),
                 ApprenticeshipCode = values[1],
-                ProgType = values[2],
-                PwayCode = values[3],
+                ProgType = values[2].SafeParseInt(),
+                PwayCode = values[3].SafeParseInt(),
                 ReservedValue1 = values[10],
                 MaxEmployerLevyCap = values[12]
             };

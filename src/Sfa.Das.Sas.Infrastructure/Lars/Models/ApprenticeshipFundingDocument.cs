@@ -6,9 +6,9 @@
 
         public string ApprenticeshipCode { get; set; }
 
-        public string ProgType { get; set; }
+        public int ProgType { get; set; }
 
-        public string PwayCode { get; set; }
+        public int PwayCode { get; set; }
 
         public string ReservedValue1 { get; set; }
 
