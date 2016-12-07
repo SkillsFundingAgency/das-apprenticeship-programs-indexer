@@ -36,9 +36,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var response = Client.CreateIndex(indexName, i => i
                 .Settings(settings => settings
-                    .NumberOfShards(_elasticsearchConfiguration.ApprenticeshipIndexShards())
-                    .NumberOfReplicas(_elasticsearchConfiguration.ApprenticeshipIndexReplicas())
-                    .Analysis(a => _elasticsearchConfiguration.ApprenticeshipAnalysisDescriptor()))
+                    .NumberOfShards(_elasticsearchConfiguration.LarsIndexShards())
+                    .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
                 .Mappings(ms => ms
                     .Map<ApprenticeshipFundingDocument>(m => m.AutoMap())
                     .Map<LearningDeliveryMetaDataDocument>(m => m.AutoMap())
@@ -50,7 +49,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {
-                throw new ConnectionException($"Received non-200 response when trying to create the Apprenticeship Index, Status Code:{response.ApiCall.HttpStatusCode}");
+                throw new ConnectionException($"Received non-200 response when trying to create the Lars Index, Status Code:{response.ApiCall.HttpStatusCode}");
             }
         }
 
