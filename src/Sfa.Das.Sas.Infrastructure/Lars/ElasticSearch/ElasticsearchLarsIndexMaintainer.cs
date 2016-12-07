@@ -20,15 +20,17 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
     public sealed class ElasticsearchLarsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainLarsIndex
     {
+        private readonly ILogLars _logger;
         private readonly IElasticsearchConfiguration _elasticsearchConfiguration;
 
         public ElasticsearchLarsIndexMaintainer(
             IElasticsearchCustomClient elasticsearchClient,
             IElasticsearchMapper elasticsearchMapper,
-            ILog logger,
+            ILogLars logger,
             IElasticsearchConfiguration elasticsearchConfiguration)
             : base(elasticsearchClient, elasticsearchMapper, logger, "Lars")
         {
+            _logger = logger;
             _elasticsearchConfiguration = elasticsearchConfiguration;
         }
 
@@ -49,6 +51,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {
+                _logger.Error(response.OriginalException.Message);
+                _logger.Error("Error creating LARS INDEX with indexname: " + indexName);
+
                 throw new ConnectionException($"Received non-200 response when trying to create the Lars Index, Status Code:{response.ApiCall.HttpStatusCode}");
             }
         }
