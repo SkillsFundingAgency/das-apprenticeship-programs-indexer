@@ -88,24 +88,24 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task IndexEntries(string indexName)
         {
+            var bulkStandardTasks = new List<Task<IBulkResponse>>();
+            var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
+            var bulkProviderTasks = new List<Task<IBulkResponse>>();
+
             _log.Debug("Loading data at provider index");
             var source = await _providerDataService.LoadDatasetsAsync();
 
             _log.Debug("Creating providers");
             var providers = CreateProviders(source).ToList();
-
-            var providerSiteEntries = providers.Where(x => source.CourseDirectoryUkPrns.Contains(x.Ukprn)).ToList();
-
-            var bulkStandardTasks = new List<Task<IBulkResponse>>();
-            var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
-            var bulkProviderTasks = new List<Task<IBulkResponse>>();
-
-            _log.Debug("Indexing " + providerSiteEntries.Count + " provider sites");
-            bulkStandardTasks.AddRange(_searchIndexMaintainer.IndexStandards(indexName, providerSiteEntries));
-            bulkFrameworkTasks.AddRange(_searchIndexMaintainer.IndexFrameworks(indexName, providerSiteEntries));
-
+            
             _log.Debug("Indexing " + providers.Count + " providers");
             bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
+
+            var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
+
+            _log.Debug("Indexing " + apprenticeshipProviders.Count + " provider sites");
+            bulkStandardTasks.AddRange(_searchIndexMaintainer.IndexStandards(indexName, apprenticeshipProviders));
+            bulkFrameworkTasks.AddRange(_searchIndexMaintainer.IndexFrameworks(indexName, apprenticeshipProviders));
 
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
@@ -137,6 +137,34 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 provider.LegalName = ukrlpProvider?.ProviderName;
                 provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
+
+                var byProvidersFiltered = source.AchievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);
+
+                provider.IsEmployerProvider = source.EmployerProviders.Contains(provider.Ukprn.ToString());
+                provider.IsHigherEducationInstitute = source.HeiProviders.Contains(provider.Ukprn.ToString());
+
+                provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
+                provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
+
+                _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
+                _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
+
+                yield return provider;
+            }
+        }
+
+        private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)
+        {
+            foreach (var courseDirectoryProvider in source.CourseDirectoryProviders)
+            {
+                CoreProvider provider;
+
+                if (!source.ActiveProviders.Contains(courseDirectoryProvider.Ukprn))
+                {
+                    continue;
+                }
+
+                provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
 
                 var byProvidersFiltered = source.AchievementRateProviders.Where(bp => bp.Ukprn == provider.Ukprn);
 
