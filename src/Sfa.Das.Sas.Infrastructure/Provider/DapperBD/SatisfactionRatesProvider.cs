@@ -9,11 +9,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
     public class SatisfactionRatesProvider : ISatisfactionRatesProvider
     {
         private readonly IDatabaseProvider _databaseProvider;
-        private readonly ILogProvider _log;
+        private readonly ILog _log;
         private const string LearnerSatisfactionRatesTableName = "[dbo].[LearnerSatisf_2015_2016]";
         private const string EmployerSatisfactionRatesTableName = "[dbo].[EmployerSatisf_2015_2016]";
 
-        public SatisfactionRatesProvider(IDatabaseProvider databaseProvider, ILogProvider log)
+        public SatisfactionRatesProvider(IDatabaseProvider databaseProvider, ILog log)
         {
             _databaseProvider = databaseProvider;
             _log = log;

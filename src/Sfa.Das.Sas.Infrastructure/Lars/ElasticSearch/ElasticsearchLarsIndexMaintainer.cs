@@ -20,13 +20,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
     public sealed class ElasticsearchLarsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainLarsIndex
     {
-        private readonly ILogLars _logger;
+        private readonly ILog _logger;
         private readonly IElasticsearchConfiguration _elasticsearchConfiguration;
 
         public ElasticsearchLarsIndexMaintainer(
             IElasticsearchCustomClient elasticsearchClient,
             IElasticsearchMapper elasticsearchMapper,
-            ILogLars logger,
+            ILog logger,
             IElasticsearchConfiguration elasticsearchConfiguration)
             : base(elasticsearchClient, elasticsearchMapper, logger, "Lars")
         {

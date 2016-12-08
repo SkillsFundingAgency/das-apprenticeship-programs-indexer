@@ -21,7 +21,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly IIndexSettings<IMaintainProviderIndex> _settings;
         private readonly ICourseDirectoryProviderMapper _courseDirectoryProviderMapper;
         private readonly IUkrlpProviderMapper _ukrlpProviderMapper;
-        private readonly ILogProvider _log;
+        private readonly ILog _log;
 
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
@@ -29,7 +29,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             IUkrlpProviderMapper ukrlpProviderMapper,
             IMaintainProviderIndex searchIndexMaintainer,
             IProviderDataService providerDataService,
-            ILogProvider log)
+            ILog log)
         {
             _settings = settings;
             _providerDataService = providerDataService;

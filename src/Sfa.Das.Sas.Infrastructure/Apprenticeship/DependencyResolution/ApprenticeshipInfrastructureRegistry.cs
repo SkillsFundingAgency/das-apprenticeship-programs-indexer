@@ -12,7 +12,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
         public ApprenticeshipInfrastructureRegistry()
         {
             For<ILarsSettings>().Use<LarsSettings>();
-            For<ILogApprenticeships>().Use(x => new NLogApprenticeshipService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
             For<IMaintainApprenticeshipIndex>().Use<ElasticsearchApprenticeshipIndexMaintainer>();
         }
     }

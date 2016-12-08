@@ -16,12 +16,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
         private readonly IConvertFromCsv _convertFromCsv;
         private readonly IVstsClient _vstsClient;
         private readonly IAppServiceSettings _appServiceSettings;
-        private readonly ILogProvider _logger;
+        private readonly ILog _logger;
 
         public ProviderVstsClient(IConvertFromCsv _convertFromCsv,
             IVstsClient _vstsClient,
             IAppServiceSettings _appServiceSettings,
-            ILogProvider logger)
+            ILog logger)
         {
             this._convertFromCsv = _convertFromCsv;
             this._vstsClient = _vstsClient;
