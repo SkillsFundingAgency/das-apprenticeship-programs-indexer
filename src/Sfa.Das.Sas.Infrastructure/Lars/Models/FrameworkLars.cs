@@ -8,8 +8,6 @@
     {
         public int FworkCode { get; set; }
 
-        public bool Published { get; set; }
-
         public int ProgType { get; set; }
 
         public int PwayCode { get; set; }
