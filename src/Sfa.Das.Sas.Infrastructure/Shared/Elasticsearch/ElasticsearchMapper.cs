@@ -122,7 +122,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 PathwayName = frameworkMetaData.PathwayName,
                 ProfessionalRegistration = frameworkMetaData.ProfessionalRegistration,
                 ProgType = frameworkMetaData.ProgType,
-                Published = frameworkMetaData.Published,
                 PwayCode = frameworkMetaData.PwayCode,
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1,
