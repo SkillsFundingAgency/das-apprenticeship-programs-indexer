@@ -25,7 +25,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public double? EmployerSatisfaction { get; set; }
 
         public double? LearnerSatisfaction { get; set; }
-        
+
         public IEnumerable<FrameworkInformation> Frameworks { get; set; }
 
         public IEnumerable<Location> Locations { get; set; }

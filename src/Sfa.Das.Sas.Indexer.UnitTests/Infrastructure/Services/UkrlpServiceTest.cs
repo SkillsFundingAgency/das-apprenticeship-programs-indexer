@@ -4,7 +4,6 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
     using System.Linq;
-    using System.Threading.Tasks;
     using Moq;
     using NUnit.Framework;
     using Sfa.Das.Sas.Indexer.Core.Logging;
@@ -33,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
             var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, Mock.Of<ILog>());
 
             var models = sut.GetProviders(new List<int> { 1234 });
-            
+
             Assert.AreEqual(2, models.MatchingProviderRecords.Count());
         }
 
@@ -59,38 +58,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
                 },
                 UnitedKingdomProviderReferenceNumber = "1234"
             };
-            yield return new Provider { UnitedKingdomProviderReferenceNumber = "5678"};
-        }
-
-        private static response GetClientResponseMockValues2()
-        {
-            ProviderRecordStructure[] prs = {
-                new ProviderRecordStructure
-                {
-                    ProviderName = "Abc Ltd",
-                    ProviderContact = new [] 
-                    {
-                        new ProviderContactStructure
-                        {
-                            ContactType = "P",
-                            ContactAddress = new BSaddressStructure
-                            {
-                                StreetDescription = "Down a Road",
-                                PostTown = "Coventry",
-                                PostCode = "EY6 7GH",
-                                PAON = new AONstructure { Description = "sdfsdf" },
-                                SAON = new AONstructure { Description = "sdfsdf" }
-                            }
-                        }
-                    },
-                    UnitedKingdomProviderReferenceNumber = "1234"
-                },
-                new ProviderRecordStructure { UnitedKingdomProviderReferenceNumber = "5678" }
-            };
-
-            ProviderQueryResponse pqr = new ProviderQueryResponse { MatchingProviderRecords = prs };
-
-            return new response(pqr);
+            yield return new Provider { UnitedKingdomProviderReferenceNumber = "5678" };
         }
     }
 }

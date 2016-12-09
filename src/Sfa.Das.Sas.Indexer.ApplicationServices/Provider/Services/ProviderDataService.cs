@@ -22,8 +22,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly IAchievementRatesProvider _achievementRatesProvider;
         private readonly ISatisfactionRatesProvider _satisfactionRatesProvider;
         private readonly IGetActiveProviders _activeProviderClient;
-        
-        public ProviderDataService(IGetApprenticeshipProviders providerRepository,
+
+        public ProviderDataService(
+            IGetApprenticeshipProviders providerRepository,
             IGetCourseDirectoryProviders courseDirectoryClient,
             IUkrlpService ukrlpService,
             IMetaDataHelper metaDataHelper,
@@ -40,7 +41,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _achievementRatesProvider = achievementRatesProvider;
             _satisfactionRatesProvider = satisfactionRatesProvider;
             _activeProviderClient = activeProviderClient;
-
         }
 
         public void SetLearnerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Core.Models.Provider.Provider provider)
@@ -48,7 +48,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var learnerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
             provider.LearnerSatisfaction = learnerSatisfaction?.FinalScore != null && learnerSatisfaction.FinalScore > 0
-                ? (double?) Math.Round(learnerSatisfaction?.FinalScore ?? 0.0)
+                ? (double?)Math.Round(learnerSatisfaction?.FinalScore ?? 0.0)
                 : null;
         }
 
@@ -59,31 +59,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             provider.EmployerSatisfaction = employerSatisfaction?.FinalScore != null && employerSatisfaction.FinalScore > 0
                 ? (double?)Math.Round(employerSatisfaction?.FinalScore ?? 0.0)
                 : null;
-        }
-
-        private static double? GetNationalOverallAchievementRate(List<AchievementRateNational> nationalAchievementRate)
-        {
-            var nationalOverallAchievementRate = nationalAchievementRate
-                .OrderByDescending(m => m.HybridEndYear)
-                .FirstOrDefault()?
-                .OverallAchievementRate;
-
-            if (nationalOverallAchievementRate != null)
-            {
-                return Math.Round((double)nationalOverallAchievementRate);
-            }
-
-            return null;
-        }
-
-        private static bool IsLevelFourOrHigher(string achievementRateProviderLevel, int level)
-        {
-            return achievementRateProviderLevel == "4+" && level > 3;
-        }
-
-        private static bool IsLevelTwoOrThree(string achievementRateProviderLevel, int level)
-        {
-            return (achievementRateProviderLevel == "2" || achievementRateProviderLevel == "3") && achievementRateProviderLevel == level.ToString();
         }
 
         public void UpdateStandard(StandardInformation si, IEnumerable<StandardMetaData> standards, IEnumerable<AchievementRateProvider> achievementRates, IEnumerable<AchievementRateNational> nationalAchievementRates)
@@ -147,7 +122,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var activeProviders = await _activeProviderClient.GetActiveProviders();
 
             _logger.Debug($"Finished loading course directory and active providers");
-            
+
             // TODO replace this with elastic search
             var frameworks = Task.Run(() => _metaDataHelper.GetAllFrameworkMetaData());
             var standards = Task.Run(() => _metaDataHelper.GetAllStandardsMetaData());
@@ -173,6 +148,31 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 EmployerSatisfactionRates = _satisfactionRatesProvider.GetAllEmployerSatisfactionByProvider().ToList(),
                 HeiProviders = _providerRepository.GetHeiProviders()
             };
+        }
+
+        private static double? GetNationalOverallAchievementRate(List<AchievementRateNational> nationalAchievementRate)
+        {
+            var nationalOverallAchievementRate = nationalAchievementRate
+                .OrderByDescending(m => m.HybridEndYear)
+                .FirstOrDefault()?
+                .OverallAchievementRate;
+
+            if (nationalOverallAchievementRate != null)
+            {
+                return Math.Round((double)nationalOverallAchievementRate);
+            }
+
+            return null;
+        }
+
+        private static bool IsLevelFourOrHigher(string achievementRateProviderLevel, int level)
+        {
+            return achievementRateProviderLevel == "4+" && level > 3;
+        }
+
+        private static bool IsLevelTwoOrThree(string achievementRateProviderLevel, int level)
+        {
+            return (achievementRateProviderLevel == "2" || achievementRateProviderLevel == "3") && achievementRateProviderLevel == level.ToString();
         }
 
         private Tuple<double?, string> ExtractValues(List<AchievementRateProvider> achievementRate)

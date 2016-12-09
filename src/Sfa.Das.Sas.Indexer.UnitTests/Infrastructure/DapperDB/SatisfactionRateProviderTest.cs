@@ -25,7 +25,7 @@
 
             result.Length.Should().BeGreaterThan(0);
             var totalCount = result.Length;
-            
+
             result.Count().Should().Be(totalCount);
         }
     }

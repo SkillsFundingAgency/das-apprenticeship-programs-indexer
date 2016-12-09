@@ -55,20 +55,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             return larsData;
         }
 
-        private void UpdateVstsStandards(IEnumerable<LarsStandard> larsDataStandards)
-        {
-            var currentMetaDataIds = _vstsService.GetExistingStandardIds().ToArray();
-
-            var standards = larsDataStandards
-                .Select(MapStandardData)
-                .Where(m => !currentMetaDataIds.Contains($"{m.Id}"))
-                .ToArray();
-
-            standards.ForEach(m => m.Published = false);
-
-            PushStandardsToGit(standards.Select(MapToFileContent).ToList());
-        }
-
         public void GenerateStandardMetadataFiles()
         {
             var currentMetaDataIds = _vstsService.GetExistingStandardIds().ToArray();
@@ -119,6 +105,20 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 ProfessionalRegistration = string.Empty
             };
             return standardRepositoryData;
+        }
+
+        private void UpdateVstsStandards(IEnumerable<LarsStandard> larsDataStandards)
+        {
+            var currentMetaDataIds = _vstsService.GetExistingStandardIds().ToArray();
+
+            var standards = larsDataStandards
+                .Select(MapStandardData)
+                .Where(m => !currentMetaDataIds.Contains($"{m.Id}"))
+                .ToArray();
+
+            standards.ForEach(m => m.Published = false);
+
+            PushStandardsToGit(standards.Select(MapToFileContent).ToList());
         }
 
         private FileContents MapToFileContent(StandardRepositoryData standardRepositoryData)

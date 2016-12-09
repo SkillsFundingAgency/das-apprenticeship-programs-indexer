@@ -27,7 +27,6 @@
             {
                 ApplicationName = "provider-indexer";
             }
-
         }
     }
 }

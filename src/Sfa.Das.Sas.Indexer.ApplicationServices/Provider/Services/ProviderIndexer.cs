@@ -97,7 +97,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             _log.Debug("Creating providers");
             var providers = CreateProviders(source).ToList();
-            
+
             _log.Debug("Indexing " + providers.Count + " providers");
             bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
 

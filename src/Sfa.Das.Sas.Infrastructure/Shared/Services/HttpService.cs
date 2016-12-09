@@ -82,7 +82,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 
         public void Post(string url, string body, string user, string password)
         {
-            using (var client = new HttpClient() { Timeout = TimeSpan.FromMilliseconds(_settings.HttpClientTimeout)})
+            using (var client = new HttpClient { Timeout = TimeSpan.FromMilliseconds(_settings.HttpClientTimeout) })
             {
                 var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{user}:{password}"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);

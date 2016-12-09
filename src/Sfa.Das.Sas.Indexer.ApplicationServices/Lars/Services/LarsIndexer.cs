@@ -35,11 +35,11 @@
 
         public async Task IndexEntries(string indexName)
         {
-            //TODO: load LARS data
+            // TODO: load LARS data
             _log.Debug("Retrieving Lars data");
             var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
 
-            //TODO: index LARS data
+            // TODO: index LARS data
             _log.Debug("Indexing Lars data into index");
             await IndexStandards(indexName, larsData.Standards).ConfigureAwait(false);
             await IndexFrameworks(indexName, larsData.Frameworks).ConfigureAwait(false);
