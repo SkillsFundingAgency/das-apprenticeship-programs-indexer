@@ -49,6 +49,8 @@
     <Compile Include="Apprenticeship\Models\ApprenticeshipFunding.cs" />
     <Compile Include="Apprenticeship\Models\LarsData.cs" />
     <Compile Include="Apprenticeship\Models\Standard\LarsStandard.cs" />
+    <Compile Include="Provider\Models\EmployerProviderResult.cs" />
+    <Compile Include="Provider\Models\HeiProvidersResult.cs" />
     <Compile Include="Shared\Exceptions\ConnectionException.cs" />
     <Compile Include="Shared\Exceptions\MappingException.cs" />
     <Compile Include="Shared\Extensions\EnumExtensions.cs" />
@@ -80,10 +82,7 @@
     <Compile Include="Provider\Models\Provider\Provider.cs" />
     <Compile Include="Provider\Models\Provider\StandardInformation.cs" />
     <Compile Include="Provider\Models\FEChoices\SatisfactionRateProvider.cs" />
-    <Compile Include="Provider\Services\ISatisfactionRatesProvider.cs" />
-    <Compile Include="Provider\Services\IAchievementRatesProvider.cs" />
     <Compile Include="Shared\Services\IGenericIndexerHelper{T}.cs" />
-    <Compile Include="Provider\Services\IGetActiveProviders.cs" />
     <Compile Include="Provider\Models\Provider\Coordinate.cs" />
     <Compile Include="Shared\Models\IIndexEntry.cs" />
     <Compile Include="Apprenticeship\Models\Standard\StandardMetaData.cs" />

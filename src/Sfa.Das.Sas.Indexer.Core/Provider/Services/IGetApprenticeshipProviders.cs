@@ -1,12 +1,11 @@
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
 namespace Sfa.Das.Sas.Indexer.Core.Services
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
     public interface IGetApprenticeshipProviders
     {
-        ICollection<string> GetEmployerProviders();
+        EmployerProviderResult GetEmployerProviders();
 
-        ICollection<string> GetHeiProviders();
+        HeiProvidersResult GetHeiProviders();
     }
 }

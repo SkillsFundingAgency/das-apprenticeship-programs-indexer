@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
     using System.Collections.Generic;
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
@@ -9,9 +11,9 @@
     {
         void UpdateMetadataRepository();
 
-        IEnumerable<StandardMetaData> GetAllStandardsMetaData();
+        StandardMetaDataResult GetAllStandardsMetaData();
 
-        IEnumerable<FrameworkMetaData> GetAllFrameworkMetaData();
+        FrameworkMetaDataResult GetAllFrameworkMetaData();
 
         LarsData GetAllApprenticeshipLarsMetaData();
     }

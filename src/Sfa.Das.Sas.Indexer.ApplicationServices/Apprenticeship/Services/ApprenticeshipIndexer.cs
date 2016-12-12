@@ -96,9 +96,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             {
                 var entries = _metaDataHelper.GetAllFrameworkMetaData();
 
-                _log.Debug("Indexing " + entries.Count() + " frameworks");
+                _log.Debug("Indexing " + entries.Frameworks.Count() + " frameworks");
 
-                await _searchIndexMaintainer.IndexFrameworks(indexName, entries).ConfigureAwait(false);
+                await _searchIndexMaintainer.IndexFrameworks(indexName, entries.Frameworks).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -109,7 +109,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         private Task<ICollection<StandardMetaData>> LoadStandardMetaData()
         {
             var standardsMetaData = _metaDataHelper.GetAllStandardsMetaData();
-            return Task.FromResult<ICollection<StandardMetaData>>(standardsMetaData.ToList());
+            return Task.FromResult<ICollection<StandardMetaData>>(standardsMetaData.Standards.ToList());
         }
     }
 }

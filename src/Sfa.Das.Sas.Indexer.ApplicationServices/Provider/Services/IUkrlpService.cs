@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -6,6 +8,6 @@
 
     public interface IUkrlpService
     {
-        UkrlpProviderResponse GetProviders(IEnumerable<int> ukprns);
+        UkrlpProviderResponse GetProviders(FcsProviderResult ukprns);
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.Net.Http;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
     using Sfa.Das.Sas.Indexer.Core.Logging;
@@ -29,7 +29,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Provider>> GetApprenticeshipProvidersAsync()
+        public async Task<CourseDirectoryResult> GetApprenticeshipProvidersAsync()
         {
             _logger.Debug("Starting to retrieve Course Directory Providers");
             var stopwatch = Stopwatch.StartNew();
@@ -42,7 +42,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 
             _courseDirectoryProviderDataService.Dispose();
 
-            return responseAsync.Body;
+            return new CourseDirectoryResult { Providers = responseAsync.Body };
         }
     }
 }

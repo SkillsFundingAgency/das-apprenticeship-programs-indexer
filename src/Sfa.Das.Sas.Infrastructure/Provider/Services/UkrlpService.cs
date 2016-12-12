@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
+﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
     using System;
     using System.Collections.Generic;
@@ -29,7 +31,7 @@
             _ukprnRequestUkprnBatchSize = _infrastructureSettings.UkrlpRequestUkprnBatchSize;
         }
 
-        public UkrlpProviderResponse GetProviders(IEnumerable<int> ukprns)
+        public UkrlpProviderResponse GetProviders(FcsProviderResult ukprns)
         {
             _logger.Debug("Starting to get providers from UKRLP");
             try
@@ -37,14 +39,14 @@
                 var providerList = new List<Provider>();
                 var noOfUkprnsProcessed = 0;
 
-                var ukprnsListSize = ukprns.Count();
+                var ukprnsListSize = ukprns.Providers.Count();
 
                 do
                 {
                     var numberOfUkprnsUnprocessed = ukprnsListSize - noOfUkprnsProcessed;
                     var numberOfUkprnsToSend = numberOfUkprnsUnprocessed > _ukprnRequestUkprnBatchSize ? _ukprnRequestUkprnBatchSize : numberOfUkprnsUnprocessed;
 
-                    var ukprnToRequest = ukprns.Skip(noOfUkprnsProcessed).Take(numberOfUkprnsToSend);
+                    var ukprnToRequest = ukprns.Providers.Skip(noOfUkprnsProcessed).Take(numberOfUkprnsToSend);
 
                     var response = _providerClient.RetrieveAllProviders(new ProviderQueryStructure
                     {

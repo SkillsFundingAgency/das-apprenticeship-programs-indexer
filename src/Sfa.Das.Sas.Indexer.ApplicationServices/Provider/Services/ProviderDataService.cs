@@ -8,6 +8,7 @@ using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
@@ -43,27 +44,27 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _activeProviderClient = activeProviderClient;
         }
 
-        public void SetLearnerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Core.Models.Provider.Provider provider)
+        public void SetLearnerSatisfactionRate(LearnerSatisfactionRateResult satisfactionRates, Core.Models.Provider.Provider provider)
         {
-            var learnerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
+            var learnerSatisfaction = satisfactionRates.Rates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
             provider.LearnerSatisfaction = learnerSatisfaction?.FinalScore != null && learnerSatisfaction.FinalScore > 0
                 ? (double?)Math.Round(learnerSatisfaction?.FinalScore ?? 0.0)
                 : null;
         }
 
-        public void SetEmployerSatisfactionRate(IEnumerable<SatisfactionRateProvider> satisfactionRates, Core.Models.Provider.Provider provider)
+        public void SetEmployerSatisfactionRate(EmployerSatisfactionRateResult satisfactionRates, Core.Models.Provider.Provider provider)
         {
-            var employerSatisfaction = satisfactionRates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
+            var employerSatisfaction = satisfactionRates.Rates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
             provider.EmployerSatisfaction = employerSatisfaction?.FinalScore != null && employerSatisfaction.FinalScore > 0
                 ? (double?)Math.Round(employerSatisfaction?.FinalScore ?? 0.0)
                 : null;
         }
 
-        public void UpdateStandard(StandardInformation si, IEnumerable<StandardMetaData> standards, IEnumerable<AchievementRateProvider> achievementRates, IEnumerable<AchievementRateNational> nationalAchievementRates)
+        public void UpdateStandard(StandardInformation si, StandardMetaDataResult standards, IEnumerable<AchievementRateProvider> achievementRates, AchievementRateNationalResult nationalAchievementRates)
         {
-            var metaData = standards.FirstOrDefault(m => m.Id == si.Code);
+            var metaData = standards.Standards.FirstOrDefault(m => m.Id == si.Code);
 
             if (metaData != null)
             {
@@ -72,7 +73,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     .Where(m => TestLevel(m.ApprenticeshipLevel, metaData.NotionalEndLevel))
                     .ToList();
 
-                var nationalAchievementRate = nationalAchievementRates.Where(m =>
+                var nationalAchievementRate = nationalAchievementRates.Rates.Where(m =>
                     IsEqual(m.Ssa2Code, metaData.SectorSubjectAreaTier2))
                     .Where(m => TestLevel(m.ApprenticeshipLevel, metaData.NotionalEndLevel))
                     .ToList();
@@ -86,9 +87,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
         }
 
-        public void UpdateFramework(FrameworkInformation fi, IEnumerable<FrameworkMetaData> frameworks, IEnumerable<AchievementRateProvider> achievementRates, IEnumerable<AchievementRateNational> nationalAchievementRates)
+        public void UpdateFramework(FrameworkInformation fi, FrameworkMetaDataResult frameworks, IEnumerable<AchievementRateProvider> achievementRates, AchievementRateNationalResult nationalAchievementRates)
         {
-            var metaData = frameworks.FirstOrDefault(m =>
+            var metaData = frameworks.Frameworks.FirstOrDefault(m =>
                 m.FworkCode == fi.Code &&
                 m.PwayCode == fi.PathwayCode &&
                 m.ProgType == fi.ProgType);
@@ -100,7 +101,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     .Where(m => TestLevel(m.ApprenticeshipLevel, ApprenticeshipLevelMapper.MapToLevel(metaData.ProgType)))
                     .ToList();
 
-                var nationalAchievementRate = nationalAchievementRates.Where(m =>
+                var nationalAchievementRate = nationalAchievementRates.Rates.Where(m =>
                     IsEqual(m.Ssa2Code, metaData.SectorSubjectAreaTier2))
                     .Where(m => TestLevel(m.ApprenticeshipLevel, ApprenticeshipLevelMapper.MapToLevel(metaData.ProgType)))
                     .ToList();
@@ -137,15 +138,14 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             {
                 CourseDirectoryProviders = courseDirectoryProviders,
                 ActiveProviders = activeProviders,
-                CourseDirectoryUkPrns = courseDirectoryProviders.Select(x => x.Ukprn).ToList(),
                 UkrlpProviders = ukrlpProviders,
                 Frameworks = frameworks.Result,
                 Standards = standards.Result,
                 EmployerProviders = _providerRepository.GetEmployerProviders(),
-                AchievementRateProviders = _achievementRatesProvider.GetAllByProvider().ToList(),
+                AchievementRateProviders = _achievementRatesProvider.GetAllByProvider(),
                 AchievementRateNationals = _achievementRatesProvider.GetAllNational(),
-                LearnerSatisfactionRates = _satisfactionRatesProvider.GetAllLearnerSatisfactionByProvider().ToList(),
-                EmployerSatisfactionRates = _satisfactionRatesProvider.GetAllEmployerSatisfactionByProvider().ToList(),
+                LearnerSatisfactionRates = _satisfactionRatesProvider.GetAllLearnerSatisfactionByProvider(),
+                EmployerSatisfactionRates = _satisfactionRatesProvider.GetAllEmployerSatisfactionByProvider(),
                 HeiProviders = _providerRepository.GetHeiProviders()
             };
         }

@@ -192,11 +192,5 @@
                 _log.Error(ex, "Error indexing LARS ApprenticeshipFundingDetails");
             }
         }
-
-        private Task<ICollection<StandardMetaData>> LoadStandardMetaData()
-        {
-            var standardsMetaData = _metaDataHelper.GetAllStandardsMetaData();
-            return Task.FromResult<ICollection<StandardMetaData>>(standardsMetaData.ToList());
-        }
     }
 }

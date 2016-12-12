@@ -15,6 +15,7 @@ using Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
@@ -45,8 +46,8 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 
             var moqMetaDataHelper = new Mock<IMetaDataHelper>();
             moqMetaDataHelper.Setup(m => m.UpdateMetadataRepository());
-            moqMetaDataHelper.Setup(m => m.GetAllStandardsMetaData()).Returns(GetStandardsTest().ToList());
-            moqMetaDataHelper.Setup(m => m.GetAllFrameworkMetaData()).Returns(GetFrameworksTest().ToList());
+            moqMetaDataHelper.Setup(m => m.GetAllStandardsMetaData()).Returns(GetStandardsTest());
+            moqMetaDataHelper.Setup(m => m.GetAllFrameworkMetaData()).Returns(GetFrameworksTest());
 
             var moqLog = new Mock<ILog>();
 
@@ -199,69 +200,75 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             }
         }
 
-        private IEnumerable<StandardMetaData> GetStandardsTest()
+        private StandardMetaDataResult GetStandardsTest()
         {
-            return new List<StandardMetaData>
-                       {
-                           new StandardMetaData
-                               {
-                                   Id = 1,
-                                   Title = "Network Engineer",
-                                   StandardPdfUrl =
-                                       "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/370682/DI_-_Network_engineer_standard.ashx.pdf"
-                               },
-                           new StandardMetaData
-                               {
-                                   Id = 2,
-                                   Title = "Software Developer",
-                                   StandardPdfUrl =
-                                       "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/371867/Digital_Industries_-_Software_Developer.pdf"
-                               },
-                           new StandardMetaData
-                               {
-                                   Id = 61,
-                                   Title = "Dental Nurse",
-                                   NotionalEndLevel = 3,
-                                   StandardPdfUrl = "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/411720/DENTAL_HEALTH_-_Dental_Nurse.pdf",
-                                   TypicalLength = new TypicalLength
-                                                       {
-                                                           From = 12,
-                                                           To = 24,
-                                                           Unit = "m"
-                                                       }
-                               }
-                       };
+            return new StandardMetaDataResult
+            {
+                Standards = new List<StandardMetaData>
+                {
+                    new StandardMetaData
+                    {
+                        Id = 1,
+                        Title = "Network Engineer",
+                        StandardPdfUrl =
+                            "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/370682/DI_-_Network_engineer_standard.ashx.pdf"
+                    },
+                    new StandardMetaData
+                    {
+                        Id = 2,
+                        Title = "Software Developer",
+                        StandardPdfUrl =
+                            "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/371867/Digital_Industries_-_Software_Developer.pdf"
+                    },
+                    new StandardMetaData
+                    {
+                        Id = 61,
+                        Title = "Dental Nurse",
+                        NotionalEndLevel = 3,
+                        StandardPdfUrl = "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/411720/DENTAL_HEALTH_-_Dental_Nurse.pdf",
+                        TypicalLength = new TypicalLength
+                        {
+                            From = 12,
+                            To = 24,
+                            Unit = "m"
+                        }
+                    }
+                }
+            };
         }
 
-        private IEnumerable<FrameworkMetaData> GetFrameworksTest()
+        private FrameworkMetaDataResult GetFrameworksTest()
         {
-            return new List<FrameworkMetaData>
-                       {
-                           new FrameworkMetaData
-                               {
-                                   FworkCode = 403,
-                                   ProgType = 0,
-                                   PwayCode = 2,
-                                   PathwayName = "Baking Industry Skills",
-                                   NasTitle = "Food and Drink"
-                               },
-                           new FrameworkMetaData
-                               {
-                                   FworkCode = 403,
-                                   ProgType = 3,
-                                   PwayCode = 7,
-                                   PathwayName = "Brewing Industry Skills",
-                                   NasTitle = "Food and Drink"
-                               },
-                           new FrameworkMetaData
-                               {
-                                   FworkCode = 423,
-                                   ProgType = 2,
-                                   PwayCode = 4,
-                                   PathwayName = "Footwear",
-                                   NasTitle = "Fashion and Textiles"
-                               }
-                       };
+            return new FrameworkMetaDataResult
+            {
+                Frameworks = new List<FrameworkMetaData>
+                {
+                    new FrameworkMetaData
+                    {
+                        FworkCode = 403,
+                        ProgType = 0,
+                        PwayCode = 2,
+                        PathwayName = "Baking Industry Skills",
+                        NasTitle = "Food and Drink"
+                    },
+                    new FrameworkMetaData
+                    {
+                        FworkCode = 403,
+                        ProgType = 3,
+                        PwayCode = 7,
+                        PathwayName = "Brewing Industry Skills",
+                        NasTitle = "Food and Drink"
+                    },
+                    new FrameworkMetaData
+                    {
+                        FworkCode = 423,
+                        ProgType = 2,
+                        PwayCode = 4,
+                        PathwayName = "Footwear",
+                        NasTitle = "Fashion and Textiles"
+                    }
+                }
+            };
         }
     }
 }

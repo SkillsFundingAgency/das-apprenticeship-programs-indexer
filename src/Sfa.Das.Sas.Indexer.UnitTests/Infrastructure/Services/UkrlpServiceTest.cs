@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
@@ -31,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 
             var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, Mock.Of<ILog>());
 
-            var models = sut.GetProviders(new List<int> { 1234 });
+            var models = sut.GetProviders(new FcsProviderResult {Providers = new List<int> { 1234 }});
 
             Assert.AreEqual(2, models.MatchingProviderRecords.Count());
         }

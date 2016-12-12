@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
+﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
+namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
     using System.Collections.Generic;
     using Moq;
@@ -74,73 +76,90 @@
             _mockCourseDirectoryRepository.VerifyAll();
         }
 
-        private IEnumerable<AchievementRateProvider> GetAchievementData()
+        private AchievementRateProviderResult GetAchievementData()
         {
-            return new List<AchievementRateProvider>
+            return new AchievementRateProviderResult
             {
-                new AchievementRateProvider { Ukprn = 456, ApprenticeshipLevel = "2", Ssa2Code = 22.2, OverallAchievementRate = 57.7, OverallCohort = "58" },
-                new AchievementRateProvider { Ukprn = 123, ApprenticeshipLevel = "3", Ssa2Code = 2.2, OverallAchievementRate = 67.7, OverallCohort = "68" },
-                new AchievementRateProvider { Ukprn = 123, ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 77.9, OverallCohort = "77" },
+                Rates = new List<AchievementRateProvider>
+                {
+                    new AchievementRateProvider {Ukprn = 456, ApprenticeshipLevel = "2", Ssa2Code = 22.2, OverallAchievementRate = 57.7, OverallCohort = "58"},
+                    new AchievementRateProvider {Ukprn = 123, ApprenticeshipLevel = "3", Ssa2Code = 2.2, OverallAchievementRate = 67.7, OverallCohort = "68"},
+                    new AchievementRateProvider {Ukprn = 123, ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 77.9, OverallCohort = "77"},
+                }
             };
         }
 
-        private IEnumerable<AchievementRateNational> GetNationalAchievementData()
+        private AchievementRateNationalResult GetNationalAchievementData()
         {
-            return new List<AchievementRateNational>
+            return new AchievementRateNationalResult
             {
-                new AchievementRateNational { ApprenticeshipLevel = "2", Ssa2Code = 22.2, OverallAchievementRate = 88.8, HybridEndYear = "2041/2042" },
-                new AchievementRateNational { ApprenticeshipLevel = "2", Ssa2Code = 22.2, OverallAchievementRate = 99.9, HybridEndYear = "2042/2043" },
+                Rates = new List<AchievementRateNational>
+                {
+                    new AchievementRateNational {ApprenticeshipLevel = "2", Ssa2Code = 22.2, OverallAchievementRate = 88.8, HybridEndYear = "2041/2042"},
+                    new AchievementRateNational {ApprenticeshipLevel = "2", Ssa2Code = 22.2, OverallAchievementRate = 99.9, HybridEndYear = "2042/2043"},
 
-                new AchievementRateNational { ApprenticeshipLevel = "3", Ssa2Code = 2.2, OverallAchievementRate = 66.6, HybridEndYear = "1994/1995" },
-                new AchievementRateNational { ApprenticeshipLevel = "3", Ssa2Code = 2.2, OverallAchievementRate = 77.7, HybridEndYear = "1995/1996" },
+                    new AchievementRateNational {ApprenticeshipLevel = "3", Ssa2Code = 2.2, OverallAchievementRate = 66.6, HybridEndYear = "1994/1995"},
+                    new AchievementRateNational {ApprenticeshipLevel = "3", Ssa2Code = 2.2, OverallAchievementRate = 77.7, HybridEndYear = "1995/1996"},
 
-                new AchievementRateNational { ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 66.6, HybridEndYear = "1994/1995" },
-                new AchievementRateNational { ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 77.8, HybridEndYear = "1995/1996" },
-                new AchievementRateNational { ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 88.7, HybridEndYear = "1993/1994" }
+                    new AchievementRateNational {ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 66.6, HybridEndYear = "1994/1995"},
+                    new AchievementRateNational {ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 77.8, HybridEndYear = "1995/1996"},
+                    new AchievementRateNational {ApprenticeshipLevel = "4", Ssa2Code = 43.2, OverallAchievementRate = 88.7, HybridEndYear = "1993/1994"}
+                }
             };
         }
 
-        private IEnumerable<SatisfactionRateProvider> GetLearnerSatisfactionRateData()
+        private LearnerSatisfactionRateResult GetLearnerSatisfactionRateData()
         {
-            return new List<SatisfactionRateProvider>
+            return new LearnerSatisfactionRateResult
             {
-                new SatisfactionRateProvider { Ukprn = 456, FinalScore = 67.1, TotalCount = 678, ResponseCount = 670 },
-                new SatisfactionRateProvider { Ukprn = 123, FinalScore = 0, TotalCount = 879, ResponseCount = 0 }
+                Rates = new List<SatisfactionRateProvider>
+                {
+                    new SatisfactionRateProvider {Ukprn = 456, FinalScore = 67.1, TotalCount = 678, ResponseCount = 670},
+                    new SatisfactionRateProvider {Ukprn = 123, FinalScore = 0, TotalCount = 879, ResponseCount = 0}
+                }
             };
         }
 
-        private List<StandardMetaData> StandardResults()
+        private StandardMetaDataResult StandardResults()
         {
-            return new List<StandardMetaData>
-                       {
-                           new StandardMetaData
-                           {
-                               Id = 5,
-                               NotionalEndLevel = 2,
-                               SectorSubjectAreaTier2 = 22.2
-                           }
-                       };
+            return new StandardMetaDataResult
+            {
+                Standards = new List<StandardMetaData>
+                {
+                    new StandardMetaData
+                    {
+                        Id = 5,
+                        NotionalEndLevel = 2,
+                        SectorSubjectAreaTier2 = 22.2
+                    }
+                }
+            };
         }
 
-        private List<FrameworkMetaData> FrameworkResults()
+        private FrameworkMetaDataResult FrameworkResults()
         {
-            return new List<FrameworkMetaData>
-                       {
-                           new FrameworkMetaData
-                           {
-                               FworkCode = 42,
-                               PwayCode = 5,
-                               ProgType = 2,
-                               SectorSubjectAreaTier2 = 2.2
-                           },
-                           new FrameworkMetaData
-                           {
-                               FworkCode = 43,
-                               PwayCode = 5,
-                               ProgType = 20,
-                               SectorSubjectAreaTier2 = 43.2
-                           }
-                       };
+            return new FrameworkMetaDataResult
+            {
+                Frameworks =
+
+                    new List<FrameworkMetaData>
+                    {
+                        new FrameworkMetaData
+                        {
+                            FworkCode = 42,
+                            PwayCode = 5,
+                            ProgType = 2,
+                            SectorSubjectAreaTier2 = 2.2
+                        },
+                        new FrameworkMetaData
+                        {
+                            FworkCode = 43,
+                            PwayCode = 5,
+                            ProgType = 20,
+                            SectorSubjectAreaTier2 = 43.2
+                        }
+                    }
+            };
         }
     }
 }

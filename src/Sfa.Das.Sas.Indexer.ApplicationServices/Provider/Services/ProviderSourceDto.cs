@@ -1,23 +1,25 @@
 using System.Collections.Generic;
+using System.Linq;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     public class ProviderSourceDto
     {
-        public IEnumerable<string> EmployerProviders { get; set; }
-        public IEnumerable<Models.CourseDirectory.Provider> CourseDirectoryProviders { get; set; }
+        public EmployerProviderResult EmployerProviders { get; set; }
+        public CourseDirectoryResult CourseDirectoryProviders { get; set; }
         public UkrlpProviderResponse UkrlpProviders { get; set; }
-        public IEnumerable<int> ActiveProviders { get; set; }
-        public IEnumerable<int> CourseDirectoryUkPrns { get; set; }
-        public IEnumerable<FrameworkMetaData> Frameworks { get; set; }
-        public IEnumerable<StandardMetaData> Standards { get; set; }
-        public IEnumerable<AchievementRateProvider> AchievementRateProviders { get; set; }
-        public IEnumerable<AchievementRateNational> AchievementRateNationals { get; set; }
-        public IEnumerable<SatisfactionRateProvider> LearnerSatisfactionRates { get; set; }
-        public IEnumerable<SatisfactionRateProvider> EmployerSatisfactionRates { get; set; }
-        public IEnumerable<string> HeiProviders { get; set; }
+        public FcsProviderResult ActiveProviders { get; set; }
+        public IEnumerable<int> CourseDirectoryUkPrns => CourseDirectoryProviders.Providers.Select(x => x.Ukprn);
+        public FrameworkMetaDataResult Frameworks { get; set; }
+        public StandardMetaDataResult Standards { get; set; }
+        public AchievementRateProviderResult AchievementRateProviders { get; set; }
+        public AchievementRateNationalResult AchievementRateNationals { get; set; }
+        public LearnerSatisfactionRateResult LearnerSatisfactionRates { get; set; }
+        public EmployerSatisfactionRateResult EmployerSatisfactionRates { get; set; }
+        public HeiProvidersResult HeiProviders { get; set; }
     }
 }

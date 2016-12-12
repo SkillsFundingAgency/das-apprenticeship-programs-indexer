@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
     using System.Collections.Generic;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
@@ -35,14 +37,14 @@
             _larsApprenticeshipReader = getLarsMetadata;
         }
 
-        public IEnumerable<StandardMetaData> GetAllStandardsMetaData()
+        public StandardMetaDataResult GetAllStandardsMetaData()
         {
             _log.Debug("Starting to get LARS standards and meta data");
             var timing = ExecutionTimer.GetTiming(() => _metaDataReader.GetStandardsMetaData());
 
             _log.Debug("MetaDataHelper.GetAllStandardsMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 
-            return timing.Result;
+            return new StandardMetaDataResult { Standards = timing.Result };
         }
 
         public void UpdateMetadataRepository()
@@ -52,14 +54,14 @@
             _log.Debug("MetaDataHelper.UpdateMetadataRepository", new TimingLogEntry { ElaspedMilliseconds = timing.TotalMilliseconds });
         }
 
-        public IEnumerable<FrameworkMetaData> GetAllFrameworkMetaData()
+        public FrameworkMetaDataResult GetAllFrameworkMetaData()
         {
             _log.Debug("Starting to get LARS frameworks and meta data");
             var timing = ExecutionTimer.GetTiming(() => _metaDataFrameworkReader.GetAllFrameworks());
 
             _log.Debug("MetaDataHelper.GetAllFrameworkMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 
-            return timing.Result;
+            return new FrameworkMetaDataResult { Frameworks = timing.Result };
         }
 
         public LarsData GetAllApprenticeshipLarsMetaData()

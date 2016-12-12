@@ -21,7 +21,7 @@
             var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());
             var sut = new AchievementRatesProvider(databaseProvider, Mock.Of<ILog>());
 
-            var result = sut.GetAllByProvider().ToArray();
+            var result = sut.GetAllByProvider().Rates.ToArray();
 
             result.Length.Should().BeGreaterThan(0);
             var totalCount = result.Length;
@@ -41,7 +41,7 @@
             var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());
             var sut = new AchievementRatesProvider(databaseProvider, Mock.Of<ILog>());
 
-            var result = sut.GetAllNational().ToArray();
+            var result = sut.GetAllNational().Rates.ToArray();
 
             result.Length.Should().BeGreaterThan(0);
             var totalCount = result.Length;

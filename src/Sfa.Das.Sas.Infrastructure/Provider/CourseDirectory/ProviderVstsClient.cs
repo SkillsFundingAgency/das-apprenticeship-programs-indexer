@@ -6,6 +6,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
@@ -29,19 +30,20 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             _logger = logger;
         }
 
-        public ICollection<string> GetEmployerProviders()
+        public EmployerProviderResult GetEmployerProviders()
         {
             var records = _convertFromCsv.CsvTo<EmployerProviderCsvRecord>(LoadEmployerProvidersFromVsts());
             _logger.Debug($"Retreived {records.Count} Employer providers");
 
-            return records.Select(employerProviderCsvRecord => employerProviderCsvRecord.UkPrn.ToString()).ToList();
+            return new EmployerProviderResult { Providers = records.Select(employerProviderCsvRecord => employerProviderCsvRecord.UkPrn.ToString()).ToList() };
         }
 
-        public ICollection<string> GetHeiProviders()
+        public HeiProvidersResult GetHeiProviders()
         {
             var records = _convertFromCsv.CsvTo<HeiProviderCsvRecord>(LoadHeiProvidersFromVsts());
 
-            return (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != null && heiProviderCsvRecord.OrgType == "Higher Education Organisation" select heiProviderCsvRecord.UkPrn).Distinct().ToList();
+            var providers = (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != null && heiProviderCsvRecord.OrgType == "Higher Education Organisation" select heiProviderCsvRecord.UkPrn).Distinct().ToList();
+            return new HeiProvidersResult { Providers = providers };
         }
 
         private string LoadEmployerProvidersFromVsts()

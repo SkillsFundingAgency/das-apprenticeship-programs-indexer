@@ -6,6 +6,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
@@ -27,13 +28,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<int>> GetActiveProviders()
+        public async Task<FcsProviderResult> GetActiveProviders()
         {
             _logger.Debug("Starting to retreive active providers");
             var loadProvidersFromVsts = await _vstsClient.GetFileContentAsync($"fcs/{_appServiceSettings.EnvironmentName}/fcs-active.csv");
             var records = _convertFromCsv.CsvTo<ActiveProviderCsvRecord>(loadProvidersFromVsts);
             _logger.Debug($"Retrieved {records.Count} providers on the FCS list");
-            return records.Select(x => x.UkPrn);
+            return new FcsProviderResult { Providers = records.Select(x => x.UkPrn) };
         }
     }
 }

@@ -21,7 +21,7 @@
             var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());
             var sut = new SatisfactionRatesProvider(databaseProvider, Mock.Of<ILog>());
 
-            var result = sut.GetAllLearnerSatisfactionByProvider().ToArray();
+            var result = sut.GetAllLearnerSatisfactionByProvider().Rates.ToArray();
 
             result.Length.Should().BeGreaterThan(0);
             var totalCount = result.Length;

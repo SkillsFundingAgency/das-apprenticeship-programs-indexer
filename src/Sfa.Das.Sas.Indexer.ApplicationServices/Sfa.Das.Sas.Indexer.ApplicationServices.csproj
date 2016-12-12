@@ -85,6 +85,17 @@
     <Compile Include="Lars\Services\IMaintainLarsIndex.cs" />
     <Compile Include="Lars\Settings\LarsIndexSettings.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderApplicationServicesRegistry.cs" />
+    <Compile Include="Provider\Models\AchievementRateNationalResult.cs" />
+    <Compile Include="Provider\Models\AchievementRateProviderResult.cs" />
+    <Compile Include="Provider\Models\CourseDirectoryResult.cs" />
+    <Compile Include="Provider\Models\EmployerSatisfactionRateResult.cs" />
+    <Compile Include="Provider\Models\FcsProviderResult.cs" />
+    <Compile Include="Provider\Models\FrameworkMetaDataResult.cs" />
+    <Compile Include="Provider\Models\LearnerSatisfactionRateResult.cs" />
+    <Compile Include="Provider\Models\StandardMetaDataResult.cs" />
+    <Compile Include="Provider\Services\IAchievementRatesProvider.cs" />
+    <Compile Include="Provider\Services\IGetActiveProviders.cs" />
+    <Compile Include="Provider\Services\ISatisfactionRatesProvider.cs" />
     <Compile Include="Shared\DependencyResolution\SharedApplicationServicesRegistry.cs" />
     <Compile Include="Provider\Models\UkRlp\ContactAddress.cs" />
     <Compile Include="Provider\Models\UkRlp\Provider.cs" />

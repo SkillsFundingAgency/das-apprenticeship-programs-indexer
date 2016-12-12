@@ -1,3 +1,5 @@
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
 {
     using System.Collections.Generic;
@@ -20,7 +22,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             _log = log;
         }
 
-        public IEnumerable<SatisfactionRateProvider> GetAllEmployerSatisfactionByProvider()
+        public EmployerSatisfactionRateResult GetAllEmployerSatisfactionByProvider()
         {
             var query = $@"
                     SELECT  [UKPRN]
@@ -30,12 +32,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
                     FROM    {EmployerSatisfactionRatesTableName}
                     ";
 
-            var results = _databaseProvider.Query<SatisfactionRateProvider>(query);
-            _log.Debug($"Retrieved {results.Count()} employer satisfaction rates");
-             return results;
+            var results = _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
+            _log.Debug($"Retrieved {results.Count} employer satisfaction rates");
+            return new EmployerSatisfactionRateResult { Rates = results };
         }
 
-        public IEnumerable<SatisfactionRateProvider> GetAllLearnerSatisfactionByProvider()
+        public LearnerSatisfactionRateResult GetAllLearnerSatisfactionByProvider()
         {
             var query = $@"
                     SELECT  [UKPRN]
@@ -45,9 +47,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
                     FROM    {LearnerSatisfactionRatesTableName}
                     ";
 
-            var results = _databaseProvider.Query<SatisfactionRateProvider>(query);
-            _log.Debug($"Retrieved {results.Count()} leaner satisfaction rates");
-            return results;
+            var results = _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
+            _log.Debug($"Retrieved {results.Count} leaner satisfaction rates");
+            return new LearnerSatisfactionRateResult { Rates = results };
         }
     }
 }

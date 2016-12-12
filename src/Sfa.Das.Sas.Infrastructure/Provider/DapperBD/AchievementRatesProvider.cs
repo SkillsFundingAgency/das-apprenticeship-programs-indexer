@@ -1,3 +1,6 @@
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
 {
     using System.Collections.Generic;
@@ -17,7 +20,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             _logger = logger;
         }
 
-        public IEnumerable<AchievementRateProvider> GetAllByProvider()
+        public AchievementRateProviderResult GetAllByProvider()
         {
             var query = @"SELECT 
                     [UKPRN], 
@@ -32,12 +35,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
                     AND [Sector Subject Area Tier 2] <> 'All SSA T2'
                     AND [Apprenticeship Level] <> 'All'
                     ";
-            var achievementRateProviders = _databaseProvider.Query<AchievementRateProvider>(query);
-            _logger.Debug($"Retreived {achievementRateProviders.Count()} Provider rates");
-            return achievementRateProviders;
+            var achievementRateProviders = _databaseProvider.Query<AchievementRateProvider>(query).ToList();
+            _logger.Debug($"Retreived {achievementRateProviders.Count} Provider rates");
+            return new AchievementRateProviderResult { Rates = achievementRateProviders };
         }
 
-        public IEnumerable<AchievementRateNational> GetAllNational()
+        public AchievementRateNationalResult GetAllNational()
         {
             var latestHybridYear = GetLatestNationalHybridEndYear();
 
@@ -59,9 +62,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
                     AND [Hybrid End Year] = @date
                     ";
 
-            var results = _databaseProvider.Query<AchievementRateNational>(query, new { date = latestHybridYear });
-            _logger.Debug($"Retreived {results.Count()} national provider rates");
-            return results;
+            var results = _databaseProvider.Query<AchievementRateNational>(query, new { date = latestHybridYear }).ToList();
+            _logger.Debug($"Retreived {results.Count} national provider rates");
+            return new AchievementRateNationalResult { Rates = results };
         }
 
         private string GetLatestNationalHybridEndYear()
