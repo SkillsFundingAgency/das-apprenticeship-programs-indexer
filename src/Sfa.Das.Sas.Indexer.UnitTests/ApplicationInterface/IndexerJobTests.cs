@@ -11,6 +11,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationInterface
     public class IndexerJobTests
     {
         [Test]
+        [Ignore("too slow")]
         public void ShouldCheckForProvidersAndStandardsToIndex()
         {
             // Arrange
