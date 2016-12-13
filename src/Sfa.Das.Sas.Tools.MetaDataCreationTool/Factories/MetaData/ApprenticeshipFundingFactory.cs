@@ -11,6 +11,11 @@
 
         public object Create(IReadOnlyList<string> values)
         {
+            if (values == null || values.Count <= 13 || values[0].RemoveQuotationMark().Contains("ApprenticeshipType"))
+            {
+                return null;
+            }
+
             return new ApprenticeshipFunding
             {
                 ApprenticeshipType = values[0].RemoveQuotationMark(),

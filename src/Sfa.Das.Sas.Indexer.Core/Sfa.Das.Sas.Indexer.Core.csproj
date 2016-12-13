@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Apprenticeship\Models\ApprenticeshipFunding.cs" />
+    <Compile Include="Apprenticeship\Models\ApprenticeshipFundingMetaData.cs" />
     <Compile Include="Apprenticeship\Models\LarsData.cs" />
     <Compile Include="Apprenticeship\Models\Standard\LarsStandard.cs" />
     <Compile Include="Provider\Models\EmployerProviderResult.cs" />
@@ -86,7 +86,6 @@
     <Compile Include="Provider\Models\Provider\Coordinate.cs" />
     <Compile Include="Shared\Models\IIndexEntry.cs" />
     <Compile Include="Apprenticeship\Models\Standard\StandardMetaData.cs" />
-    <Compile Include="Apprenticeship\Models\Standard\TypicalLength.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Logging\ILog.cs" />
     <Compile Include="Provider\Services\IProvideSettings.cs" />

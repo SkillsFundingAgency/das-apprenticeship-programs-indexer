@@ -1,4 +1,4 @@
-﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
+namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     using System;
     using System.Collections.Generic;
@@ -67,7 +67,13 @@
             var standards = _csvService.ReadFromString<LarsStandard>(fileContent);
             _logger.Debug($"Read: {standards.Count} standards from file.");
 
+            var csvData = GetLarsCsvData(zipFilePath);
+
             zipStream.Close();
+
+            var larsMetaData = GetLarsMetaData(csvData);
+
+            AddDurationAndFundingToStandards(standards, larsMetaData);
 
             return standards;
         }
@@ -82,6 +88,7 @@
             var larsMetaData = GetLarsMetaData(csvData);
 
             AddQualificationsToFrameworks(larsMetaData);
+            AddDurationAndFundingToFrameworks(larsMetaData);
 
             return larsMetaData.Frameworks;
         }
@@ -200,7 +207,7 @@
 
             var fundingMetadata = GetLarsFundingMetaData(zipStream);
 
-            var apprenticeshipFunding = GetApprenticeshipFunding(zipStream);
+            var apprenticeshipFunding = GetApprenticeshipFundingMetaData(zipStream);
 
             CloseStream(zipStream);
 
@@ -275,11 +282,11 @@
             return fundingMetaData;
         }
 
-        private ICollection<ApprenticeshipFunding> GetApprenticeshipFunding(Stream zipStream)
+        private ICollection<ApprenticeshipFundingMetaData> GetApprenticeshipFundingMetaData(Stream zipStream)
         {
             var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameApprenticeshipFunding, true);
 
-            var apprenticeshipFunding = _csvService.ReadFromString<ApprenticeshipFunding>(fileContent);
+            var apprenticeshipFunding = _csvService.ReadFromString<ApprenticeshipFundingMetaData>(fileContent);
 
             return apprenticeshipFunding;
         }
@@ -324,7 +331,7 @@
         {
             zipStream.Close();
         }
-
+        
         private Stream GetZipStream(string zipFilePath)
         {
             var timer = ExecutionTimer.GetTiming(() => _httpGetFile.GetFile(zipFilePath));
@@ -368,6 +375,46 @@
             }
         }
 
+        private void AddDurationAndFundingToFrameworks(LarsMetaData metaData)
+        {
+            foreach (var framework in metaData.Frameworks)
+            {
+                var fw =
+                    metaData.ApprenticeshipFundings.FirstOrDefault(fwk =>
+                        fwk.ApprenticeshipType == "FWK" &&
+                        fwk.ApprenticeshipCode == framework.FworkCode &&
+                        fwk.ProgType == framework.ProgType &&
+                        fwk.PwayCode == framework.PwayCode);
+
+                if (fw == null)
+                {
+                    continue;
+                }
+                
+                framework.Duration = fw.ReservedValue1;
+                framework.FundingCap = fw.MaxEmployerLevyCap;
+            }
+        }
+        
+        private void AddDurationAndFundingToStandards(ICollection<LarsStandard> standards, LarsMetaData metaData)
+        {
+            foreach (var std in standards)
+            {
+                var s =
+                    metaData.ApprenticeshipFundings.FirstOrDefault(stdrd =>
+                        stdrd.ApprenticeshipType == "STD" &&
+                        stdrd.ApprenticeshipCode == std.Id);
+
+                if (s == null)
+                {
+                    continue;
+                }
+
+                std.Duration = s.ReservedValue1;
+                std.FundingCap = s.MaxEmployerLevyCap;
+            }
+        }
+
         private LarsMetaData GetLarsMetaData(LarsCsvData larsCsvData)
         {
             var metaData = default(LarsMetaData);
@@ -382,6 +429,7 @@
             metaData.FrameworkContentTypes = _csvService.ReadFromString<ApprenticeshipComponentTypeMetaData>(larsCsvData.FrameworkContentType);
             metaData.LearningDeliveries = _csvService.ReadFromString<LearningDeliveryMetaData>(larsCsvData.LearningDelivery);
             metaData.Fundings = _csvService.ReadFromString<FundingMetaData>(larsCsvData.Funding);
+            metaData.ApprenticeshipFundings = _csvService.ReadFromString<ApprenticeshipFundingMetaData>(larsCsvData.ApprenticeshipFundingAndDuration);
 
             return metaData;
         }
@@ -418,11 +466,14 @@
             csvData.FrameworkContentType = _fileExtractor.ExtractFileFromStream(
                 zipStream, _appServiceSettings.CsvFileNameApprenticeshipComponentType, true);
 
-                csvData.LearningDelivery = _fileExtractor.ExtractFileFromStream(
-                    zipStream, _appServiceSettings.CsvFileNameLearningDelivery, true);
+            csvData.LearningDelivery = _fileExtractor.ExtractFileFromStream(
+                zipStream, _appServiceSettings.CsvFileNameLearningDelivery, true);
 
-                csvData.Funding = _fileExtractor.ExtractFileFromStream(
-                    zipStream, _appServiceSettings.CsvFileNameFunding, true);
+            csvData.Funding = _fileExtractor.ExtractFileFromStream(
+                zipStream, _appServiceSettings.CsvFileNameFunding, true);
+
+            csvData.ApprenticeshipFundingAndDuration = _fileExtractor.ExtractFileFromStream(
+                zipStream, _appServiceSettings.CsvFileNameApprenticeshipFunding, true);
 
             zipStream.Close();
 
@@ -448,6 +499,7 @@
             public string FrameworkContentType { get; set; }
             public string LearningDelivery { get; set; }
             public string Funding { get; set; }
+            public string ApprenticeshipFundingAndDuration { get; set; }
         }
 
         private struct LarsMetaData
@@ -457,6 +509,7 @@
             public ICollection<ApprenticeshipComponentTypeMetaData> FrameworkContentTypes { get; set; }
             public ICollection<LearningDeliveryMetaData> LearningDeliveries { get; set; }
             public ICollection<FundingMetaData> Fundings { get; set; }
+            public ICollection<ApprenticeshipFundingMetaData> ApprenticeshipFundings { get; set; }
         }
 
         private struct CategorisedQualifications

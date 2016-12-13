@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class LearningDeliveryMetaDataDocument
+    public class LearningDeliveryDocument
     {
         public string LearnAimRef { get; set; }
 

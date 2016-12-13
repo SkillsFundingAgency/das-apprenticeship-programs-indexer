@@ -117,7 +117,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             Assert.AreEqual(expectedStandardResult.Title, retrievedStandard.Title);
             Assert.AreEqual(expectedStandardResult.NotionalEndLevel, retrievedStandard.Level);
             Assert.AreEqual(expectedStandardResult.Id, retrievedStandard.StandardId);
-            Assert.AreEqual(12, retrievedStandard.TypicalLength.From);
         }
 
         [Test]
@@ -202,41 +201,32 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             }
         }
 
-        private StandardMetaDataResult GetStandardsTest()
+        private IEnumerable<StandardMetaData> GetStandardsTest()
         {
-            return new StandardMetaDataResult
-            {
-                Standards = new List<StandardMetaData>
-                {
-                    new StandardMetaData
-                    {
-                        Id = 1,
-                        Title = "Network Engineer",
-                        StandardPdfUrl =
-                            "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/370682/DI_-_Network_engineer_standard.ashx.pdf"
-                    },
-                    new StandardMetaData
-                    {
-                        Id = 2,
-                        Title = "Software Developer",
-                        StandardPdfUrl =
-                            "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/371867/Digital_Industries_-_Software_Developer.pdf"
-                    },
-                    new StandardMetaData
-                    {
-                        Id = 61,
-                        Title = "Dental Nurse",
-                        NotionalEndLevel = 3,
-                        StandardPdfUrl = "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/411720/DENTAL_HEALTH_-_Dental_Nurse.pdf",
-                        TypicalLength = new TypicalLength
-                        {
-                            From = 12,
-                            To = 24,
-                            Unit = "m"
-                        }
-                    }
-                }
-            };
+            return new List<StandardMetaData>
+                       {
+                           new StandardMetaData
+                               {
+                                   Id = 1,
+                                   Title = "Network Engineer",
+                                   StandardPdfUrl =
+                                       "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/370682/DI_-_Network_engineer_standard.ashx.pdf"
+                               },
+                           new StandardMetaData
+                               {
+                                   Id = 2,
+                                   Title = "Software Developer",
+                                   StandardPdfUrl =
+                                       "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/371867/Digital_Industries_-_Software_Developer.pdf"
+                               },
+                           new StandardMetaData
+                               {
+                                   Id = 61,
+                                   Title = "Dental Nurse",
+                                   NotionalEndLevel = 3,
+                                   StandardPdfUrl = "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/411720/DENTAL_HEALTH_-_Dental_Nurse.pdf"
+                               }
+                       };
         }
 
         private FrameworkMetaDataResult GetFrameworksTest()

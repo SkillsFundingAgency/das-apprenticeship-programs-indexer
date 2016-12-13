@@ -12,10 +12,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
     using Sfa.Das.Sas.Indexer.Core.Exceptions;
     using Sfa.Das.Sas.Indexer.Core.Logging;
-    using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
     using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 
     public sealed class ElasticsearchLarsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainLarsIndex
@@ -42,12 +40,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
                 .Mappings(ms => ms
                     .Map<ApprenticeshipFundingDocument>(m => m.AutoMap())
-                    .Map<LearningDeliveryMetaDataDocument>(m => m.AutoMap())
-                    .Map<FundingMetadataDocument>(m => m.AutoMap())
-                    .Map<FrameworkAimMetaDataDocument>(m => m.AutoMap())
+                    .Map<LearningDeliveryDocument>(m => m.AutoMap())
+                    .Map<FundingDocument>(m => m.AutoMap())
+                    .Map<FrameworkAimDocument>(m => m.AutoMap())
                     .Map<FrameworkLars>(m => m.AutoMap())
                     .Map<StandardLars>(m => m.AutoMap())
-                    .Map<ApprenticeshipComponentTypeMetaDataDocument>(m => m.AutoMap())));
+                    .Map<ApprenticeshipComponentTypeDocument>(m => m.AutoMap())));
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {
@@ -115,7 +113,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             }
         }
 
-        public async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFunding> entries)
+        public async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFundingMetaData> entries)
         {
             var smallLists = SplitAndReturn(entries.ToList(), 10000);
 

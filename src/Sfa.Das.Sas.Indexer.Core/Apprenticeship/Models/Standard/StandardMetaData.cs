@@ -20,7 +20,9 @@ namespace Sfa.Das.Sas.Indexer.Core.Models
 
         public string AssessmentPlanPdfUrl { get; set; }
 
-        public TypicalLength TypicalLength { get; set; }
+        public int FundingCap { get; set; }
+
+        public int Duration { get; set; }
 
         public string EntryRequirements { get; set; }
 

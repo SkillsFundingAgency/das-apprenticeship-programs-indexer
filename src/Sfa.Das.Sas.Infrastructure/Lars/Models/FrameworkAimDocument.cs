@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class FrameworkAimMetaDataDocument
+    public class FrameworkAimDocument
     {
         public int FworkCode { get; set; }
 

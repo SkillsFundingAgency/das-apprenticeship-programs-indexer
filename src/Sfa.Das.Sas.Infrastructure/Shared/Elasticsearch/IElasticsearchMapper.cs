@@ -20,15 +20,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         FrameworkLars CreateLarsFrameworkDocument(FrameworkMetaData frameworkMetaData);
 
-        FundingMetadataDocument CreateFundingMetaDataDocument(FundingMetaData fundingMetaData);
+        FundingDocument CreateFundingMetaDataDocument(FundingMetaData fundingMetaData);
 
-        FrameworkAimMetaDataDocument CreateFrameworkAimMetaDataDocument(FrameworkAimMetaData frameworkAimMetaData);
+        FrameworkAimDocument CreateFrameworkAimMetaDataDocument(FrameworkAimMetaData frameworkAimMetaData);
 
-        LearningDeliveryMetaDataDocument CreateLearningDeliveryMetaDataDocument(LearningDeliveryMetaData learningDeliveryMetaData);
+        LearningDeliveryDocument CreateLearningDeliveryMetaDataDocument(LearningDeliveryMetaData learningDeliveryMetaData);
 
-        ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFunding apprenticeshipFunding);
+        ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFundingMetaData apprenticeshipFunding);
 
-         ApprenticeshipComponentTypeMetaDataDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData);
+        ApprenticeshipComponentTypeDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData);
 
         int MapToLevelFromProgType(int level);
 

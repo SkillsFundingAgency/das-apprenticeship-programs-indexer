@@ -146,12 +146,12 @@
     <Compile Include="Apprenticeship\DependencyResolution\ApprenticeshipInfrastructureRegistry.cs" />
     <Compile Include="Apprenticeship\ElasticSearch\ElasticsearchApprenticeshipIndexMaintainer.cs" />
     <Compile Include="Lars\DependencyResolution\LarsInfrastructureRegistry.cs" />
-    <Compile Include="Lars\Models\ApprenticeshipComponentTypeMetaDataDocument.cs" />
+    <Compile Include="Lars\Models\ApprenticeshipComponentTypeDocument.cs" />
     <Compile Include="Lars\Models\ApprenticeshipFundingDocument.cs" />
-    <Compile Include="Lars\Models\FrameworkAimMetaDataDocument.cs" />
+    <Compile Include="Lars\Models\FrameworkAimDocument.cs" />
     <Compile Include="Lars\Models\FrameworkLars.cs" />
-    <Compile Include="Lars\Models\FundingMetadataDocument.cs" />
-    <Compile Include="Lars\Models\LearningDeliveryMetaDataDocument.cs" />
+    <Compile Include="Lars\Models\FundingDocument.cs" />
+    <Compile Include="Lars\Models\LearningDeliveryDocument.cs" />
     <Compile Include="Lars\Models\StandardLars.cs" />
     <Compile Include="Provider\CourseDirectory\EmployerProviderVstsClient.cs" />
     <Compile Include="Provider\DapperBD\AchievementRatesNational.cs" />

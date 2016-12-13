@@ -1,12 +1,10 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-    using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 
     public interface IMaintainLarsIndex : IMaintainSearchIndexes
@@ -23,6 +21,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services
 
         Task IndexLearningDeliveryMetaData(string indexName, IEnumerable<LearningDeliveryMetaData> entries);
 
-        Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFunding> entries);
+        Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFundingMetaData> entries);
     }
 }

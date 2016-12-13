@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class ApprenticeshipComponentTypeMetaDataDocument
+    public class ApprenticeshipComponentTypeDocument
     {
         public int ApprenticeshipComponentType { get; set; }
 

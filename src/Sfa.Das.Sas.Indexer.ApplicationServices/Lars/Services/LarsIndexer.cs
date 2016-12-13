@@ -35,11 +35,9 @@
 
         public async Task IndexEntries(string indexName)
         {
-            // TODO: load LARS data
             _log.Debug("Retrieving Lars data");
             var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
-
-            // TODO: index LARS data
+            
             _log.Debug("Indexing Lars data into index");
             await IndexStandards(indexName, larsData.Standards).ConfigureAwait(false);
             await IndexFrameworks(indexName, larsData.Frameworks).ConfigureAwait(false);
@@ -179,11 +177,11 @@
             }
         }
 
-        private async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFunding> larsDataApprenticeshipFunding)
+        private async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFundingMetaData> larsDataApprenticeshipFunding)
         {
             try
             {
-                _log.Debug("Indexing " + larsDataApprenticeshipFunding.Count() + " learning delivery metadata details");
+                _log.Debug("Indexing " + larsDataApprenticeshipFunding.Count() + " apprenticeship funding metadata details");
 
                 await _searchIndexMaintainer.IndexApprenticeshipFundingDetails(indexName, larsDataApprenticeshipFunding).ConfigureAwait(false);
             }

@@ -11,7 +11,7 @@
 
         public object Create(IReadOnlyList<string> values)
         {
-            if (values == null || values.Count < 5)
+            if (values == null || values.Count < 5 || values[0].RemoveQuotationMark().Contains("ApprenticeshipComponentType"))
             {
                 return null;
             }
