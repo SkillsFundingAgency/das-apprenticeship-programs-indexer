@@ -114,7 +114,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             Assert.AreEqual(expectedStandardResult.Title, retrievedStandard.Title);
             Assert.AreEqual(expectedStandardResult.NotionalEndLevel, retrievedStandard.Level);
             Assert.AreEqual(expectedStandardResult.Id, retrievedStandard.StandardId);
-            Assert.AreEqual(12, retrievedStandard.TypicalLength.From);
         }
 
         [Test]
@@ -222,13 +221,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
                                    Id = 61,
                                    Title = "Dental Nurse",
                                    NotionalEndLevel = 3,
-                                   StandardPdfUrl = "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/411720/DENTAL_HEALTH_-_Dental_Nurse.pdf",
-                                   TypicalLength = new TypicalLength
-                                                       {
-                                                           From = 12,
-                                                           To = 24,
-                                                           Unit = "m"
-                                                       }
+                                   StandardPdfUrl = "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/411720/DENTAL_HEALTH_-_Dental_Nurse.pdf"
                                }
                        };
         }

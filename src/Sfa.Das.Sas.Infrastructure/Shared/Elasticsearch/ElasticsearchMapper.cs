@@ -42,7 +42,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 Level = standard.NotionalEndLevel,
                 StandardPdf = standard.StandardPdfUrl,
                 AssessmentPlanPdf = standard.AssessmentPlanPdfUrl,
-                TypicalLength = standard.TypicalLength,
+                FundingCap = standard.FundingCap,
+                Duration = standard.Duration,
                 OverviewOfRole = standard.OverviewOfRole,
                 EntryRequirements = standard.EntryRequirements,
                 WhatApprenticesWillLearn = standard.WhatApprenticesWillLearn,
@@ -85,7 +86,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 Level = MapToLevelFromProgType(frameworkMetaData.ProgType),
                 JobRoleItems = frameworkMetaData.JobRoleItems?.Select(m => new JobRoleItem { Title = m.Title, Description = m.Description }),
                 Keywords = frameworkMetaData.Keywords,
-                TypicalLength = frameworkMetaData.TypicalLength,
+                FundingCap = frameworkMetaData.FundingCap,
+                Duration = frameworkMetaData.Duration,
                 ExpiryDate = frameworkMetaData.EffectiveTo,
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier2,
@@ -124,8 +126,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ProgType = frameworkMetaData.ProgType,
                 PwayCode = frameworkMetaData.PwayCode,
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
-                SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1,
-                TypicalLength = frameworkMetaData.TypicalLength
+                SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1
             };
         }
 
@@ -167,7 +168,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             };
         }
 
-        public ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFunding apprenticeshipFunding)
+        public ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFundingMetaData apprenticeshipFunding)
         {
             return new ApprenticeshipFundingDocument
             {

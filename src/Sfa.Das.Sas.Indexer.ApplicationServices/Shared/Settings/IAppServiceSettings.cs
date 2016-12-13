@@ -17,7 +17,7 @@
         string CsvFileNameApprenticeshipFunding { get; }
 
         string CsvFileNameFunding { get; }
-
+        
         string GitUsername { get; }
 
         string GitPassword { get; }

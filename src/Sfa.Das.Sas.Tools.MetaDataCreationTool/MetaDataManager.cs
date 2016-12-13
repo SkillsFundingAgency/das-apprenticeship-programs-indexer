@@ -1,6 +1,3 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 {
     using System;
@@ -10,13 +7,14 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
     using Newtonsoft.Json;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
     using Sfa.Das.Sas.Indexer.Core.Extensions;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
-    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
     public class MetaDataManager : IGetStandardMetaData, IGenerateStandardMetaData, IGetFrameworkMetaData, IGetLarsMetadata
@@ -28,8 +26,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private readonly ILog _logger;
 
         private readonly IAngleSharpService _angleSharpService;
-        private readonly IMetadataApiService _metadataApiService;
-
+        
         private readonly IVstsService _vstsService;
 
         public MetaDataManager(
@@ -37,7 +34,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             IVstsService vstsService,
             IAppServiceSettings appServiceSettings,
             IAngleSharpService angleSharpService,
-            IMetadataApiService metadataApiService,
             ILog logger)
         {
             _larsDataService = larsDataService;
@@ -45,7 +41,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             _appServiceSettings = appServiceSettings;
             _logger = logger;
             _angleSharpService = angleSharpService;
-            _metadataApiService = metadataApiService;
         }
 
         public LarsData GetLarsData()
@@ -89,7 +84,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             return frameworks;
         }
 
-        private static StandardRepositoryData MapStandardData(LarsStandard larsStandard)
+        private StandardRepositoryData MapStandardData(LarsStandard larsStandard)
         {
             var standardRepositoryData = new StandardRepositoryData
             {
@@ -97,12 +92,13 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 Title = larsStandard.Title,
                 JobRoles = new List<string>(),
                 Keywords = new List<string>(),
-                TypicalLength = new TypicalLength { Unit = "m" },
                 OverviewOfRole = string.Empty,
                 EntryRequirements = string.Empty,
                 WhatApprenticesWillLearn = string.Empty,
                 Qualifications = string.Empty,
-                ProfessionalRegistration = string.Empty
+                ProfessionalRegistration = string.Empty,
+                Duration = larsStandard.Duration,
+                FundingCap = larsStandard.FundingCap
             };
             return standardRepositoryData;
         }
@@ -149,7 +145,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 framework.Published = repositoryFramework.Published;
                 framework.JobRoleItems = repositoryFramework.JobRoleItems;
                 framework.Keywords = repositoryFramework.Keywords;
-                framework.TypicalLength = repositoryFramework.TypicalLength;
                 framework.CompletionQualifications = repositoryFramework.CompletionQualifications;
                 framework.EntryRequirements = repositoryFramework.EntryRequirements;
                 framework.ProfessionalRegistration = repositoryFramework.ProfessionalRegistration;
@@ -179,6 +174,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 standard.AssessmentPlanPdfUrl = GetLinkUri(standardFromLars.StandardUrl, "Assessment");
                 standard.SectorSubjectAreaTier1 = standardFromLars.SectorSubjectAreaTier1;
                 standard.SectorSubjectAreaTier2 = standardFromLars.SectorSubjectAreaTier2;
+                standard.Duration = standardFromLars.Duration;
+                standard.FundingCap = standardFromLars.FundingCap;
                 updated++;
             }
 
