@@ -67,7 +67,13 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var standards = _csvService.ReadFromString<LarsStandard>(fileContent);
             _logger.Debug($"Read: {standards.Count} standards from file.");
 
+            var csvData = GetLarsCsvData(zipFilePath);
+
             zipStream.Close();
+
+            var larsMetaData = GetLarsMetaData(csvData);
+
+            AddDurationAndFundingToStandards(standards, larsMetaData);
 
             return standards;
         }
@@ -82,6 +88,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var larsMetaData = GetLarsMetaData(csvData);
 
             AddQualificationsToFrameworks(larsMetaData);
+            AddDurationAndFundingToFrameworks(larsMetaData);
 
             return larsMetaData.Frameworks;
         }
