@@ -15,13 +15,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         private readonly IIndexSettings<IMaintainApprenticeshipIndex> _settings;
         private readonly IMaintainApprenticeshipIndex _searchIndexMaintainer;
         private readonly IMetaDataHelper _metaDataHelper;
-        private readonly ILogApprenticeships _log;
+        private readonly ILog _log;
 
         public ApprenticeshipIndexer(
             IIndexSettings<IMaintainApprenticeshipIndex> settings,
             IMaintainApprenticeshipIndex searchIndexMaintainer,
             IMetaDataHelper metaDataHelper,
-            ILogApprenticeships log)
+            ILog log)
         {
             _settings = settings;
             _searchIndexMaintainer = searchIndexMaintainer;

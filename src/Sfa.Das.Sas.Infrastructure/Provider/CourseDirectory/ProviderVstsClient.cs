@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.EmployerProvider;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Hei;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
@@ -16,16 +15,17 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
         private readonly IConvertFromCsv _convertFromCsv;
         private readonly IVstsClient _vstsClient;
         private readonly IAppServiceSettings _appServiceSettings;
-        private readonly ILogProvider _logger;
+        private readonly ILog _logger;
 
-        public ProviderVstsClient(IConvertFromCsv _convertFromCsv,
-            IVstsClient _vstsClient,
-            IAppServiceSettings _appServiceSettings,
-            ILogProvider logger)
+        public ProviderVstsClient(
+            IConvertFromCsv convertFromCsv,
+            IVstsClient vstsClient,
+            IAppServiceSettings appServiceSettings,
+            ILog logger)
         {
-            this._convertFromCsv = _convertFromCsv;
-            this._vstsClient = _vstsClient;
-            this._appServiceSettings = _appServiceSettings;
+            _convertFromCsv = convertFromCsv;
+            _vstsClient = vstsClient;
+            _appServiceSettings = appServiceSettings;
             _logger = logger;
         }
 
@@ -37,16 +37,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             return records.Select(employerProviderCsvRecord => employerProviderCsvRecord.UkPrn.ToString()).ToList();
         }
 
-        private string LoadEmployerProvidersFromVsts()
-        {
-            return _vstsClient.GetFileContent($"employerProviders/{_appServiceSettings.EnvironmentName}/employerProviders.csv");
-        }
-
         public ICollection<string> GetHeiProviders()
         {
             var records = _convertFromCsv.CsvTo<HeiProviderCsvRecord>(LoadHeiProvidersFromVsts());
 
             return (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != null && heiProviderCsvRecord.OrgType == "Higher Education Organisation" select heiProviderCsvRecord.UkPrn).Distinct().ToList();
+        }
+
+        private string LoadEmployerProvidersFromVsts()
+        {
+            return _vstsClient.GetFileContent($"employerProviders/{_appServiceSettings.EnvironmentName}/employerProviders.csv");
         }
 
         private string LoadHeiProvidersFromVsts()

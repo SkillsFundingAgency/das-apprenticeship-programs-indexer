@@ -15,11 +15,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly IAppServiceSettings _appServiceSettings;
 
         private readonly IConvertFromCsv _convertFromCsv;
-        private readonly ILogProvider _logger;
+        private readonly ILog _logger;
 
         private readonly IVstsClient _vstsClient;
 
-        public FcsActiveProvidersClient(IVstsClient vstsClient, IAppServiceSettings appServiceSettings, IConvertFromCsv convertFromCsv, ILogProvider logger)
+        public FcsActiveProvidersClient(IVstsClient vstsClient, IAppServiceSettings appServiceSettings, IConvertFromCsv convertFromCsv, ILog logger)
         {
             _vstsClient = vstsClient;
             _appServiceSettings = appServiceSettings;

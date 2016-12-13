@@ -13,7 +13,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
         public LarsInfrastructureRegistry()
         {
             For<ILarsSettings>().Use<LarsSettings>();
-            For<ILogLars>().Use(x => new NLogLarsService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
             For<IMaintainLarsIndex>().Use<ElasticsearchLarsIndexMaintainer>();
         }
     }

@@ -1,5 +1,6 @@
 using Nest;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
@@ -9,6 +10,7 @@ using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 using Sfa.Das.Sas.Indexer.Infrastructure.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+using Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution;
 using StructureMap;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
@@ -32,6 +34,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
             For<IElasticsearchMapper>().Use<ElasticsearchMapper>();
             For<IElasticClient>().Use<ElasticClient>();
             For<IElasticsearchCustomClient>().Use<ElasticsearchCustomClient>();
+            For<IIndexerServiceFactory>().Use<IndexerServiceFactory>();
         }
     }
 }

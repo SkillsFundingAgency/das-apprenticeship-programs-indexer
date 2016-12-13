@@ -26,14 +26,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 #pragma warning restore S1144 // Unused private types or members should be removed
 #pragma warning disable CS0169
 
-        public string ApplicationName { get; set; }
-
         public NLogService(Type loggerType, IInfrastructureSettings settings)
         {
             _settings = settings;
-            ApplicationName = ApplicationName ??_settings.ApplicationName;
+            ApplicationName = ApplicationName ?? _settings.ApplicationName;
             _loggerType = loggerType?.ToString() ?? "DefaultIndexLogger";
         }
+
+        public string ApplicationName { get; set; }
 
         public void Debug(object message)
         {

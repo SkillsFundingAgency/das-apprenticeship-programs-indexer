@@ -24,7 +24,6 @@
 
         public IList<string> GetLinks(string fromUrl, string selector, string textInTitle)
         {
-
             if (string.IsNullOrEmpty(fromUrl))
             {
                 return new List<string>();

@@ -30,16 +30,23 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution
         {
             return new Container(c =>
             {
+                // Startup
                 c.AddRegistry<IndexerRegistry>();
-                c.AddRegistry<ApprenticeshipApplicationServicesRegistry>();
-                c.AddRegistry<ProviderApplicationServicesRegistry>();
-                c.AddRegistry<LarsApplicationServicesRegistry>();
                 c.AddRegistry<SharedApplicationServicesRegistry>();
                 c.AddRegistry<InfrastructureRegistry>();
-                c.AddRegistry<ProviderInfrastructureRegistry>();
-                c.AddRegistry<ApprenticeshipInfrastructureRegistry>(); 
-                c.AddRegistry<LarsInfrastructureRegistry>(); 
                 c.AddRegistry<MetaDataCreationRegistry>();
+
+                // ApprenticeshipIndexer
+                c.AddRegistry<ApprenticeshipInfrastructureRegistry>();
+                c.AddRegistry<ApprenticeshipApplicationServicesRegistry>();
+
+                // Provider
+                c.AddRegistry<ProviderApplicationServicesRegistry>();
+                c.AddRegistry<ProviderInfrastructureRegistry>();
+
+                // Lars
+                c.AddRegistry<LarsApplicationServicesRegistry>();
+                c.AddRegistry<LarsInfrastructureRegistry>(); 
             });
         }
     }

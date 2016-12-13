@@ -18,7 +18,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
         {
             For<IGetActiveProviders>().Use<FcsActiveProvidersClient>();
             For<ICourseDirectoryProviderDataService>().Use(x => new CourseDirectoryProviderDataService(x.GetInstance<IInfrastructureSettings>()));
-            For<ILogProvider>().Use(x => new NLogProviderService(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
             For<IGetCourseDirectoryProviders>().Use<CourseDirectoryClient>();
             For<ICourseDirectoryProviderMapper>().Use<CourseDirectoryProviderMapper>();
             For<IGetApprenticeshipProviders>().Use<ProviderVstsClient>();

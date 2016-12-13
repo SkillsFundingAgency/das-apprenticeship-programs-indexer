@@ -1,18 +1,17 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Core.Apprenticeship.Models.Standard;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Core.Apprenticeship.Models.Standard;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Core.Services;
 
     public sealed class LarsIndexer : IGenericIndexerHelper<IMaintainLarsIndex>
@@ -20,13 +19,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         private readonly IIndexSettings<IMaintainLarsIndex> _settings;
         private readonly IMaintainLarsIndex _searchIndexMaintainer;
         private readonly IMetaDataHelper _metaDataHelper;
-        private readonly ILogLars _log;
+        private readonly ILog _log;
 
         public LarsIndexer(
             IIndexSettings<IMaintainLarsIndex> settings,
             IMaintainLarsIndex searchIndexMaintainer,
             IMetaDataHelper metaDataHelper,
-            ILogLars log)
+            ILog log)
         {
             _settings = settings;
             _searchIndexMaintainer = searchIndexMaintainer;
@@ -36,11 +35,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
         public async Task IndexEntries(string indexName)
         {
-            //TODO: load LARS data
+            // TODO: load LARS data
             _log.Debug("Retrieving Lars data");
             var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
 
-            //TODO: index LARS data
+            // TODO: index LARS data
             _log.Debug("Indexing Lars data into index");
             await IndexStandards(indexName, larsData.Standards).ConfigureAwait(false);
             await IndexFrameworks(indexName, larsData.Frameworks).ConfigureAwait(false);

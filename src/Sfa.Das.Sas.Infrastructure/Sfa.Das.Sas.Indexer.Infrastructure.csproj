@@ -161,6 +161,7 @@
     <Compile Include="Provider\DapperBD\AchievementRatesProvider.cs" />
     <Compile Include="Provider\DapperBD\DatabaseProvider.cs" />
     <Compile Include="Provider\DapperBD\IDatabaseProvider.cs" />
+    <Compile Include="Shared\DependencyResolution\IndexerServiceFactory.cs" />
     <Compile Include="Shared\DependencyResolution\InfrastructureRegistry.cs" />
     <Compile Include="Shared\Elasticsearch\Configuration\ElasticsearchConfiguration.cs" />
     <Compile Include="Shared\Elasticsearch\Configuration\IElasticsearchConfiguration.cs" />
@@ -198,11 +199,9 @@
     <Compile Include="Shared\Services\HttpService.cs" />
     <Compile Include="Shared\Models\Git\GitTree.cs" />
     <Compile Include="Shared\Models\Git\Entity.cs" />
-    <Compile Include="Shared\Services\NLogLarsService.cs" />
-    <Compile Include="Shared\Services\NLogApprenticeshipService.cs" />
-    <Compile Include="Shared\Services\NLogProviderService.cs" />
     <Compile Include="Shared\Services\NLogService.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryClient.cs" />
+    <Compile Include="Shared\Services\NLogService{T}.cs" />
     <Compile Include="Shared\Services\RetryService.cs" />
     <Compile Include="Provider\Services\UkrlpService.cs" />
     <Compile Include="Shared\Services\VstsClient.cs" />
