@@ -1,20 +1,17 @@
-﻿using MediatR;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using MediatR;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
     using Ukrlp;
     using Provider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp.Provider;
 
-    public class UkrlpService : IUkrlpService, IRequestHandler<UkrlpProviderRequest, UkrlpProviderResponse>
+    public class UkrlpService : IRequestHandler<UkrlpProviderRequest, UkrlpProviderResponse>
     {
         private readonly IInfrastructureSettings _infrastructureSettings;
         private readonly IUkrlpClient _providerClient;

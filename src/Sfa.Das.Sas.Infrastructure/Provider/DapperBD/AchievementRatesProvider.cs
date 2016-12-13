@@ -1,16 +1,12 @@
-using MediatR;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-
 namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Core.Logging;
+    using MediatR;
     using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Services;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
-    public class AchievementRatesProvider : IAchievementRatesProvider, IRequestHandler<AchievementRateProviderRequest, AchievementRateProviderResult>
+    public class AchievementRatesProvider : IRequestHandler<AchievementRateProviderRequest, AchievementRateProviderResult>
     {
         private readonly IDatabaseProvider _databaseProvider;
         private readonly ILog _logger;
@@ -21,7 +17,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             _logger = logger;
         }
 
-        public AchievementRateProviderResult GetAllByProvider()
+        public AchievementRateProviderResult Handle(AchievementRateProviderRequest message)
         {
             var query = @"SELECT 
                     [UKPRN], 
@@ -39,45 +35,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             var achievementRateProviders = _databaseProvider.Query<AchievementRateProvider>(query).ToList();
             _logger.Debug($"Retreived {achievementRateProviders.Count} Provider rates");
             return new AchievementRateProviderResult { Rates = achievementRateProviders };
-        }
-
-        public AchievementRateProviderResult Handle(AchievementRateProviderRequest message)
-        {
-            return GetAllByProvider();
-        }
-
-        public AchievementRateNationalResult GetAllNational()
-        {
-            var latestHybridYear = GetLatestNationalHybridEndYear();
-
-            var query = @"
-                    SELECT 
-                        [Institution Type] as InstitutionType,
-                        [Hybrid End Year] as HybridEndYear,
-                        [Age],
-                        [Sector Subject Area Tier 1] as SectorSubjectAreaTier1,
-                        [Sector Subject Area Tier 2] as SectorSubjectAreaTier2,
-                        [Apprenticeship Level] as ApprenticeshipLevel,
-                        [Overall Achievement Rate %] as OverallAchievementRate,
-                        [SSA2] as SSA2Code
-                    FROM ar_national
-                    WHERE [Institution Type] = 'All Institution Type'
-                    AND [Age] = 'All Age'
-                    AND [Sector Subject Area Tier 2] <> 'All SSA T2'
-                    AND [Apprenticeship Level] <> 'All'
-                    AND [Hybrid End Year] = @date
-                    ";
-
-            var results = _databaseProvider.Query<AchievementRateNational>(query, new { date = latestHybridYear }).ToList();
-            _logger.Debug($"Retreived {results.Count} national provider rates");
-            return new AchievementRateNationalResult { Rates = results };
-        }
-
-        private string GetLatestNationalHybridEndYear()
-        {
-            var query = @"SELECT MAX([Hybrid End Year]) FROM ar_national";
-
-            return _databaseProvider.ExecuteScalar<string>(query);
         }
     }
 }

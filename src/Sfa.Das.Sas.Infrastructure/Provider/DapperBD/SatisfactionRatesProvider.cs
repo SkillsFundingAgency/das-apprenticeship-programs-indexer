@@ -3,15 +3,12 @@ using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Services;
 
-    public class SatisfactionRatesProvider : ISatisfactionRatesProvider, IRequestHandler<EmployerSatisfactionRateRequest, EmployerSatisfactionRateResult>
+    public class SatisfactionRatesProvider : IRequestHandler<EmployerSatisfactionRateRequest, EmployerSatisfactionRateResult>
     {
-        private const string LearnerSatisfactionRatesTableName = "[dbo].[LearnerSatisf_2015_2016]";
         private const string EmployerSatisfactionRatesTableName = "[dbo].[EmployerSatisf_2015_2016]";
 
         private readonly IDatabaseProvider _databaseProvider;
@@ -23,7 +20,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             _log = log;
         }
 
-        public EmployerSatisfactionRateResult GetAllEmployerSatisfactionByProvider()
+        public EmployerSatisfactionRateResult Handle(EmployerSatisfactionRateRequest message)
         {
             var query = $@"
                     SELECT  [UKPRN]
@@ -36,31 +33,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             var results = _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
             _log.Debug($"Retrieved {results.Count} employer satisfaction rates");
             return new EmployerSatisfactionRateResult { Rates = results };
-        }
-
-        public LearnerSatisfactionRateResult GetAllLearnerSatisfactionByProvider()
-        {
-            var query = $@"
-                    SELECT  [UKPRN]
-                    ,       [Final_Score] AS FinalScore
-                    ,       [Learners] AS TotalCount
-                    ,       [Responses] AS ResponseCount
-                    FROM    {LearnerSatisfactionRatesTableName}
-                    ";
-
-            var results = _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
-            _log.Debug($"Retrieved {results.Count} leaner satisfaction rates");
-            return new LearnerSatisfactionRateResult { Rates = results };
-        }
-
-        public EmployerSatisfactionRateResult Get()
-        {
-            return GetAllEmployerSatisfactionByProvider();
-        }
-
-        public EmployerSatisfactionRateResult Handle(EmployerSatisfactionRateRequest message)
-        {
-            return GetAllEmployerSatisfactionByProvider();
         }
     }
 }

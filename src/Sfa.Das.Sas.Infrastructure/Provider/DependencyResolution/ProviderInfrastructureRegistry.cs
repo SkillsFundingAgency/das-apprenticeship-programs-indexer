@@ -17,15 +17,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
     {
         public ProviderInfrastructureRegistry()
         {
-            For<IGetActiveProviders>().Use<FcsActiveProvidersClient>();
             For<ICourseDirectoryProviderDataService>().Use(x => new CourseDirectoryProviderDataService(x.GetInstance<IInfrastructureSettings>()));
-            For<IGetCourseDirectoryProviders>().Use<CourseDirectoryClient>();
             For<ICourseDirectoryProviderMapper>().Use<CourseDirectoryProviderMapper>();
             For<IMaintainProviderIndex>().Use<ElasticsearchProviderIndexMaintainer>();
             For<IDatabaseProvider>().Use<DatabaseProvider>();
-            For<IAchievementRatesProvider>().Use<AchievementRatesProvider>();
-            For<ISatisfactionRatesProvider>().Use<SatisfactionRatesProvider>();
-            For<IUkrlpService>().Use<UkrlpService>();
             For<IUkrlpClient>().Use<UkrlpClient>();
             For<IUkrlpProviderResponseMapper>().Use<UkrlpProviderResponseMapper>();
             For<IUkrlpProviderMapper>().Use<UkrlpProviderMapper>();

@@ -6,26 +6,21 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
     using System.Collections.Generic;
     using Moq;
     using NUnit.Framework;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-    using Sfa.Das.Sas.Indexer.Core.Services;
 
     [TestFixture]
     public class ProviderDataServiceTest
     {
         private ProviderDataService _sut;
 
-        private Mock<IUkrlpService> _mockUkrlpProviderService;
-
         private Mock<IMediator> _mockMediator;
 
         [SetUp]
         public void SetUp()
         {
-            _mockUkrlpProviderService = new Mock<IUkrlpService>();
             _mockMediator = new Mock<IMediator>();
 
             _mockMediator.Setup(x => x.Send(It.IsAny<FrameworkMetaDataRequest>())).Returns(FrameworkResults());
@@ -47,7 +42,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 
             // Assert
             _mockMediator.VerifyAll();
-            _mockUkrlpProviderService.VerifyAll();
         }
 
         private AchievementRateProviderResult GetAchievementData()

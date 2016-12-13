@@ -28,7 +28,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider
             moqIConvertFromCsv.Setup(m => m.CsvTo<ActiveProviderCsvRecord>(It.IsAny<string>())).Returns(new[] { new ActiveProviderCsvRecord { UkPrn = 26 }, new ActiveProviderCsvRecord { UkPrn = 126 } });
 
             var client = new FcsActiveProvidersClient(moqVstsClient.Object, appsettings, moqIConvertFromCsv.Object, Mock.Of<ILog>());
-            var result = client.GetActiveProviders();
+            var result = client.Handle(null);
 
             result.Result.Providers.Count().Should().Be(2);
             result.Result.Providers.All(m => new[] { 26, 126 }.Contains(m)).Should().BeTrue();

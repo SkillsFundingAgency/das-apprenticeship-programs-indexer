@@ -22,7 +22,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             _log = log;
         }
 
-        public LearnerSatisfactionRateResult Get()
+        public LearnerSatisfactionRateResult Handle(LearnerSatisfactionRateRequest message)
         {
             var query = $@"
                     SELECT  [UKPRN]
@@ -35,11 +35,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             var results = _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
             _log.Debug($"Retrieved {results.Count} leaner satisfaction rates");
             return new LearnerSatisfactionRateResult { Rates = results };
-        }
-
-        public LearnerSatisfactionRateResult Handle(LearnerSatisfactionRateRequest message)
-        {
-            return Get();
         }
     }
 }
