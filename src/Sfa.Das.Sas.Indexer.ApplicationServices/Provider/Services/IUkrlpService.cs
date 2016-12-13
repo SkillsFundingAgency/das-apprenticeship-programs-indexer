@@ -8,6 +8,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
     public interface IUkrlpService
     {
-        UkrlpProviderResponse GetProviders(FcsProviderResult ukprns);
+        UkrlpProviderResponse Handle(UkrlpProviderRequest request);
     }
 }

@@ -31,6 +31,7 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution
             return new Container(c =>
             {
                 // Startup
+                c.AddRegistry<MediatrRegistry>();
                 c.AddRegistry<IndexerRegistry>();
                 c.AddRegistry<SharedApplicationServicesRegistry>();
                 c.AddRegistry<InfrastructureRegistry>();

@@ -1,3 +1,4 @@
+using MediatR;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
@@ -9,7 +10,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Services;
 
-    public class AchievementRatesProvider : IAchievementRatesProvider
+    public class AchievementRatesProvider : IAchievementRatesProvider, IRequestHandler<AchievementRateProviderRequest, AchievementRateProviderResult>
     {
         private readonly IDatabaseProvider _databaseProvider;
         private readonly ILog _logger;
@@ -38,6 +39,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             var achievementRateProviders = _databaseProvider.Query<AchievementRateProvider>(query).ToList();
             _logger.Debug($"Retreived {achievementRateProviders.Count} Provider rates");
             return new AchievementRateProviderResult { Rates = achievementRateProviders };
+        }
+
+        public AchievementRateProviderResult Handle(AchievementRateProviderRequest message)
+        {
+            return GetAllByProvider();
         }
 
         public AchievementRateNationalResult GetAllNational()

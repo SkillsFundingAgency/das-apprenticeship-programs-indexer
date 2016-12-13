@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.DependencyResolution
+﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.DependencyResolution
 {
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Settings;

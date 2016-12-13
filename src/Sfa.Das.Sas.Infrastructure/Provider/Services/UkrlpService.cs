@@ -1,4 +1,5 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+﻿using MediatR;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
@@ -13,7 +14,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
     using Ukrlp;
     using Provider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp.Provider;
 
-    public class UkrlpService : IUkrlpService
+    public class UkrlpService : IUkrlpService, IRequestHandler<UkrlpProviderRequest, UkrlpProviderResponse>
     {
         private readonly IInfrastructureSettings _infrastructureSettings;
         private readonly IUkrlpClient _providerClient;
@@ -31,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             _ukprnRequestUkprnBatchSize = _infrastructureSettings.UkrlpRequestUkprnBatchSize;
         }
 
-        public UkrlpProviderResponse GetProviders(FcsProviderResult ukprns)
+        public UkrlpProviderResponse Handle(UkrlpProviderRequest request)
         {
             _logger.Debug("Starting to get providers from UKRLP");
             try
@@ -39,14 +40,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
                 var providerList = new List<Provider>();
                 var noOfUkprnsProcessed = 0;
 
-                var ukprnsListSize = ukprns.Providers.Count();
+                var ukprnsListSize = request.Providers.Count();
 
                 do
                 {
                     var numberOfUkprnsUnprocessed = ukprnsListSize - noOfUkprnsProcessed;
                     var numberOfUkprnsToSend = numberOfUkprnsUnprocessed > _ukprnRequestUkprnBatchSize ? _ukprnRequestUkprnBatchSize : numberOfUkprnsUnprocessed;
 
-                    var ukprnToRequest = ukprns.Providers.Skip(noOfUkprnsProcessed).Take(numberOfUkprnsToSend);
+                    var ukprnToRequest = request.Providers.Skip(noOfUkprnsProcessed).Take(numberOfUkprnsToSend);
 
                     var response = _providerClient.RetrieveAllProviders(new ProviderQueryStructure
                     {

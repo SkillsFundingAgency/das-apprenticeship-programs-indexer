@@ -44,6 +44,9 @@
       <HintPath>..\packages\LINQtoCSV.1.5.0.0\lib\net35\LINQtoCSV.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Rest.ClientRuntime.0.9.6\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
       <Private>True</Private>
@@ -85,14 +88,25 @@
     <Compile Include="Lars\Services\IMaintainLarsIndex.cs" />
     <Compile Include="Lars\Settings\LarsIndexSettings.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderApplicationServicesRegistry.cs" />
+    <Compile Include="Provider\Models\AchievementRateNationalRequest.cs" />
     <Compile Include="Provider\Models\AchievementRateNationalResult.cs" />
+    <Compile Include="Provider\Models\AchievementRateProviderRequest.cs" />
     <Compile Include="Provider\Models\AchievementRateProviderResult.cs" />
+    <Compile Include="Provider\Models\CourseDirectoryRequest.cs" />
     <Compile Include="Provider\Models\CourseDirectoryResult.cs" />
+    <Compile Include="Provider\Models\EmployerProviderRequest.cs" />
+    <Compile Include="Provider\Models\EmployerSatisfactionRateRequest.cs" />
     <Compile Include="Provider\Models\EmployerSatisfactionRateResult.cs" />
+    <Compile Include="Provider\Models\FcsProviderRequest.cs" />
     <Compile Include="Provider\Models\FcsProviderResult.cs" />
+    <Compile Include="Provider\Models\FrameworkMetaDataRequest.cs" />
     <Compile Include="Provider\Models\FrameworkMetaDataResult.cs" />
+    <Compile Include="Provider\Models\HeiProvidersRequest.cs" />
+    <Compile Include="Provider\Models\LearnerSatisfactionRateRequest.cs" />
     <Compile Include="Provider\Models\LearnerSatisfactionRateResult.cs" />
+    <Compile Include="Provider\Models\StandardMetaDataRequest.cs" />
     <Compile Include="Provider\Models\StandardMetaDataResult.cs" />
+    <Compile Include="Provider\Models\UkRlp\UkrlpProviderRequest.cs" />
     <Compile Include="Provider\Services\IAchievementRatesProvider.cs" />
     <Compile Include="Provider\Services\IGetActiveProviders.cs" />
     <Compile Include="Provider\Services\ISatisfactionRatesProvider.cs" />
@@ -105,6 +119,7 @@
     <Compile Include="Provider\Services\IUkrlpService.cs" />
     <Compile Include="Provider\Services\ProviderSourceDto.cs" />
     <Compile Include="Shared\MetaData\IGetLarsMetadata.cs" />
+    <Compile Include="Shared\Services\StandardsMetaDataHelper.cs" />
     <Compile Include="Shared\Utility\IHttpPost.cs" />
     <Compile Include="Shared\Utility\IRetryWebRequest.cs" />
     <Compile Include="Shared\IndexerHelper.cs" />

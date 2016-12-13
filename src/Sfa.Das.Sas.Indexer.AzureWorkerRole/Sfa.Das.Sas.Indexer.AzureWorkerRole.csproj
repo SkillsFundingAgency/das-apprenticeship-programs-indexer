@@ -36,6 +36,10 @@
     <CodeAnalysisRuleSet>Sfa.Das.Sas.Indexer.AzureWorkerRole.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -126,6 +130,7 @@
     <Compile Include="ApplicationInsightsInitializer.cs" />
     <Compile Include="DependencyResolution\IndexerRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
+    <Compile Include="DependencyResolution\MediatrRegistry.cs" />
     <Compile Include="IIndexerJob.cs" />
     <Compile Include="IndexerJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

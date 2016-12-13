@@ -2,46 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     public class ProviderDataService : IProviderDataService
     {
         private readonly ILog _logger;
-        private readonly IGetApprenticeshipProviders _providerRepository;
-        private readonly IGetCourseDirectoryProviders _courseDirectoryClient;
-        private readonly IUkrlpService _ukrlpService;
-        private readonly IMetaDataHelper _metaDataHelper;
-        private readonly IAchievementRatesProvider _achievementRatesProvider;
-        private readonly ISatisfactionRatesProvider _satisfactionRatesProvider;
-        private readonly IGetActiveProviders _activeProviderClient;
+        private readonly IMediator _mediator;
 
         public ProviderDataService(
-            IGetApprenticeshipProviders providerRepository,
-            IGetCourseDirectoryProviders courseDirectoryClient,
-            IUkrlpService ukrlpService,
-            IMetaDataHelper metaDataHelper,
-            IAchievementRatesProvider achievementRatesProvider,
-            ISatisfactionRatesProvider satisfactionRatesProvider,
-            IGetActiveProviders activeProviderClient,
+            IMediator mediator,
             ILog logger)
         {
             _logger = logger;
-            _providerRepository = providerRepository;
-            _courseDirectoryClient = courseDirectoryClient;
-            _ukrlpService = ukrlpService;
-            _metaDataHelper = metaDataHelper;
-            _achievementRatesProvider = achievementRatesProvider;
-            _satisfactionRatesProvider = satisfactionRatesProvider;
-            _activeProviderClient = activeProviderClient;
+            _mediator = mediator;
         }
 
         public void SetLearnerSatisfactionRate(LearnerSatisfactionRateResult satisfactionRates, Core.Models.Provider.Provider provider)
@@ -119,34 +102,32 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task<ProviderSourceDto> LoadDatasetsAsync()
         {
-            var courseDirectoryProviders = await _courseDirectoryClient.GetApprenticeshipProvidersAsync();
-            var activeProviders = await _activeProviderClient.GetActiveProviders();
+            var courseDirectoryProviders = await _mediator.SendAsync(new CourseDirectoryRequest());
+            var activeProviders = await _mediator.SendAsync(new FcsProviderRequest());
 
             _logger.Debug($"Finished loading course directory and active providers");
 
             // TODO replace this with elastic search
-            var frameworks = Task.Run(() => _metaDataHelper.GetAllFrameworkMetaData());
-            var standards = Task.Run(() => _metaDataHelper.GetAllStandardsMetaData());
+            var frameworks = Task.Run(() => _mediator.Send(new FrameworkMetaDataRequest()));
+            var standards = Task.Run(() => _mediator.Send(new StandardMetaDataRequest()));
 
             await Task.WhenAll(frameworks, standards);
 
             _logger.Debug($"Finished loading frameworks, standards");
 
-            var ukrlpProviders = _ukrlpService.GetProviders(activeProviders);
-
             return new ProviderSourceDto
             {
                 CourseDirectoryProviders = courseDirectoryProviders,
                 ActiveProviders = activeProviders,
-                UkrlpProviders = ukrlpProviders,
+                UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(activeProviders.Providers)),
                 Frameworks = frameworks.Result,
                 Standards = standards.Result,
-                EmployerProviders = _providerRepository.GetEmployerProviders(),
-                AchievementRateProviders = _achievementRatesProvider.GetAllByProvider(),
-                AchievementRateNationals = _achievementRatesProvider.GetAllNational(),
-                LearnerSatisfactionRates = _satisfactionRatesProvider.GetAllLearnerSatisfactionByProvider(),
-                EmployerSatisfactionRates = _satisfactionRatesProvider.GetAllEmployerSatisfactionByProvider(),
-                HeiProviders = _providerRepository.GetHeiProviders()
+                EmployerProviders = _mediator.Send(new EmployerProviderRequest()),
+                AchievementRateProviders = _mediator.Send(new AchievementRateProviderRequest()),
+                AchievementRateNationals = _mediator.Send(new AchievementRateNationalRequest()),
+                LearnerSatisfactionRates = _mediator.Send(new LearnerSatisfactionRateRequest()),
+                EmployerSatisfactionRates = _mediator.Send(new EmployerSatisfactionRateRequest()),
+                HeiProviders = _mediator.Send(new HeiProvidersRequest())
             };
         }
 

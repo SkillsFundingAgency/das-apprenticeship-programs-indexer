@@ -1,4 +1,5 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+﻿using MediatR;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
@@ -17,48 +18,25 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
     {
         private ProviderDataService _sut;
 
-        private Mock<IGetApprenticeshipProviders> _mockProviderRepository;
-
-        private Mock<IGetCourseDirectoryProviders> _mockCourseDirectoryRepository;
-
-        private Mock<IGetActiveProviders> _mockActiveProviderRepository;
-
-        private Mock<IMetaDataHelper> _mockMetaDataHelper;
-
-        private Mock<IAchievementRatesProvider> _achievementProvider;
-
-        private Mock<ISatisfactionRatesProvider> _satisfactionProvider;
-
         private Mock<IUkrlpService> _mockUkrlpProviderService;
+
+        private Mock<IMediator> _mockMediator;
 
         [SetUp]
         public void SetUp()
         {
-            _mockProviderRepository = new Mock<IGetApprenticeshipProviders>();
-            _mockActiveProviderRepository = new Mock<IGetActiveProviders>();
             _mockUkrlpProviderService = new Mock<IUkrlpService>();
-            _mockMetaDataHelper = new Mock<IMetaDataHelper>();
-            _achievementProvider = new Mock<IAchievementRatesProvider>();
-            _satisfactionProvider = new Mock<ISatisfactionRatesProvider>();
-            _mockCourseDirectoryRepository = new Mock<IGetCourseDirectoryProviders>();
+            _mockMediator = new Mock<IMediator>();
 
-            _mockMetaDataHelper.Setup(x => x.GetAllFrameworkMetaData()).Returns(FrameworkResults());
-            _mockMetaDataHelper.Setup(x => x.GetAllStandardsMetaData()).Returns(StandardResults());
+            _mockMediator.Setup(x => x.Send(It.IsAny<FrameworkMetaDataRequest>())).Returns(FrameworkResults());
+            _mockMediator.Setup(x => x.Send(It.IsAny<StandardMetaDataRequest>())).Returns(StandardResults());
 
-            _achievementProvider.Setup(m => m.GetAllByProvider()).Returns(GetAchievementData());
-            _achievementProvider.Setup(m => m.GetAllNational()).Returns(GetNationalAchievementData());
+            _mockMediator.Setup(m => m.Send(It.IsAny<AchievementRateProviderRequest>())).Returns(GetAchievementData());
+            _mockMediator.Setup(m => m.Send(It.IsAny<AchievementRateNationalRequest>())).Returns(GetNationalAchievementData());
 
-            _satisfactionProvider.Setup(m => m.GetAllLearnerSatisfactionByProvider()).Returns(GetLearnerSatisfactionRateData());
+            _mockMediator.Setup(m => m.Send(It.IsAny<LearnerSatisfactionRateRequest>())).Returns(GetLearnerSatisfactionRateData());
 
-            _sut = new ProviderDataService(
-                _mockProviderRepository.Object,
-                _mockCourseDirectoryRepository.Object,
-                _mockUkrlpProviderService.Object,
-                _mockMetaDataHelper.Object,
-                _achievementProvider.Object,
-                _satisfactionProvider.Object,
-                _mockActiveProviderRepository.Object,
-                Mock.Of<ILog>());
+            _sut = new ProviderDataService(_mockMediator.Object, Mock.Of<ILog>());
         }
 
         [Test]
@@ -68,12 +46,8 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             var result = _sut.LoadDatasetsAsync().Result;
 
             // Assert
-            _mockProviderRepository.VerifyAll();
-            _mockActiveProviderRepository.VerifyAll();
-            _mockMetaDataHelper.VerifyAll();
-            _achievementProvider.VerifyAll();
-            _satisfactionProvider.VerifyAll();
-            _mockCourseDirectoryRepository.VerifyAll();
+            _mockMediator.VerifyAll();
+            _mockUkrlpProviderService.VerifyAll();
         }
 
         private AchievementRateProviderResult GetAchievementData()

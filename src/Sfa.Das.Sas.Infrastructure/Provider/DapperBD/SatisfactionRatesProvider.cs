@@ -1,3 +1,4 @@
+using MediatR;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
@@ -8,7 +9,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Services;
 
-    public class SatisfactionRatesProvider : ISatisfactionRatesProvider
+    public class SatisfactionRatesProvider : ISatisfactionRatesProvider, IRequestHandler<EmployerSatisfactionRateRequest, EmployerSatisfactionRateResult>
     {
         private const string LearnerSatisfactionRatesTableName = "[dbo].[LearnerSatisf_2015_2016]";
         private const string EmployerSatisfactionRatesTableName = "[dbo].[EmployerSatisf_2015_2016]";
@@ -50,6 +51,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
             var results = _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
             _log.Debug($"Retrieved {results.Count} leaner satisfaction rates");
             return new LearnerSatisfactionRateResult { Rates = results };
+        }
+
+        public EmployerSatisfactionRateResult Get()
+        {
+            return GetAllEmployerSatisfactionByProvider();
+        }
+
+        public EmployerSatisfactionRateResult Handle(EmployerSatisfactionRateRequest message)
+        {
+            return GetAllEmployerSatisfactionByProvider();
         }
     }
 }

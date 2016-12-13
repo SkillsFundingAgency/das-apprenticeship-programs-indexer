@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MediatR;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.EmployerProvider;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Hei;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
@@ -11,7 +12,7 @@ using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {
-    public sealed class ProviderVstsClient : IGetApprenticeshipProviders
+    public sealed class ProviderVstsClient : IGetApprenticeshipProviders, IRequestHandler<HeiProvidersRequest, HeiProvidersResult>
     {
         private readonly IConvertFromCsv _convertFromCsv;
         private readonly IVstsClient _vstsClient;
@@ -36,6 +37,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             _logger.Debug($"Retreived {records.Count} Employer providers");
 
             return new EmployerProviderResult { Providers = records.Select(employerProviderCsvRecord => employerProviderCsvRecord.UkPrn.ToString()).ToList() };
+        }
+
+        public HeiProvidersResult Handle(HeiProvidersRequest message)
+        {
+            return GetHeiProviders();
         }
 
         public HeiProvidersResult GetHeiProviders()

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 
 namespace Sfa.Das.Sas.Indexer.Core.Provider.Models
 {

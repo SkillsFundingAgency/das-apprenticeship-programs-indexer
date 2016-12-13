@@ -1,4 +1,6 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+﻿using MediatR;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
@@ -11,7 +13,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 
-    public class MetaDataHelper : IMetaDataHelper
+    public class MetaDataHelper : IMetaDataHelper, IRequestHandler<FrameworkMetaDataRequest, FrameworkMetaDataResult>
     {
         private readonly IGetStandardMetaData _metaDataReader;
 
@@ -72,6 +74,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             _log.Debug("MetaDataHelper.GetAllApprenticeshipLarsMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 
             return timing.Result;
+        }
+
+        public FrameworkMetaDataResult Handle(FrameworkMetaDataRequest message)
+        {
+            return GetAllFrameworkMetaData();
         }
     }
 }

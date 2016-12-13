@@ -48,6 +48,10 @@
       <HintPath>..\packages\LINQtoCSV.1.5.0.0\lib\net35\LINQtoCSV.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.1.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
@@ -149,6 +153,9 @@
     <Compile Include="Lars\Models\FundingMetadataDocument.cs" />
     <Compile Include="Lars\Models\LearningDeliveryMetaDataDocument.cs" />
     <Compile Include="Lars\Models\StandardLars.cs" />
+    <Compile Include="Provider\CourseDirectory\EmployerProviderVstsClient.cs" />
+    <Compile Include="Provider\DapperBD\AchievementRatesNational.cs" />
+    <Compile Include="Provider\DapperBD\LearnerSatisfactionRatesProvider.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderInfrastructureRegistry.cs" />
     <Compile Include="Shared\Azure\AzureCloudQueueService.cs" />
     <Compile Include="Shared\Azure\AzureQueueMessage.cs" />

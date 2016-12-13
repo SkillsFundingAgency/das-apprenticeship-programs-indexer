@@ -1,5 +1,6 @@
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory;
 using Sfa.Das.Sas.Indexer.Infrastructure.DapperBD;
