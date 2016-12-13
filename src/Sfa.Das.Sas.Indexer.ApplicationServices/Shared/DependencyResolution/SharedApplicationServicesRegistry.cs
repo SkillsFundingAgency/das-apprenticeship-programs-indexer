@@ -8,7 +8,6 @@
         public SharedApplicationServicesRegistry()
         {
             For<IAppServiceSettings>().Use<AppServiceSettings>();
-            For<IIndexerServiceFactory>().Use<IndexerServiceFactory>();
         }
     }
 }

@@ -19,13 +19,13 @@
         private readonly IIndexSettings<IMaintainLarsIndex> _settings;
         private readonly IMaintainLarsIndex _searchIndexMaintainer;
         private readonly IMetaDataHelper _metaDataHelper;
-        private readonly ILogLars _log;
+        private readonly ILog _log;
 
         public LarsIndexer(
             IIndexSettings<IMaintainLarsIndex> settings,
             IMaintainLarsIndex searchIndexMaintainer,
             IMetaDataHelper metaDataHelper,
-            ILogLars log)
+            ILog log)
         {
             _settings = settings;
             _searchIndexMaintainer = searchIndexMaintainer;

@@ -124,16 +124,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 PathwayName = frameworkMetaData.PathwayName,
                 ProfessionalRegistration = frameworkMetaData.ProfessionalRegistration,
                 ProgType = frameworkMetaData.ProgType,
-                Published = frameworkMetaData.Published,
                 PwayCode = frameworkMetaData.PwayCode,
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1
             };
         }
 
-        public FundingMetadataDocument CreateFundingMetaDataDocument(FundingMetaData fundingMetaData)
+        public FundingDocument CreateFundingMetaDataDocument(FundingMetaData fundingMetaData)
         {
-            return new FundingMetadataDocument
+            return new FundingDocument
             {
                 EffectiveFrom = fundingMetaData.EffectiveFrom,
                 EffectiveTo = fundingMetaData.EffectiveTo,
@@ -143,9 +142,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             };
         }
 
-        public FrameworkAimMetaDataDocument CreateFrameworkAimMetaDataDocument(FrameworkAimMetaData frameworkAimMetaData)
+        public FrameworkAimDocument CreateFrameworkAimMetaDataDocument(FrameworkAimMetaData frameworkAimMetaData)
         {
-            return new FrameworkAimMetaDataDocument
+            return new FrameworkAimDocument
             {
                 EffectiveFrom = frameworkAimMetaData.EffectiveFrom,
                 EffectiveTo = frameworkAimMetaData.EffectiveTo,
@@ -157,9 +156,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             };
         }
 
-        public LearningDeliveryMetaDataDocument CreateLearningDeliveryMetaDataDocument(LearningDeliveryMetaData learningDeliveryMetaData)
+        public LearningDeliveryDocument CreateLearningDeliveryMetaDataDocument(LearningDeliveryMetaData learningDeliveryMetaData)
         {
-            return new LearningDeliveryMetaDataDocument
+            return new LearningDeliveryDocument
             {
                 EffectiveFrom = learningDeliveryMetaData.EffectiveFrom,
                 EffectiveTo = learningDeliveryMetaData.EffectiveTo,
@@ -182,9 +181,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             };
         }
 
-        public ApprenticeshipComponentTypeMetaDataDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData)
+        public ApprenticeshipComponentTypeDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData)
         {
-            return new ApprenticeshipComponentTypeMetaDataDocument
+            return new ApprenticeshipComponentTypeDocument
             {
                 EffectiveTo = apprenticeshipComponentTypeMetaData.EffectiveTo,
                 EffectiveFrom = apprenticeshipComponentTypeMetaData.EffectiveFrom,

@@ -78,14 +78,14 @@
         public virtual void SwapAliasIndex(string aliasName, string newIndexName)
         {
             var existingIndexesOnAlias = Client.GetIndicesPointingToAlias(aliasName);
-            var aliasRequest = new BulkAliasRequest {Actions = new List<IAliasAction>()};
+            var aliasRequest = new BulkAliasRequest { Actions = new List<IAliasAction>() };
 
             foreach (var existingIndexOnAlias in existingIndexesOnAlias)
             {
-                aliasRequest.Actions.Add(new AliasRemoveAction {Remove = new AliasRemoveOperation {Alias = aliasName, Index = existingIndexOnAlias}});
+                aliasRequest.Actions.Add(new AliasRemoveAction { Remove = new AliasRemoveOperation { Alias = aliasName, Index = existingIndexOnAlias } });
             }
 
-            aliasRequest.Actions.Add(new AliasAddAction {Add = new AliasAddOperation {Alias = aliasName, Index = newIndexName}});
+            aliasRequest.Actions.Add(new AliasAddAction { Add = new AliasAddOperation { Alias = aliasName, Index = newIndexName } });
 
             Client.Alias(aliasRequest);
         }
@@ -115,7 +115,7 @@
         {
             foreach (var item in result.ItemsWithErrors)
             {
-                var properties = new Dictionary<string, object> {{"DocumentType", documentType}, {"Index", item.Index}, {"Reason", item.Error.Reason}, {"Id", item.Id}};
+                var properties = new Dictionary<string, object> { { "DocumentType", documentType }, { "Index", item.Index }, { "Reason", item.Error.Reason }, { "Id", item.Id } };
                 Log.Warn($"Error indexing entry with id {item.Id}", properties);
             }
         }
@@ -124,11 +124,11 @@
         {
             var properties = new Dictionary<string, object>
             {
-                {"DocumentType", documentType},
-                {"TotalCount", totalCount},
-                {"Identifier", "DocumentCount"},
-                {"ExecutionTime", took},
-                {"ErrorCount", errorCount}
+                { "DocumentType", documentType },
+                { "TotalCount", totalCount },
+                { "Identifier", "DocumentCount" },
+                { "ExecutionTime", took },
+                { "ErrorCount", errorCount }
             };
             Log.Info($"Total of {totalCount - errorCount} / {totalCount} {documentType} documents were indexed successfully", properties);
         }

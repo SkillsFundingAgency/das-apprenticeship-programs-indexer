@@ -54,9 +54,6 @@
     <Compile Include="Shared\Extensions\EnumExtensions.cs" />
     <Compile Include="Shared\Extensions\ListExtensions.cs" />
     <Compile Include="Shared\Extensions\StringExtensions.cs" />
-    <Compile Include="Shared\Logging\ILogApprenticeships.cs" />
-    <Compile Include="Shared\Logging\ILogLars.cs" />
-    <Compile Include="Shared\Logging\ILogProvider.cs" />
     <Compile Include="Shared\Logging\Metrics\ExecutionTimer.cs" />
     <Compile Include="Shared\Logging\Metrics\ExecutionTimerResult{T}.cs" />
     <Compile Include="Shared\Logging\Models\DependencyLogEntry.cs" />

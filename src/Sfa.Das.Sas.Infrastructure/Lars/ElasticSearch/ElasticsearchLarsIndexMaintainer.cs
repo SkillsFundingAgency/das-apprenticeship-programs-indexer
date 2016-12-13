@@ -18,13 +18,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
     public sealed class ElasticsearchLarsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainLarsIndex
     {
-        private readonly ILogLars _logger;
+        private readonly ILog _logger;
         private readonly IElasticsearchConfiguration _elasticsearchConfiguration;
 
         public ElasticsearchLarsIndexMaintainer(
             IElasticsearchCustomClient elasticsearchClient,
             IElasticsearchMapper elasticsearchMapper,
-            ILogLars logger,
+            ILog logger,
             IElasticsearchConfiguration elasticsearchConfiguration)
             : base(elasticsearchClient, elasticsearchMapper, logger, "Lars")
         {
@@ -40,12 +40,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
                 .Mappings(ms => ms
                     .Map<ApprenticeshipFundingDocument>(m => m.AutoMap())
-                    .Map<LearningDeliveryMetaDataDocument>(m => m.AutoMap())
-                    .Map<FundingMetadataDocument>(m => m.AutoMap())
-                    .Map<FrameworkAimMetaDataDocument>(m => m.AutoMap())
+                    .Map<LearningDeliveryDocument>(m => m.AutoMap())
+                    .Map<FundingDocument>(m => m.AutoMap())
+                    .Map<FrameworkAimDocument>(m => m.AutoMap())
                     .Map<FrameworkLars>(m => m.AutoMap())
                     .Map<StandardLars>(m => m.AutoMap())
-                    .Map<ApprenticeshipComponentTypeMetaDataDocument>(m => m.AutoMap())));
+                    .Map<ApprenticeshipComponentTypeDocument>(m => m.AutoMap())));
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {

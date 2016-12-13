@@ -124,7 +124,6 @@
     <Compile Include="Shared\Services\IMaintainSearchIndexes.cs" />
     <Compile Include="Provider\Services\IMaintainProviderIndex.cs" />
     <Compile Include="Apprenticeship\Services\IMaintainApprenticeshipIndex.cs" />
-    <Compile Include="Shared\IndexerServiceFactory.cs" />
     <Compile Include="Shared\Settings\AppServiceSettings.cs" />
     <Compile Include="Shared\Services\IMetaDataHelper.cs" />
     <Compile Include="Shared\Services\MetaDataHelper.cs" />

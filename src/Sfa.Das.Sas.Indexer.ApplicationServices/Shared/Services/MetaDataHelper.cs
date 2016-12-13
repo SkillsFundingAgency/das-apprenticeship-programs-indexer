@@ -22,10 +22,10 @@
         private readonly ILog _log;
 
         public MetaDataHelper(
-            IGetStandardMetaData metaDataReader, 
-            IGenerateStandardMetaData metaDataGenerator, 
-            ILog log, 
-            IGetFrameworkMetaData metaDataFrameworkReader, 
+            IGetStandardMetaData metaDataReader,
+            IGenerateStandardMetaData metaDataGenerator,
+            ILog log,
+            IGetFrameworkMetaData metaDataFrameworkReader,
             IGetLarsMetadata getLarsMetadata)
         {
             _metaDataReader = metaDataReader;

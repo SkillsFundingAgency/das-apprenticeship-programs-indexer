@@ -21,7 +21,11 @@
 
             foreach (var line in csvString.Split('\n'))
             {
-                if (line == string.Empty) continue;
+                if (line == string.Empty)
+                {
+                    continue;
+                }
+
                 var values = line?.Split(new[] { "\",\"" }, StringSplitOptions.None);
 
                 var metaData = _metaDataFactory.Create<T>(values);

@@ -22,7 +22,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
             _mockSettings = new Mock<IIndexSettings<IMaintainApprenticeshipIndex>>();
             _mockIndexMaintainer = new Mock<IMaintainApprenticeshipIndex>();
             _mockMetaDataHelper = new Mock<IMetaDataHelper>();
-            var mockLogger = Mock.Of<ILogApprenticeships>();
+            var mockLogger = Mock.Of<ILog>();
 
             _sut = new ApprenticeshipIndexer(_mockSettings.Object, _mockIndexMaintainer.Object, _mockMetaDataHelper.Object, mockLogger);
         }

@@ -52,6 +52,131 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return larsData;
         }
 
+        public IEnumerable<LarsStandard> GetListOfCurrentStandards()
+        {
+            var zipFilePath = GetZipFilePath();
+            _logger.Debug($"Zip file path: {zipFilePath}");
+
+            var zipStream = GetZipStream(zipFilePath);
+
+            _logger.Debug("Zip file downloaded");
+
+            var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameStandards);
+            _logger.Debug($"Extracted content. Length: {fileContent.Length}");
+
+            var standards = _csvService.ReadFromString<LarsStandard>(fileContent);
+            _logger.Debug($"Read: {standards.Count} standards from file.");
+
+            zipStream.Close();
+
+            return standards;
+        }
+
+        public IEnumerable<FrameworkMetaData> GetListOfCurrentFrameworks()
+        {
+            var zipFilePath = GetZipFilePath();
+            _logger.Debug($"Zip file path: {zipFilePath}");
+
+            var csvData = GetLarsCsvData(zipFilePath);
+
+            var larsMetaData = GetLarsMetaData(csvData);
+
+            AddQualificationsToFrameworks(larsMetaData);
+
+            return larsMetaData.Frameworks;
+        }
+
+        private static void DetermineQualificationFundingStatus(IEnumerable<FrameworkQualification> qualifications, IEnumerable<FundingMetaData> fundings)
+        {
+            foreach (var qualification in qualifications)
+            {
+                // Get fundings associated with a given qualification (Learn Aim Ref)
+                var qualificationFundings = fundings.Where(x => x.LearnAimRef.Equals(qualification.LearnAimRef, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                // Get qualification fundings that are associated with apprenticeship funding
+                var apprenticeshipFundings = qualificationFundings.Where(x => !string.IsNullOrEmpty(x.FundingCategory) &&
+                                                                              x.FundingCategory.Equals("APP_ACT_COST", StringComparison.CurrentCultureIgnoreCase)).ToList();
+
+                // Get apprenticeship fundings that are still active (not out of date)
+                var activeFundings = apprenticeshipFundings.Where(x => (x.EffectiveTo.HasValue && x.EffectiveTo.Value >= DateTime.Now) || !x.EffectiveTo.HasValue).ToList();
+
+                // If no fundings are found we assume qualification is unfunded
+                if (!activeFundings.Any())
+                {
+                    qualification.IsFunded = false;
+                    continue;
+                }
+
+                // Only if the funding Rate weight is greater than zero do we class the qualification as funded
+                qualification.IsFunded = activeFundings.Any(x => x.RateWeighted > 0);
+            }
+        }
+
+        private static void DetermineQualificationFundingStatus(IEnumerable<FrameworkQualification> qualifications, ICollection<FundingMetaData> fundings)
+        {
+            foreach (var qualification in qualifications)
+            {
+                // Get fundings associated with a given qualification (Learn Aim Ref)
+                var qualificationFundings = fundings.Where(x => x.LearnAimRef.Equals(qualification.LearnAimRef, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                // Get qualification fundings that are associated with apprenticeship funding
+                var apprenticeshipFundings = qualificationFundings.Where(x => !string.IsNullOrEmpty(x.FundingCategory) &&
+                                                                              x.FundingCategory.Equals("APP_ACT_COST", StringComparison.CurrentCultureIgnoreCase)).ToList();
+
+                // Get apprenticeship fundings that are still active (not out of date)
+                var activeFundings = apprenticeshipFundings.Where(x => (x.EffectiveTo.HasValue && x.EffectiveTo.Value >= DateTime.Now) || !x.EffectiveTo.HasValue).ToList();
+
+                // If no fundings are found we assume qualification is unfunded
+                if (!activeFundings.Any())
+                {
+                    qualification.IsFunded = false;
+                    continue;
+                }
+
+                // Only if the funding Rate weight is greater than zero do we class the qualification as funded
+                qualification.IsFunded = activeFundings.Any(x => x.RateWeighted > 0);
+            }
+        }
+
+        private static CategorisedQualifications GetCategorisedQualifications(ICollection<FrameworkQualification> qualifications)
+        {
+            var qualificationSet = default(CategorisedQualifications);
+
+            qualificationSet.Combined = qualifications.Where(x => x.CompetenceType == 3)
+                .Select(x => x.Title)
+                .GroupBy(x => x.ToUpperInvariant())
+                .Select(group => group.First())
+                .ToList();
+
+            qualificationSet.Competency = qualifications.Where(x => x.CompetenceType == 1)
+                .Select(x => x.Title)
+                .GroupBy(x => x.ToUpperInvariant())
+                .Select(group => group.First())
+                .Except(qualificationSet.Combined)
+                .ToList();
+
+            qualificationSet.Knowledge = qualifications.Where(x => x.CompetenceType == 2)
+                .Select(x => x.Title)
+                .GroupBy(x => x.ToUpperInvariant())
+                .Select(group => group.First())
+                .Except(qualificationSet.Combined)
+                .ToList();
+
+            return qualificationSet;
+        }
+
+        private static ICollection<FrameworkMetaData> FilterFrameworks(IEnumerable<FrameworkMetaData> frameworks)
+        {
+            var progTypeList = new[] { 2, 3, 20, 21, 22, 23 };
+
+            return frameworks.Where(s => s.FworkCode > 399)
+                .Where(s => s.PwayCode > 0)
+                .Where(s => !s.EffectiveFrom.Equals(DateTime.MinValue))
+                .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.Today)
+                .Where(s => progTypeList.Contains(s.ProgType))
+                .ToList();
+        }
+
         private LarsData GetZipFileData(Stream zipStream)
         {
             var larsData = GetLarsData(zipStream);
@@ -195,143 +320,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             }
         }
 
-        private static void DetermineQualificationFundingStatus(IEnumerable<FrameworkQualification> qualifications, IEnumerable<FundingMetaData> fundings)
-        {
-            foreach (var qualification in qualifications)
-            {
-                // Get fundings associated with a given qualification (Learn Aim Ref)
-                var qualificationFundings = fundings.Where(x => x.LearnAimRef.Equals(qualification.LearnAimRef, StringComparison.OrdinalIgnoreCase)).ToList();
-
-                // Get qualification fundings that are associated with apprenticeship funding
-                var apprenticeshipFundings = qualificationFundings.Where(x => !string.IsNullOrEmpty(x.FundingCategory) &&
-                                                                              x.FundingCategory.Equals("APP_ACT_COST", StringComparison.CurrentCultureIgnoreCase)).ToList();
-
-                // Get apprenticeship fundings that are still active (not out of date)
-                var activeFundings = apprenticeshipFundings.Where(x => (x.EffectiveTo.HasValue && x.EffectiveTo.Value >= DateTime.Now) || !x.EffectiveTo.HasValue).ToList();
-
-                // If no fundings are found we assume qualification is unfunded
-                if (!activeFundings.Any())
-                {
-                    qualification.IsFunded = false;
-                    continue;
-                }
-
-                // Only if the funding Rate weight is greater than zero do we class the qualification as funded
-                qualification.IsFunded = activeFundings.Any(x => x.RateWeighted > 0);
-            }
-        }
-
         private void CloseStream(Stream zipStream)
         {
             zipStream.Close();
         }
-
-        public IEnumerable<LarsStandard> GetListOfCurrentStandards()
-        {
-            var zipFilePath = GetZipFilePath();
-            _logger.Debug($"Zip file path: {zipFilePath}");
-
-            var zipStream = GetZipStream(zipFilePath);
-
-            _logger.Debug("Zip file downloaded");
-
-            var fileContent = _fileExtractor.ExtractFileFromStream(zipStream, _appServiceSettings.CsvFileNameStandards);
-            _logger.Debug($"Extracted content. Length: {fileContent.Length}");
-            
-            var standards = _csvService.ReadFromString<LarsStandard>(fileContent);
-            _logger.Debug($"Read: {standards.Count} standards from file.");
-
-            var csvData = GetLarsCsvData(zipFilePath);
-
-            zipStream.Close();
-
-            var larsMetaData = GetLarsMetaData(csvData);
-
-            AddDurationAndFundingToStandards(standards, larsMetaData);
-
-            return standards;
-        }
-
-        public IEnumerable<FrameworkMetaData> GetListOfCurrentFrameworks()
-        {
-            var zipFilePath = GetZipFilePath();
-            _logger.Debug($"Zip file path: {zipFilePath}");
-
-            var csvData = GetLarsCsvData(zipFilePath);
-
-            var larsMetaData = GetLarsMetaData(csvData);
-
-            AddQualificationsToFrameworks(larsMetaData);
-            AddDurationAndFundingToFrameworks(larsMetaData);
-
-            return larsMetaData.Frameworks;
-        }
-
-        private static void DetermineQualificationFundingStatus(IEnumerable<FrameworkQualification> qualifications, ICollection<FundingMetaData> fundings)
-        {
-            foreach (var qualification in qualifications)
-            {
-                // Get fundings associated with a given qualification (Learn Aim Ref)
-                var qualificationFundings = fundings.Where(x => x.LearnAimRef.Equals(qualification.LearnAimRef, StringComparison.OrdinalIgnoreCase)).ToList();
-
-                // Get qualification fundings that are associated with apprenticeship funding
-                var apprenticeshipFundings = qualificationFundings.Where(x => !string.IsNullOrEmpty(x.FundingCategory) &&
-                                                                              x.FundingCategory.Equals("APP_ACT_COST", StringComparison.CurrentCultureIgnoreCase)).ToList();
-
-                // Get apprenticeship fundings that are still active (not out of date)
-                var activeFundings = apprenticeshipFundings.Where(x => (x.EffectiveTo.HasValue && x.EffectiveTo.Value >= DateTime.Now) || !x.EffectiveTo.HasValue).ToList();
-
-                // If no fundings are found we assume qualification is unfunded
-                if (!activeFundings.Any())
-                {
-                    qualification.IsFunded = false;
-                    continue;
-                }
-
-                // Only if the funding Rate weight is greater than zero do we class the qualification as funded
-                qualification.IsFunded = activeFundings.Any(x => x.RateWeighted > 0);
-            }
-        }
-
-        private static CategorisedQualifications GetCategorisedQualifications(ICollection<FrameworkQualification> qualifications)
-        {
-            var qualificationSet = default(CategorisedQualifications);
-
-            qualificationSet.Combined = qualifications.Where(x => x.CompetenceType == 3)
-                .Select(x => x.Title)
-                .GroupBy(x => x.ToUpperInvariant())
-                .Select(group => group.First())
-                .ToList();
-
-            qualificationSet.Competency = qualifications.Where(x => x.CompetenceType == 1)
-                .Select(x => x.Title)
-                .GroupBy(x => x.ToUpperInvariant())
-                .Select(group => group.First())
-                .Except(qualificationSet.Combined)
-                .ToList();
-
-            qualificationSet.Knowledge = qualifications.Where(x => x.CompetenceType == 2)
-                .Select(x => x.Title)
-                .GroupBy(x => x.ToUpperInvariant())
-                .Select(group => group.First())
-                .Except(qualificationSet.Combined)
-                .ToList();
-
-            return qualificationSet;
-        }
-
-        private static ICollection<FrameworkMetaData> FilterFrameworks(IEnumerable<FrameworkMetaData> frameworks)
-        {
-            var progTypeList = new[] { 2, 3, 20, 21, 22, 23 };
-
-            return frameworks.Where(s => s.FworkCode > 399)
-                .Where(s => s.PwayCode > 0)
-                .Where(s => !s.EffectiveFrom.Equals(DateTime.MinValue))
-                .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.Today)
-                .Where(s => progTypeList.Contains(s.ProgType))
-                .ToList();
-        }
-
+        
         private Stream GetZipStream(string zipFilePath)
         {
             var timer = ExecutionTimer.GetTiming(() => _httpGetFile.GetFile(zipFilePath));

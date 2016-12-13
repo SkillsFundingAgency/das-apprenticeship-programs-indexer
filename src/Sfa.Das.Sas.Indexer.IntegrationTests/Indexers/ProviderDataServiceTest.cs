@@ -1,7 +1,6 @@
 ﻿namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Moq;
     using NUnit.Framework;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
@@ -10,7 +9,6 @@
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Core.Services;
-    using CourseDirectoryProvider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory.Provider;
 
     [TestFixture]
     public class ProviderDataServiceTest
@@ -76,110 +74,6 @@
             _mockCourseDirectoryRepository.VerifyAll();
         }
 
-        //[Test]
-        //public void ShouldFilterProviders()
-        //{
-        //    //_mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(true);
-        //    _mockActiveProviderRepository.Setup(x => x.GetActiveProviders()).Returns(Task.FromResult(new List<int> { 123 } as IEnumerable<int>));
-        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
-
-        //    _mockCourseDirectoryRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-
-
-        //    var result = _sut.LoadDatasetsAsync().Result;
-
-        //    Assert.AreEqual(2, result.CourseDirectoryUkPrns.Count());
-
-        //    _mockActiveProviderRepository.VerifyAll();
-        //    _mockProviderRepository.VerifyAll();
-        //}
-
-        //[Test]
-        //public void ShouldntFilterProvidersIfTheFeatureIsDisabled()
-        //{
-        //    //_mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-        //    _mockCourseDirectoryRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
-
-        //    var result = _sut.GetProviders().Result;
-
-        //    Assert.AreEqual(3, result.Count);
-
-        //    _mockProviderRepository.VerifyAll();
-        //}
-
-        //[Test]
-        //public void ShouldUpdateFrameworkInformation()
-        //{
-        //    //_mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-        //    _mockCourseDirectoryRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
-
-        //    var result = _sut.GetProviders().Result;
-
-        //    Assert.AreEqual(3, result.Count);
-        //    var framework = result.FirstOrDefault()?.Frameworks.FirstOrDefault();
-        //    var frameworkSecond = result.ElementAt(1)?.Frameworks.ElementAt(0);
-        //    framework?.OverallCohort.Should().Be("68");
-        //    framework?.OverallAchievementRate.Should().Be(68);
-        //    framework?.NationalOverallAchievementRate.Should().Be(78);
-
-        //    frameworkSecond?.OverallCohort.Should().BeNull();
-        //    frameworkSecond?.OverallAchievementRate.Should().Be(null);
-        //    frameworkSecond?.NationalOverallAchievementRate.Should().Be(null);
-        //}
-
-        //[Test]
-        //public void ShouldUpdateStandardInformation()
-        //{
-        //    //_mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-        //    _mockCourseDirectoryRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
-
-        //    var result = _sut.GetProviders().Result;
-
-        //    Assert.AreEqual(3, result.Count);
-        //    var standard = result.SingleOrDefault(m => !m.Standards.IsNullOrEmpty())?.Standards.FirstOrDefault();
-        //    standard?.OverallCohort.Should().Be("58");
-        //    standard?.OverallAchievementRate.Should().Be(58);
-        //    standard?.NationalOverallAchievementRate.Should().Be(100);
-        //}
-
-        //[Test]
-        //public void ShouldUpdateLearnerSatisfactionRateIfAvailable()
-        //{
-        //    //_mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-        //    _mockCourseDirectoryRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(TwoProvidersTask());
-        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
-
-        //    var result = _sut.GetProviders().Result;
-
-        //    Assert.AreEqual(3, result.Count);
-
-        //    result.Count(ls => ls.Ukprn == 456 && ls.LearnerSatisfaction == 67).Should().Be(1);
-        //    result.Count(ls => ls.Ukprn == 123 && ls.LearnerSatisfaction == null).Should().Be(2);
-        //}
-
-        //[Test]
-        //public void ShouldLeaveLearnerSatisfactionRateNullIfUnavailable()
-        //{
-        //    _mockFeatures.Setup(x => x.FilterInactiveProviders).Returns(false);
-        //    _mockProviderRepository.Setup(x => x.GetEmployerProviders()).Returns(GetEmployerProviders);
-        //    _mockCourseDirectoryRepository.Setup(x => x.GetApprenticeshipProvidersAsync()).Returns(ThreeProvidersTask());
-        //    _mockProviderRepository.Setup(x => x.GetHeiProviders()).Returns(HeiProviders);
-
-        //    var result = _sut.GetProviders().Result;
-
-        //    Assert.AreEqual(4, result.Count);
-
-        //    result.Any(ls => ls.Ukprn == 789 && ls.LearnerSatisfaction == null).Should().Be(true);
-        //}
-
         private IEnumerable<AchievementRateProvider> GetAchievementData()
         {
             return new List<AchievementRateProvider>
@@ -210,41 +104,10 @@
         {
             return new List<SatisfactionRateProvider>
             {
-                new SatisfactionRateProvider {Ukprn = 456, FinalScore = 67.1, TotalCount = 678, ResponseCount = 670},
-                new SatisfactionRateProvider {Ukprn = 123, FinalScore = 0, TotalCount = 879, ResponseCount = 0}
+                new SatisfactionRateProvider { Ukprn = 456, FinalScore = 67.1, TotalCount = 678, ResponseCount = 670 },
+                new SatisfactionRateProvider { Ukprn = 123, FinalScore = 0, TotalCount = 879, ResponseCount = 0 }
             };
         }
-
-        private ICollection<string> GetEmployerProviders()
-        {
-            return new List<string> { "123" };
-        }
-
-        private ICollection<string> HeiProviders()
-        {
-            return new List<string> { "123" };
-        }
-
-        private Task<IEnumerable<CourseDirectoryProvider>> TwoProvidersTask()
-        {
-            return Task.FromResult(TwoProviders());
-        }
-
-        //private Task<IEnumerable<CourseDirectoryProvider>> ThreeProvidersTask()
-        //{
-        //    var providers = TwoProviders().Concat(new List<CourseDirectoryProvider>{
-        //        new CourseDirectoryProvider
-        //    {
-        //        Ukprn = 789,
-        //        Frameworks = new List<FrameworkInformation>
-        //        {
-        //            new FrameworkInformation { Code = 43, PathwayCode = 5, ProgType = 20 }
-        //        }
-        //    }
-        //    });
-
-        //    return Task.FromResult(providers);
-        //}
 
         private List<StandardMetaData> StandardResults()
         {
@@ -278,35 +141,6 @@
                                SectorSubjectAreaTier2 = 43.2
                            }
                        };
-        }
-
-        private IEnumerable<CourseDirectoryProvider> TwoProviders()
-        {
-            return new List<CourseDirectoryProvider>();
-            //yield return new CourseDirectoryProvider()
-            //{
-            //    Ukprn = 123,
-            //    Frameworks = new List<FrameworkInformation>
-            //    {
-            //        new FrameworkInformation { Code = 42, PathwayCode = 5, ProgType = 2 }
-            //    }
-            //};
-            //yield return new CourseDirectoryProvider // Level 4+
-            //{
-            //    Ukprn = 123,
-            //    Frameworks = new List<FrameworkInformation>
-            //    {
-            //        new FrameworkInformation { Code = 43, PathwayCode = 5, ProgType = 20 }
-            //    }
-            //};
-            //yield return new CourseDirectoryProvider
-            //{
-            //    Ukprn = 456,
-            //    Standards = new List<StandardInformation>
-            //    {
-            //        new StandardInformation { Code = 5 }
-            //    }
-            //};
         }
     }
 }
