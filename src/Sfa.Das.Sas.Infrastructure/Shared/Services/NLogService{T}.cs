@@ -4,11 +4,10 @@
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Infrastructure.Services;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
-    public class NLogService<T> : NLogService, ILog
+    public class NLogService<T> : NLogService
     {
         public NLogService(Type loggerType, IInfrastructureSettings settings)
             : base(loggerType, settings)
