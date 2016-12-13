@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Sfa.Das.Sas.Indexer.Core.Extensions;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-
-namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
+﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
 {
+    using System;
+    using System.Collections.Generic;
+    using Sfa.Das.Sas.Indexer.Core.Extensions;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+
     public class LearningDeliveryMetaDataFactory : IMetaDataFactory
     {
         public Type MetaDataType => typeof(LearningDeliveryMetaData);
 
         public object Create(IReadOnlyList<string> values)
         {
-            if (values == null || values.Count < 5)
+            if (values == null || values.Count < 5 || values[0].RemoveQuotationMark().Contains("LearnAimRef"))
             {
                 return null;
             }

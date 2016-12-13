@@ -1,12 +1,12 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.Core.Logging;
+
     public class GenericControlQueueConsumer : IGenericControlQueueConsumer
     {
         private readonly IAppServiceSettings _appServiceSettings;
