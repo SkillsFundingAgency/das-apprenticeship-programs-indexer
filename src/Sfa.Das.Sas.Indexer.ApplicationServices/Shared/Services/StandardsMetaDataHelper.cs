@@ -1,4 +1,8 @@
 ﻿using MediatR;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.Core.Logging.Models;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
@@ -6,16 +10,26 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
     public sealed class StandardsMetaDataHelper : IRequestHandler<StandardMetaDataRequest, StandardMetaDataResult>
     {
-        private readonly IMetaDataHelper _metaDataHelper;
+        private readonly IGetStandardMetaData _metaDataReader;
 
-        public StandardsMetaDataHelper(IMetaDataHelper metaDataHelper)
+        private readonly ILog _log;
+
+        public StandardsMetaDataHelper(
+            ILog log,
+            IGetStandardMetaData metaDataReader)
         {
-            _metaDataHelper = metaDataHelper;
+            _log = log;
+            _metaDataReader = metaDataReader;
         }
 
-        public StandardMetaDataResult Handle(StandardMetaDataRequest message)
+        public StandardMetaDataResult Handle(StandardMetaDataRequest request)
         {
-            return _metaDataHelper.GetAllStandardsMetaData();
+            _log.Debug("Starting to get LARS standards and meta data");
+            var timing = ExecutionTimer.GetTiming(() => _metaDataReader.GetStandardsMetaData());
+
+            _log.Debug("MetaDataHelper.GetAllStandardsMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
+
+            return new StandardMetaDataResult { Standards = timing.Result };
         }
     }
 }

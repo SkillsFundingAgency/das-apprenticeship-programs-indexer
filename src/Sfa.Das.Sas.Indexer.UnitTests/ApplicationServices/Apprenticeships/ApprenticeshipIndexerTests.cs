@@ -1,4 +1,5 @@
 ﻿using System;
+using MediatR;
 using Moq;
 using NUnit.Framework;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
@@ -15,6 +16,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
         private Mock<IIndexSettings<IMaintainApprenticeshipIndex>> _mockSettings;
         private Mock<IMaintainApprenticeshipIndex> _mockIndexMaintainer;
         private Mock<IMetaDataHelper> _mockMetaDataHelper;
+        private Mock<IMediator> _mockMediator;
 
         [SetUp]
         public void Setup()
@@ -22,9 +24,10 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
             _mockSettings = new Mock<IIndexSettings<IMaintainApprenticeshipIndex>>();
             _mockIndexMaintainer = new Mock<IMaintainApprenticeshipIndex>();
             _mockMetaDataHelper = new Mock<IMetaDataHelper>();
+            _mockMediator = new Mock<IMediator>();
             var mockLogger = Mock.Of<ILog>();
 
-            _sut = new ApprenticeshipIndexer(_mockSettings.Object, _mockIndexMaintainer.Object, _mockMetaDataHelper.Object, mockLogger);
+            _sut = new ApprenticeshipIndexer(_mockSettings.Object, _mockMediator.Object, _mockIndexMaintainer.Object, _mockMetaDataHelper.Object, mockLogger);
         }
 
         [Test]

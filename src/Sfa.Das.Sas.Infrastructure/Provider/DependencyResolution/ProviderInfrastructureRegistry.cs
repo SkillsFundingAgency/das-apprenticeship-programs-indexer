@@ -21,7 +21,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
             For<ICourseDirectoryProviderDataService>().Use(x => new CourseDirectoryProviderDataService(x.GetInstance<IInfrastructureSettings>()));
             For<IGetCourseDirectoryProviders>().Use<CourseDirectoryClient>();
             For<ICourseDirectoryProviderMapper>().Use<CourseDirectoryProviderMapper>();
-            For<IGetApprenticeshipProviders>().Use<ProviderVstsClient>();
             For<IMaintainProviderIndex>().Use<ElasticsearchProviderIndexMaintainer>();
             For<IDatabaseProvider>().Use<DatabaseProvider>();
             For<IAchievementRatesProvider>().Use<AchievementRatesProvider>();

@@ -13,7 +13,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 
-    public class MetaDataHelper : IMetaDataHelper, IRequestHandler<FrameworkMetaDataRequest, FrameworkMetaDataResult>
+    public class MetaDataHelper : IMetaDataHelper
     {
         private readonly IGetStandardMetaData _metaDataReader;
 
@@ -39,31 +39,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             _larsApprenticeshipReader = getLarsMetadata;
         }
 
-        public StandardMetaDataResult GetAllStandardsMetaData()
-        {
-            _log.Debug("Starting to get LARS standards and meta data");
-            var timing = ExecutionTimer.GetTiming(() => _metaDataReader.GetStandardsMetaData());
-
-            _log.Debug("MetaDataHelper.GetAllStandardsMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
-
-            return new StandardMetaDataResult { Standards = timing.Result };
-        }
-
         public void UpdateMetadataRepository()
         {
             var timing = ExecutionTimer.GetTiming(() => _metaDataWriter.GenerateStandardMetadataFiles());
 
             _log.Debug("MetaDataHelper.UpdateMetadataRepository", new TimingLogEntry { ElaspedMilliseconds = timing.TotalMilliseconds });
-        }
-
-        public FrameworkMetaDataResult GetAllFrameworkMetaData()
-        {
-            _log.Debug("Starting to get LARS frameworks and meta data");
-            var timing = ExecutionTimer.GetTiming(() => _metaDataFrameworkReader.GetAllFrameworks());
-
-            _log.Debug("MetaDataHelper.GetAllFrameworkMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
-
-            return new FrameworkMetaDataResult { Frameworks = timing.Result };
         }
 
         public LarsData GetAllApprenticeshipLarsMetaData()
@@ -74,11 +54,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             _log.Debug("MetaDataHelper.GetAllApprenticeshipLarsMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 
             return timing.Result;
-        }
-
-        public FrameworkMetaDataResult Handle(FrameworkMetaDataRequest message)
-        {
-            return GetAllFrameworkMetaData();
         }
     }
 }

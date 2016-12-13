@@ -88,7 +88,6 @@
     <Compile Include="Apprenticeship\Models\Standard\StandardMetaData.cs" />
     <Compile Include="Apprenticeship\Models\Standard\TypicalLength.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Provider\Services\IGetApprenticeshipProviders.cs" />
     <Compile Include="Shared\Logging\ILog.cs" />
     <Compile Include="Provider\Services\IProvideSettings.cs" />
   </ItemGroup>

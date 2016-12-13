@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using MediatR;
 using Moq;
 using Nest;
 using NUnit.Framework;
@@ -45,13 +46,14 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
             var maintanSearchIndex = ioc.GetInstance<IMaintainApprenticeshipIndex>();
 
             var moqMetaDataHelper = new Mock<IMetaDataHelper>();
+            var moqMediator = new Mock<IMediator>();
             moqMetaDataHelper.Setup(m => m.UpdateMetadataRepository());
-            moqMetaDataHelper.Setup(m => m.GetAllStandardsMetaData()).Returns(GetStandardsTest());
-            moqMetaDataHelper.Setup(m => m.GetAllFrameworkMetaData()).Returns(GetFrameworksTest());
+            moqMediator.Setup(m => m.Send(It.IsAny<StandardMetaDataRequest>())).Returns(GetStandardsTest());
+            moqMediator.Setup(m => m.Send(It.IsAny<FrameworkMetaDataRequest>())).Returns(GetFrameworksTest());
 
             var moqLog = new Mock<ILog>();
 
-            _indexerService = new ApprenticeshipIndexer(settings, maintanSearchIndex, moqMetaDataHelper.Object, moqLog.Object);
+            _indexerService = new ApprenticeshipIndexer(settings, moqMediator.Object, maintanSearchIndex, moqMetaDataHelper.Object, moqLog.Object);
 
             var elasticCustomClient = ioc.GetInstance<IElasticsearchCustomClient>();
             _elasticClient = elasticCustomClient;

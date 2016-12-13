@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
@@ -13,17 +15,20 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
     public sealed class ApprenticeshipIndexer : IGenericIndexerHelper<IMaintainApprenticeshipIndex>
     {
         private readonly IIndexSettings<IMaintainApprenticeshipIndex> _settings;
+        private readonly IMediator _mediator;
         private readonly IMaintainApprenticeshipIndex _searchIndexMaintainer;
         private readonly IMetaDataHelper _metaDataHelper;
         private readonly ILog _log;
 
         public ApprenticeshipIndexer(
             IIndexSettings<IMaintainApprenticeshipIndex> settings,
+            IMediator mediator,
             IMaintainApprenticeshipIndex searchIndexMaintainer,
             IMetaDataHelper metaDataHelper,
             ILog log)
         {
             _settings = settings;
+            _mediator = mediator;
             _searchIndexMaintainer = searchIndexMaintainer;
             _metaDataHelper = metaDataHelper;
             _log = log;
@@ -94,7 +99,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         {
             try
             {
-                var entries = _metaDataHelper.GetAllFrameworkMetaData();
+                var entries = _mediator.Send(new FrameworkMetaDataRequest());
 
                 _log.Debug("Indexing " + entries.Frameworks.Count() + " frameworks");
 
@@ -108,7 +113,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
         private Task<ICollection<StandardMetaData>> LoadStandardMetaData()
         {
-            var standardsMetaData = _metaDataHelper.GetAllStandardsMetaData();
+            var standardsMetaData = _mediator.Send(new StandardMetaDataRequest());
             return Task.FromResult<ICollection<StandardMetaData>>(standardsMetaData.Standards.ToList());
         }
     }

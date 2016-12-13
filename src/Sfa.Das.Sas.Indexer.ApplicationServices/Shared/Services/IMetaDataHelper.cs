@@ -11,10 +11,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
     {
         void UpdateMetadataRepository();
 
-        StandardMetaDataResult GetAllStandardsMetaData();
-
-        FrameworkMetaDataResult GetAllFrameworkMetaData();
-
         LarsData GetAllApprenticeshipLarsMetaData();
     }
 }
