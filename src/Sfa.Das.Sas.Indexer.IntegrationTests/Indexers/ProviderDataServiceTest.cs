@@ -14,7 +14,6 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 
     [TestFixture]
-    [Ignore("too slow")]
     public class ProviderDataServiceTest
     {
         private ProviderDataService _sut;
@@ -41,6 +40,7 @@ namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
         }
 
         [Test]
+        [Ignore("too slow")]
         public void ShouldRequestData()
         {
             // Act
