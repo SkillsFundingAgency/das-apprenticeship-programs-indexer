@@ -22,21 +22,24 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private readonly IAppServiceSettings _appServiceSettings;
 
         private readonly ILarsDataService _larsDataService;
+        private readonly IElasticsearchDataService _elasticsearchDataService;
 
         private readonly ILog _logger;
 
         private readonly IAngleSharpService _angleSharpService;
-        
+
         private readonly IVstsService _vstsService;
 
         public MetaDataManager(
             ILarsDataService larsDataService,
+            IElasticsearchDataService elasticsearchDataService,
             IVstsService vstsService,
             IAppServiceSettings appServiceSettings,
             IAngleSharpService angleSharpService,
             ILog logger)
         {
             _larsDataService = larsDataService;
+            _elasticsearchDataService = elasticsearchDataService;
             _vstsService = vstsService;
             _appServiceSettings = appServiceSettings;
             _logger = logger;
@@ -78,7 +81,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
         public IEnumerable<FrameworkMetaData> GetAllFrameworks()
         {
-            var frameworks = _larsDataService.GetListOfCurrentFrameworks();
+            var frameworks = _elasticsearchDataService.GetListOfCurrentFrameworks();
             _logger.Debug($"Retrieved {frameworks.Count()} frameworks from LARS");
             UpdateFrameworkInformationFromVSTS(frameworks);
             return frameworks;
@@ -158,7 +161,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private void UpdateStandardsInformationFromLarsAndResolveUrls(IEnumerable<StandardMetaData> standards)
         {
             int updated = 0;
-            var currentStandards = _larsDataService.GetListOfCurrentStandards().ToArray();
+            var currentStandards = _elasticsearchDataService.GetListOfCurrentStandards();
 
             foreach (var standard in standards)
             {
