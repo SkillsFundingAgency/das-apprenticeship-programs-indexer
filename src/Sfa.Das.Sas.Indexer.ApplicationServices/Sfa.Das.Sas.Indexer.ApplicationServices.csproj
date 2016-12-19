@@ -83,6 +83,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apprenticeship\DependencyResolution\ApprenticeshipApplicationServicesRegistry.cs" />
+    <Compile Include="AssessmentOrgs\DependencyResolution\AssessmentOrgsApplicationServicesRegistry.cs" />
+    <Compile Include="AssessmentOrgs\Services\IMaintainAssessmentOrgsIndex.cs" />
+    <Compile Include="AssessmentOrgs\Services\AssessmentOrgsIndexer.cs" />
+    <Compile Include="AssessmentOrgs\Settings\AssessmentOrgsIndexSettings.cs" />
     <Compile Include="Lars\DependencyResolution\LarsApplicationServicesRegistry.cs" />
     <Compile Include="Lars\Services\LarsIndexer.cs" />
     <Compile Include="Lars\Services\IMaintainLarsIndex.cs" />
