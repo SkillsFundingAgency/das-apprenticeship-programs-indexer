@@ -26,6 +26,11 @@
             {
                 ApplicationName = "provider-indexer";
             }
+
+            if (typeof(T) == typeof(IMaintainAssessmentOrgsIndex))
+            {
+                ApplicationName = "assessment-orgs-indexer";
+            }
         }
     }
 }
