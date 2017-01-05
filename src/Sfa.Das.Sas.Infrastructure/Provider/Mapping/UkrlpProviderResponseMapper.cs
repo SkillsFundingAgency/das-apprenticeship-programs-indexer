@@ -12,9 +12,10 @@
             {
                 UnitedKingdomProviderReferenceNumber = record.UnitedKingdomProviderReferenceNumber,
                 ProviderName = record.ProviderName,
+                ProviderAliases = record.ProviderAliases.Select(pa => pa.ProviderAlias),
                 ProviderContact = record.ProviderContact?.Select(MapFromContact)
             };
-
+            
             return provider;
         }
 

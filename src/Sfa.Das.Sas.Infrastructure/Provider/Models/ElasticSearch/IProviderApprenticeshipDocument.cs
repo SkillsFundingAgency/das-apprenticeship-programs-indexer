@@ -4,7 +4,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 {
     using System.Collections.Generic;
 
-    public interface IProviderAppreticeshipDocument
+    public interface IProviderApprenticeshipDocument
     {
         int Ukprn { get; set; }
         bool IsHigherEducationInstitute { get; set; }
@@ -23,11 +23,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         string Website { get; set; }
         IEnumerable<TrainingLocation> TrainingLocations { get; set; }
         IEnumerable<GeoCoordinate> LocationPoints { get; set; }
-
         double? OverallAchievementRate { get; set; }
-
         double? NationalOverallAchievementRate { get; set; }
-
         string OverallCohort { get; set; }
     }
 }
