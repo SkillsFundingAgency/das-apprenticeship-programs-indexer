@@ -37,7 +37,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             });
 
             var larsDataService = container.GetInstance<ILarsDataService>();
-            var mockElasticsearchDataService = container.GetInstance<IElasticsearchDataService>();
+            var mockElasticsearchDataService = container.GetInstance<IElasticsearchLarsDataService>();
             var vstsDataService = container.GetInstance<IVstsService>();
             var settings = container.GetInstance<IAppServiceSettings>();
             var logger = container.GetInstance<ILog>();

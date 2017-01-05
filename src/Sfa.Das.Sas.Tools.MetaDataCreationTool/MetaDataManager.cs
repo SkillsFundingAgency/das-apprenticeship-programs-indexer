@@ -22,7 +22,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private readonly IAppServiceSettings _appServiceSettings;
 
         private readonly ILarsDataService _larsDataService;
-        private readonly IElasticsearchDataService _elasticsearchDataService;
+        private readonly IElasticsearchLarsDataService _elasticsearchLarsDataService;
 
         private readonly ILog _logger;
 
@@ -32,14 +32,14 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
         public MetaDataManager(
             ILarsDataService larsDataService,
-            IElasticsearchDataService elasticsearchDataService,
+            IElasticsearchLarsDataService elasticsearchLarsDataService,
             IVstsService vstsService,
             IAppServiceSettings appServiceSettings,
             IAngleSharpService angleSharpService,
             ILog logger)
         {
             _larsDataService = larsDataService;
-            _elasticsearchDataService = elasticsearchDataService;
+            _elasticsearchLarsDataService = elasticsearchLarsDataService;
             _vstsService = vstsService;
             _appServiceSettings = appServiceSettings;
             _logger = logger;
@@ -81,7 +81,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
         public IEnumerable<FrameworkMetaData> GetAllFrameworks()
         {
-            var frameworks = _elasticsearchDataService.GetListOfCurrentFrameworks();
+            var frameworks = _elasticsearchLarsDataService.GetListOfCurrentFrameworks();
             _logger.Debug($"Retrieved {frameworks.Count()} frameworks from LARS");
             UpdateFrameworkInformationFromVSTS(frameworks);
             return frameworks;
@@ -161,7 +161,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private void UpdateStandardsInformationFromLarsAndResolveUrls(IEnumerable<StandardMetaData> standards)
         {
             int updated = 0;
-            var currentStandards = _elasticsearchDataService.GetListOfCurrentStandards();
+            var currentStandards = _elasticsearchLarsDataService.GetListOfCurrentStandards();
 
             foreach (var standard in standards)
             {

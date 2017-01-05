@@ -23,7 +23,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<IGetLarsMetadata>().Use<MetaDataManager>();
             For<IJsonMetaDataConvert>().Use<JsonMetaDataConvert>();
             For<IGenericMetaDataFactory>().Use<LarsMetaDataFactory>();
-            For<IElasticsearchDataService>().Use<ElasticsearchDataService>();
+            For<IElasticsearchLarsDataService>().Use<ElasticsearchLarsDataService>();
 
             // Meta Data factories
             For<IMetaDataFactory>().Use<FrameworkMetaDataFactory>();

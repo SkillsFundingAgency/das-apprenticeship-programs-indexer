@@ -26,7 +26,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         {
             // ILarsDataService larsDataService, IVstsService vstsService, IAppServiceSettings settings
             var mockLarsDataService = new Mock<ILarsDataService>();
-            var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
+            var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
             var mockVstsService = new Mock<IVstsService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
@@ -56,7 +56,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         {
             // ILarsDataService larsDataService, IVstsService vstsService, IAppServiceSettings settings
             var mockLarsDataService = new Mock<ILarsDataService>();
-            var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
+            var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
             var mockVstsService = new Mock<IVstsService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
@@ -75,7 +75,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         public void ShouldUpdateMetadataFromLars()
         {
             var mockLarsDataService = new Mock<ILarsDataService>();
-            var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
+            var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
             var mockVstsService = new Mock<IVstsService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
@@ -113,7 +113,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         public void ShouldCreatePdfLinks()
         {
             var mockLarsDataService = new Mock<ILarsDataService>();
-            var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
+            var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
             var mockVstsService = new Mock<IVstsService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
@@ -146,7 +146,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         public void ShouldNotCreatePdfLinksIfNoUriToStandard()
         {
             var mockLarsDataService = new Mock<ILarsDataService>();
-            var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
+            var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
             var mockVstsService = new Mock<IVstsService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
