@@ -1,4 +1,6 @@
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -29,6 +31,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFundingMetaData apprenticeshipFunding);
 
         ApprenticeshipComponentTypeDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData);
+
+        OrganisationDocument CreateOrganisationDocument(Organisation organisation);
+
+        StandardOrganisationDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData);
 
         int MapToLevelFromProgType(int level);
 

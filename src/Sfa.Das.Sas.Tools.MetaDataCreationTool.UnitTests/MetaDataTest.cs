@@ -42,11 +42,12 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var settings = container.GetInstance<IAppServiceSettings>();
             var logger = container.GetInstance<ILog>();
             var angleSharpService = container.GetInstance<IAngleSharpService>();
+            var mockXlsxService = container.GetInstance<IXlsxService>();
 
             Assert.True(string.IsNullOrEmpty(settings.GitUsername));
             Assert.True(string.IsNullOrEmpty(settings.GitPassword));
 
-            MetaDataManager metaData = new MetaDataManager(larsDataService, mockElasticsearchDataService, vstsDataService, settings, angleSharpService, logger);
+            MetaDataManager metaData = new MetaDataManager(larsDataService, mockElasticsearchDataService, vstsDataService, mockXlsxService, settings, angleSharpService, logger);
 
             var standardsFromLars = larsDataService.GetListOfCurrentStandards();
 

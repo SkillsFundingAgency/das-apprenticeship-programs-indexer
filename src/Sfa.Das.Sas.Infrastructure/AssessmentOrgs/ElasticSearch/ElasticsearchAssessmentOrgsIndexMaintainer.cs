@@ -1,3 +1,6 @@
+using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
     using System;
@@ -39,17 +42,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                     .NumberOfShards(_elasticsearchConfiguration.LarsIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
                 .Mappings(ms => ms
-                    .Map<ApprenticeshipFundingDocument>(m => m.AutoMap())
-                    .Map<LearningDeliveryDocument>(m => m.AutoMap())
-                    .Map<FundingDocument>(m => m.AutoMap())
-                    .Map<FrameworkAimDocument>(m => m.AutoMap())
-                    .Map<FrameworkLars>(m => m.AutoMap())
-                    .Map<StandardLars>(m => m.AutoMap())
-                    .Map<ApprenticeshipComponentTypeDocument>(m => m.AutoMap())));
+                    .Map<Organisation>(m => m.AutoMap())
+                    .Map<StandardOrganisationsData>(m => m.AutoMap())));
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {
-                throw new ConnectionException($"Received non-200 response when trying to create the Lars Index, Status Code:{response.ApiCall.HttpStatusCode}, Message: {response.OriginalException.Message}");
+                throw new ConnectionException($"Received non-200 response when trying to create the Assessment Organisations Index, Status Code:{response.ApiCall.HttpStatusCode}, Message: {response.OriginalException.Message}");
             }
         }
 
@@ -85,6 +83,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 var actualSize = Math.Min(size, entries.Count - i);
                 yield return entries.GetRange(i, actualSize);
             }
+        }
+
+        public async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
+        {
+            await IndexEntries(indexName, standardOrganisationsData, ElasticsearchMapper.CreateStandardOrganisationDocument).ConfigureAwait(true);
+        }
+
+        public async Task IndexOrganisations(string indexName, List<Organisation> organisations)
+        {
+            await IndexEntries(indexName, organisations, ElasticsearchMapper.CreateOrganisationDocument).ConfigureAwait(true);
         }
     }
 }

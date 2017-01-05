@@ -40,6 +40,10 @@
       <HintPath>..\packages\Elasticsearch.Net.2.4.1\lib\net45\Elasticsearch.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="LINQtoCSV, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LINQtoCSV.1.5.0.0\lib\net35\LINQtoCSV.dll</HintPath>
       <Private>True</Private>
@@ -118,6 +122,7 @@
     <Compile Include="Provider\Models\UkRlp\UkrlpProviderResponse.cs" />
     <Compile Include="Provider\Services\IUkrlpProviderMapper.cs" />
     <Compile Include="Provider\Services\ProviderSourceDto.cs" />
+    <Compile Include="Shared\MetaData\IGetAssessmentOrgsData.cs" />
     <Compile Include="Shared\MetaData\IGetLarsMetadata.cs" />
     <Compile Include="Shared\Services\FrameworkMetaDataHelper.cs" />
     <Compile Include="Shared\Services\StandardsMetaDataHelper.cs" />

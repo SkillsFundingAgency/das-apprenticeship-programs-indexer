@@ -1,3 +1,9 @@
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using OfficeOpenXml;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 {
     using System;
@@ -17,7 +23,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
-    public class MetaDataManager : IGetStandardMetaData, IGenerateStandardMetaData, IGetFrameworkMetaData, IGetLarsMetadata
+    public class MetaDataManager : IGetStandardMetaData, IGenerateStandardMetaData, IGetFrameworkMetaData, IGetLarsMetadata, IGetAssessmentOrgsData
     {
         private readonly IAppServiceSettings _appServiceSettings;
 
@@ -29,11 +35,13 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private readonly IAngleSharpService _angleSharpService;
 
         private readonly IVstsService _vstsService;
+        private readonly IXlsxService _xlsxService;
 
         public MetaDataManager(
             ILarsDataService larsDataService,
             IElasticsearchDataService elasticsearchDataService,
             IVstsService vstsService,
+            IXlsxService xlsxService,
             IAppServiceSettings appServiceSettings,
             IAngleSharpService angleSharpService,
             ILog logger)
@@ -41,6 +49,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             _larsDataService = larsDataService;
             _elasticsearchDataService = elasticsearchDataService;
             _vstsService = vstsService;
+            _xlsxService = xlsxService;
             _appServiceSettings = appServiceSettings;
             _logger = logger;
             _angleSharpService = angleSharpService;
@@ -206,6 +215,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
             _vstsService.PushCommit(standards);
             _logger.Info($"Pushed {standards.Count} new meta files to Git Repository.");
+        }
+
+        public AssessmentOrganisationsDTO GetAssessmentOrganisationsData()
+        {
+            return _xlsxService.GetAssessmentOrganisationsData();
         }
     }
 }

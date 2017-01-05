@@ -5,12 +5,14 @@ using Nest;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Extensions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
@@ -191,6 +193,35 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ApprenticeshipComponentTypeDesc = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc,
                 ApprenticeshipComponentTypeDesc2 = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc2
            };
+        }
+
+        public OrganisationDocument CreateOrganisationDocument(Organisation organisation)
+        {
+            return new OrganisationDocument
+            {
+                EpaOrganisationIdentifier = organisation.EpaOrganisationIdentifier,
+                OrganisationType = organisation.OrganisationType,
+                ContactAddress1 = organisation.ContactAddress1,
+                ContactAddress2 = organisation.ContactAddress2,
+                ContactAddress3 = organisation.ContactAddress3,
+                ContactAddress4 = organisation.ContactAddress4,
+                ContactName = organisation.ContactName,
+                EpaOrganisation = organisation.EpaOrganisation,
+                WebsiteLink = organisation.WebsiteLink,
+                ContactEmail = organisation.ContactEmail,
+                ContactPhoneNumber = organisation.ContactPhoneNumber,
+                ContactPostcode = organisation.ContactPostcode
+            };
+        }
+
+        public StandardOrganisationDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData)
+        {
+            return new StandardOrganisationDocument
+            {
+                EpaOrganisationIdentifier = standardOrganisationsData.EpaOrganisationIdentifier,
+                StandardCode = standardOrganisationsData.StandardCode,
+                EffectiveFrom = standardOrganisationsData.EffectiveFrom
+            };
         }
 
         public int MapToLevelFromProgType(int progType)

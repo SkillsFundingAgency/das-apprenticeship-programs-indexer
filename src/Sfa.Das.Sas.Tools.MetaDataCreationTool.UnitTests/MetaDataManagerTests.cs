@@ -30,6 +30,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockVstsService = new Mock<IVstsService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
+            var mockXlsxService = new Mock<IXlsxService>();
+
             List<FileContents> standardsToAdd = null;
 
             var currentStandards = new List<LarsStandard>
@@ -44,7 +46,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             mockVstsService.Setup(x => x.GetExistingStandardIds()).Returns(existingMetaDataIds);
             mockVstsService.Setup(x => x.PushCommit(It.IsAny<List<FileContents>>())).Callback<List<FileContents>>(x => { standardsToAdd = x; });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockSettings.Object, null, mockLogger.Object);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockXlsxService.Object, mockSettings.Object, null, mockLogger.Object);
 
             metaDataManager.GenerateStandardMetadataFiles();
 
@@ -61,10 +63,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
+            var mockXlsxService = new Mock<IXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockXlsxService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
 
             var standardJson = metaDataManager.GetStandardsMetaData();
 
@@ -80,6 +83,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
+            var mockXlsxService = new Mock<IXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
@@ -94,7 +98,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 
             mockVstsService.Setup(m => m.GetStandards()).Returns(standardsFromRepo);
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockXlsxService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
 
             var standardJson = metaDataManager.GetStandardsMetaData();
 
@@ -118,6 +122,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
+            var mockXlsxService = new Mock<IXlsxService>();
 
             mockSettings.Setup(x => x.GovWebsiteUrl).Returns("https://www.gov.uk/");
             mockSettings.Setup(x => x.MetadataApiUri).Returns("https://www.abba.co.uk/");
@@ -133,7 +138,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 
             mockVstsService.Setup(x => x.GetStandards()).Returns(standardsFromRepo);
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockXlsxService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
 
             var standardJson = metaDataManager.GetStandardsMetaData();
 
@@ -151,6 +156,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
+            var mockXlsxService = new Mock<IXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("https://www.abba.co.uk/");
 
@@ -164,7 +170,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var standardsFromRepo = new List<StandardMetaData> { new StandardMetaData { Id = 2, Title = "Title1", Published = true }, new StandardMetaData { Id = 3, Title = "Title2", Published = true } };
             mockVstsService.Setup(m => m.GetStandards()).Returns(standardsFromRepo);
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockXlsxService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
 
             var standardJson = metaDataManager.GetStandardsMetaData();
 

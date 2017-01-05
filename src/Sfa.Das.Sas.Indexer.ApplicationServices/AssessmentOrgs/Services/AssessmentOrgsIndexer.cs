@@ -1,17 +1,15 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using Core.Apprenticeship.Models.Standard;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
     using Sfa.Das.Sas.Indexer.Core.Logging;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Core.Services;
 
     public sealed class AssessmentOrgsIndexer : IGenericIndexerHelper<IMaintainAssessmentOrgsIndex>
@@ -36,11 +34,40 @@
         public async Task IndexEntries(string indexName)
         {
             _log.Debug("Retrieving Assessment Orgs data");
-            //var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
-            
+            var assessmentOrgsData = _metaDataHelper.GetAssessmentOrganisationsData();
+
             _log.Debug("Indexing Assessment Orgs data into index");
-            //await IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(false);
+            await IndexOrganisations(indexName, assessmentOrgsData.Organisations).ConfigureAwait(false);
+            await IndexStandardOrganisationsData(indexName, assessmentOrgsData.StandardOrganisationsData).ConfigureAwait(false);
             _log.Debug("Completed indexing Assessment Orgs data");
+        }
+
+        private async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
+        {
+            try
+            {
+                _log.Debug("Indexing " + standardOrganisationsData.Count + " standard organisations data into Assessment Organisations index");
+
+                await _assessmentOrgsIndexMaintainer.IndexStandardOrganisationsData(indexName, standardOrganisationsData).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing Standard Organisations data");
+            }
+        }
+
+        private async Task IndexOrganisations(string indexName, List<Organisation> organisations)
+        {
+            try
+            {
+                _log.Debug("Indexing " + organisations.Count + " organisations into Assessment Organisations index");
+
+                await _assessmentOrgsIndexMaintainer.IndexOrganisations(indexName, organisations).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing Assessment Organisations");
+            }
         }
 
         public bool CreateIndex(string indexName)

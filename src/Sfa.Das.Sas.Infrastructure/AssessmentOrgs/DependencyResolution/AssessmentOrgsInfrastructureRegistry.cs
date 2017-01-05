@@ -1,3 +1,5 @@
+using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
 {
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;

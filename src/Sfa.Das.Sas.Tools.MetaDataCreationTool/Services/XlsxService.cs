@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using OfficeOpenXml;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
+
+namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
+{
+    public class XlsxService : IXlsxService
+    {
+        private readonly IAppServiceSettings _appServiceSettings;
+
+        public XlsxService(IAppServiceSettings appServiceSettings)
+        {
+            _appServiceSettings = appServiceSettings;
+        }
+
+        public AssessmentOrganisationsDTO GetAssessmentOrganisationsData()
+        {
+            var assessmentOrgs = new List<Organisation>();
+            var standardOrganisationsData = new List<StandardOrganisationsData>();
+
+            using (var client = new WebClient())
+            {
+                if (!string.IsNullOrEmpty(_appServiceSettings.GitUsername))
+                {
+                    var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_appServiceSettings.GitUsername}:{_appServiceSettings.GitPassword}"));
+                    client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
+                }
+
+                var url = "https://sfa-gov-uk.visualstudio.com/DefaultCollection/c39e0c0b-7aff-4606-b160-3566f3bbce23/_api/_versioncontrol/itemContent?repositoryId=9b4f676e-ce9a-4f10-a043-0ec9e5bf053c&path=%2FassessmentOrgs%2Flocal%2FassessmentOrgs.xlsx&version=GBmaster&contentOnly=false&__v=5";
+
+                var filePath = Path.GetTempFileName();
+                client.DownloadFile(new Uri(url), filePath);
+
+                using (ExcelPackage package = new ExcelPackage(new FileInfo(filePath)))
+                {
+                    GetAssessmentOrganisations(package, assessmentOrgs);
+
+                    GetStandardOrganisationsData(package, standardOrganisationsData);
+                }
+            }
+
+            return new AssessmentOrganisationsDTO
+            {
+                Organisations = assessmentOrgs,
+                StandardOrganisationsData = FilterStandardOrganisations(standardOrganisationsData)
+            };
+        }
+
+        private List<StandardOrganisationsData> FilterStandardOrganisations(List<StandardOrganisationsData> standardOrganisationsData)
+        {
+            return standardOrganisationsData.Where(organisationsData => organisationsData.EpaOrganisationIdentifier != string.Empty && organisationsData.StandardCode != string.Empty && organisationsData.EffectiveFrom != default(DateTime)).ToList();
+        }
+
+        private static void GetStandardOrganisationsData(ExcelPackage package, List<StandardOrganisationsData> standardOrganisationsData)
+        {
+            var standardOrganisationWorkSheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == "Register - Standards");
+            if (standardOrganisationWorkSheet == null) return;
+            for (var i = standardOrganisationWorkSheet.Dimension.Start.Row + 1; i <= standardOrganisationWorkSheet.Dimension.End.Row; i++)
+            {
+                var standardOrganisationData = new StandardOrganisationsData
+                {
+                    EpaOrganisationIdentifier = standardOrganisationWorkSheet.Cells[i, 1].Value != null ? standardOrganisationWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
+                    StandardCode = standardOrganisationWorkSheet.Cells[i, 3].Value != null ? standardOrganisationWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
+                    EffectiveFrom = standardOrganisationWorkSheet.Cells[i, 5].Value != null ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 5].Value.ToString()) : default(DateTime)
+                };
+                standardOrganisationsData.Add(standardOrganisationData);
+            }
+        }
+
+        private static void GetAssessmentOrganisations(ExcelPackage package, List<Organisation> assessmentOrgs)
+        {
+            var organisationsWorkSheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == "Register - Organisations");
+
+            if (organisationsWorkSheet == null) return;
+            for (var i = organisationsWorkSheet.Dimension.Start.Row + 1; i <= organisationsWorkSheet.Dimension.End.Row; i++)
+            {
+                var organisation = new Organisation
+                {
+                    EpaOrganisationIdentifier = organisationsWorkSheet.Cells[i, 1].Value != null ? organisationsWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
+                    EpaOrganisation = organisationsWorkSheet.Cells[i, 2].Value != null ? organisationsWorkSheet.Cells[i, 2].Value.ToString() : string.Empty,
+                    OrganisationType = organisationsWorkSheet.Cells[i, 3].Value != null ? organisationsWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
+                    WebsiteLink = organisationsWorkSheet.Cells[i, 4].Value != null ? organisationsWorkSheet.Cells[i, 4].Value.ToString() : string.Empty,
+                    ContactName = organisationsWorkSheet.Cells[i, 5].Value != null ? organisationsWorkSheet.Cells[i, 5].Value.ToString() : string.Empty,
+                    ContactAddress1 = organisationsWorkSheet.Cells[i, 6].Value != null ? organisationsWorkSheet.Cells[i, 6].Value.ToString() : string.Empty,
+                    ContactAddress2 = organisationsWorkSheet.Cells[i, 7].Value != null ? organisationsWorkSheet.Cells[i, 7].Value.ToString() : string.Empty,
+                    ContactAddress3 = organisationsWorkSheet.Cells[i, 8].Value != null ? organisationsWorkSheet.Cells[i, 8].Value.ToString() : string.Empty,
+                    ContactAddress4 = organisationsWorkSheet.Cells[i, 9].Value != null ? organisationsWorkSheet.Cells[i, 9].Value.ToString() : string.Empty,
+                    ContactPostcode = organisationsWorkSheet.Cells[i, 10].Value != null ? organisationsWorkSheet.Cells[i, 10].Value.ToString() : string.Empty,
+                    ContactPhoneNumber = organisationsWorkSheet.Cells[i, 11].Value != null ? organisationsWorkSheet.Cells[i, 11].Value.ToString() : string.Empty,
+                    ContactEmail = organisationsWorkSheet.Cells[i, 12].Value != null ? organisationsWorkSheet.Cells[i, 12].Value.ToString() : string.Empty
+                };
+                assessmentOrgs.Add(organisation);
+            }
+        }
+    }
+}
