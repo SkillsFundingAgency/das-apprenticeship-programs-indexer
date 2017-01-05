@@ -50,7 +50,15 @@
       <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Elasticsearch.Net, Version=2.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elasticsearch.Net.2.4.1\lib\net45\Elasticsearch.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Nest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NEST.2.4.1\lib\net45\Nest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -95,6 +103,8 @@
     <Compile Include="Models\GovLearn\GovLearnResource.cs" />
     <Compile Include="Models\GovLearn\GovLearnResponse.cs" />
     <Compile Include="Models\StandardRepositoryData.cs" />
+    <Compile Include="Services\ElasticsearchDataService.cs" />
+    <Compile Include="Services\Interfaces\IElasticsearchDataService.cs" />
     <Compile Include="Services\Interfaces\IJsonMetaDataConvert.cs" />
     <Compile Include="Services\Interfaces\IAngleSharpService.cs" />
     <Compile Include="Services\Interfaces\ILarsDataService.cs" />
@@ -128,6 +138,10 @@
     <ProjectReference Include="..\Sfa.Das.Sas.Indexer.Core\Sfa.Das.Sas.Indexer.Core.csproj">
       <Project>{0c0e390c-c57c-44e4-978e-b9d2f53196aa}</Project>
       <Name>Sfa.Das.Sas.Indexer.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sfa.Das.Sas.Infrastructure\Sfa.Das.Sas.Indexer.Infrastructure.csproj">
+      <Project>{4e8da796-33ba-43ed-a931-4841e108a7e0}</Project>
+      <Name>Sfa.Das.Sas.Indexer.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

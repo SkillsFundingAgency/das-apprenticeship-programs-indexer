@@ -36,8 +36,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
         public async Task IndexEntries(string indexName)
         {
-            _metaDataHelper.UpdateMetadataRepository();
-
             await IndexStandards(indexName).ConfigureAwait(false);
             await IndexFrameworks(indexName).ConfigureAwait(false);
         }

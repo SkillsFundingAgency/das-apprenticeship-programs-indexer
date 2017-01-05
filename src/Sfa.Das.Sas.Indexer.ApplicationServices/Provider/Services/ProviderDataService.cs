@@ -105,7 +105,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             _logger.Debug($"Finished loading course directory and active providers");
 
-            // TODO replace this with elastic search
             var frameworks = Task.Run(() => _mediator.Send(new FrameworkMetaDataRequest()));
             var standards = Task.Run(() => _mediator.Send(new StandardMetaDataRequest()));
 
