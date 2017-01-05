@@ -11,12 +11,12 @@
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
-    public sealed class ElasticsearchDataService : IElasticsearchDataService
+    public sealed class ElasticsearchLarsDataService : IElasticsearchLarsDataService
     {
         private readonly IElasticsearchCustomClient _elasticsearchCustomClient;
         private readonly IIndexSettings<IMaintainLarsIndex> _larsSettings;
 
-        public ElasticsearchDataService(
+        public ElasticsearchLarsDataService(
             IElasticsearchCustomClient elasticsearchCustomClient,
             IIndexSettings<IMaintainLarsIndex> larsSettings)
         {

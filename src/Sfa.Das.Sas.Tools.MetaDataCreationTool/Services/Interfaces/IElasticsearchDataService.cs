@@ -4,7 +4,7 @@ using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces
 {
-    public interface IElasticsearchDataService
+    public interface IElasticsearchLarsDataService
     {
         IEnumerable<LarsStandard> GetListOfCurrentStandards();
 
