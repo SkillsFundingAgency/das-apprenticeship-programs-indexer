@@ -48,9 +48,14 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
             return new AssessmentOrganisationsDTO
             {
-                Organisations = assessmentOrgs,
+                Organisations = FilterOrganisations(assessmentOrgs),
                 StandardOrganisationsData = FilterStandardOrganisations(standardOrganisationsData)
             };
+        }
+
+        private List<Organisation> FilterOrganisations(List<Organisation> organisationsData)
+        {
+            return organisationsData.Where(organisation => organisation.EpaOrganisationIdentifier != string.Empty && organisation.EpaOrganisation != string.Empty).ToList();
         }
 
         private List<StandardOrganisationsData> FilterStandardOrganisations(List<StandardOrganisationsData> standardOrganisationsData)
@@ -87,14 +92,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     EpaOrganisation = organisationsWorkSheet.Cells[i, 2].Value != null ? organisationsWorkSheet.Cells[i, 2].Value.ToString() : string.Empty,
                     OrganisationType = organisationsWorkSheet.Cells[i, 3].Value != null ? organisationsWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
                     WebsiteLink = organisationsWorkSheet.Cells[i, 4].Value != null ? organisationsWorkSheet.Cells[i, 4].Value.ToString() : string.Empty,
-                    ContactName = organisationsWorkSheet.Cells[i, 5].Value != null ? organisationsWorkSheet.Cells[i, 5].Value.ToString() : string.Empty,
-                    ContactAddress1 = organisationsWorkSheet.Cells[i, 6].Value != null ? organisationsWorkSheet.Cells[i, 6].Value.ToString() : string.Empty,
-                    ContactAddress2 = organisationsWorkSheet.Cells[i, 7].Value != null ? organisationsWorkSheet.Cells[i, 7].Value.ToString() : string.Empty,
-                    ContactAddress3 = organisationsWorkSheet.Cells[i, 8].Value != null ? organisationsWorkSheet.Cells[i, 8].Value.ToString() : string.Empty,
-                    ContactAddress4 = organisationsWorkSheet.Cells[i, 9].Value != null ? organisationsWorkSheet.Cells[i, 9].Value.ToString() : string.Empty,
-                    ContactPostcode = organisationsWorkSheet.Cells[i, 10].Value != null ? organisationsWorkSheet.Cells[i, 10].Value.ToString() : string.Empty,
-                    ContactPhoneNumber = organisationsWorkSheet.Cells[i, 11].Value != null ? organisationsWorkSheet.Cells[i, 11].Value.ToString() : string.Empty,
-                    ContactEmail = organisationsWorkSheet.Cells[i, 12].Value != null ? organisationsWorkSheet.Cells[i, 12].Value.ToString() : string.Empty
+                    ContactAddress1 = organisationsWorkSheet.Cells[i, 5].Value != null ? organisationsWorkSheet.Cells[i, 5].Value.ToString() : string.Empty,
+                    ContactAddress2 = organisationsWorkSheet.Cells[i, 6].Value != null ? organisationsWorkSheet.Cells[i, 6].Value.ToString() : string.Empty,
+                    ContactAddress3 = organisationsWorkSheet.Cells[i, 7].Value != null ? organisationsWorkSheet.Cells[i, 7].Value.ToString() : string.Empty,
+                    ContactAddress4 = organisationsWorkSheet.Cells[i, 8].Value != null ? organisationsWorkSheet.Cells[i, 8].Value.ToString() : string.Empty,
+                    ContactPostcode = organisationsWorkSheet.Cells[i, 9].Value != null ? organisationsWorkSheet.Cells[i, 9].Value.ToString() : string.Empty,
                 };
                 assessmentOrgs.Add(organisation);
             }

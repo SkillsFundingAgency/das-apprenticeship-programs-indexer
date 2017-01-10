@@ -205,11 +205,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ContactAddress2 = organisation.ContactAddress2,
                 ContactAddress3 = organisation.ContactAddress3,
                 ContactAddress4 = organisation.ContactAddress4,
-                ContactName = organisation.ContactName,
                 EpaOrganisation = organisation.EpaOrganisation,
                 WebsiteLink = organisation.WebsiteLink,
-                ContactEmail = organisation.ContactEmail,
-                ContactPhoneNumber = organisation.ContactPhoneNumber,
                 ContactPostcode = organisation.ContactPostcode
             };
         }
