@@ -48,6 +48,10 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution
                 // Lars
                 c.AddRegistry<LarsApplicationServicesRegistry>();
                 c.AddRegistry<LarsInfrastructureRegistry>();
+
+                // Assessment Orgs
+                c.AddRegistry<AssessmentOrgsApplicationServicesRegistry>();
+                c.AddRegistry<AssessmentOrgsInfrastructureRegistry>();
             });
         }
     }

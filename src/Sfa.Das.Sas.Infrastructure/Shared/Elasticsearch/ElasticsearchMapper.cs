@@ -5,15 +5,18 @@ using Nest;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Extensions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+using Address = Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models.Address;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -191,6 +194,35 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ApprenticeshipComponentTypeDesc = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc,
                 ApprenticeshipComponentTypeDesc2 = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc2
            };
+        }
+
+        public OrganisationDocument CreateOrganisationDocument(Organisation organisation)
+        {
+            return new OrganisationDocument
+            {
+                EpaOrganisationIdentifier = organisation.EpaOrganisationIdentifier,
+                OrganisationType = organisation.OrganisationType,
+                Address = new Address
+                {
+                    Primary = organisation.Address.Primary,
+                    Secondary = organisation.Address.Secondary,
+                    Street = organisation.Address.Street,
+                    Town = organisation.Address.Town,
+                    Postcode = organisation.Address.Postcode,
+                },
+                EpaOrganisation = organisation.EpaOrganisation,
+                WebsiteLink = organisation.WebsiteLink,
+            };
+        }
+
+        public StandardOrganisationDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData)
+        {
+            return new StandardOrganisationDocument
+            {
+                EpaOrganisationIdentifier = standardOrganisationsData.EpaOrganisationIdentifier,
+                StandardCode = standardOrganisationsData.StandardCode,
+                EffectiveFrom = standardOrganisationsData.EffectiveFrom
+            };
         }
 
         public int MapToLevelFromProgType(int progType)

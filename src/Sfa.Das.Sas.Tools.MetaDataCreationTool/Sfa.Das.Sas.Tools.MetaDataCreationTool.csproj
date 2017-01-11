@@ -54,6 +54,10 @@
       <HintPath>..\packages\Elasticsearch.Net.2.4.1\lib\net45\Elasticsearch.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Nest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
       <HintPath>..\packages\NEST.2.4.1\lib\net45\Nest.dll</HintPath>
@@ -121,6 +125,7 @@
     <Compile Include="Services\CsvService.cs" />
     <Compile Include="Services\Interfaces\IReadMetaDataFromCsv.cs" />
     <Compile Include="Services\Interfaces\IGitDynamicModelGenerator.cs" />
+    <Compile Include="Services\AssessmentOrgsXlsxService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

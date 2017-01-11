@@ -1,3 +1,4 @@
+using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
 
 namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
@@ -23,7 +24,8 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
             {
                 _controlQueueConsumer.CheckMessage<IMaintainApprenticeshipIndex>(),
                 _controlQueueConsumer.CheckMessage<IMaintainProviderIndex>(),
-                _controlQueueConsumer.CheckMessage<IMaintainLarsIndex>()
+                _controlQueueConsumer.CheckMessage<IMaintainLarsIndex>(),
+                _controlQueueConsumer.CheckMessage<IMaintainAssessmentOrgsIndex>()
             };
 
             Task.WaitAll(tasks.ToArray());

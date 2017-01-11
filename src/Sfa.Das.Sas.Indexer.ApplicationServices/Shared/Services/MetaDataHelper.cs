@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
@@ -15,28 +16,23 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
     public class MetaDataHelper : IMetaDataHelper
     {
-        private readonly IGetStandardMetaData _metaDataReader;
-
         private readonly IGenerateStandardMetaData _metaDataWriter;
 
-        private readonly IGetFrameworkMetaData _metaDataFrameworkReader;
-
         private readonly IGetLarsMetadata _larsApprenticeshipReader;
+        private readonly IGetAssessmentOrgsData _assessmentOrgsData;
 
         private readonly ILog _log;
 
         public MetaDataHelper(
-            IGetStandardMetaData metaDataReader,
             IGenerateStandardMetaData metaDataGenerator,
-            ILog log,
-            IGetFrameworkMetaData metaDataFrameworkReader,
-            IGetLarsMetadata getLarsMetadata)
+            IGetLarsMetadata getLarsMetadata,
+            IGetAssessmentOrgsData assessmentOrgsData,
+            ILog log)
         {
-            _metaDataReader = metaDataReader;
             _metaDataWriter = metaDataGenerator;
             _log = log;
-            _metaDataFrameworkReader = metaDataFrameworkReader;
             _larsApprenticeshipReader = getLarsMetadata;
+            _assessmentOrgsData = assessmentOrgsData;
         }
 
         public void UpdateMetadataRepository()
@@ -52,6 +48,16 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             var timing = ExecutionTimer.GetTiming(() => _larsApprenticeshipReader.GetLarsData());
 
             _log.Debug("MetaDataHelper.GetAllApprenticeshipLarsMetaData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
+
+            return timing.Result;
+        }
+
+        public AssessmentOrganisationsDTO GetAssessmentOrganisationsData()
+        {
+            _log.Debug("Starting to get Assessment Organisations data");
+            var timing = ExecutionTimer.GetTiming(() => _assessmentOrgsData.GetAssessmentOrganisationsData());
+
+            _log.Debug("MetaDataHelper.GetAssessmentOrganisationsData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 
             return timing.Result;
         }

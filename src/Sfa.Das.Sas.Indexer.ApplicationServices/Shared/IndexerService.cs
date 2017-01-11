@@ -85,8 +85,18 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared
             {
                 return "Provider Index";
             }
-
-            return type == typeof(IMaintainLarsIndex) ? "Lars Index" : "Apprenticeship Index";
+            else if (type == typeof(IMaintainApprenticeshipIndex))
+            {
+                return "Apprenticeship Index";
+            }
+            else if (type == typeof(IMaintainLarsIndex))
+            {
+                return "Lars Index";
+            }
+            else
+            {
+                return "AssessmentOrgs Index";
+            }
         }
     }
 }

@@ -30,6 +30,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockVstsService = new Mock<IVstsService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
+
             List<FileContents> standardsToAdd = null;
 
             var currentStandards = new List<LarsStandard>

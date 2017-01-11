@@ -2,6 +2,7 @@
 {
     using System;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.Infrastructure.Services;
@@ -25,6 +26,11 @@
             if (typeof(T) == typeof(IMaintainProviderIndex))
             {
                 ApplicationName = "provider-indexer";
+            }
+
+            if (typeof(T) == typeof(IMaintainAssessmentOrgsIndex))
+            {
+                ApplicationName = "assessment-orgs-indexer";
             }
         }
     }

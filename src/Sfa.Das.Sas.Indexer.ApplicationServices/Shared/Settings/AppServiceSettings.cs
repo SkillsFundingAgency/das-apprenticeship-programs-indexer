@@ -41,6 +41,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string VstsGitPushUrl => $"{VstsGitBaseUrl}/pushes?api-version=2.0-preview";
 
+        public string VstsAssessmentOrgsUrl => _settings.GetSetting("VstsAssessmentOrgsUrl");
+
         public string GitUsername => _settings.GetSetting("GitUsername");
 
         public string GitPassword => _settings.GetSetting("GitPassword");
@@ -63,7 +65,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string QueueName(Type type)
         {
-            var name = $"{type.Name.Replace("IMaintainApprenticeshipIndex", "Apprenticeship").Replace("IMaintainProviderIndex", "Provider").Replace("IMaintainLarsIndex", "Lars")}.QueueName";
+            var name = $"{type.Name.Replace("IMaintainApprenticeshipIndex", "Apprenticeship").Replace("IMaintainProviderIndex", "Provider").Replace("IMaintainLarsIndex", "Lars").Replace("IMaintainAssessmentOrgsIndex", "AssessmentOrgs")}.QueueName";
             return _settings.GetSetting(name).ToLower();
         }
     }

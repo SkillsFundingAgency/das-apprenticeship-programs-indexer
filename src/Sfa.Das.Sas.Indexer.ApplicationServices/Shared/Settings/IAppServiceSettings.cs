@@ -17,7 +17,7 @@
         string CsvFileNameApprenticeshipFunding { get; }
 
         string CsvFileNameFunding { get; }
-        
+
         string GitUsername { get; }
 
         string GitPassword { get; }
@@ -35,6 +35,8 @@
         string VstsGitAllCommitsUrl { get; }
 
         string VstsGitPushUrl { get; }
+
+        string VstsAssessmentOrgsUrl { get; }
 
         string EnvironmentName { get; }
 
