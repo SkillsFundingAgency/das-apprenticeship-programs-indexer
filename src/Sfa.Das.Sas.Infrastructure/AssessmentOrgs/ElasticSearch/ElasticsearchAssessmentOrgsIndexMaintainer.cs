@@ -1,5 +1,6 @@
 using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -42,7 +43,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                     .NumberOfShards(_elasticsearchConfiguration.LarsIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
                 .Mappings(ms => ms
-                    .Map<Organisation>(m => m.AutoMap())
+                    .Map<OrganisationDocument>(m => m.AutoMap())
                     .Map<StandardOrganisationsData>(m => m.AutoMap())));
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
