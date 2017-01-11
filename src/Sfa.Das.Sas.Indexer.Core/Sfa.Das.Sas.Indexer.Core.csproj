@@ -49,6 +49,7 @@
     <Compile Include="Apprenticeship\Models\ApprenticeshipFundingMetaData.cs" />
     <Compile Include="Apprenticeship\Models\LarsData.cs" />
     <Compile Include="Apprenticeship\Models\Standard\LarsStandard.cs" />
+    <Compile Include="AssessmentOrgs\Models\Address.cs" />
     <Compile Include="AssessmentOrgs\Models\AssessmentOrganisationsDTO.cs" />
     <Compile Include="AssessmentOrgs\Models\Organisation.cs" />
     <Compile Include="AssessmentOrgs\Models\StandardOrganisationsData.cs" />

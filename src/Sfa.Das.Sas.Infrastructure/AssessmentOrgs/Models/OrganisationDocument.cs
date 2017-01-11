@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models
+﻿using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models
 {
     public class OrganisationDocument
     {
@@ -10,14 +12,6 @@
 
         public string WebsiteLink { get; set; }
 
-        public string ContactAddress1 { get; set; }
-
-        public string ContactAddress2 { get; set; }
-
-        public string ContactAddress3 { get; set; }
-
-        public string ContactAddress4 { get; set; }
-
-        public string ContactPostcode { get; set; }
+        public Address Address { get; set; }
     }
 }

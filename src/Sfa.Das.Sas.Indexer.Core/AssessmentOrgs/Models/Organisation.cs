@@ -10,14 +10,6 @@
 
         public string WebsiteLink { get; set; }
 
-        public string ContactAddress1 { get; set; }
-
-        public string ContactAddress2 { get; set; }
-
-        public string ContactAddress3 { get; set; }
-
-        public string ContactAddress4 { get; set; }
-
-        public string ContactPostcode { get; set; }
+        public Address Address { get; set; }
     }
 }

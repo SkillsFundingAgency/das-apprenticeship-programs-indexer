@@ -16,6 +16,7 @@ using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+using Address = Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models.Address;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -201,13 +202,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             {
                 EpaOrganisationIdentifier = organisation.EpaOrganisationIdentifier,
                 OrganisationType = organisation.OrganisationType,
-                ContactAddress1 = organisation.ContactAddress1,
-                ContactAddress2 = organisation.ContactAddress2,
-                ContactAddress3 = organisation.ContactAddress3,
-                ContactAddress4 = organisation.ContactAddress4,
+                Address = new Address
+                {
+                    Primary = organisation.Address.Primary,
+                    Secondary = organisation.Address.Secondary,
+                    Street = organisation.Address.Street,
+                    Town = organisation.Address.Town,
+                    Postcode = organisation.Address.Postcode,
+                },
                 EpaOrganisation = organisation.EpaOrganisation,
                 WebsiteLink = organisation.WebsiteLink,
-                ContactPostcode = organisation.ContactPostcode
             };
         }
 
