@@ -30,7 +30,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockVstsService = new Mock<IVstsService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
-            var mockXlsxService = new Mock<IXlsxService>();
+            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             List<FileContents> standardsToAdd = null;
 
@@ -63,7 +63,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
-            var mockXlsxService = new Mock<IXlsxService>();
+            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
@@ -83,7 +83,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
-            var mockXlsxService = new Mock<IXlsxService>();
+            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
@@ -122,7 +122,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
-            var mockXlsxService = new Mock<IXlsxService>();
+            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.GovWebsiteUrl).Returns("https://www.gov.uk/");
             mockSettings.Setup(x => x.MetadataApiUri).Returns("https://www.abba.co.uk/");
@@ -156,7 +156,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
-            var mockXlsxService = new Mock<IXlsxService>();
+            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("https://www.abba.co.uk/");
 

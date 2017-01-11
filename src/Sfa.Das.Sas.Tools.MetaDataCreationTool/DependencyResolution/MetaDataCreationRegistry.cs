@@ -13,7 +13,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
         public MetaDataCreationRegistry()
         {
             For<ILarsDataService>().Use<LarsDataService>();
-            For<IXlsxService>().Use<XlsxService>();
+            For<IAssessmentOrgsXlsxService>().Use<AssessmentOrgsXlsxService>();
             For<IReadMetaDataFromCsv>().Use<CsvService>();
             For<IAngleSharpService>().Use<AngleSharpService>();
             For<IVstsService>().Use<VstsService>();

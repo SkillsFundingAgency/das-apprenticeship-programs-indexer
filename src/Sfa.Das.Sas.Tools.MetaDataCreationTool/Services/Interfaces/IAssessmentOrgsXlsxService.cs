@@ -2,7 +2,7 @@
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces
 {
-    public interface IXlsxService
+    public interface IAssessmentOrgsXlsxService
     {
         AssessmentOrganisationsDTO GetAssessmentOrganisationsData();
     }

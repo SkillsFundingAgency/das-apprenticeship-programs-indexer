@@ -32,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
-            var mockXlsxService = new Mock<IXlsxService>();
+            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
             mockElasticsearchDataService.Setup(m => m.GetListOfCurrentFrameworks())
                 .Returns(
@@ -50,7 +50,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
-            var mockXlsxService = new Mock<IXlsxService>();
+            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
@@ -70,7 +70,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
-            var mockXlsxService = new Mock<IXlsxService>();
+            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
@@ -96,7 +96,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
-            var mockXlsxService = new Mock<IXlsxService>();
+            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 

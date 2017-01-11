@@ -42,7 +42,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var settings = container.GetInstance<IAppServiceSettings>();
             var logger = container.GetInstance<ILog>();
             var angleSharpService = container.GetInstance<IAngleSharpService>();
-            var mockXlsxService = container.GetInstance<IXlsxService>();
+            var mockXlsxService = container.GetInstance<IAssessmentOrgsXlsxService>();
 
             Assert.True(string.IsNullOrEmpty(settings.GitUsername));
             Assert.True(string.IsNullOrEmpty(settings.GitPassword));

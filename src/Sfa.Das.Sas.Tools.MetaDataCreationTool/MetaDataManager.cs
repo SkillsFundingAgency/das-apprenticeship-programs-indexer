@@ -35,13 +35,13 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private readonly IAngleSharpService _angleSharpService;
 
         private readonly IVstsService _vstsService;
-        private readonly IXlsxService _xlsxService;
+        private readonly IAssessmentOrgsXlsxService _assessmentOrgsXlsxService;
 
         public MetaDataManager(
             ILarsDataService larsDataService,
             IElasticsearchDataService elasticsearchDataService,
             IVstsService vstsService,
-            IXlsxService xlsxService,
+            IAssessmentOrgsXlsxService assessmentOrgsXlsxService,
             IAppServiceSettings appServiceSettings,
             IAngleSharpService angleSharpService,
             ILog logger)
@@ -49,7 +49,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             _larsDataService = larsDataService;
             _elasticsearchDataService = elasticsearchDataService;
             _vstsService = vstsService;
-            _xlsxService = xlsxService;
+            _assessmentOrgsXlsxService = assessmentOrgsXlsxService;
             _appServiceSettings = appServiceSettings;
             _logger = logger;
             _angleSharpService = angleSharpService;
@@ -219,7 +219,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
         public AssessmentOrganisationsDTO GetAssessmentOrganisationsData()
         {
-            return _xlsxService.GetAssessmentOrganisationsData();
+            return _assessmentOrgsXlsxService.GetAssessmentOrganisationsData();
         }
     }
 }

@@ -11,11 +11,11 @@ using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
-    public class XlsxService : IXlsxService
+    public class AssessmentOrgsXlsxService : IAssessmentOrgsXlsxService
     {
         private readonly IAppServiceSettings _appServiceSettings;
 
-        public XlsxService(IAppServiceSettings appServiceSettings)
+        public AssessmentOrgsXlsxService(IAppServiceSettings appServiceSettings)
         {
             _appServiceSettings = appServiceSettings;
         }
@@ -32,6 +32,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_appServiceSettings.GitUsername}:{_appServiceSettings.GitPassword}"));
                     client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
                 }
+
 
                 var filePath = Path.GetTempFileName();
                 client.DownloadFile(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl), filePath);
