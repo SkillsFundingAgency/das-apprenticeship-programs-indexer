@@ -33,10 +33,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
                 }
 
-                var url = "https://sfa-gov-uk.visualstudio.com/DefaultCollection/c39e0c0b-7aff-4606-b160-3566f3bbce23/_api/_versioncontrol/itemContent?repositoryId=9b4f676e-ce9a-4f10-a043-0ec9e5bf053c&path=%2FassessmentOrgs%2Flocal%2FassessmentOrgs.xlsx&version=GBmaster&contentOnly=false&__v=5";
-
                 var filePath = Path.GetTempFileName();
-                client.DownloadFile(new Uri(url), filePath);
+                client.DownloadFile(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl), filePath);
 
                 using (ExcelPackage package = new ExcelPackage(new FileInfo(filePath)))
                 {
