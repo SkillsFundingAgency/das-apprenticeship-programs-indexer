@@ -16,11 +16,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
     public class MetaDataHelper : IMetaDataHelper
     {
-        private readonly IGetStandardMetaData _metaDataReader;
-
         private readonly IGenerateStandardMetaData _metaDataWriter;
-
-        private readonly IGetFrameworkMetaData _metaDataFrameworkReader;
 
         private readonly IGetLarsMetadata _larsApprenticeshipReader;
         private readonly IGetAssessmentOrgsData _assessmentOrgsData;
@@ -28,17 +24,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         private readonly ILog _log;
 
         public MetaDataHelper(
-            IGetStandardMetaData metaDataReader,
             IGenerateStandardMetaData metaDataGenerator,
-            IGetFrameworkMetaData metaDataFrameworkReader,
             IGetLarsMetadata getLarsMetadata,
             IGetAssessmentOrgsData assessmentOrgsData,
             ILog log)
         {
-            _metaDataReader = metaDataReader;
             _metaDataWriter = metaDataGenerator;
             _log = log;
-            _metaDataFrameworkReader = metaDataFrameworkReader;
             _larsApprenticeshipReader = getLarsMetadata;
             _assessmentOrgsData = assessmentOrgsData;
         }

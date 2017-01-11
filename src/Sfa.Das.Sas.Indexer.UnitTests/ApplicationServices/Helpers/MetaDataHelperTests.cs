@@ -32,13 +32,12 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
-            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
             mockElasticsearchDataService.Setup(m => m.GetListOfCurrentFrameworks())
                 .Returns(
                     new List<FrameworkMetaData> { new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 2 } });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockXlsxService.Object, mockSettings.Object, null, Mock.Of<ILog>());
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockSettings.Object, null, Mock.Of<ILog>());
             var frameworks = metaDataManager.GetAllFrameworks();
 
             Assert.AreEqual(1, frameworks.Count());
@@ -50,7 +49,6 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
-            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
@@ -58,7 +56,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
                 .Returns(
                     new List<FrameworkMetaData> { new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 2 } });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockXlsxService.Object, mockSettings.Object, null, Mock.Of<ILog>());
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockSettings.Object, null, Mock.Of<ILog>());
             var frameworks = metaDataManager.GetAllFrameworks();
 
             Assert.AreEqual(1, frameworks.Count(), "Should find one framework");
@@ -70,7 +68,6 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
-            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
@@ -81,7 +78,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
                         new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 21 }
                     });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockXlsxService.Object, mockSettings.Object, null, Mock.Of<ILog>());
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockSettings.Object, null, Mock.Of<ILog>());
             var framework = metaDataManager.GetAllFrameworks().FirstOrDefault();
 
             framework.Should().NotBeNull();
@@ -96,7 +93,6 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchDataService>();
-            var mockXlsxService = new Mock<IAssessmentOrgsXlsxService>();
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
@@ -107,7 +103,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
                         new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 21 }
                     });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockXlsxService.Object, mockSettings.Object, null, Mock.Of<ILog>());
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockSettings.Object, null, Mock.Of<ILog>());
             var framework = metaDataManager.GetAllFrameworks().FirstOrDefault();
 
             framework.Should().NotBeNull();

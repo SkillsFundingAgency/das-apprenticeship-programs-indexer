@@ -23,7 +23,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
-    public class MetaDataManager : IGetStandardMetaData, IGenerateStandardMetaData, IGetFrameworkMetaData, IGetLarsMetadata, IGetAssessmentOrgsData
+    public class MetaDataManager : IGetStandardMetaData, IGenerateStandardMetaData, IGetFrameworkMetaData, IGetLarsMetadata
     {
         private readonly IAppServiceSettings _appServiceSettings;
 
@@ -35,13 +35,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private readonly IAngleSharpService _angleSharpService;
 
         private readonly IVstsService _vstsService;
-        private readonly IAssessmentOrgsXlsxService _assessmentOrgsXlsxService;
 
         public MetaDataManager(
             ILarsDataService larsDataService,
             IElasticsearchDataService elasticsearchDataService,
             IVstsService vstsService,
-            IAssessmentOrgsXlsxService assessmentOrgsXlsxService,
             IAppServiceSettings appServiceSettings,
             IAngleSharpService angleSharpService,
             ILog logger)
@@ -49,7 +47,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             _larsDataService = larsDataService;
             _elasticsearchDataService = elasticsearchDataService;
             _vstsService = vstsService;
-            _assessmentOrgsXlsxService = assessmentOrgsXlsxService;
             _appServiceSettings = appServiceSettings;
             _logger = logger;
             _angleSharpService = angleSharpService;
@@ -215,11 +212,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
             _vstsService.PushCommit(standards);
             _logger.Info($"Pushed {standards.Count} new meta files to Git Repository.");
-        }
-
-        public AssessmentOrganisationsDTO GetAssessmentOrganisationsData()
-        {
-            return _assessmentOrgsXlsxService.GetAssessmentOrganisationsData();
         }
     }
 }

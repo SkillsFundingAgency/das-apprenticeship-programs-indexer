@@ -113,7 +113,6 @@
     <Compile Include="Services\Interfaces\IAngleSharpService.cs" />
     <Compile Include="Services\Interfaces\ILarsDataService.cs" />
     <Compile Include="Services\Interfaces\IVstsService.cs" />
-    <Compile Include="Services\Interfaces\IAssessmentOrgsXlsxService.cs" />
     <Compile Include="Services\JsonMetaDataConvert.cs" />
     <Compile Include="Services\VstsService.cs" />
     <Compile Include="Services\GitDynamicModelGenerator.cs" />

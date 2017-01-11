@@ -13,7 +13,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
         public MetaDataCreationRegistry()
         {
             For<ILarsDataService>().Use<LarsDataService>();
-            For<IAssessmentOrgsXlsxService>().Use<AssessmentOrgsXlsxService>();
             For<IReadMetaDataFromCsv>().Use<CsvService>();
             For<IAngleSharpService>().Use<AngleSharpService>();
             For<IVstsService>().Use<VstsService>();
@@ -22,7 +21,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<IGenerateStandardMetaData>().Use<MetaDataManager>();
             For<IGetFrameworkMetaData>().Use<MetaDataManager>();
             For<IGetLarsMetadata>().Use<MetaDataManager>();
-            For<IGetAssessmentOrgsData>().Use<MetaDataManager>();
+            For<IGetAssessmentOrgsData>().Use<AssessmentOrgsXlsxService>();
             For<IJsonMetaDataConvert>().Use<JsonMetaDataConvert>();
             For<IGenericMetaDataFactory>().Use<LarsMetaDataFactory>();
             For<IElasticsearchDataService>().Use<ElasticsearchDataService>();

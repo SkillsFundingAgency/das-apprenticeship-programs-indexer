@@ -5,13 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using OfficeOpenXml;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
-    public class AssessmentOrgsXlsxService : IAssessmentOrgsXlsxService
+    public class AssessmentOrgsXlsxService : IGetAssessmentOrgsData
     {
         private readonly IAppServiceSettings _appServiceSettings;
 
