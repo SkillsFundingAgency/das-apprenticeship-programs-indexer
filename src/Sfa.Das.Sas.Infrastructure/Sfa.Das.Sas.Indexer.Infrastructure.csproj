@@ -189,7 +189,7 @@
     <Compile Include="Shared\Elasticsearch\IElasticsearchMapper.cs" />
     <Compile Include="Provider\Models\ElasticSearch\Address.cs" />
     <Compile Include="Provider\Models\ElasticSearch\FrameworkProvider.cs" />
-    <Compile Include="Provider\Models\ElasticSearch\IProviderAppreticeshipDocument.cs" />
+    <Compile Include="Provider\Models\ElasticSearch\IProviderApprenticeshipDocument.cs" />
     <Compile Include="Apprenticeship\Models\JobRoleItem.cs" />
     <Compile Include="Provider\Models\ElasticSearch\StandardProvider.cs" />
     <Compile Include="Provider\Models\ElasticSearch\TrainingLocation.cs" />

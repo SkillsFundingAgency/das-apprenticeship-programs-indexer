@@ -5,7 +5,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 {
     using System.Collections.Generic;
 
-    public sealed class StandardProvider : IProviderAppreticeshipDocument
+    public sealed class StandardProvider : IProviderApprenticeshipDocument
     {
         public int StandardCode { get; set; }
 
@@ -14,8 +14,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         public bool IsHigherEducationInstitute { get; set; }
 
         public string ProviderName { get; set; }
-
+        
         public bool NationalProvider { get; set; }
+
         public bool IsEmployerProvider { get; set; }
 
         public string ProviderMarketingInfo { get; set; }

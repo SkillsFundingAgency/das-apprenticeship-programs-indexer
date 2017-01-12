@@ -254,6 +254,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 NationalProvider = provider.NationalProvider,
                 ProviderName = provider.Name,
                 LegalName = provider.LegalName,
+                Aliases = provider.Aliases,
                 Addresses = provider.Addresses,
                 IsEmployerProvider = provider.IsEmployerProvider,
                 Website = provider.ContactDetails?.Website,
@@ -313,7 +314,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         }
 
         private void PopulateDocumentSharedProperties(
-            IProviderAppreticeshipDocument documentToPopulate,
+            IProviderApprenticeshipDocument documentToPopulate,
             Provider provider,
             IApprenticeshipInformation apprenticeshipInformation,
             List<DeliveryInformation> deliveryLocations)

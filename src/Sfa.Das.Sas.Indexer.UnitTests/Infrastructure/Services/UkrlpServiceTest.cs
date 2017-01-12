@@ -39,6 +39,11 @@
             yield return new Provider
             {
                 ProviderName = "Abc Ltd",
+                ProviderAliases = new List<string>
+                { 
+                    "ABC",
+                    "abc trading"
+                },
                 ProviderContact = new[]
                 {
                     new ProviderContact

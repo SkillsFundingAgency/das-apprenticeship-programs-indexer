@@ -15,6 +15,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 
         public string LegalName { get; set; }
 
+        public IEnumerable<string> Aliases { get; set; }
+
         public IEnumerable<ContactAddress> Addresses { get; set; }
 
         public bool IsEmployerProvider { get; set; }
