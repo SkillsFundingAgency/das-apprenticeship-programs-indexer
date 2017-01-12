@@ -8,11 +8,13 @@
     {
         public Provider MapFromUkrlpProviderRecord(ProviderRecordStructure record)
         {
+            var aliases = record.ProviderAliases?.Where(pa => !string.IsNullOrEmpty(pa.ProviderAlias)).Select(pa => pa.ProviderAlias);
+
             var provider = new Provider
             {
                 UnitedKingdomProviderReferenceNumber = record.UnitedKingdomProviderReferenceNumber,
                 ProviderName = record.ProviderName,
-                ProviderAliases = record.ProviderAliases?.Where(pa => !string.IsNullOrEmpty(pa.ProviderAlias)).Select(pa => pa.ProviderAlias),
+                ProviderAliases = aliases.Any() ? aliases : null,
                 ProviderContact = record.ProviderContact?.Select(MapFromContact)
             };
             

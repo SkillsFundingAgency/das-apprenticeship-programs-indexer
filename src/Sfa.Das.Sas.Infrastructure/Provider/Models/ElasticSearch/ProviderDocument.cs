@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
@@ -15,6 +16,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 
         public string LegalName { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public IEnumerable<string> Aliases { get; set; }
 
         public IEnumerable<ContactAddress> Addresses { get; set; }
