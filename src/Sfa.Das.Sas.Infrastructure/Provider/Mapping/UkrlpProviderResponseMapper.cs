@@ -12,7 +12,7 @@
             {
                 UnitedKingdomProviderReferenceNumber = record.UnitedKingdomProviderReferenceNumber,
                 ProviderName = record.ProviderName,
-                ProviderAliases = record.ProviderAliases.Select(pa => pa.ProviderAlias),
+                ProviderAliases = record.ProviderAliases?.Where(pa => !string.IsNullOrEmpty(pa.ProviderAlias)).Select(pa => pa.ProviderAlias),
                 ProviderContact = record.ProviderContact?.Select(MapFromContact)
             };
             
