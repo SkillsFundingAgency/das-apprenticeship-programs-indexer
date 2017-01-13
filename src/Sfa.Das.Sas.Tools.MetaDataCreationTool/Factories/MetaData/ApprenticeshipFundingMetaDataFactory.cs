@@ -10,7 +10,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
         public Type MetaDataType => typeof(ApprenticeshipFundingMetaData);
         public object Create(IReadOnlyList<string> values)
         {
-            if (values == null || values.Count <= 13)
+            if (values == null || values.Count <= 13 || values[0].RemoveQuotationMark().Contains("ApprenticeshipType"))
             {
                 return null;
             }
