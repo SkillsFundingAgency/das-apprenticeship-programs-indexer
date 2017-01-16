@@ -196,7 +196,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         private LarsData GetLarsData(Stream zipStream)
         {
             var standards = GetLarsStandards(zipStream);
-
+            
             var frameworks = GetLarsFrameworks(zipStream);
 
             var frameworkAimMetadata = GetLarsFrameworkAimData(zipStream);
@@ -211,6 +211,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
             CloseStream(zipStream);
 
+            AddDurationAndFundingToStandards(standards, apprenticeshipFunding);
+            AddDurationAndFundingToFrameworks(frameworks, apprenticeshipFunding);
+            
             return new LarsData
             {
                 Standards = standards,
@@ -402,6 +405,46 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             {
                 var s =
                     metaData.ApprenticeshipFundings.FirstOrDefault(stdrd =>
+                        stdrd.ApprenticeshipType == "STD" &&
+                        stdrd.ApprenticeshipCode == std.Id);
+
+                if (s == null)
+                {
+                    continue;
+                }
+
+                std.Duration = s.ReservedValue1;
+                std.FundingCap = s.MaxEmployerLevyCap;
+            }
+        }
+
+        private void AddDurationAndFundingToFrameworks(ICollection<FrameworkMetaData> frameworks, ICollection<ApprenticeshipFundingMetaData> metaData)
+        {
+            foreach (var framework in frameworks)
+            {
+                var fw =
+                    metaData.FirstOrDefault(fwk =>
+                        fwk.ApprenticeshipType == "FWK" &&
+                        fwk.ApprenticeshipCode == framework.FworkCode &&
+                        fwk.ProgType == framework.ProgType &&
+                        fwk.PwayCode == framework.PwayCode);
+
+                if (fw == null)
+                {
+                    continue;
+                }
+
+                framework.Duration = fw.ReservedValue1;
+                framework.FundingCap = fw.MaxEmployerLevyCap;
+            }
+        }
+
+        private void AddDurationAndFundingToStandards(ICollection<LarsStandard> standards, ICollection<ApprenticeshipFundingMetaData> metaData)
+        {
+            foreach (var std in standards)
+            {
+                var s =
+                    metaData.FirstOrDefault(stdrd =>
                         stdrd.ApprenticeshipType == "STD" &&
                         stdrd.ApprenticeshipCode == std.Id);
 

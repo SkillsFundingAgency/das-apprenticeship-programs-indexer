@@ -66,7 +66,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 NotionalEndLevel = standard.NotionalEndLevel,
                 StandardUrl = standard.StandardUrl,
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
-                SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2
+                SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
+                Duration = standard.Duration,
+                FundingCap = standard.FundingCap
             };
         }
 
@@ -129,7 +131,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ProgType = frameworkMetaData.ProgType,
                 PwayCode = frameworkMetaData.PwayCode,
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
-                SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1
+                SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1,
+                Duration = frameworkMetaData.Duration,
+                FundingCap = frameworkMetaData.FundingCap
             };
         }
 

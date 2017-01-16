@@ -13,5 +13,9 @@
         public double SectorSubjectAreaTier1 { get; set; }
 
         public double SectorSubjectAreaTier2 { get; set; }
+
+        public int Duration { get; set; }
+
+        public int FundingCap { get; set; }
     }
 }
