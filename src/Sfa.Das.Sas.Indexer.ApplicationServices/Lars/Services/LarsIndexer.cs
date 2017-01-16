@@ -37,7 +37,7 @@
         {
             _log.Debug("Retrieving Lars data");
             var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
-            
+
             _log.Debug("Indexing Lars data into index");
             await IndexStandards(indexName, larsData.Standards).ConfigureAwait(false);
             await IndexFrameworks(indexName, larsData.Frameworks).ConfigureAwait(false);

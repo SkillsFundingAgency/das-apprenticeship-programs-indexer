@@ -81,10 +81,17 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 
             foreach (var apprenticeshipLocation in apprenticshipLocations)
             {
-                var matchingLocation = providerLocations.Single(x => x.Id == apprenticeshipLocation.ID);
+                var matchingLocation = providerLocations.Where(x => x.Id == apprenticeshipLocation.ID).SingleOrDefault();
 
-                deliveryLocations.Add(
+                if (matchingLocation != default(Location))
+                {
+                    deliveryLocations.Add(
                     new DeliveryInformation { DeliveryLocation = matchingLocation, DeliveryModes = MapToDeliveryModes(apprenticeshipLocation.DeliveryModes), Radius = apprenticeshipLocation.Radius });
+                }
+                else
+                {
+                    _logger.Warn($"No matching location between provider and standard at standardLocation {apprenticeshipLocation.ID}");
+                }
             }
 
             return deliveryLocations;
