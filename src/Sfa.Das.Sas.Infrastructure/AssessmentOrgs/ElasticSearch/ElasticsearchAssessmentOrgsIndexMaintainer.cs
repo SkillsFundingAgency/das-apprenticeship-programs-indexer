@@ -30,7 +30,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             IElasticsearchMapper elasticsearchMapper,
             ILog logger,
             IElasticsearchConfiguration elasticsearchConfiguration)
-            : base(elasticsearchClient, elasticsearchMapper, logger, "Lars")
+            : base(elasticsearchClient, elasticsearchMapper, logger, "AssessmentOrgs")
         {
             _logger = logger;
             _elasticsearchConfiguration = elasticsearchConfiguration;
