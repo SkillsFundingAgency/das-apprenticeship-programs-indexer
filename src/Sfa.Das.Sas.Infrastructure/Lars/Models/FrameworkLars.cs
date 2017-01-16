@@ -41,5 +41,7 @@
         public IEnumerable<string> KnowledgeQualification { get; set; }
 
         public IEnumerable<string> CombinedQualification { get; set; }
+        public int Duration { get; set; }
+        public int FundingCap { get; set; }
     }
 }
