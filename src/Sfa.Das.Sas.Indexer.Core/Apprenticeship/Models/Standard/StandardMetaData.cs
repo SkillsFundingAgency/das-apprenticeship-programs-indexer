@@ -24,6 +24,8 @@ namespace Sfa.Das.Sas.Indexer.Core.Models
 
         public int Duration { get; set; }
 
+        public TypicalLength TypicalLength { get; set; }
+
         public string EntryRequirements { get; set; }
 
         public string WhatApprenticesWillLearn { get; set; }
