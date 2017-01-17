@@ -82,8 +82,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
                         if (deliveryLocationsOnly100.Any())
                         {
-                            var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryLocationsOnly100);
-                            bulkProviderLocation.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
+                            foreach (var deliveryInformation in deliveryLocationsOnly100)
+                            {
+                                var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryInformation);
+                                bulkProviderLocation.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
+                            }
                         }
 
                         foreach (var location in framework.DeliveryLocations.Where(_anyNotAtEmployer))
