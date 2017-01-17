@@ -173,10 +173,6 @@
       <Project>{4e8da796-33ba-43ed-a931-4841e108a7e0}</Project>
       <Name>Sfa.Das.Sas.Indexer.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sfa.Das.Sas.Nlog.CustomLayouts\Sfa.Das.Sas.Nlog.CustomLayouts.csproj">
-      <Project>{1fa76f42-5ce8-47f5-94ee-1e6e35742aca}</Project>
-      <Name>Sfa.Das.Sas.Nlog.CustomLayouts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sfa.Das.Sas.Tools.MetaDataCreationTool\Sfa.Das.Sas.Tools.MetaDataCreationTool.csproj">
       <Project>{d838757d-63ec-4fe6-b565-470d5bf424a3}</Project>
       <Name>Sfa.Das.Sas.Tools.MetaDataCreationTool</Name>
