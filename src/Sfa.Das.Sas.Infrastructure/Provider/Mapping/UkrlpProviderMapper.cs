@@ -16,7 +16,6 @@
             return new Provider
             {
                 Ukprn = Convert.ToInt32(ukrlpProvider.UnitedKingdomProviderReferenceNumber),
-                Name = ukrlpProvider.ProviderName,
                 ContactDetails = new ContactInformation
                 {
                     Email = contact.ContactEmail,
