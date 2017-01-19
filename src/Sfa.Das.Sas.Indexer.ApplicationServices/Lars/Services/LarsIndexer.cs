@@ -39,13 +39,14 @@
             var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
 
             _log.Debug("Indexing Lars data into index");
-            await IndexStandards(indexName, larsData.Standards).ConfigureAwait(false);
-            await IndexFrameworks(indexName, larsData.Frameworks).ConfigureAwait(false);
-            await IndexFundingMetadata(indexName, larsData.FundingMetaData).ConfigureAwait(false);
-            await IndexFrameworkAimMetaData(indexName, larsData.FrameworkAimMetaData).ConfigureAwait(false);
-            await IndexLearningDeliveryMetaData(indexName, larsData.LearningDeliveryMetaData).ConfigureAwait(false);
-            await IndexApprenticeshipComponentTypeMetaData(indexName, larsData.ApprenticeshipComponentTypeMetaData).ConfigureAwait(false);
-            await IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(false);
+            await IndexStandards(indexName, larsData.Standards).ConfigureAwait(true);
+            await IndexFrameworks(indexName, larsData.Frameworks).ConfigureAwait(true);
+            await IndexFundingMetadata(indexName, larsData.FundingMetaData).ConfigureAwait(true);
+            await IndexFrameworkAimMetaData(indexName, larsData.FrameworkAimMetaData).ConfigureAwait(true);
+            await IndexLearningDeliveryMetaData(indexName, larsData.LearningDeliveryMetaData).ConfigureAwait(true);
+            await IndexApprenticeshipComponentTypeMetaData(indexName, larsData.ApprenticeshipComponentTypeMetaData).ConfigureAwait(true);
+            await IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(true);
+            Task.WaitAll();
             _log.Debug("Completed indexing Lars data");
         }
 

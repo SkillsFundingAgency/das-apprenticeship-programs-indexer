@@ -99,7 +99,7 @@
             foreach (var bulkResponse in elementIndexResult)
             {
                 totalCount += bulkResponse.Items.Count();
-                took += bulkResponse.Took;
+                took += (int)bulkResponse.Took;
                 errorCount += bulkResponse.ItemsWithErrors.Count();
             }
 

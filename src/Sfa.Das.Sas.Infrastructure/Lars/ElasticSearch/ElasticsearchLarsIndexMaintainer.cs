@@ -127,25 +127,34 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             where T1 : class
             where T2 : class
         {
-            var bulkLarsClient = new BulkProviderClient(indexName, Client);
-
-            foreach (var entry in entries)
+            try
             {
-                try
-                {
-                    var doc = method(entry);
+                var bulkLarsClient = new BulkProviderClient(indexName, Client);
 
-                    bulkLarsClient.Create<T2>(c => c.Document(doc));
-                }
-                catch (Exception ex)
+                foreach (var entry in entries)
                 {
-                    Log.Error(ex, $"Error indexing {typeof(T1)}");
+                    try
+                    {
+                        var doc = method(entry);
+
+                        bulkLarsClient.Index<T2>(c => c.Document(doc));
+                        //bulkLarsClient.Create<T2>(c => c.Document(doc));
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, $"Error indexing {typeof(T1)}");
+                    }
                 }
+
+                var bulkTasks = new List<Task<IBulkResponse>>();
+                bulkTasks.AddRange(bulkLarsClient.GetTasks());
+                LogResponse(await Task.WhenAll(bulkTasks), typeof(T1).Name.ToLower(CultureInfo.CurrentCulture));
             }
-
-            var bulkTasks = new List<Task<IBulkResponse>>();
-            bulkTasks.AddRange(bulkLarsClient.GetTasks());
-            LogResponse(await Task.WhenAll(bulkTasks), typeof(T1).Name.ToLower(CultureInfo.CurrentCulture));
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private IEnumerable<List<T>> SplitAndReturn<T>(List<T> entries, int size)

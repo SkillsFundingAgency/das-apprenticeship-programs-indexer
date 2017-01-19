@@ -62,7 +62,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
             LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
-            LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
+
+            var a = await Task.WhenAll(bulkProviderTasks);
+            var patata = a;
+            //LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
         }
 
         public List<Task<IBulkResponse>> IndexFrameworks(string indexName, ICollection<Provider> indexEntries)
@@ -85,7 +88,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                             foreach (var deliveryInformation in deliveryLocationsOnly100)
                             {
                                 var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryInformation);
-                                bulkProviderLocation.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
+                                bulkProviderLocation.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
                             }
                         }
 
@@ -94,7 +97,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                             if (location.DeliveryLocation.Address.GeoPoint != null)
                             {
                                 var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, location);
-                                bulkProviderLocation.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
+                                bulkProviderLocation.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
                             }
                         }
                     }
@@ -117,7 +120,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 foreach (var provider in indexEntries)
                 {
                     var mappedProvider = ElasticsearchMapper.CreateProviderDocument(provider);
-                    bulkProviderLocation.Create<ProviderDocument>(c => c.Document(mappedProvider));
+                    bulkProviderLocation.Index<ProviderDocument>(c => c.Document(mappedProvider));
                 }
             }
             catch (Exception ex)
@@ -146,7 +149,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                         if (deliveryLocationsOnly100.Any())
                         {
                             var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryLocationsOnly100);
-                            bulkProviderLocation.Create<StandardProvider>(c => c.Document(standardProvider));
+                            bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
                         }
 
                         foreach (var location in standard.DeliveryLocations.Where(_anyNotAtEmployer))
@@ -154,7 +157,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                             if (location.DeliveryLocation.Address.GeoPoint != null)
                             {
                                 var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, location);
-                                bulkProviderLocation.Create<StandardProvider>(c => c.Document(standardProvider));
+                                bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
                             }
                         }
                     }
