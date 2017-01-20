@@ -18,7 +18,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
         private readonly IInfrastructureSettings _settings;
 
         private readonly string _loggerType;
-        private string _version;
+        private readonly string _version;
 #pragma warning disable CS0169
 #pragma warning disable S1144 // Unused private types or members should be removed
         private ElasticSearchTarget _dummy; // Reference so assembly is copied to PAON output.
