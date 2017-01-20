@@ -8,7 +8,7 @@
 
     public class ApprenticeshipDocument
     {
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string Title { get; set; }
 
         public int Level { get; set; }
@@ -23,7 +23,10 @@
 
         public TypicalLength TypicalLength { get; set; }
 
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public IEnumerable<string> Keywords { get; set; }
+
+        [Keyword(NullValue = "null")]
+        public string TitleKeyword => Title;
     }
 }

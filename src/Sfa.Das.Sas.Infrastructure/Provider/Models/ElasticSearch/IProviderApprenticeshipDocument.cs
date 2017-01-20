@@ -20,6 +20,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         double? LearnerSatisfaction { get; set; }
         double? EmployerSatisfaction { get; set; }
         string[] DeliveryModes { get; set; }
+        string[] DeliveryModesKeywords { get; }
         string Website { get; set; }
         IEnumerable<TrainingLocation> TrainingLocations { get; set; }
         IEnumerable<GeoCoordinate> LocationPoints { get; set; }

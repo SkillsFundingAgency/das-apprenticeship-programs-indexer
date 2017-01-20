@@ -57,5 +57,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         public double? NationalOverallAchievementRate { get; set; }
 
         public string OverallCohort { get; set; }
+
+        [Keyword(NullValue = "null")]
+        public string[] DeliveryModesKeywords => DeliveryModes;
     }
 }

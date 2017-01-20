@@ -17,7 +17,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 
         public string EntryRequirements { get; set; }
 
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public IEnumerable<string> JobRoles { get; set; }
 
         public string OverviewOfRole { get; set; }
