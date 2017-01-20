@@ -81,7 +81,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 
             foreach (var apprenticeshipLocation in apprenticshipLocations)
             {
-                var matchingLocation = providerLocations.Where(x => x.Id == apprenticeshipLocation.ID).SingleOrDefault();
+                var matchingLocation = providerLocations.SingleOrDefault(x => x.Id == apprenticeshipLocation.ID);
 
                 if (matchingLocation != default(Location))
                 {
