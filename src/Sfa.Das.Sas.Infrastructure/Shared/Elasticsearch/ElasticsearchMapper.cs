@@ -253,7 +253,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public ProviderDocument CreateProviderDocument(Provider provider)
         {
-            var providerDocument = new ProviderDocument
+            return new ProviderDocument
             {
                 Ukprn = provider.Ukprn,
                 IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
@@ -268,8 +268,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 EmployerSatisfaction = provider.EmployerSatisfaction,
                 LearnerSatisfaction = provider.LearnerSatisfaction
             };
-
-            return providerDocument;
         }
 
         public FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation frameworkInformation, IEnumerable<DeliveryInformation> deliveryInformation)
