@@ -44,6 +44,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                         new JobRoleItem { Title = "Title 1", Description = "Description 1" }
                     },
                 Keywords = new string[] { "keyword1", "keyword2" },
+                TypicalLength = new TypicalLength { From = 12, To = 24, Unit = "m" },
                 Duration = 12
             };
 
@@ -56,6 +57,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
             framework.FrameworkId.Should().Be(string.Format(_frameworkIdFormat, frameworkMetaData.FworkCode, frameworkMetaData.ProgType, frameworkMetaData.PwayCode));
             framework.JobRoleItems.Count().Should().Be(1);
             framework.Keywords.Should().Contain(new string[] { "keyword1", "keyword2" });
+            framework.TypicalLength.From.ShouldBeEquivalentTo(12);
+            framework.TypicalLength.To.ShouldBeEquivalentTo(24);
             framework.Duration.Should().Be(12);
         }
 
