@@ -38,6 +38,8 @@
 
         string VstsAssessmentOrgsUrl { get; }
 
+        string VstsRoatpUrl { get; }
+
         string EnvironmentName { get; }
 
         string ConnectionString { get; }

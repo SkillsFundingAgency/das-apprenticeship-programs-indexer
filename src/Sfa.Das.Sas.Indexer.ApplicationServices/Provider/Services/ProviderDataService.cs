@@ -102,6 +102,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             var courseDirectoryProviders = await _mediator.SendAsync(new CourseDirectoryRequest());
             var activeProviders = await _mediator.SendAsync(new FcsProviderRequest());
+            var roatpProviders = await _mediator.SendAsync(new RoatpProviderRequest());
 
             _logger.Debug($"Finished loading course directory and active providers");
 
@@ -116,6 +117,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             {
                 CourseDirectoryProviders = courseDirectoryProviders,
                 ActiveProviders = activeProviders,
+                RoatpProviders = roatpProviders,
                 UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(activeProviders.Providers)),
                 Frameworks = frameworks.Result,
                 Standards = standards.Result,
