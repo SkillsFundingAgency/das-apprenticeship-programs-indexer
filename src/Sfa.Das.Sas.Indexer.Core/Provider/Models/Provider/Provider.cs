@@ -10,13 +10,17 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
         public bool IsHigherEducationInstitute { get; set; }
 
+        public bool HasNonLevyContract { get; set; }
+
+        public bool HasParentCompanyGuarantee { get; set; }
+
+        public bool IsNew { get; set; }
+
         public string Name { get; set; }
 
         public IEnumerable<string> Aliases { get; set; }
 
         public string LegalName { get; set; }
-
-        public bool IsEmployerProvider { get; set; }
 
         public bool NationalProvider { get; set; }
 
@@ -35,5 +39,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public IEnumerable<StandardInformation> Standards { get; set; }
 
         public IEnumerable<ContactAddress> Addresses { get; set; }
+
+        public bool IsEmployerProvider { get; set; }
     }
 }

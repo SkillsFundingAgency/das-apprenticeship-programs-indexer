@@ -157,7 +157,6 @@
     <Compile Include="Lars\Models\FundingDocument.cs" />
     <Compile Include="Lars\Models\LearningDeliveryDocument.cs" />
     <Compile Include="Lars\Models\StandardLars.cs" />
-    <Compile Include="Provider\CourseDirectory\EmployerProviderVstsClient.cs" />
     <Compile Include="Provider\DapperBD\AchievementRatesNational.cs" />
     <Compile Include="Provider\DapperBD\LearnerSatisfactionRatesProvider.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderInfrastructureRegistry.cs" />

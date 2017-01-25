@@ -1,3 +1,5 @@
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+
 namespace Sfa.Das.Sas.Indexer.Core.Provider.Models
 {
     using System;
@@ -8,7 +10,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Provider.Models
 
         public string OrganisationName { get; set; }
 
-        public string ProviderType { get; set; }
+        public ProviderType ProviderType { get; set; }
 
         public bool ContractedForNonLeviedEmployers { get; set; }
 

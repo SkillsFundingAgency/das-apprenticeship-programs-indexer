@@ -102,9 +102,9 @@
     <Compile Include="Provider\Models\AchievementRateProviderResult.cs" />
     <Compile Include="Provider\Models\CourseDirectoryRequest.cs" />
     <Compile Include="Provider\Models\CourseDirectoryResult.cs" />
-    <Compile Include="Provider\Models\EmployerProviderRequest.cs" />
     <Compile Include="Provider\Models\EmployerSatisfactionRateRequest.cs" />
     <Compile Include="Provider\Models\EmployerSatisfactionRateResult.cs" />
+    <Compile Include="Provider\Models\ProviderType.cs" />
     <Compile Include="Provider\Models\RoatpProviderRequest.cs" />
     <Compile Include="Provider\Models\FcsProviderRequest.cs" />
     <Compile Include="Provider\Models\FcsProviderResult.cs" />

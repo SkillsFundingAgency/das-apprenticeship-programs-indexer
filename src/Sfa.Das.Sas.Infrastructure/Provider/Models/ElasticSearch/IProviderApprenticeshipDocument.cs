@@ -10,7 +10,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         bool IsHigherEducationInstitute { get; set; }
         string ProviderName { get; set; }
         bool NationalProvider { get; set; }
-        bool IsEmployerProvider { get; set; }
         string ProviderMarketingInfo { get; set; }
         string ApprenticeshipMarketingInfo { get; set; }
         string Phone { get; set; }
@@ -26,5 +25,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         double? OverallAchievementRate { get; set; }
         double? NationalOverallAchievementRate { get; set; }
         string OverallCohort { get; set; }
+        bool HasNonLevyContract { get; set; }
+        bool HasParentCompanyGuarantee { get; set; }
+        bool IsNew { get; set; }
     }
 }

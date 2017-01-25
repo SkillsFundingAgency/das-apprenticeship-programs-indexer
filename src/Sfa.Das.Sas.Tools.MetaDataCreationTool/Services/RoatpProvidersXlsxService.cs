@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using OfficeOpenXml;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
@@ -57,7 +58,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 {
                     Ukprn = roatpWorkSheet.Cells[i, 1].Value != null ? roatpWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
                     OrganisationName = roatpWorkSheet.Cells[i, 2].Value != null ? roatpWorkSheet.Cells[i, 2].Value.ToString() : string.Empty,
-                    ProviderType = roatpWorkSheet.Cells[i, 3].Value != null ? roatpWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
+                    ProviderType = GetProviderType(roatpWorkSheet.Cells[i, 3]),
                 };
 
                 if (roatpWorkSheet.Cells[i, 4].Value != null)
@@ -75,67 +76,38 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     roatpData.NewOrganisationWithoutFinancialTrackRecord = roatpWorkSheet.Cells[i, 6].Value.ToString().ToUpper() == "Y";
                 }
 
-                try
+                if (roatpWorkSheet.Cells[i, 7].Value != null)
                 {
-                    if (roatpWorkSheet.Cells[i, 7].Value != null)
-                    {
-                        roatpData.StartDate = roatpWorkSheet.Cells[i, 7].Value.ToString() != string.Empty ? DateTime.FromOADate(double.Parse(roatpWorkSheet.Cells[i, 7].Value.ToString())) : default(DateTime);
-                    }
-
-                    if (roatpWorkSheet.Cells[i, 8].Value != null)
-                    {
-                        roatpData.EndDate = roatpWorkSheet.Cells[i, 8].Value.ToString() != string.Empty ? DateTime.FromOADate(double.Parse(roatpWorkSheet.Cells[i, 8].Value.ToString())) : default(DateTime);
-                    }
+                    roatpData.StartDate = roatpWorkSheet.Cells[i, 7].Value.ToString() != string.Empty ? DateTime.FromOADate(double.Parse(roatpWorkSheet.Cells[i, 7].Value.ToString())) : default(DateTime);
                 }
-                catch (Exception e)
+
+                if (roatpWorkSheet.Cells[i, 8].Value != null)
                 {
-                    var message = e.Message;
+                    roatpData.EndDate = roatpWorkSheet.Cells[i, 8].Value.ToString() != string.Empty ? DateTime.FromOADate(double.Parse(roatpWorkSheet.Cells[i, 8].Value.ToString())) : default(DateTime);
                 }
 
                 roatpProviders.Add(roatpData);
             }
         }
 
-        private static void GetStandardOrganisationsData(ExcelPackage package, List<StandardOrganisationsData> standardOrganisationsData)
+        private static ProviderType GetProviderType(ExcelRange excelRange)
         {
-            var standardOrganisationWorkSheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == "Register - Standards");
-            if (standardOrganisationWorkSheet == null) return;
-            for (var i = standardOrganisationWorkSheet.Dimension.Start.Row + 1; i <= standardOrganisationWorkSheet.Dimension.End.Row; i++)
+            if (excelRange.Value != null)
             {
-                var standardOrganisationData = new StandardOrganisationsData
+                switch (excelRange.Value.ToString())
                 {
-                    EpaOrganisationIdentifier = standardOrganisationWorkSheet.Cells[i, 1].Value != null ? standardOrganisationWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
-                    StandardCode = standardOrganisationWorkSheet.Cells[i, 3].Value != null ? standardOrganisationWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
-                    EffectiveFrom = standardOrganisationWorkSheet.Cells[i, 5].Value != null ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 5].Value.ToString()) : default(DateTime)
-                };
-                standardOrganisationsData.Add(standardOrganisationData);
+                    case "Main provider":
+                        return ProviderType.MainProvider;
+                    case "Supporting provider":
+                        return ProviderType.SupportingProvider;
+                    case "Employer provider":
+                        return ProviderType.EmployerProvider;
+                    default:
+                        return ProviderType.MainProvider;
+                }
             }
-        }
 
-        private static void GetAssessmentOrganisations(ExcelPackage package, List<Organisation> assessmentOrgs)
-        {
-            var organisationsWorkSheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == "Register - Organisations");
-
-            if (organisationsWorkSheet == null) return;
-            for (var i = organisationsWorkSheet.Dimension.Start.Row + 1; i <= organisationsWorkSheet.Dimension.End.Row; i++)
-            {
-                var organisation = new Organisation
-                {
-                    EpaOrganisationIdentifier = organisationsWorkSheet.Cells[i, 1].Value != null ? organisationsWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
-                    EpaOrganisation = organisationsWorkSheet.Cells[i, 2].Value != null ? organisationsWorkSheet.Cells[i, 2].Value.ToString() : string.Empty,
-                    OrganisationType = organisationsWorkSheet.Cells[i, 3].Value != null ? organisationsWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
-                    WebsiteLink = organisationsWorkSheet.Cells[i, 4].Value != null ? organisationsWorkSheet.Cells[i, 4].Value.ToString() : string.Empty,
-                    Address = new Address
-                    {
-                        Primary = organisationsWorkSheet.Cells[i, 5].Value != null ? organisationsWorkSheet.Cells[i, 5].Value.ToString() : string.Empty,
-                        Secondary = organisationsWorkSheet.Cells[i, 6].Value != null ? organisationsWorkSheet.Cells[i, 6].Value.ToString() : string.Empty,
-                        Street = organisationsWorkSheet.Cells[i, 7].Value != null ? organisationsWorkSheet.Cells[i, 7].Value.ToString() : string.Empty,
-                        Town = organisationsWorkSheet.Cells[i, 8].Value != null ? organisationsWorkSheet.Cells[i, 8].Value.ToString() : string.Empty,
-                        Postcode = organisationsWorkSheet.Cells[i, 9].Value != null ? organisationsWorkSheet.Cells[i, 9].Value.ToString() : string.Empty
-                    }
-                };
-                assessmentOrgs.Add(organisation);
-            }
+            return ProviderType.MainProvider;
         }
     }
 }
