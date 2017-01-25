@@ -208,6 +208,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             {
                 EpaOrganisationIdentifier = organisation.EpaOrganisationIdentifier,
                 OrganisationType = organisation.OrganisationType,
+                Email = organisation.Email,
+                Phone = organisation.Phone,
                 Address = new Address
                 {
                     Primary = organisation.Address.Primary,
@@ -226,8 +228,21 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return new StandardOrganisationDocument
             {
                 EpaOrganisationIdentifier = standardOrganisationsData.EpaOrganisationIdentifier,
+                EpaOrganisation = standardOrganisationsData.EpaOrganisation,
+                OrganisationType = standardOrganisationsData.OrganisationType,
+                WebsiteLink = standardOrganisationsData.WebsiteLink,
                 StandardCode = standardOrganisationsData.StandardCode,
-                EffectiveFrom = standardOrganisationsData.EffectiveFrom
+                EffectiveFrom = standardOrganisationsData.EffectiveFrom,
+                Email = standardOrganisationsData.Email,
+                Phone = standardOrganisationsData.Phone,
+                Address = new Address
+                {
+                    Primary = standardOrganisationsData.Address.Primary,
+                    Secondary = standardOrganisationsData.Address.Secondary,
+                    Street = standardOrganisationsData.Address.Street,
+                    Town = standardOrganisationsData.Address.Town,
+                    Postcode = standardOrganisationsData.Address.Postcode
+                }
             };
         }
 
