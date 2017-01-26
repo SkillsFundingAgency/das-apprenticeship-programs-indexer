@@ -157,9 +157,11 @@
     <Compile Include="Lars\Models\FundingDocument.cs" />
     <Compile Include="Lars\Models\LearningDeliveryDocument.cs" />
     <Compile Include="Lars\Models\StandardLars.cs" />
+    <Compile Include="Provider\CourseDirectory\EmployerProviderVstsClient.cs" />
     <Compile Include="Provider\DapperBD\AchievementRatesNational.cs" />
     <Compile Include="Provider\DapperBD\LearnerSatisfactionRatesProvider.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderInfrastructureRegistry.cs" />
+    <Compile Include="Provider\Models\ElasticSearch\ProviderApiDocument.cs" />
     <Compile Include="Shared\Azure\AzureCloudQueueService.cs" />
     <Compile Include="Shared\Azure\AzureQueueMessage.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataService.cs" />

@@ -93,15 +93,18 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var bulkStandardTasks = new List<Task<IBulkResponse>>();
             var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
             var bulkProviderTasks = new List<Task<IBulkResponse>>();
+            var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
 
             _log.Debug("Loading data at provider index");
             var source = await _providerDataService.LoadDatasetsAsync();
 
             _log.Debug("Creating providers");
             var providers = CreateProviders(source).ToList();
+            var providersApi = CreateApiProviders(source).ToList();
 
             _log.Debug("Indexing " + providers.Count + " providers");
             bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
+            bulkApiProviderTasks.AddRange(_searchIndexMaintainer.IndexApiProviders(indexName, providersApi));
 
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
 
@@ -117,10 +120,47 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         private IEnumerable<CoreProvider> CreateProviders(ProviderSourceDto source)
         {
+            foreach (var ukprn in source.ActiveProviders.Providers)
+            {
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString());
+
+                CoreProvider provider;
+
+                if (source.CourseDirectoryUkPrns.Contains(ukprn))
+                {
+                    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == ukprn);
+                    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
+                }
+                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString()))
+                {
+                    provider = _ukrlpProviderMapper.Map(ukrlpProvider);
+                }
+                else
+                {
+                    // skip this provider if they don't exist in Course Directory or UKRLP
+                    continue;
+                }
+
+                provider.Name = ukrlpProvider?.ProviderName;
+                provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
+                provider.Aliases = ukrlpProvider?.ProviderAliases;
+
+                provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
+                provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
+
+                _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
+                _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
+
+                yield return provider;
+            }
+        }
+
+        private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
+        {
             foreach (var roatpProvider in source.RoatpProviders)
             {
                 if (roatpProvider.ProviderType == ProviderType.SupportingProvider || !IsDateValid(roatpProvider)) continue;
-                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
+                var ukrlpProvider = source.UkrlpProvidersApi.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
 
                 CoreProvider provider;
 
@@ -146,6 +186,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
+
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
                 provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));

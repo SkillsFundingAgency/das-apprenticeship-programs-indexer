@@ -273,6 +273,28 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return providerDocument;
         }
 
+        public ProviderApiDocument CreateProviderApiDocument(Provider provider)
+        {
+            var providerDocument = new ProviderApiDocument
+            {
+                Ukprn = provider.Ukprn,
+                IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
+                NationalProvider = provider.NationalProvider,
+                ProviderName = provider.Name,
+                LegalName = provider.LegalName,
+                Aliases = provider.Aliases,
+                Addresses = provider.Addresses,
+                IsEmployerProvider = provider.IsEmployerProvider,
+                Website = provider.ContactDetails?.Website,
+                Phone = provider.ContactDetails?.Phone,
+                Email = provider.ContactDetails?.Email,
+                EmployerSatisfaction = provider.EmployerSatisfaction,
+                LearnerSatisfaction = provider.LearnerSatisfaction
+            };
+
+            return providerDocument;
+        }
+
         public FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation frameworkInformation, IEnumerable<DeliveryInformation> deliveryInformation)
         {
             return CreateFrameworkProviderDocument(provider, frameworkInformation, deliveryInformation.ToList());

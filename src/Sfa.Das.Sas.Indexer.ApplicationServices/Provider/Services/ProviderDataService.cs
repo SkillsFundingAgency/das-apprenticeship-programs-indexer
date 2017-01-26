@@ -121,13 +121,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 CourseDirectoryProviders = courseDirectoryProviders,
                 ActiveProviders = activeProviders,
                 RoatpProviders = roatpProviders,
-                UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(ukprnList)),
+                UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(activeProviders.Providers)),
+                UkrlpProvidersApi = _mediator.Send(new UkrlpProviderRequest(ukprnList)),
                 Frameworks = frameworks.Result,
                 Standards = standards.Result,
                 AchievementRateProviders = _mediator.Send(new AchievementRateProviderRequest()),
                 AchievementRateNationals = _mediator.Send(new AchievementRateNationalRequest()),
                 LearnerSatisfactionRates = _mediator.Send(new LearnerSatisfactionRateRequest()),
                 EmployerSatisfactionRates = _mediator.Send(new EmployerSatisfactionRateRequest()),
+                EmployerProviders = _mediator.Send(new EmployerProviderRequest()),
                 HeiProviders = _mediator.Send(new HeiProvidersRequest())
             };
         }
