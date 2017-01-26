@@ -26,5 +26,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         double? OverallAchievementRate { get; set; }
         double? NationalOverallAchievementRate { get; set; }
         string OverallCohort { get; set; }
+        bool HasNonLevyContract { get; set; }
     }
 }

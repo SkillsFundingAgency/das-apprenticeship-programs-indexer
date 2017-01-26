@@ -361,6 +361,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             documentToPopulate.OverallAchievementRate = GetRoundedValue(apprenticeshipInformation.OverallAchievementRate);
             documentToPopulate.NationalOverallAchievementRate = GetRoundedValue(apprenticeshipInformation.NationalOverallAchievementRate);
             documentToPopulate.OverallCohort = apprenticeshipInformation.OverallCohort;
+
+            documentToPopulate.HasNonLevyContract = provider.HasNonLevyContract;
         }
 
         private double? GetRoundedValue(double? value)

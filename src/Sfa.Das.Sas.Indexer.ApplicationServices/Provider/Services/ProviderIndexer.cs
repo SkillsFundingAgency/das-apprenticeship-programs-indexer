@@ -164,6 +164,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
 
+                provider.HasNonLevyContract = true;
+
                 provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
