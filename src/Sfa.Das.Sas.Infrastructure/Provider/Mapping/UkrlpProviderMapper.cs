@@ -33,7 +33,7 @@
                 Primary = contact.ContactAddress?.PAON,
                 Secondary = contact.ContactAddress?.SAON,
                 Street = contact.ContactAddress?.StreetDescription,
-                Town = contact.ContactAddress?.PostTown,
+                Town = contact.ContactAddress?.PostTown ?? contact.ContactAddress?.Town,
                 PostCode = contact.ContactAddress?.PostCode
             };
         }
