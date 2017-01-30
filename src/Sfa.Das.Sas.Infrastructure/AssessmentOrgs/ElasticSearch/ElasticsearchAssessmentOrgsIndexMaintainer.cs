@@ -44,7 +44,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
                 .Mappings(ms => ms
                     .Map<OrganisationDocument>(m => m.AutoMap())
-                    .Map<StandardOrganisationsData>(m => m.AutoMap())));
+                    .Map<StandardOrganisationDocument>(m => m.AutoMap())));
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {
