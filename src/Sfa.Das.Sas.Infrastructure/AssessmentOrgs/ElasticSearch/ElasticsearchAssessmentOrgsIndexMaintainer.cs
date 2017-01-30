@@ -88,11 +88,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
         {
+            Log.Debug($"Indexing {standardOrganisationsData.Count} StandardOrganisationsData documents");
             await IndexEntries(indexName, standardOrganisationsData, ElasticsearchMapper.CreateStandardOrganisationDocument).ConfigureAwait(true);
         }
 
         public async Task IndexOrganisations(string indexName, List<Organisation> organisations)
         {
+            Log.Debug($"Indexing {organisations.Count} OrganisationsDocument");
             await IndexEntries(indexName, organisations, ElasticsearchMapper.CreateOrganisationDocument).ConfigureAwait(true);
         }
     }
