@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Mapping
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Mapping
 {
     using System.Linq;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
@@ -19,7 +17,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Mapping
                 ProviderAliases = aliases.Any() ? aliases : null,
                 ProviderContact = record.ProviderContact?.Select(MapFromContact)
             };
-            
+
             return provider;
         }
 
@@ -54,7 +52,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Mapping
 
         private string GetItem(BSaddressStructure contactAddress, ItemsChoiceType choice)
         {
-            if (contactAddress.ItemsElementName.Any(x => x == choice))
+            if (contactAddress.ItemsElementName != null && contactAddress.ItemsElementName.Any(x => x == choice))
             {
                 return contactAddress?.Items[System.Array.IndexOf(contactAddress?.ItemsElementName, choice)];
             }
