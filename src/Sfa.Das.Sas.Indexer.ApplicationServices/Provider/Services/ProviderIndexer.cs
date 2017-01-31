@@ -169,7 +169,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == int.Parse(roatpProvider.Ukprn));
                     provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
                 }
-                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn))
+                else if (source.UkrlpProvidersApi.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn))
                 {
                     provider = _ukrlpProviderMapper.Map(ukrlpProvider);
                 }
