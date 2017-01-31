@@ -21,7 +21,7 @@
             {
                 nested.Configure(_ =>
                 {
-                    _.For<ILog>().Use(x => new NLogService<T>(x.ParentType, x.GetInstance<IInfrastructureSettings>())).AlwaysUnique();
+                    _.For<ILog>().Use(x => new NLogService<T>(x.ParentType, x.GetInstance<IInfrastructureSettings>()));
                 });
 
                 return nested.GetInstance<IIndexerService<T>>();
