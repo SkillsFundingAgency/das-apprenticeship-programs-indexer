@@ -133,7 +133,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ProgType = frameworkMetaData.ProgType,
                 PwayCode = frameworkMetaData.PwayCode,
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
-                SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1,
+                SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier2,
                 Duration = frameworkMetaData.Duration,
                 FundingCap = frameworkMetaData.FundingCap
             };
