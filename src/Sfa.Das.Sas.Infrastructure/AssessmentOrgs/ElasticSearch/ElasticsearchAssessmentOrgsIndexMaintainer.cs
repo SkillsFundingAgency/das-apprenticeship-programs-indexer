@@ -56,7 +56,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             where T1 : class
             where T2 : class
         {
-            var bulkLarsClient = new BulkProviderClient(indexName, Client);
+            var bulkClient = new BulkProviderClient(indexName, Client);
 
             foreach (var entry in entries)
             {
@@ -64,7 +64,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 {
                     var doc = method(entry);
 
-                    bulkLarsClient.Create<T2>(c => c.Document(doc));
+                    bulkClient.Create<T2>(c => c.Document(doc));
                 }
                 catch (Exception ex)
                 {
@@ -73,7 +73,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             }
 
             var bulkTasks = new List<Task<IBulkResponse>>();
-            bulkTasks.AddRange(bulkLarsClient.GetTasks());
+            bulkTasks.AddRange(bulkClient.GetTasks());
             LogResponse(await Task.WhenAll(bulkTasks), typeof(T1).Name.ToLower(CultureInfo.CurrentCulture));
         }
 
