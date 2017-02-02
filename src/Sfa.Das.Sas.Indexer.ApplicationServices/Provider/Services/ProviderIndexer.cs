@@ -272,6 +272,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
 
+                provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
+
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
                 provider.HasNonLevyContract = false; //roatpProvider.ContractedForNonLeviedEmployers;

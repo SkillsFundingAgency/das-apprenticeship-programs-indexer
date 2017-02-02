@@ -17,7 +17,7 @@
                 ProviderAliases = aliases.Any() ? aliases : null,
                 ProviderContact = record.ProviderContact?.Select(MapFromContact)
             };
-            
+
             return provider;
         }
 
@@ -41,8 +41,23 @@
                 PAON = contactAddress?.PAON?.Description,
                 SAON = contactAddress?.SAON?.Description,
                 StreetDescription = contactAddress?.StreetDescription,
-                PostTown = contactAddress?.PostTown
+                PostTown = contactAddress?.PostTown,
+                Town = GetItem(contactAddress, ItemsChoiceType.Town),
+                AdministrativeArea = GetItem(contactAddress, ItemsChoiceType.AdministrativeArea),
+                Locality = contactAddress?.Locality,
+                UniquePropertyReferenceNumber = contactAddress?.UniquePropertyReferenceNumber,
+                UniqueStreetReferenceNumber = contactAddress?.UniqueStreetReferenceNumber
             };
+        }
+
+        private string GetItem(BSaddressStructure contactAddress, ItemsChoiceType choice)
+        {
+            if (contactAddress.ItemsElementName != null && contactAddress.ItemsElementName.Any(x => x == choice))
+            {
+                return contactAddress?.Items[System.Array.IndexOf(contactAddress?.ItemsElementName, choice)];
+            }
+
+            return null;
         }
     }
 }

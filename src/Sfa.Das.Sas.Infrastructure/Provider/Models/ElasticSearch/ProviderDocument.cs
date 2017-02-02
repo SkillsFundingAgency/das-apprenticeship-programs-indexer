@@ -14,8 +14,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 
         public string ProviderName { get; set; }
 
-        public string LegalName { get; set; }
-
         [JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public IEnumerable<string> Aliases { get; set; }
 

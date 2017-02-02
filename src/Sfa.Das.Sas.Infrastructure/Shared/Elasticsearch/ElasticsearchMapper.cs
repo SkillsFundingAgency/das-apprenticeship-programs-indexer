@@ -133,7 +133,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 ProgType = frameworkMetaData.ProgType,
                 PwayCode = frameworkMetaData.PwayCode,
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
-                SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier1,
+                SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier2,
                 Duration = frameworkMetaData.Duration,
                 FundingCap = frameworkMetaData.FundingCap
             };
@@ -208,6 +208,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             {
                 EpaOrganisationIdentifier = organisation.EpaOrganisationIdentifier,
                 OrganisationType = organisation.OrganisationType,
+                Email = organisation.Email,
+                Phone = organisation.Phone,
                 Address = new Address
                 {
                     Primary = organisation.Address.Primary,
@@ -226,8 +228,21 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return new StandardOrganisationDocument
             {
                 EpaOrganisationIdentifier = standardOrganisationsData.EpaOrganisationIdentifier,
+                EpaOrganisation = standardOrganisationsData.EpaOrganisation,
+                OrganisationType = standardOrganisationsData.OrganisationType,
+                WebsiteLink = standardOrganisationsData.WebsiteLink,
                 StandardCode = standardOrganisationsData.StandardCode,
-                EffectiveFrom = standardOrganisationsData.EffectiveFrom
+                EffectiveFrom = standardOrganisationsData.EffectiveFrom,
+                Email = standardOrganisationsData.Email,
+                Phone = standardOrganisationsData.Phone,
+                Address = new Address
+                {
+                    Primary = standardOrganisationsData.Address.Primary,
+                    Secondary = standardOrganisationsData.Address.Secondary,
+                    Street = standardOrganisationsData.Address.Street,
+                    Town = standardOrganisationsData.Address.Town,
+                    Postcode = standardOrganisationsData.Address.Postcode
+                }
             };
         }
 
@@ -253,13 +268,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public ProviderDocument CreateProviderDocument(Provider provider)
         {
-            var providerDocument = new ProviderDocument
+            return new ProviderDocument
             {
                 Ukprn = provider.Ukprn,
                 IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
                 NationalProvider = provider.NationalProvider,
                 ProviderName = provider.Name,
-                LegalName = provider.LegalName,
                 Aliases = provider.Aliases,
                 Addresses = provider.Addresses,
                 IsEmployerProvider = provider.IsEmployerProvider,
@@ -269,8 +283,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 EmployerSatisfaction = provider.EmployerSatisfaction,
                 LearnerSatisfaction = provider.LearnerSatisfaction
             };
-
-            return providerDocument;
         }
 
         public ProviderApiDocument CreateProviderApiDocument(Provider provider)
@@ -373,6 +385,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             documentToPopulate.OverallAchievementRate = GetRoundedValue(apprenticeshipInformation.OverallAchievementRate);
             documentToPopulate.NationalOverallAchievementRate = GetRoundedValue(apprenticeshipInformation.NationalOverallAchievementRate);
             documentToPopulate.OverallCohort = apprenticeshipInformation.OverallCohort;
+
+            documentToPopulate.HasNonLevyContract = provider.HasNonLevyContract;
         }
 
         private double? GetRoundedValue(double? value)

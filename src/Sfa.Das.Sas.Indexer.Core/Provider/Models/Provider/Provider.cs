@@ -20,7 +20,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
         public IEnumerable<string> Aliases { get; set; }
 
-        public string LegalName { get; set; }
+        public bool IsEmployerProvider { get; set; }
 
         public bool NationalProvider { get; set; }
 
@@ -39,7 +39,5 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public IEnumerable<StandardInformation> Standards { get; set; }
 
         public IEnumerable<ContactAddress> Addresses { get; set; }
-
-        public bool IsEmployerProvider { get; set; }
     }
 }

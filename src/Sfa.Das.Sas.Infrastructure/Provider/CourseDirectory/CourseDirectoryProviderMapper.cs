@@ -22,7 +22,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 
         public Provider Map(CourseDirectoryProvider input)
         {
-            var providerLocations = input.Locations.Select(MapToLocationEntity);
+            var providerLocations = input.Locations.Select(MapToLocationEntity).ToList();
 
             var providerImport = new Provider
             {
