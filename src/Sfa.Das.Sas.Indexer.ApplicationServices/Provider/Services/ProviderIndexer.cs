@@ -163,9 +163,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 CoreProvider provider;
 
-                if (source.CourseDirectoryUkPrns.Contains(int.Parse(roatpProvider.Ukprn)))
+                var roatProviderUkprn = int.Parse(roatpProvider.Ukprn);
+
+                if (source.CourseDirectoryUkPrns.Contains(roatProviderUkprn))
                 {
-                    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == int.Parse(roatpProvider.Ukprn));
+                    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == roatProviderUkprn);
                     provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
                 }
                 else if (source.UkrlpProvidersApi.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn))
