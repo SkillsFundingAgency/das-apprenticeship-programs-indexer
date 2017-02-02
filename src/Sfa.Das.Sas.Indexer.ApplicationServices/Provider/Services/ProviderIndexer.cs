@@ -106,8 +106,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
             bulkApiProviderTasks.AddRange(_searchIndexMaintainer.IndexApiProviders(indexName, providersApi));
 
-            var apprenticeshipProviders = CreateApprenticeshipProvidersFcs(source).ToList();
-            apprenticeshipProviders.AddRange(CreateApprenticeshipProvidersRoatp(source).ToList());
+            var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
 
             _log.Debug("Indexing " + apprenticeshipProviders.Count + " provider sites");
             bulkStandardTasks.AddRange(_searchIndexMaintainer.IndexStandards(indexName, apprenticeshipProviders));
@@ -115,8 +114,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
-            var a = await Task.WhenAll(bulkProviderTasks);
-            _searchIndexMaintainer.LogResponse(a, "ProviderDocument");
+            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
         }
 
         private IEnumerable<CoreProvider> CreateProviders(ProviderSourceDto source)
@@ -208,6 +206,14 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
 
             return (roatpProvider.StartDate.Date <= DateTime.Today.Date && DateTime.Today.Date <= roatpProvider.EndDate) || (roatpProvider.StartDate.Date <= DateTime.Today && roatpProvider.EndDate == default(DateTime));
+        }
+
+        private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)
+        {
+            var apprenticeshipProviders = CreateApprenticeshipProvidersFcs(source).ToList();
+            apprenticeshipProviders.AddRange(CreateApprenticeshipProvidersRoatp(source).ToList());
+
+            return apprenticeshipProviders;
         }
 
         private IEnumerable<CoreProvider> CreateApprenticeshipProvidersFcs(ProviderSourceDto source)
