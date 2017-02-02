@@ -129,6 +129,26 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return bulkProviderLocation.GetTasks();
         }
 
+        public List<Task<IBulkResponse>> IndexApiProviders(string indexName, ICollection<Provider> indexEntries)
+        {
+            var bulkProviderLocation = new BulkProviderClient(indexName, Client);
+            try
+            {
+                foreach (var provider in indexEntries)
+                {
+                    var mappedProvider = ElasticsearchMapper.CreateProviderApiDocument(provider);
+                    bulkProviderLocation.Create<ProviderApiDocument>(c => c.Document(mappedProvider));
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Something failed indexing provider api documents:" + ex.Message);
+                throw;
+            }
+
+            return bulkProviderLocation.GetTasks();
+        }
+
         public List<Task<IBulkResponse>> IndexStandards(string indexName, IEnumerable<Provider> indexEntries)
         {
             var bulkProviderLocation = new BulkProviderClient(indexName, Client);

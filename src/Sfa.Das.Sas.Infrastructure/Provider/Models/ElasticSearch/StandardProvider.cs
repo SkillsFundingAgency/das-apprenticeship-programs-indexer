@@ -17,8 +17,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         
         public bool NationalProvider { get; set; }
 
-        public bool IsEmployerProvider { get; set; }
-
         public string ProviderMarketingInfo { get; set; }
 
         public string ApprenticeshipMarketingInfo { get; set; }
@@ -58,5 +56,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
 
         public string OverallCohort { get; set; }
         public bool HasNonLevyContract { get; set; }
+        public bool HasParentCompanyGuarantee { get; set; }
+        public bool IsNew { get; set; }
     }
 }

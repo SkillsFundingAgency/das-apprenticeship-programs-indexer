@@ -285,6 +285,27 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             };
         }
 
+        public ProviderApiDocument CreateProviderApiDocument(Provider provider)
+        {
+            var providerDocument = new ProviderApiDocument
+            {
+                Ukprn = provider.Ukprn,
+                IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
+                NationalProvider = provider.NationalProvider,
+                ProviderName = provider.Name,
+                Aliases = provider.Aliases,
+                Addresses = provider.Addresses,
+                IsEmployerProvider = provider.IsEmployerProvider,
+                Website = provider.ContactDetails?.Website,
+                Phone = provider.ContactDetails?.Phone,
+                Email = provider.ContactDetails?.Email,
+                EmployerSatisfaction = provider.EmployerSatisfaction,
+                LearnerSatisfaction = provider.LearnerSatisfaction
+            };
+
+            return providerDocument;
+        }
+
         public FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation frameworkInformation, IEnumerable<DeliveryInformation> deliveryInformation)
         {
             return CreateFrameworkProviderDocument(provider, frameworkInformation, deliveryInformation.ToList());
@@ -342,6 +363,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             documentToPopulate.Ukprn = provider.Ukprn;
             documentToPopulate.IsHigherEducationInstitute = provider.IsHigherEducationInstitute;
+            documentToPopulate.HasNonLevyContract = provider.HasNonLevyContract;
+            documentToPopulate.HasParentCompanyGuarantee = provider.HasParentCompanyGuarantee;
+            documentToPopulate.IsNew = provider.IsNew;
             documentToPopulate.ProviderName = provider.Name;
             documentToPopulate.NationalProvider = provider.NationalProvider;
             documentToPopulate.ProviderMarketingInfo = EscapeSpecialCharacters(provider.MarketingInfo);
@@ -352,7 +376,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             documentToPopulate.ApprenticeshipInfoUrl = apprenticeshipInformation.InfoUrl;
             documentToPopulate.LearnerSatisfaction = provider.LearnerSatisfaction;
             documentToPopulate.EmployerSatisfaction = provider.EmployerSatisfaction;
-            documentToPopulate.IsEmployerProvider = provider.IsEmployerProvider;
             documentToPopulate.DeliveryModes = firstLoc == null ? new List<string>().ToArray() : GenerateListOfDeliveryModes(firstLoc.DeliveryModes);
             documentToPopulate.Website = firstLoc == null ? string.Empty : firstLoc.DeliveryLocation.Contact.Website;
             documentToPopulate.TrainingLocations = locations;

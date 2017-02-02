@@ -13,6 +13,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         public CourseDirectoryResult CourseDirectoryProviders { get; set; }
         public UkrlpProviderResponse UkrlpProviders { get; set; }
         public FcsProviderResult ActiveProviders { get; set; }
+        public List<RoatpProviderResult> RoatpProviders { get; set; }
         public IEnumerable<int> CourseDirectoryUkPrns => CourseDirectoryProviders.Providers.Select(x => x.Ukprn);
         public FrameworkMetaDataResult Frameworks { get; set; }
         public StandardMetaDataResult Standards { get; set; }
@@ -21,5 +22,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         public LearnerSatisfactionRateResult LearnerSatisfactionRates { get; set; }
         public EmployerSatisfactionRateResult EmployerSatisfactionRates { get; set; }
         public HeiProvidersResult HeiProviders { get; set; }
+        public UkrlpProviderResponse UkrlpProvidersApi { get; set; }
     }
 }

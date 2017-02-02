@@ -107,6 +107,7 @@
     <Compile Include="Models\GovLearn\GovLearnResource.cs" />
     <Compile Include="Models\GovLearn\GovLearnResponse.cs" />
     <Compile Include="Models\StandardRepositoryData.cs" />
+    <Compile Include="Services\RoatpProvidersXlsxService.cs" />
     <Compile Include="Services\ElasticsearchDataService.cs" />
     <Compile Include="Services\Interfaces\IElasticsearchDataService.cs" />
     <Compile Include="Services\Interfaces\IJsonMetaDataConvert.cs" />
