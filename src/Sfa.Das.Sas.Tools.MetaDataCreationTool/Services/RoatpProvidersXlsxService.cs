@@ -8,13 +8,21 @@ using OfficeOpenXml;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     public class RoatpProvidersXlsxService : IGetRoatpProviders
     {
+        private const int UkprnPosition = 1;
+        private const int OrganisationNamePosition = 2;
+        private const int ProviderTypePosition = 3;
+        private const int ContractedForNonLeviedEmployersPosition = 4;
+        private const int ParentCompanyGuaranteePosition = 5;
+        private const int NewOrganisationWithoutFinancialTrackRecordPosition = 6;
+        private const int StartDatePosition = 7;
+        private const int EndDatePosition = 8;
+
         private readonly IAppServiceSettings _appServiceSettings;
 
         public RoatpProvidersXlsxService(IAppServiceSettings appServiceSettings)
@@ -56,38 +64,38 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             {
                 var roatpData = new RoatpProviderResult
                 {
-                    Ukprn = roatpWorkSheet.Cells[i, 1].Value != null ? roatpWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
-                    OrganisationName = roatpWorkSheet.Cells[i, 2].Value != null ? roatpWorkSheet.Cells[i, 2].Value.ToString() : string.Empty,
-                    ProviderType = GetProviderType(roatpWorkSheet.Cells[i, 3]),
+                    Ukprn = roatpWorkSheet.Cells[i, UkprnPosition].Value != null ? roatpWorkSheet.Cells[i, UkprnPosition].Value.ToString() : string.Empty,
+                    OrganisationName = roatpWorkSheet.Cells[i, OrganisationNamePosition].Value != null ? roatpWorkSheet.Cells[i, OrganisationNamePosition].Value.ToString() : string.Empty,
+                    ProviderType = GetProviderType(roatpWorkSheet.Cells[i, ProviderTypePosition]),
+                    ContractedForNonLeviedEmployers = GetBooleanValue(roatpWorkSheet.Cells[i, ContractedForNonLeviedEmployersPosition]),
+                    ParentCompanyGuarantee = GetBooleanValue(roatpWorkSheet.Cells[i, ParentCompanyGuaranteePosition]),
+                    NewOrganisationWithoutFinancialTrackRecord = GetBooleanValue(roatpWorkSheet.Cells[i, NewOrganisationWithoutFinancialTrackRecordPosition]),
+                    StartDate = GetDateTimeValue(roatpWorkSheet.Cells[i, StartDatePosition]),
+                    EndDate = GetDateTimeValue(roatpWorkSheet.Cells[i, EndDatePosition]),
                 };
-
-                if (roatpWorkSheet.Cells[i, 4].Value != null)
-                {
-                    roatpData.ContractedForNonLeviedEmployers = roatpWorkSheet.Cells[i, 4].Value.ToString().ToUpper() == "Y";
-                }
-
-                if (roatpWorkSheet.Cells[i, 5].Value != null)
-                {
-                    roatpData.ParentCompanyGuarantee = roatpWorkSheet.Cells[i, 5].Value.ToString().ToUpper() == "Y";
-                }
-
-                if (roatpWorkSheet.Cells[i, 6].Value != null)
-                {
-                    roatpData.NewOrganisationWithoutFinancialTrackRecord = roatpWorkSheet.Cells[i, 6].Value.ToString().ToUpper() == "Y";
-                }
-
-                if (roatpWorkSheet.Cells[i, 7].Value != null)
-                {
-                    roatpData.StartDate = roatpWorkSheet.Cells[i, 7].Value.ToString() != string.Empty ? DateTime.FromOADate(double.Parse(roatpWorkSheet.Cells[i, 7].Value.ToString())) : default(DateTime);
-                }
-
-                if (roatpWorkSheet.Cells[i, 8].Value != null)
-                {
-                    roatpData.EndDate = roatpWorkSheet.Cells[i, 8].Value.ToString() != string.Empty ? DateTime.FromOADate(double.Parse(roatpWorkSheet.Cells[i, 8].Value.ToString())) : default(DateTime);
-                }
 
                 roatpProviders.Add(roatpData);
             }
+        }
+
+        private static DateTime GetDateTimeValue(ExcelRange excelRange)
+        {
+            if (excelRange.Value != null)
+            {
+                return excelRange.Value.ToString() != string.Empty ? DateTime.FromOADate(double.Parse(excelRange.Value.ToString())) : default(DateTime);
+            }
+
+            return default(DateTime);
+        }
+
+        private static bool GetBooleanValue(ExcelRange excelRange)
+        {
+            if (excelRange.Value != null)
+            {
+                return excelRange.Value.ToString().ToUpper() == "Y";
+            }
+
+            return false;
         }
 
         private static ProviderType GetProviderType(ExcelRange excelRange)
