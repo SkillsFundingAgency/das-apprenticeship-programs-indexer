@@ -207,7 +207,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 return false;
             }
 
-            return (roatpProvider.StartDate.Date <= DateTime.Today.Date && DateTime.Today.Date <= roatpProvider.EndDate) || (roatpProvider.StartDate.Date <= DateTime.Today && roatpProvider.EndDate == default(DateTime));
+            if (roatpProvider.StartDate.Date <= DateTime.Today.Date && DateTime.Today.Date <= roatpProvider.EndDate)
+            {
+                return true;
+            }
+
+            return roatpProvider.StartDate.Date <= DateTime.Today && roatpProvider.EndDate == default(DateTime);
         }
 
         private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)
