@@ -3,7 +3,6 @@
   <WorkerRole name="Sfa.Das.Sas.Indexer.AzureWorkerRole" vmsize="Small">
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
-      <Setting name="CourseDirectoryUri" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>
