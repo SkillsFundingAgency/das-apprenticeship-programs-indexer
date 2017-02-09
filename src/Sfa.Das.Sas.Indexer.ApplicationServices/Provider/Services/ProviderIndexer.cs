@@ -107,7 +107,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             _log.Debug("Indexing " + providers.Count + " providers");
             bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
-            _log.Debug("Indexing " + providers.Count + " RoATP providers");
+            _log.Debug("Indexing " + providersApi.Count + " RoATP providers");
             bulkApiProviderTasks.AddRange(_searchIndexMaintainer.IndexApiProviders(indexName, providersApi));
 
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
