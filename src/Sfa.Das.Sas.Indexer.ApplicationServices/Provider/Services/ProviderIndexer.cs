@@ -265,9 +265,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 var roatpProvider = new RoatpProviderResult();
 
                 var providerFromRoatp = false;
+
                 foreach (var roatpProviderResult in source.RoatpProviders)
                 {
-                    if (roatpProviderResult.Ukprn == courseDirectoryProvider.Ukprn.ToString() && roatpProviderResult.ProviderType == ProviderType.MainProvider)
+                    if (roatpProviderResult.Ukprn == courseDirectoryProvider.Ukprn.ToString()
+                        && roatpProviderResult.ProviderType == ProviderType.MainProvider
+                        && IsDateValid(roatpProviderResult))
                     {
                         providerFromRoatp = true;
                         roatpProvider = roatpProviderResult;
