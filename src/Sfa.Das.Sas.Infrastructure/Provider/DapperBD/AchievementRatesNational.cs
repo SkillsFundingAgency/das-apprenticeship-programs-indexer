@@ -4,7 +4,7 @@ using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
     public sealed class AchievementRatesNational : IRequestHandler<AchievementRateNationalRequest, AchievementRateNationalResult>
     {

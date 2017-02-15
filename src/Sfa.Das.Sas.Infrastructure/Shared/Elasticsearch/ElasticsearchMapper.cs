@@ -1,36 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-using Sfa.Das.Sas.Indexer.Core.Exceptions;
-using Sfa.Das.Sas.Indexer.Core.Extensions;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-using Address = Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models.Address;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 {
-    using JobRoleItem = Infrastructure.Elasticsearch.Models.JobRoleItem;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Nest;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+    using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+    using Sfa.Das.Sas.Indexer.Core.Exceptions;
+    using Sfa.Das.Sas.Indexer.Core.Extensions;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+    using Address = Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models.Address;
+    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
+    using JobRoleItem = Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models.JobRoleItem;
 
     public class ElasticsearchMapper : IElasticsearchMapper
     {
-        private readonly ILog _logger;
         private readonly IInfrastructureSettings _settings;
 
-        public ElasticsearchMapper(ILog logger, IInfrastructureSettings settings)
+        public ElasticsearchMapper(IInfrastructureSettings settings)
         {
-            _logger = logger;
             _settings = settings;
         }
 
@@ -252,22 +250,22 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             return ApprenticeshipLevelMapper.MapToLevel(progType);
         }
 
-        public StandardProvider CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation)
+        public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation)
         {
             return CreateStandardProviderDocument(provider, standardInformation, new List<DeliveryInformation> { deliveryInformation });
         }
 
-        public StandardProvider CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation)
+        public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation)
         {
             return CreateStandardProviderDocument(provider, standardInformation, deliveryInformation.ToList());
         }
 
-        public FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation frameworkInformation, DeliveryInformation deliveryInformation)
+        public FrameworkProvider CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, DeliveryInformation deliveryInformation)
         {
             return CreateFrameworkProviderDocument(provider, frameworkInformation, new List<DeliveryInformation> { deliveryInformation });
         }
 
-        public ProviderDocument CreateProviderDocument(Provider provider)
+        public ProviderDocument CreateProviderDocument(CoreProvider provider)
         {
             return new ProviderDocument
             {
@@ -286,7 +284,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             };
         }
 
-        public ProviderApiDocument CreateProviderApiDocument(Provider provider)
+        public ProviderApiDocument CreateProviderApiDocument(CoreProvider provider)
         {
             var providerDocument = new ProviderApiDocument
             {
@@ -307,12 +305,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             return providerDocument;
         }
 
-        public FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation frameworkInformation, IEnumerable<DeliveryInformation> deliveryInformation)
+        public FrameworkProvider CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, IEnumerable<DeliveryInformation> deliveryInformation)
         {
             return CreateFrameworkProviderDocument(provider, frameworkInformation, deliveryInformation.ToList());
         }
 
-        private StandardProvider CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, List<DeliveryInformation> deliveryInformation)
+        private StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, List<DeliveryInformation> deliveryInformation)
         {
             try
             {
@@ -331,7 +329,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             }
         }
 
-        private FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation frameworkInformation, List<DeliveryInformation> deliveryInformation)
+        private FrameworkProvider CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, List<DeliveryInformation> deliveryInformation)
         {
             try
             {
@@ -355,7 +353,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 
         private void PopulateDocumentSharedProperties(
             IProviderApprenticeshipDocument documentToPopulate,
-            Provider provider,
+            CoreProvider provider,
             IApprenticeshipInformation apprenticeshipInformation,
             List<DeliveryInformation> deliveryLocations)
         {
@@ -425,7 +423,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                         LocationId = loc.DeliveryLocation.Id,
                         LocationName = loc.DeliveryLocation.Name,
                         Address =
-                                new Infrastructure.Elasticsearch.Models.Address
+                                new Infrastructure.Provider.Models.ElasticSearch.Address()
                                 {
                                     Address1 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address1),
                                     Address2 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address2),

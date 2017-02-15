@@ -1,10 +1,9 @@
-﻿using Nest;
+﻿using System.Collections.Generic;
+using Nest;
 using Newtonsoft.Json;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
-    using System.Collections.Generic;
-
     public sealed class FrameworkProvider : IProviderApprenticeshipDocument
     {
         public int FrameworkCode { get; set; }

@@ -1,11 +1,10 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
+﻿using System.Collections.Generic;
+using Nest;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
-    using System.Collections.Generic;
-    using Nest;
-
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-
     public class ApprenticeshipDocument
     {
         [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]

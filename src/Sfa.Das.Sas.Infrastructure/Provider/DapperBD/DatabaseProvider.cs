@@ -1,14 +1,14 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
-{
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Data.SqlClient;
-    using System.Diagnostics;
-    using Core.Logging;
-    using Core.Logging.Models;
-    using Dapper;
-    using Settings;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using Dapper;
+using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
+{
     public class DatabaseProvider : IDatabaseProvider
     {
         private readonly IInfrastructureSettings _infrastructureSettings;

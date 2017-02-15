@@ -1,10 +1,11 @@
-﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB
+﻿using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
+
+namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB
 {
     using System;
     using System.Linq;
     using FluentAssertions;
     using Indexer.Core.Logging;
-    using Indexer.Infrastructure.DapperBD;
     using Indexer.Infrastructure.Settings;
     using Moq;
     using NUnit.Framework;

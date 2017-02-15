@@ -1,7 +1,7 @@
-namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
-{
-    using System.Collections.Generic;
+using System.Collections.Generic;
 
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
+{
     public interface IDatabaseProvider
     {
         IEnumerable<T> Query<T>(string query, object param = null);

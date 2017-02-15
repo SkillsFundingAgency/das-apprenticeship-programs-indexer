@@ -1,17 +1,14 @@
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-using Sfa.Das.Sas.Indexer.Core.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory;
-using Sfa.Das.Sas.Indexer.Infrastructure.DapperBD;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-using Sfa.Das.Sas.Indexer.Infrastructure.Mapping;
-using Sfa.Das.Sas.Indexer.Infrastructure.Services;
-using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.CourseDirectory;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Mapping;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using StructureMap;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DependencyResolution
 {
     public class ProviderInfrastructureRegistry : Registry
     {

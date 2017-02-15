@@ -1,11 +1,11 @@
-namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
-{
-    using System.Linq;
-    using Core.Logging;
-    using MediatR;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using System.Linq;
+using MediatR;
+using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
+{
     public class AchievementRatesProvider : IRequestHandler<AchievementRateProviderRequest, AchievementRateProviderResult>
     {
         private readonly IDatabaseProvider _databaseProvider;

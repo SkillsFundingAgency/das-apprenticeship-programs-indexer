@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
 using Nest;
@@ -8,14 +9,12 @@ using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
 {
-    using System.Globalization;
-
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-
     public sealed class ElasticsearchApprenticeshipIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainApprenticeshipIndex
     {
         private readonly IElasticsearchConfiguration _elasticsearchConfiguration;

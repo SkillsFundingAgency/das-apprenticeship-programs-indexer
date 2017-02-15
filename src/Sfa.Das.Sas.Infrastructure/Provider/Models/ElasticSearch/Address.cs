@@ -1,6 +1,6 @@
 ﻿using Nest;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
     public sealed class Address
     {

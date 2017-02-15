@@ -1,4 +1,7 @@
-﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
+﻿using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers;
+
+namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,7 +10,6 @@
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Infrastructure.Services;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
     using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
 

@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
+﻿using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
+
+namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 {
     using FluentAssertions;
 
@@ -10,7 +12,6 @@
 
     using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
 
     [TestFixture]
     public class BulkProviderClientTests

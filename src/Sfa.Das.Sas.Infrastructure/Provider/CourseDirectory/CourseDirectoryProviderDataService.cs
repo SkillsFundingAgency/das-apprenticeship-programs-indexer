@@ -155,7 +155,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
         /// <param name='cancellationToken'>
         ///     Cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<IList<Provider>>> BulkprovidersWithOperationResponseAsync(
+        public async Task<HttpOperationResponse<IList<ApplicationServices.Provider.Models.CourseDirectory.Provider>>> BulkprovidersWithOperationResponseAsync(
             int? version = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -248,14 +248,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             }
 
             // Create Result
-            var result = new HttpOperationResponse<IList<Provider>>();
+            var result = new HttpOperationResponse<IList<ApplicationServices.Provider.Models.CourseDirectory.Provider>>();
             result.Request = httpRequest;
             result.Response = httpResponse;
 
             // Deserialize Response
             if (statusCode == HttpStatusCode.OK)
             {
-                IList<Provider> resultModel = new List<Provider>();
+                IList<ApplicationServices.Provider.Models.CourseDirectory.Provider> resultModel = new List<ApplicationServices.Provider.Models.CourseDirectory.Provider>();
                 JToken responseDoc = null;
                 if (string.IsNullOrEmpty(responseContent) == false)
                 {

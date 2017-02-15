@@ -1,9 +1,8 @@
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
+using Nest;
+using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
-    using Nest;
-
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-
     public class JobRoleItem
     {
         [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]

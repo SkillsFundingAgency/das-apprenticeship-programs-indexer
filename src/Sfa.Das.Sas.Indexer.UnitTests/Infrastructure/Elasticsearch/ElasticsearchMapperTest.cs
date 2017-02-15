@@ -47,7 +47,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 Duration = 12
             };
 
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
@@ -55,7 +55,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
             framework.Level.Should().Be(4);
             framework.FrameworkId.Should().Be(string.Format(_frameworkIdFormat, frameworkMetaData.FworkCode, frameworkMetaData.ProgType, frameworkMetaData.PwayCode));
             framework.JobRoleItems.Count().Should().Be(1);
-            framework.Keywords.Should().Contain(new string[] { "keyword1", "keyword2" });
+            framework.Keywords.Should().Contain(new[] { "keyword1", "keyword2" });
             framework.TypicalLength.From.ShouldBeEquivalentTo(12);
             framework.TypicalLength.To.ShouldBeEquivalentTo(24);
             framework.Duration.Should().Be(12);
@@ -75,7 +75,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 ProgType = 3
             };
 
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
@@ -98,7 +98,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 ProgType = 3
             };
 
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
@@ -110,7 +110,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldThrowMappingExceptionOnMappingErrorForFrameworkProviderMapping()
         {
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
             var testProvider = GenerateTestProvider();
 
             // Remove Delivery modes
@@ -126,7 +126,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldThrowMappingExceptionOnMappingErrorForStandardProviderMapping()
         {
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
             var testProvider = GenerateTestProvider();
 
             // Remove Delivery modes
@@ -142,7 +142,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateFrameworkProviderDocumentWithListOfProviderLocations()
         {
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateFrameworkProviderDocument(testProvider, testProvider.Frameworks.First(), testProvider.Frameworks.First().DeliveryLocations);
@@ -153,7 +153,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateFrameworkProviderDocumentWithListOfLocationPoints()
         {
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateFrameworkProviderDocument(testProvider, testProvider.Frameworks.First(), testProvider.Frameworks.First().DeliveryLocations);
@@ -164,7 +164,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateValidFrameworkProviderDocument()
         {
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateFrameworkProviderDocument(testProvider, testProvider.Frameworks.First(), testProvider.Frameworks.First().DeliveryLocations.First());
@@ -186,7 +186,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
             document.ApprenticeshipInfoUrl.Should().Be("http://standard-info.com");
             document.LearnerSatisfaction.Should().Be(8.2);
             document.EmployerSatisfaction.Should().Be(9.2);
-            document.DeliveryModes.Should().BeEquivalentTo(new string[] { "BlockRelease", "DayRelease" });
+            document.DeliveryModes.Should().BeEquivalentTo("BlockRelease", "DayRelease");
             document.Website.Should().Be("http://location-site");
             document.TrainingLocations.First().Address.Address1.Should().Be("Framework Test Address1");
             document.TrainingLocations.First().Address.Address2.Should().Be("Framework Test Address2");
@@ -204,7 +204,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateStandardProviderDocumentWithListOfProviderLocations()
         {
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateStandardProviderDocument(testProvider, testProvider.Standards.First(), testProvider.Frameworks.First().DeliveryLocations);
@@ -215,7 +215,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateStandardProviderDocumentWithListLocationPoints()
         {
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateStandardProviderDocument(testProvider, testProvider.Standards.First(), testProvider.Frameworks.First().DeliveryLocations);
@@ -226,7 +226,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateValidStandardProviderDocument()
         {
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateStandardProviderDocument(testProvider, testProvider.Standards.First(), testProvider.Standards.First().DeliveryLocations.First());
@@ -244,7 +244,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
             document.ApprenticeshipInfoUrl.Should().Be("http://standard-info.com");
             document.LearnerSatisfaction.Should().Be(8.2);
             document.EmployerSatisfaction.Should().Be(9.2);
-            document.DeliveryModes.Should().BeEquivalentTo(new string[] { "BlockRelease", "DayRelease" });
+            document.DeliveryModes.Should().BeEquivalentTo("BlockRelease", "DayRelease");
             document.Website.Should().Be("http://location-site");
             document.TrainingLocations.First().Address.Address1.Should().Be("Standard Test Address1");
             document.TrainingLocations.First().Address.Address2.Should().Be("Standard Test Address2");
@@ -273,7 +273,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 ProgType = 3
             };
 
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
@@ -294,7 +294,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 ProgType = 3
             };
 
-            var mapper = new ElasticsearchMapper(null, _settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object);
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
