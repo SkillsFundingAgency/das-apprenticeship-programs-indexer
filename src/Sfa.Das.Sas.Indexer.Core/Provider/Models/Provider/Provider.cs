@@ -18,6 +18,8 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
         public string Name { get; set; }
 
+        public string LegalName { get; set; }
+
         public IEnumerable<string> Aliases { get; set; }
 
         public bool IsEmployerProvider { get; set; }

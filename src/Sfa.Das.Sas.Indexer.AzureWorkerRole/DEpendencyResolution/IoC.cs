@@ -19,6 +19,7 @@
 using Sfa.Das.Sas.Indexer.ApplicationServices.DependencyResolution;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.DependencyResolution;
 using Sfa.Das.Sas.Indexer.Infrastructure.DependencyResolution;
+using Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution;
 using StructureMap;
 

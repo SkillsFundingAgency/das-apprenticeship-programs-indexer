@@ -14,7 +14,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         public bool IsHigherEducationInstitute { get; set; }
 
         public string ProviderName { get; set; }
-        
+
+        public string LegalName { get; set; }
+
         public bool NationalProvider { get; set; }
 
         public string ProviderMarketingInfo { get; set; }

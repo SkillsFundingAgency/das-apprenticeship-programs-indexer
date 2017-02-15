@@ -238,7 +238,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     continue;
                 }
 
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
+                
                 provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
+                
+                provider.LegalName = ukrlpProvider?.ProviderName;
 
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
@@ -266,6 +270,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 var providerFromRoatp = false;
 
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
+                
                 foreach (var roatpProviderResult in source.RoatpProviders)
                 {
                     if (roatpProviderResult.Ukprn == courseDirectoryProvider.Ukprn.ToString()
@@ -284,6 +290,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
 
+                provider.LegalName = ukrlpProvider?.ProviderName;
                 provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
 
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());

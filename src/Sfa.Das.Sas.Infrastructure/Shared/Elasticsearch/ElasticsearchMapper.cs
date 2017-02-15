@@ -13,14 +13,15 @@ using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using Address = Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models.Address;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 {
-    using JobRoleItem = Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models.JobRoleItem;
+    using JobRoleItem = Infrastructure.Elasticsearch.Models.JobRoleItem;
 
     public class ElasticsearchMapper : IElasticsearchMapper
     {
@@ -367,6 +368,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             documentToPopulate.HasParentCompanyGuarantee = provider.HasParentCompanyGuarantee;
             documentToPopulate.IsNew = provider.IsNew;
             documentToPopulate.ProviderName = provider.Name;
+            documentToPopulate.LegalName = provider.LegalName;
             documentToPopulate.NationalProvider = provider.NationalProvider;
             documentToPopulate.ProviderMarketingInfo = EscapeSpecialCharacters(provider.MarketingInfo);
             documentToPopulate.ApprenticeshipMarketingInfo = EscapeSpecialCharacters(apprenticeshipInformation.MarketingInfo);
@@ -423,7 +425,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                         LocationId = loc.DeliveryLocation.Id,
                         LocationName = loc.DeliveryLocation.Name,
                         Address =
-                                new Models.Address
+                                new Infrastructure.Elasticsearch.Models.Address
                                 {
                                     Address1 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address1),
                                     Address2 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address2),

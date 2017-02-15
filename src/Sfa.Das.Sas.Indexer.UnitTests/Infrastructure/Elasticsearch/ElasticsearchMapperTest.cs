@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using FluentAssertions;
 using Moq;
@@ -9,8 +8,8 @@ using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 {
