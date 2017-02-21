@@ -1,12 +1,11 @@
+using System.Linq;
 using MediatR;
+using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
-    using System.Linq;
-    using Core.Logging;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-
     public class SatisfactionRatesProvider : IRequestHandler<EmployerSatisfactionRateRequest, EmployerSatisfactionRateResult>
     {
         private const string EmployerSatisfactionRatesTableName = "[dbo].[EmployerSatisf_2015_2016]";

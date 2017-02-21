@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using MediatR;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.EmployerProvider;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Hei;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {

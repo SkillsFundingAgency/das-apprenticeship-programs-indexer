@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
     public class ProviderApiDocument
     {

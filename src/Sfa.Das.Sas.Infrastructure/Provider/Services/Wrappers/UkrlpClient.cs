@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
 using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Infrastructure.Mapping;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Mapping;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers
 {
     public class UkrlpClient : IUkrlpClient
     {
@@ -20,7 +18,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers
             _settings = settings;
         }
 
-        public IEnumerable<Provider> RetrieveAllProviders(ProviderQueryStructure providerQueryStructure)
+        public IEnumerable<ApplicationServices.Provider.Models.UkRlp.Provider> RetrieveAllProviders(ProviderQueryStructure providerQueryStructure)
         {
             using (var client = new ProviderQueryPortTypeClient("ProviderQueryPort", _settings.UkrlpServiceEndpointUrl))
             {

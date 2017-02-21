@@ -5,9 +5,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
+using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.CourseDirectory
 {
     public static partial class CourseDirectoryProviderDataServiceExtensions
     {
@@ -23,7 +23,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
         /// <param name='version'>
         /// Optional. version of the api
         /// </param>
-        public static IList<Provider> Bulkproviders(this ICourseDirectoryProviderDataService operations, int? version = null)
+        public static IList<ApplicationServices.Provider.Models.CourseDirectory.Provider> Bulkproviders(this ICourseDirectoryProviderDataService operations, int? version = null)
         {
             return Task.Factory.StartNew((object s) => 
             {
@@ -47,9 +47,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public static async Task<IList<Provider>> BulkprovidersAsync(this ICourseDirectoryProviderDataService operations, int? version = null, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public static async Task<IList<ApplicationServices.Provider.Models.CourseDirectory.Provider>> BulkprovidersAsync(this ICourseDirectoryProviderDataService operations, int? version = null, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Microsoft.Rest.HttpOperationResponse<System.Collections.Generic.IList<Provider>> result = await operations.BulkprovidersWithOperationResponseAsync(version, cancellationToken).ConfigureAwait(false);
+            Microsoft.Rest.HttpOperationResponse<System.Collections.Generic.IList<ApplicationServices.Provider.Models.CourseDirectory.Provider>> result = await operations.BulkprovidersWithOperationResponseAsync(version, cancellationToken).ConfigureAwait(false);
             return result.Body;
         }
     }

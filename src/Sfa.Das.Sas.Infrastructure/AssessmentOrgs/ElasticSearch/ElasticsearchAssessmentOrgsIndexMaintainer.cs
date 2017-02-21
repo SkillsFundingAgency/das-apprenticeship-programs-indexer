@@ -1,28 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Net;
+using System.Threading.Tasks;
+using Nest;
 using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+using Sfa.Das.Sas.Indexer.Core.Exceptions;
+using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
+namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Net;
-    using System.Threading.Tasks;
-    using Nest;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-    using Sfa.Das.Sas.Indexer.Core.Exceptions;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
-    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
-
     public sealed class ElasticsearchAssessmentOrgsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainAssessmentOrgsIndex
     {
-        private readonly ILog _logger;
         private readonly IElasticsearchConfiguration _elasticsearchConfiguration;
 
         public ElasticsearchAssessmentOrgsIndexMaintainer(
@@ -32,7 +25,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             IElasticsearchConfiguration elasticsearchConfiguration)
             : base(elasticsearchClient, elasticsearchMapper, logger, "AssessmentOrgs")
         {
-            _logger = logger;
             _elasticsearchConfiguration = elasticsearchConfiguration;
         }
 

@@ -1,10 +1,9 @@
-﻿using Nest;
+﻿using System.Collections.Generic;
+using Nest;
 using Newtonsoft.Json;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
-    using System.Collections.Generic;
-
     public sealed class StandardProvider : IProviderApprenticeshipDocument
     {
         public int StandardCode { get; set; }
@@ -14,7 +13,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         public bool IsHigherEducationInstitute { get; set; }
 
         public string ProviderName { get; set; }
-        
+
+        public string LegalName { get; set; }
+
         public bool NationalProvider { get; set; }
 
         public string ProviderMarketingInfo { get; set; }
