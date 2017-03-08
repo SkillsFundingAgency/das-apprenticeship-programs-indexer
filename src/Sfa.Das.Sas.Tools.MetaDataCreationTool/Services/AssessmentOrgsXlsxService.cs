@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using OfficeOpenXml;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Extensions;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
@@ -70,7 +71,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         private List<Organisation> FilterOrganisations(IEnumerable<Organisation> organisationsData)
         {
-            return organisationsData.Where(organisation => organisation.EpaOrganisationIdentifier != string.Empty && organisation.EpaOrganisation != string.Empty).ToList();
+            return organisationsData.Where(organisation => organisation.EpaOrganisationIdentifier != string.Empty && organisation.EpaOrganisation != string.Empty).DistinctBy(x => x.EpaOrganisationIdentifier).ToList();
         }
 
         private List<StandardOrganisationsData> FilterStandardOrganisations(IEnumerable<StandardOrganisationsData> standardOrganisationsData)
