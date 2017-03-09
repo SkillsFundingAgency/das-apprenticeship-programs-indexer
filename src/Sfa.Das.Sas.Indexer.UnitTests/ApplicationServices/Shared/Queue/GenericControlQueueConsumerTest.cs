@@ -10,6 +10,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue
 {
@@ -168,7 +169,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue
             }
             catch (Exception)
             {
-                _mockLogger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<object>()), Times.Once());
+                _mockLogger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once());
             }
         }
     }

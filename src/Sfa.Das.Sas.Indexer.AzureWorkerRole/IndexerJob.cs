@@ -23,9 +23,9 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
             var tasks = new List<Task>
             {
                 _controlQueueConsumer.CheckMessage<IMaintainApprenticeshipIndex>(),
-                _controlQueueConsumer.CheckMessage<IMaintainProviderIndex>(),
-                _controlQueueConsumer.CheckMessage<IMaintainLarsIndex>(),
-                _controlQueueConsumer.CheckMessage<IMaintainAssessmentOrgsIndex>()
+                //_controlQueueConsumer.CheckMessage<IMaintainProviderIndex>(),
+                //_controlQueueConsumer.CheckMessage<IMaintainLarsIndex>(),
+                //_controlQueueConsumer.CheckMessage<IMaintainAssessmentOrgsIndex>()
             };
 
             Task.WaitAll(tasks.ToArray());

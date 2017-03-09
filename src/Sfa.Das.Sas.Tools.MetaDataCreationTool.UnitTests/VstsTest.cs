@@ -9,6 +9,7 @@ using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 {

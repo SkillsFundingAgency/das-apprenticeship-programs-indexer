@@ -1,5 +1,6 @@
 ﻿using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {

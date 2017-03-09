@@ -8,6 +8,7 @@ using Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution;
 using Sfa.Das.Sas.Indexer.AzureWorkerRole.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Services;
+using SFA.DAS.NLog.Logger;
 using StructureMap;
 
 namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
@@ -39,7 +40,7 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
                     _logger.Error(ex, "Exception worker role");
                 }
 
-                Thread.Sleep(TimeSpan.FromSeconds(double.Parse(_commonSettings.WorkerRolePauseTime ?? "60")));
+                Thread.Sleep(TimeSpan.FromSeconds(double.Parse(_commonSettings.WorkerRolePauseTime ?? "6000")));
             }
         }
 

@@ -11,6 +11,7 @@ using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
 {

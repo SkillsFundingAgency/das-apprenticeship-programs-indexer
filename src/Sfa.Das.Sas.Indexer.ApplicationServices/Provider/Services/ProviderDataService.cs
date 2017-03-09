@@ -9,6 +9,7 @@ using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {

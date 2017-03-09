@@ -1,4 +1,5 @@
 ﻿using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 {

@@ -4,6 +4,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
+using SFA.DAS.NLog.Logger;
 using StructureMap;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests

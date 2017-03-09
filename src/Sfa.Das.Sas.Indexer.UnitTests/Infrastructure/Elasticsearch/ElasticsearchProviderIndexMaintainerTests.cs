@@ -7,6 +7,7 @@ using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 {

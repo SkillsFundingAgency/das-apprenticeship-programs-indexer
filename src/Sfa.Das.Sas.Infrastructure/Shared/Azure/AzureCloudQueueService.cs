@@ -6,6 +6,7 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Azure
 {

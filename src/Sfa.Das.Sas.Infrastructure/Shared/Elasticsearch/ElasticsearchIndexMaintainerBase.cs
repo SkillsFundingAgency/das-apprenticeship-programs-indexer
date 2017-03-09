@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
+﻿using SFA.DAS.NLog.Logger;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
     using System;
     using System.Collections.Generic;

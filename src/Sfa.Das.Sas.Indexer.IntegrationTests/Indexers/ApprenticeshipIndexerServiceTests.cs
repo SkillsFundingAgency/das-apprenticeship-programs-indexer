@@ -20,6 +20,7 @@ using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {

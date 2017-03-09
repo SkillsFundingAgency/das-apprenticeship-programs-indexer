@@ -1,4 +1,5 @@
 ﻿using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB
 {

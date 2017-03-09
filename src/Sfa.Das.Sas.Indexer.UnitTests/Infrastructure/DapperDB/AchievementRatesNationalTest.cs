@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB
 {

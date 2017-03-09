@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 {

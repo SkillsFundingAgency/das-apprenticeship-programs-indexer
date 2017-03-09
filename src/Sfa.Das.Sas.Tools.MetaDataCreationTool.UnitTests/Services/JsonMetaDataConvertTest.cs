@@ -1,4 +1,5 @@
 ﻿using Sfa.Das.Sas.Indexer.Core.Logging;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
 {

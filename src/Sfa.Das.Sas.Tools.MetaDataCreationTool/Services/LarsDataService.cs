@@ -1,3 +1,5 @@
+using SFA.DAS.NLog.Logger;
+
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     using System;

@@ -7,6 +7,7 @@
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.Infrastructure.Services;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+    using Services;
 
     public class NLogService<T> : NLogService
     {

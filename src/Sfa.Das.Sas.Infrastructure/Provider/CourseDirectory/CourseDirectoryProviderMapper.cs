@@ -1,3 +1,5 @@
+using SFA.DAS.NLog.Logger;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.CourseDirectory
 {
     using System.Collections.Generic;

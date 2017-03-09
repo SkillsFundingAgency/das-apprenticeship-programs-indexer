@@ -2,6 +2,7 @@
 using MediatR;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {

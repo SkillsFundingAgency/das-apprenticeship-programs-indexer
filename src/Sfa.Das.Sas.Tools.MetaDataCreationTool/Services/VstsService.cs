@@ -1,5 +1,6 @@
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {

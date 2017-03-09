@@ -5,6 +5,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Fsc;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {

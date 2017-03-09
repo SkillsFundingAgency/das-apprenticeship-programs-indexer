@@ -14,6 +14,7 @@ using Sfa.Das.Sas.Tools.MetaDataCreationTool;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
 {

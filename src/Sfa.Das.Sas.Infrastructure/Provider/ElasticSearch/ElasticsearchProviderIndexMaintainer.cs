@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Nest;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
-using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 {
@@ -102,7 +102,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
             }
             catch (Exception ex)
             {
-                _log.Error("Something failed indexing framework providers:" + ex.Message);
+                _log.Error(ex, "Something failed indexing framework providers:" + ex.Message);
                 throw;
             }
 
@@ -122,7 +122,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
             }
             catch (Exception ex)
             {
-                _log.Error("Something failed indexing provider documents:" + ex.Message);
+                _log.Error(ex, "Something failed indexing provider documents:" + ex.Message);
                 throw;
             }
 
@@ -142,7 +142,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
             }
             catch (Exception ex)
             {
-                _log.Error("Something failed indexing provider api documents:" + ex.Message);
+                _log.Error(ex, "Something failed indexing provider api documents:" + ex.Message);
                 throw;
             }
 
@@ -182,7 +182,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
             }
             catch (Exception ex)
             {
-                _log.Error("Something failed indexing standard providers:" + ex.Message);
+                _log.Error(ex, "Something failed indexing standard providers:" + ex.Message);
                 throw;
             }
 

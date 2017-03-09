@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
 {

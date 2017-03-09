@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
+﻿using SFA.DAS.NLog.Logger;
+
+namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     using System;
     using System.Collections.Generic;
