@@ -206,17 +206,18 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         private bool IsDateValid(RoatpProviderResult roatpProvider)
         {
-            if (roatpProvider.StartDate == default(DateTime))
+            var today = DateTime.Today.Date;
+            if (!roatpProvider.StartDate.HasValue)
             {
                 return false;
             }
 
-            if (roatpProvider.StartDate.Date <= DateTime.Today.Date && DateTime.Today.Date <= roatpProvider.EndDate)
+            if (roatpProvider.EndDate.HasValue && roatpProvider.StartDate.Value.Date <= today && today <= roatpProvider.EndDate.Value.Date)
             {
                 return true;
             }
 
-            return roatpProvider.StartDate.Date <= DateTime.Today && roatpProvider.EndDate == default(DateTime);
+            return roatpProvider.StartDate.Value.Date <= today && !roatpProvider.EndDate.HasValue;
         }
 
         private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)
