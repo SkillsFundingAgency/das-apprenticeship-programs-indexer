@@ -10,13 +10,10 @@
     public class RoatpProvidersClient : IAsyncRequestHandler<RoatpProviderRequest, List<RoatpProviderResult>>
     {
         private readonly ILog _logger;
-
-        private readonly IVstsClient _vstsClient;
         private readonly IGetRoatpProviders _getRoatpProviders;
 
-        public RoatpProvidersClient(IVstsClient vstsClient, IGetRoatpProviders getRoatpProviders, ILog logger)
+        public RoatpProvidersClient(IGetRoatpProviders getRoatpProviders, ILog logger)
         {
-            _vstsClient = vstsClient;
             _getRoatpProviders = getRoatpProviders;
             _logger = logger;
         }
