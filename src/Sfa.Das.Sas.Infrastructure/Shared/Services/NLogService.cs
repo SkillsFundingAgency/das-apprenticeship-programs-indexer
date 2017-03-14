@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Reflection;
     using NLog;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
     public class NLogService : ILog
@@ -15,6 +14,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 
         private readonly string _loggerType;
         private readonly string _version;
+        public string ApplicationName { get; set; }
 
         public NLogService(Type loggerType, IInfrastructureSettings settings)
         {
@@ -24,203 +24,111 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             _version = GetVersion();
         }
 
-        public string ApplicationName { get; set; }
-
-
         public void Trace(string message)
         {
-            this.SendLog((object)message, NLog.LogLevel.Trace, (Exception)null);
-        }
-
-        public void Trace(string message, ILogEntry logEntry)
-        {
-            this.SendLog((object)message, NLog.LogLevel.Trace, this.BuildProperties(logEntry), (Exception)null);
+            SendLog(message, NLog.LogLevel.Trace);
         }
 
         public void Trace(string message, IDictionary<string, object> properties)
         {
-            this.SendLog((object)message, NLog.LogLevel.Trace, properties, (Exception)null);
+            SendLog(message, NLog.LogLevel.Trace, properties);
+        }
+
+        public void Trace(string message, ILogEntry logEntry)
+        {
+            SendLog(message, NLog.LogLevel.Trace, this.BuildProperties(logEntry));
         }
 
         public void Debug(string message)
         {
-            this.SendLog((object)message, NLog.LogLevel.Debug, (Exception)null);
+            SendLog(message, NLog.LogLevel.Debug);
         }
 
         public void Debug(string message, IDictionary<string, object> properties)
         {
-            this.SendLog((object)message, NLog.LogLevel.Debug, properties, (Exception)null);
+            SendLog(message, NLog.LogLevel.Debug, properties);
         }
 
         public void Debug(string message, ILogEntry logEntry)
         {
             SendLog(message, LogLevel.Debug, new Dictionary<string, object> { { logEntry.GetType().Name, logEntry } });
-
         }
 
         public void Info(string message)
         {
-            this.SendLog((object)message, NLog.LogLevel.Info, (Exception)null);
+            SendLog(message, NLog.LogLevel.Info);
         }
 
         public void Info(string message, IDictionary<string, object> properties)
         {
-            this.SendLog((object)message, NLog.LogLevel.Info, properties, (Exception)null);
+            SendLog(message, NLog.LogLevel.Info, properties);
         }
 
         public void Info(string message, ILogEntry logEntry)
         {
             SendLog(message, LogLevel.Info, new Dictionary<string, object> { { logEntry.GetType().Name, logEntry } });
-
         }
 
         public void Warn(string message)
         {
-            this.SendLog((object)message, NLog.LogLevel.Warn, (Exception)null);
-        }
-
-        //public void Warn(string message, IDictionary<string, object> properties)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public void Warn(string message, ILogEntry logEntry)
-        {
-            SendLog(message, LogLevel.Warn, new Dictionary<string, object> { { logEntry.GetType().Name, logEntry } });
-
+            SendLog(message, NLog.LogLevel.Warn);
         }
 
         public void Warn(string message, IDictionary<string, object> properties)
         {
-            this.SendLog((object)message, NLog.LogLevel.Warn, properties, (Exception)null);
+            SendLog(message, NLog.LogLevel.Warn, properties);
+        }
+
+        public void Warn(string message, ILogEntry logEntry)
+        {
+            SendLog(message, LogLevel.Warn, new Dictionary<string, object> { { logEntry.GetType().Name, logEntry } });
         }
 
         public void Warn(Exception ex, string message)
         {
-            this.SendLog((object)message, NLog.LogLevel.Warn, ex);
-        }
-
-        public void Warn(Exception ex, string message, ILogEntry logEntry)
-        {
-            this.SendLog((object)message, NLog.LogLevel.Warn, this.BuildProperties(logEntry), (Exception)null);
+            SendLog(message, NLog.LogLevel.Warn, ex);
         }
 
         public void Warn(Exception ex, string message, IDictionary<string, object> properties)
         {
-            this.SendLog((object)message, NLog.LogLevel.Warn, properties, ex);
+            SendLog(message, NLog.LogLevel.Warn, properties, ex);
+        }
+
+        public void Warn(Exception ex, string message, ILogEntry logEntry)
+        {
+            SendLog(message, NLog.LogLevel.Warn, BuildProperties(logEntry));
         }
 
         public void Error(Exception ex, string message)
         {
-            this.SendLog((object)message, NLog.LogLevel.Error, ex);
-        }
-
-        public void Error(Exception ex, string message, ILogEntry logEntry)
-        {
-            this.SendLog((object)message, NLog.LogLevel.Error, this.BuildProperties(logEntry), ex);
+            SendLog(message, NLog.LogLevel.Error, ex);
         }
 
         public void Error(Exception ex, string message, IDictionary<string, object> properties)
         {
-            this.SendLog((object)message, NLog.LogLevel.Error, properties, ex);
+            SendLog(message, NLog.LogLevel.Error, properties, ex);
+        }
+
+        public void Error(Exception ex, string message, ILogEntry logEntry)
+        {
+            SendLog(message, NLog.LogLevel.Error, BuildProperties(logEntry), ex);
         }
 
         public void Fatal(Exception ex, string message)
         {
-            this.SendLog((object)message, NLog.LogLevel.Fatal, ex);
-        }
-
-        public void Fatal(Exception ex, string message, ILogEntry logEntry)
-        {
-            this.SendLog((object)message, NLog.LogLevel.Fatal, this.BuildProperties(logEntry), ex);
+            SendLog(message, NLog.LogLevel.Fatal, ex);
         }
 
         public void Fatal(Exception ex, string message, IDictionary<string, object> properties)
         {
-            this.SendLog((object)message, NLog.LogLevel.Fatal, properties, ex);
+            SendLog(message, NLog.LogLevel.Fatal, properties, ex);
         }
 
-
-
-        public void Debug(object message)
+        public void Fatal(Exception ex, string message, ILogEntry logEntry)
         {
-            SendLog(message, LogLevel.Debug);
+            SendLog(message, NLog.LogLevel.Fatal, BuildProperties(logEntry), ex);
         }
 
-        public void Debug(string message, Dictionary<string, object> properties)
-        {
-            SendLog(message, LogLevel.Debug, properties);
-        }
-
-        //public void Debug(string message, ILogEntry entry)
-        //{
-        //    SendLog(message, LogLevel.Debug, new Dictionary<string, object> { { entry.GetType().Name, entry } });
-        //}
-
-        //public void Info(string message, ILogEntry entry)
-        //{
-        //    SendLog(message, LogLevel.Info, new Dictionary<string, object> { { entry.GetType().Name, entry } });
-        //}
-
-        public void Info(object message)
-        {
-            SendLog(message, LogLevel.Info);
-        }
-
-        public void Info(string message, Dictionary<string, object> properties)
-        {
-            SendLog(message, LogLevel.Info, properties);
-        }
-
-        public void Warn(object message)
-        {
-            SendLog(message, LogLevel.Warn);
-        }
-
-        public void Warn(string message, Dictionary<string, object> properties)
-        {
-            SendLog(message, LogLevel.Warn, properties);
-        }
-
-        //public void Warn(string message, ILogEntry entry)
-        //{
-        //    SendLog(message, LogLevel.Warn, new Dictionary<string, object> { { entry.GetType().Name, entry } });
-        //}
-
-        public void Warn(Exception exception, object message)
-        {
-            SendLog(message, LogLevel.Warn, exception);
-        }
-
-        public void Error(Exception exception, object message)
-        {
-            SendLog(message, LogLevel.Error, exception);
-        }
-
-        public void Error(string message)
-        {
-            SendLog(message, LogLevel.Error);
-        }
-
-        public void Error(string message, ILogEntry entry)
-        {
-            SendLog(message, LogLevel.Error, new Dictionary<string, object> { { entry.GetType().Name, entry } });
-        }
-
-        public void Fatal(Exception exception, object message)
-        {
-            SendLog(message, LogLevel.Fatal, exception);
-        }
-
-        public void Fatal(string message, ILogEntry entry)
-        {
-            SendLog(message, LogLevel.Fatal, new Dictionary<string, object> { { entry.GetType().Name, entry } });
-        }
-
-        private void SendLog(object message, LogLevel level, Exception exception = null)
-        {
-            SendLog(message, level, new Dictionary<string, object>(), exception);
-        }
         private string GetVersion()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -228,23 +136,31 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
             return fileVersionInfo.ProductVersion;
         }
 
-
         private IDictionary<string, object> BuildProperties(ILogEntry entry)
         {
             if (entry == null)
-                return (IDictionary<string, object>)null;
+            {
+                return null;
+            }
+
             PropertyInfo[] properties = entry.GetType().GetProperties();
             Dictionary<string, object> dictionary = new Dictionary<string, object>(properties.Length);
+
             foreach (PropertyInfo propertyInfo in properties)
             {
                 string name = propertyInfo.Name;
                 ILogEntry logEntry = entry;
-                object obj = propertyInfo.GetValue((object)logEntry);
+                object obj = propertyInfo.GetValue(logEntry);
                 dictionary.Add(name, obj);
             }
-            return (IDictionary<string, object>)dictionary;
+
+            return dictionary;
         }
 
+        private void SendLog(object message, LogLevel level, Exception exception = null)
+        {
+            SendLog(message, level, new Dictionary<string, object>(), exception);
+        }
 
         private void SendLog(object message, LogLevel level, IDictionary<string, object> properties, Exception exception = null)
         {
