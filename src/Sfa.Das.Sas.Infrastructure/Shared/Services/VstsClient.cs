@@ -1,17 +1,13 @@
-using System.Threading.Tasks;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using SFA.DAS.NLog.Logger;
-
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
-    using Core.Logging;
+    using System.Threading.Tasks;
     using Core.Logging.Metrics;
     using Core.Logging.Models;
-
     using Newtonsoft.Json;
-
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
     using Sfa.Das.Sas.Indexer.Infrastructure.Services.Models;
 
     public class VstsClient : IVstsClient

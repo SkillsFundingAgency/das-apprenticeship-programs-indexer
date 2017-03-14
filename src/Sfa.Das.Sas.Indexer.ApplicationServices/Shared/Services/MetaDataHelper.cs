@@ -1,19 +1,11 @@
-﻿using MediatR;
-using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
-    using System.Collections.Generic;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
+    using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
     using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
     using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 
     public class MetaDataHelper : IMetaDataHelper
     {

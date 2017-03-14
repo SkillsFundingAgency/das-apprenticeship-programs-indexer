@@ -1,19 +1,17 @@
-﻿using System.Linq;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Fsc;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider
 {
+    using System.Linq;
+    using FluentAssertions;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Fsc;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+    using Sfa.Das.Sas.Indexer.Core.Services;
+
     [TestFixture]
     public class FcsActiveProvidersClientTest
     {

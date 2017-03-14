@@ -1,15 +1,14 @@
-﻿using System;
-using System.Linq;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
-using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB
 {
+    using System;
+    using System.Linq;
+    using FluentAssertions;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+
     [TestFixture]
     public class AchievementRatesNationalTest
     {

@@ -7,9 +7,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
     using System.Linq;
     using AngleSharp.Parser.Html;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
     public class AngleSharpService : IAngleSharpService

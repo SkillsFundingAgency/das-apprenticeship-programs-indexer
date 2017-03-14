@@ -7,7 +7,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
     using System.Linq;
     using Nest;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
 
     public abstract class ElasticsearchIndexMaintainerBase : IMaintainSearchIndexes
     {

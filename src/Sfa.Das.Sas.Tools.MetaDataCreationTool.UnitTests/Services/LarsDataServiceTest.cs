@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
+﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using FluentAssertions;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
     [TestFixture]
     public class LarsDataServiceTest

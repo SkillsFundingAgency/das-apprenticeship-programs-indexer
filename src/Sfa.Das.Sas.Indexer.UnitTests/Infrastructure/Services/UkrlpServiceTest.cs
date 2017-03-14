@@ -1,16 +1,13 @@
-﻿using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services;
-using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
     using System.Collections.Generic;
     using System.Linq;
     using Moq;
     using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Services;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
     using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
 

@@ -1,16 +1,15 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using MediatR;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Fsc;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using MediatR;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Fsc;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
     public class FcsActiveProvidersClient : IAsyncRequestHandler<FcsProviderRequest, FcsProviderResult>
     {
         private readonly IAppServiceSettings _appServiceSettings;

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using Dapper;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Diagnostics;
+    using Dapper;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+
     public class DatabaseProvider : IDatabaseProvider
     {
         private const string ErrorMsg = "Missing connectionstring for achievementrates database";

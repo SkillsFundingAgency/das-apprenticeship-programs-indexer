@@ -1,21 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Moq;
-using Nest;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.Core.Exceptions;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch;
-using SFA.DAS.NLog.Logger;
-
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Moq;
+    using Nest;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.Core.Exceptions;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch;
+
     [TestFixture]
     public sealed class ElasticsearchApprenticeshipIndexMaintainerTests : BaseElasticIndexMaintainerTests
     {

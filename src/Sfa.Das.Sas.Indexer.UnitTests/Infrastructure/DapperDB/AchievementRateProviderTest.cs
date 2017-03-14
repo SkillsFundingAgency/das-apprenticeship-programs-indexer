@@ -1,15 +1,13 @@
-﻿using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB
 {
     using System;
     using System.Linq;
     using FluentAssertions;
-    using Indexer.Core.Logging;
     using Indexer.Infrastructure.Settings;
     using Moq;
     using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
 
     [TestFixture]
     public class AchievementRateProviderTest

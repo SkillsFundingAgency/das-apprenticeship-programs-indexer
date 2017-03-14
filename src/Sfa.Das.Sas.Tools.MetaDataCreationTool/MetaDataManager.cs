@@ -1,8 +1,3 @@
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using OfficeOpenXml;
-using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
@@ -17,7 +12,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
     using Sfa.Das.Sas.Indexer.Core.Extensions;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;

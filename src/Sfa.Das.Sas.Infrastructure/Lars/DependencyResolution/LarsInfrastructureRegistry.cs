@@ -1,5 +1,4 @@
 using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Lars.ElasticSearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using StructureMap;

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Net;
-using Polly;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
+    using System;
+    using System.Net;
+    using Polly;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+
     public class RetryService : IRetryWebRequest
     {
         private readonly ILog _log;

@@ -1,19 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Net;
-using System.Threading.Tasks;
-using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
-using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-using Sfa.Das.Sas.Indexer.Core.Exceptions;
-using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-using SFA.DAS.NLog.Logger;
-
 namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Nest;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
+    using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+    using Sfa.Das.Sas.Indexer.Core.Exceptions;
+    using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+
     public sealed class ElasticsearchAssessmentOrgsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainAssessmentOrgsIndex
     {
         private readonly IElasticsearchConfiguration _elasticsearchConfiguration;

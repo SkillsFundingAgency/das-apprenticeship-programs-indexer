@@ -1,6 +1,4 @@
-﻿
-
-using SFA.DAS.NLog.Logger;
+﻿using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {

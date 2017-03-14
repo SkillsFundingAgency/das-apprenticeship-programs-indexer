@@ -1,17 +1,15 @@
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using SFA.DAS.NLog.Logger;
-
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Indexer.Core.Logging;
     using Indexer.Core.Models;
     using Interfaces;
     using Models.Git;
     using Newtonsoft.Json;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 
     public class VstsService : IVstsService
     {

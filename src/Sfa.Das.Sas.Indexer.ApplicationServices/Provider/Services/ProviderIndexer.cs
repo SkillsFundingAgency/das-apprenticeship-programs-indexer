@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Extensions;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using SFA.DAS.NLog.Logger;
-using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Nest;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.Core.Extensions;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+    using Sfa.Das.Sas.Indexer.Core.Services;
+    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
+
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
     {
         private readonly IMaintainProviderIndex _searchIndexMaintainer;

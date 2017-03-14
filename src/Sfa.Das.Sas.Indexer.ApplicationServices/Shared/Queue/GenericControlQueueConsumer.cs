@@ -7,7 +7,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
     using System.Threading.Tasks;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
 
     public class GenericControlQueueConsumer : IGenericControlQueueConsumer
     {
