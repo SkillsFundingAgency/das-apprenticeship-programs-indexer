@@ -22,6 +22,5 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         public LearnerSatisfactionRateResult LearnerSatisfactionRates { get; set; }
         public EmployerSatisfactionRateResult EmployerSatisfactionRates { get; set; }
         public HeiProvidersResult HeiProviders { get; set; }
-        public UkrlpProviderResponse UkrlpProvidersApi { get; set; }
     }
 }
