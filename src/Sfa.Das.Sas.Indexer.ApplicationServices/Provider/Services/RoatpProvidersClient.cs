@@ -26,7 +26,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             _logger.Debug("Starting to retreive RoATP providers");
             var records = _getRoatpProviders.GetRoatpData();
-            _logger.Debug($"Retrieved {records.Count} providers on the FCS list");
+            _logger.Debug($"Retrieved {records.Count} providers on the ROATP list");
             return records;
         }
     }
