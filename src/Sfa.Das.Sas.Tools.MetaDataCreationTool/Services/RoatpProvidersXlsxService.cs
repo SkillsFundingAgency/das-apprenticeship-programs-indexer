@@ -118,11 +118,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     case "Employer provider":
                         return ProviderType.EmployerProvider;
                     default:
-                        return ProviderType.MainProvider;
+                        return ProviderType.Unknown;
                 }
             }
 
-            return ProviderType.MainProvider;
+            return ProviderType.Unknown;
         }
     }
 }
