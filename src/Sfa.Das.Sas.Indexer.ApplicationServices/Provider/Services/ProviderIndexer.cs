@@ -160,9 +160,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
         {
-            foreach (var roatpProvider in source.RoatpProviders)
+            foreach (var roatpProvider in source.RoatpProviders.Where(r => r.ProviderType != ProviderType.SupportingProvider && IsDateValid(r)))
             {
-                if (roatpProvider.ProviderType == ProviderType.SupportingProvider || !IsDateValid(roatpProvider)) continue;
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
 
                 CoreProvider provider;
@@ -204,20 +203,19 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
         }
 
-        private bool IsDateValid(RoatpProviderResult roatpProvider)
+        public bool IsDateValid(RoatpProviderResult roatpProvider)
         {
-            var today = DateTime.Today.Date;
-            if (!roatpProvider.StartDate.HasValue)
+            if (roatpProvider.StartDate == null)
             {
                 return false;
             }
 
-            if (roatpProvider.EndDate.HasValue && roatpProvider.StartDate.Value.Date <= today && today <= roatpProvider.EndDate.Value.Date)
+            if (roatpProvider.StartDate?.Date <= DateTime.Today.Date && DateTime.Today.Date <= roatpProvider.EndDate)
             {
                 return true;
             }
 
-            return roatpProvider.StartDate.Value.Date <= today && !roatpProvider.EndDate.HasValue;
+            return roatpProvider.StartDate?.Date <= DateTime.Today && roatpProvider.EndDate == null;
         }
 
         private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)

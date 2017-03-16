@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
 {
@@ -40,6 +43,34 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             _sut.CreateIndex("testindex");
 
             _mockIndexMaintainer.Verify(x => x.CreateIndex(It.IsAny<string>()), Times.Once);
+        }
+
+        [TestCase("13/03/2017", null, true)]
+        [TestCase("16/03/2017", null, false)]
+        [TestCase(null, null, false)]
+        [TestCase("13/03/2017", "16/03/2017", true)]
+        [TestCase("11/03/2017", "13/03/2017", false)]
+        public void should(string start, string end, bool expected)
+        {
+            DateTime? startDate = convertDate(start);
+            DateTime? endDate = convertDate(end);
+            RoatpProviderResult roatpProvider = new RoatpProviderResult
+            {
+                StartDate = startDate,
+                EndDate = endDate
+            };
+
+            Assert.AreEqual(expected, _sut.IsDateValid(roatpProvider));
+        }
+
+        private DateTime? convertDate(string date)
+        {
+            if (string.IsNullOrEmpty(date))
+            {
+                return null;
+            }
+
+            return DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
 
         [Test]
