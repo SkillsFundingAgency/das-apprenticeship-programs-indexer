@@ -45,12 +45,12 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             _mockIndexMaintainer.Verify(x => x.CreateIndex(It.IsAny<string>()), Times.Once);
         }
 
-        [TestCase("13/03/2017", null, true)]
-        [TestCase("16/03/2017", null, false)]
+        [TestCase(0, null, true)]
+        [TestCase(3, null, false)]
         [TestCase(null, null, false)]
-        [TestCase("13/03/2017", "16/03/2017", true)]
-        [TestCase("11/03/2017", "13/03/2017", false)]
-        public void should(string start, string end, bool expected)
+        [TestCase(0, 3, true)]
+        [TestCase(-2, -1, false)]
+        public void ShouldCheckIfTheDateIsValid(int? start, int? end, bool expected)
         {
             DateTime? startDate = convertDate(start);
             DateTime? endDate = convertDate(end);
@@ -63,14 +63,14 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             Assert.AreEqual(expected, _sut.IsDateValid(roatpProvider));
         }
 
-        private DateTime? convertDate(string date)
+        private DateTime? convertDate(int? date)
         {
-            if (string.IsNullOrEmpty(date))
+            if (!date.HasValue)
             {
                 return null;
             }
 
-            return DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            return DateTime.Now.AddDays(date.Value).Date;
         }
 
         [Test]
