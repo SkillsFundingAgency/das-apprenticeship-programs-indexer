@@ -41,5 +41,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public IEnumerable<StandardInformation> Standards { get; set; }
 
         public IEnumerable<ContactAddress> Addresses { get; set; }
+
+        public bool IsLevyPayerOnly { get; set; }
     }
 }
