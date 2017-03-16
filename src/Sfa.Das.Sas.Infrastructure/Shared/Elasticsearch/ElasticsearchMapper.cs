@@ -386,6 +386,7 @@
             documentToPopulate.OverallCohort = apprenticeshipInformation.OverallCohort;
 
             documentToPopulate.HasNonLevyContract = provider.HasNonLevyContract;
+            documentToPopulate.IsLevyPayerOnly = provider.IsLevyPayerOnly;
         }
 
         private double? GetRoundedValue(double? value)
