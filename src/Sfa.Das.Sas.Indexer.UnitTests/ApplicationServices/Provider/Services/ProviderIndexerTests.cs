@@ -1,15 +1,15 @@
-﻿using System;
-using System.Globalization;
-using Moq;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Logging;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
+
 {
+    using System;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+
     [TestFixture]
     public sealed class ProviderIndexerTests
     {

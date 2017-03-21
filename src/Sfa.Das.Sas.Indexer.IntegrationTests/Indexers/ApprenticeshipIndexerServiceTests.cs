@@ -1,28 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using FluentAssertions;
-using MediatR;
-using Moq;
-using Nest;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-
-namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
+﻿namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using FluentAssertions;
+    using MediatR;
+    using Moq;
+    using Nest;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+    using Sfa.Das.Sas.Indexer.Core.Services;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+
     [TestFixture]
     public class ApprenticeshipIndexerServiceTests
     {

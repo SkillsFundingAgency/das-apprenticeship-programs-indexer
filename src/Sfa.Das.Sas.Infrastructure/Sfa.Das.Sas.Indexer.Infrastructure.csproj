@@ -56,10 +56,6 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.1.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.NLogTarget, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.NLogTarget.2.1.0\lib\net45\Microsoft.ApplicationInsights.NLogTarget.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
       <Private>True</Private>
@@ -85,7 +81,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -104,16 +100,16 @@
       <HintPath>..\packages\NLog.4.3.7\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NLog.Targets.ElasticSearch, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.Targets.ElasticSearch.2.1.0\lib\net45\NLog.Targets.ElasticSearch.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Polly, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Polly.4.3.0\lib\net45\Polly.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SFA.DAS.NLog.Targets.AzureEventHub, Version=1.0.0.8390, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.NLog.Targets.AzureEventHub.1.0.0.8390\lib\net45\SFA.DAS.NLog.Targets.AzureEventHub.dll</HintPath>
+    <Reference Include="SFA.DAS.NLog.Logger, Version=1.0.0.23289, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.23289\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.1.608.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.1.608\lib\net45\StackExchange.Redis.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=4.2.0.402, Culture=neutral, processorArchitecture=MSIL">
@@ -211,8 +207,8 @@
     <Compile Include="Shared\Services\HttpService.cs" />
     <Compile Include="Shared\Models\Git\GitTree.cs" />
     <Compile Include="Shared\Models\Git\Entity.cs" />
-    <Compile Include="Shared\Services\NLogService.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryClient.cs" />
+    <Compile Include="Shared\Services\NLogService.cs" />
     <Compile Include="Shared\Services\NLogService{T}.cs" />
     <Compile Include="Shared\Services\RetryService.cs" />
     <Compile Include="Provider\Services\UkrlpService.cs" />
@@ -231,18 +227,13 @@
     <Compile Include="Shared\Settings\MachineSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NLog.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Service References\Ukrlp\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Service References\Ukrlp\configuration.svcinfo" />
     <None Include="Service References\Ukrlp\configuration91.svcinfo" />
-    <None Include="app.config" />
-    <None Include="NLog.xsd">
+    <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />

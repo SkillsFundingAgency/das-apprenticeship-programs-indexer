@@ -1,21 +1,18 @@
-﻿using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
-using StructureMap;
-
-namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
+﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 {
     using System.Linq;
-
     using FluentAssertions;
-
     using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
     using Sfa.Das.Sas.Indexer.Core.Services;
     using Sfa.Das.Sas.Indexer.Infrastructure.Services;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
+    using StructureMap;
 
     [TestFixture]
     public class MetaDataTest

@@ -1,22 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-using Sfa.Das.Sas.Indexer.Core.Exceptions;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
-
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.ElasticSearch
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Nest;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+    using Sfa.Das.Sas.Indexer.Core.Exceptions;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
+
     public sealed class ElasticsearchLarsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainLarsIndex
     {
         private readonly IElasticsearchConfiguration _elasticsearchConfiguration;

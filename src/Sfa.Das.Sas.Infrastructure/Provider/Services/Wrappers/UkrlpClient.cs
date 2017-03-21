@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Mapping;
-using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Mapping;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
+
     public class UkrlpClient : IUkrlpClient
     {
         private readonly ILog _logger;

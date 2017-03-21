@@ -1,17 +1,12 @@
-﻿using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 {
     using FluentAssertions;
-
     using Moq;
-
     using Nest;
-
     using NUnit.Framework;
-
-    using Sfa.Das.Sas.Indexer.Core.Logging;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
 
     [TestFixture]
     public class BulkProviderClientTests

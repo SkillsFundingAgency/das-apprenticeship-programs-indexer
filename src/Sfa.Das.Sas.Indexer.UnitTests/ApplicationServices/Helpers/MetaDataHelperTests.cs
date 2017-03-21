@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions;
-using Moq;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using FluentAssertions;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
+
     [TestFixture]
     public class MetaDataHelperTests
     {

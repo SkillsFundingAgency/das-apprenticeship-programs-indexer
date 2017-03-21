@@ -1,17 +1,16 @@
-﻿using System.Threading.Tasks;
-using MediatR;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-
-namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
+﻿namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using MediatR;
     using Moq;
     using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
     [TestFixture]
     public class ProviderDataServiceTest

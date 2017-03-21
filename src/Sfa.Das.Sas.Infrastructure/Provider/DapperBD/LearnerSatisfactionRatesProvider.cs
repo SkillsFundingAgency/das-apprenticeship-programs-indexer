@@ -1,11 +1,11 @@
-using System.Linq;
-using MediatR;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
+    using System.Linq;
+    using MediatR;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
     public class LearnerSatisfactionRatesProvider : IRequestHandler<LearnerSatisfactionRateRequest, LearnerSatisfactionRateResult>
     {
         private const string LearnerSatisfactionRatesTableName = "[dbo].[LearnerSatisf_2015_2016]";

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services

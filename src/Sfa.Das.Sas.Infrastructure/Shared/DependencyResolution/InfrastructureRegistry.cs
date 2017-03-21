@@ -10,6 +10,8 @@ using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 using Sfa.Das.Sas.Indexer.Infrastructure.Services;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch;
+using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
+using SFA.DAS.NLog.Logger;
 using StructureMap;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution

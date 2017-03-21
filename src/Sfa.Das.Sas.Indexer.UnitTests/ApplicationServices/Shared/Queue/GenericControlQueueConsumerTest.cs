@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+
     [TestFixture]
     public sealed class GenericControlQueueConsumerTest
     {
@@ -168,7 +167,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue
             }
             catch (Exception)
             {
-                _mockLogger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<object>()), Times.Once());
+                _mockLogger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once());
             }
         }
     }
