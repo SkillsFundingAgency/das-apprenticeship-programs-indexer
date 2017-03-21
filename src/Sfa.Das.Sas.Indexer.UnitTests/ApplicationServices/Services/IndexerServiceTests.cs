@@ -1,14 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using Moq;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
 {
+    using System;
+    using System.Threading.Tasks;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.Core.Services;
+
     [TestFixture]
     public class IndexerServiceTests
     {

@@ -1,10 +1,9 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
+﻿using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Mapping
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Mapping
 {
     public interface IUkrlpProviderResponseMapper
     {
-        Provider MapFromUkrlpProviderRecord(ProviderRecordStructure record);
+        ApplicationServices.Provider.Models.UkRlp.Provider MapFromUkrlpProviderRecord(ProviderRecordStructure record);
     }
 }

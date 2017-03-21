@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Nest;
 using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-
     public sealed class StandardDocument : ApprenticeshipDocument, IIndexEntry
     {
         public int StandardId { get; set; }

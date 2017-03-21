@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.Core.Services;
+
     public class IndexerService<T> : IIndexerService<T>
     {
         private readonly IGenericIndexerHelper<T> _indexerHelper;

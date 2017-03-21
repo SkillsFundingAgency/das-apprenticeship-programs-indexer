@@ -10,6 +10,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         Task IndexEntries(string indexName, ICollection<Core.Models.Provider.Provider> entries);
         List<Task<IBulkResponse>> IndexFrameworks(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries);
         List<Task<IBulkResponse>> IndexProviders(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries);
+        List<Task<IBulkResponse>> IndexApiProviders(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries);
         List<Task<IBulkResponse>> IndexStandards(string indexName, IEnumerable<Core.Models.Provider.Provider> indexEntries);
         void LogResponse(IBulkResponse[] elementIndexResult, string documentType);
     }

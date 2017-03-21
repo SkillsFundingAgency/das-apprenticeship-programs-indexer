@@ -1,16 +1,18 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.SqlClient;
     using System.Diagnostics;
-    using Core.Logging;
-    using Core.Logging.Models;
     using Dapper;
-    using Settings;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
     public class DatabaseProvider : IDatabaseProvider
     {
+        private const string ErrorMsg = "Missing connectionstring for achievementrates database";
         private readonly IInfrastructureSettings _infrastructureSettings;
 
         private readonly ILog _logger;
@@ -25,7 +27,7 @@
         {
             if (string.IsNullOrEmpty(_infrastructureSettings.AchievementRateDataBaseConnectionString))
             {
-                _logger.Error("Missing connectionstring for achievementrates database");
+                _logger.Error(new NullReferenceException(ErrorMsg), ErrorMsg);
                 return default(IEnumerable<T>);
             }
 
@@ -43,7 +45,8 @@
         {
             if (string.IsNullOrEmpty(_infrastructureSettings.AchievementRateDataBaseConnectionString))
             {
-                _logger.Error("Missing connectionstring for achievementrates database");
+                var errorMsg = "Missing connectionstring for achievementrates database";
+                _logger.Error(new NullReferenceException(errorMsg), errorMsg);
                 return default(T);
             }
 

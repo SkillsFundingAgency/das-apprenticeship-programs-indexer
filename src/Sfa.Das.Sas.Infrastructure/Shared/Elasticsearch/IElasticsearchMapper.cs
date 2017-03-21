@@ -1,6 +1,8 @@
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -9,7 +11,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models;
     using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 
     public interface IElasticsearchMapper
@@ -47,5 +48,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, DeliveryInformation deliveryInformation);
 
         ProviderDocument CreateProviderDocument(Provider provider);
+
+        ProviderApiDocument CreateProviderApiDocument(Provider provider);
     }
 }

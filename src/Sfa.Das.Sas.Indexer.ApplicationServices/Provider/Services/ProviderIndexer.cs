@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Extensions;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Nest;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.Core.Extensions;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+    using Sfa.Das.Sas.Indexer.Core.Services;
+    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
+
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
     {
         private readonly IMaintainProviderIndex _searchIndexMaintainer;
@@ -91,15 +93,22 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var bulkStandardTasks = new List<Task<IBulkResponse>>();
             var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
             var bulkProviderTasks = new List<Task<IBulkResponse>>();
+            var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
 
             _log.Debug("Loading data at provider index");
             var source = await _providerDataService.LoadDatasetsAsync();
 
+            _log.Debug($"Received {source.ActiveProviders.Providers.Count()} FCS providers");
+            _log.Debug($"Received {source.RoatpProviders.Count} RoATP providers");
+
             _log.Debug("Creating providers");
             var providers = CreateProviders(source).ToList();
+            var providersApi = CreateApiProviders(source).ToList();
 
             _log.Debug("Indexing " + providers.Count + " providers");
             bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
+            _log.Debug("Indexing " + providersApi.Count + " RoATP providers");
+            bulkApiProviderTasks.AddRange(_searchIndexMaintainer.IndexApiProviders(indexName, providersApi));
 
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
 
@@ -138,10 +147,50 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 provider.Name = ukrlpProvider?.ProviderName;
                 provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
                 provider.Aliases = ukrlpProvider?.ProviderAliases;
-                
-                var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
 
                 provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
+                provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
+
+                _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
+                _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
+
+                yield return provider;
+            }
+        }
+
+        private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
+        {
+            foreach (var roatpProvider in source.RoatpProviders.Where(r => r.ProviderType != ProviderType.SupportingProvider && IsDateValid(r)))
+            {
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
+
+                CoreProvider provider;
+
+                var roatProviderUkprn = int.Parse(roatpProvider.Ukprn);
+
+                if (source.CourseDirectoryUkPrns.Contains(roatProviderUkprn))
+                {
+                    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == roatProviderUkprn);
+                    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
+                }
+                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn))
+                {
+                    provider = _ukrlpProviderMapper.Map(ukrlpProvider);
+                }
+                else
+                {
+                    // skip this provider if they don't exist in Course Directory or UKRLP
+                    continue;
+                }
+
+                provider.Name = ukrlpProvider?.ProviderName;
+                provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
+                provider.Aliases = ukrlpProvider?.ProviderAliases;
+
+                var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
+
+                provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
+
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
                 provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
@@ -154,7 +203,30 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
         }
 
+        public bool IsDateValid(RoatpProviderResult roatpProvider)
+        {
+            if (roatpProvider.StartDate == null)
+            {
+                return false;
+            }
+
+            if (roatpProvider.StartDate?.Date <= DateTime.Today.Date && DateTime.Today.Date <= roatpProvider.EndDate)
+            {
+                return true;
+            }
+
+            return roatpProvider.StartDate?.Date <= DateTime.Today && roatpProvider.EndDate == null;
+        }
+
         private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)
+        {
+            var apprenticeshipProviders = CreateApprenticeshipProvidersFcs(source).ToList();
+            apprenticeshipProviders.AddRange(CreateApprenticeshipProvidersRoatp(source).ToList());
+
+            return apprenticeshipProviders;
+        }
+
+        private IEnumerable<CoreProvider> CreateApprenticeshipProvidersFcs(ProviderSourceDto source)
         {
             foreach (var courseDirectoryProvider in source.CourseDirectoryProviders.Providers)
             {
@@ -165,13 +237,72 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     continue;
                 }
 
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
+
                 provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
 
-                var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
+                provider.LegalName = ukrlpProvider?.ProviderName;
 
-                provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
+                provider.HasNonLevyContract = true;
+                provider.HasParentCompanyGuarantee = false;
+                provider.IsNew = false;
+
+                provider.IsLevyPayerOnly = false;
+
+                var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
+                provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
+                provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
+
+                _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
+                _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
+
+                yield return provider;
+            }
+        }
+
+        private IEnumerable<CoreProvider> CreateApprenticeshipProvidersRoatp(ProviderSourceDto source)
+        {
+            foreach (var courseDirectoryProvider in source.CourseDirectoryProviders.Providers)
+            {
+                CoreProvider provider;
+                var roatpProvider = new RoatpProviderResult();
+
+                var providerFromRoatp = false;
+
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
+
+                foreach (var roatpProviderResult in source.RoatpProviders)
+                {
+                    if (roatpProviderResult.Ukprn == courseDirectoryProvider.Ukprn.ToString()
+                        && roatpProviderResult.ProviderType == ProviderType.MainProvider
+                        && IsDateValid(roatpProviderResult))
+                    {
+                        providerFromRoatp = true;
+                        roatpProvider = roatpProviderResult;
+                    }
+                }
+
+                if (!providerFromRoatp)
+                {
+                    continue;
+                }
+
+                provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
+
+                provider.LegalName = ukrlpProvider?.ProviderName;
+                provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
+
+                provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
+
+                provider.HasNonLevyContract = false; //roatpProvider.ContractedForNonLeviedEmployers;
+                provider.HasParentCompanyGuarantee = roatpProvider.ParentCompanyGuarantee;
+                provider.IsNew = roatpProvider.NewOrganisationWithoutFinancialTrackRecord;
+
+                provider.IsLevyPayerOnly = !source.ActiveProviders.Providers.Contains(courseDirectoryProvider.Ukprn);
+
+                var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
                 provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
                 provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
 

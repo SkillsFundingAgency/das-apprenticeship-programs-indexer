@@ -1,8 +1,8 @@
-namespace Sfa.Das.Sas.Indexer.Infrastructure.DapperBD
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
     using System.Linq;
-    using Core.Logging;
     using MediatR;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 

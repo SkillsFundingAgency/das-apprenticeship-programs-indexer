@@ -1,16 +1,15 @@
-﻿using Nest;
+﻿using System.Collections.Generic;
+using Nest;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
-    using System.Collections.Generic;
-
     public interface IProviderApprenticeshipDocument
     {
         int Ukprn { get; set; }
         bool IsHigherEducationInstitute { get; set; }
         string ProviderName { get; set; }
+        string LegalName { get; set; }
         bool NationalProvider { get; set; }
-        bool IsEmployerProvider { get; set; }
         string ProviderMarketingInfo { get; set; }
         string ApprenticeshipMarketingInfo { get; set; }
         string Phone { get; set; }
@@ -27,5 +26,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         double? OverallAchievementRate { get; set; }
         double? NationalOverallAchievementRate { get; set; }
         string OverallCohort { get; set; }
+        bool HasNonLevyContract { get; set; }
+        bool HasParentCompanyGuarantee { get; set; }
+        bool IsNew { get; set; }
+        bool IsLevyPayerOnly { get; set; }
     }
 }

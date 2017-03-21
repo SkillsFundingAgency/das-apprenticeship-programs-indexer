@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using Moq;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
-
-namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
+﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
 {
-    using Sfa.Das.Sas.Indexer.Core.Logging;
+    using System.Linq;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
 
     [TestFixture]
     public class AngleSharpServiceTests

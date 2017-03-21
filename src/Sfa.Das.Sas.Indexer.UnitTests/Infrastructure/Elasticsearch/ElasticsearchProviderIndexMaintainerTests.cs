@@ -1,15 +1,15 @@
-﻿using System;
-using Moq;
-using Nest;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.Core.Exceptions;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 {
+    using System;
+    using Moq;
+    using Nest;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.Core.Exceptions;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch;
+
     [TestFixture]
     public sealed class ElasticsearchProviderIndexMaintainerTests : BaseElasticIndexMaintainerTests
     {

@@ -22,6 +22,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<IGetFrameworkMetaData>().Use<MetaDataManager>();
             For<IGetLarsMetadata>().Use<MetaDataManager>();
             For<IGetAssessmentOrgsData>().Use<AssessmentOrgsXlsxService>();
+            For<IGetRoatpProviders>().Use<RoatpProvidersXlsxService>();
             For<IJsonMetaDataConvert>().Use<JsonMetaDataConvert>();
             For<IGenericMetaDataFactory>().Use<LarsMetaDataFactory>();
             For<IElasticsearchLarsDataService>().Use<ElasticsearchLarsDataService>();

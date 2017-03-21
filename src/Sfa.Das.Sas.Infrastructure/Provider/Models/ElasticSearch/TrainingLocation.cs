@@ -1,7 +1,7 @@
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
-{
-    using Nest;
+using Nest;
 
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
+{
     public class TrainingLocation
     {
         public int LocationId { get; set; }

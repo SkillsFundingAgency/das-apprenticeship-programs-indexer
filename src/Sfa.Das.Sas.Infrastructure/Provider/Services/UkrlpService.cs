@@ -1,15 +1,15 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using MediatR;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Services.Wrappers;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-    using Ukrlp;
-    using Provider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp.Provider;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
+    using Provider = ApplicationServices.Provider.Models.UkRlp.Provider;
 
     public class UkrlpService : IRequestHandler<UkrlpProviderRequest, UkrlpProviderResponse>
     {

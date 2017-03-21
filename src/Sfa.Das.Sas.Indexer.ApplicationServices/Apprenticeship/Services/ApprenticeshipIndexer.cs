@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MediatR;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-using Sfa.Das.Sas.Indexer.Core.Services;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using MediatR;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+    using Sfa.Das.Sas.Indexer.Core.Services;
+
     public sealed class ApprenticeshipIndexer : IGenericIndexerHelper<IMaintainApprenticeshipIndex>
     {
         private readonly IIndexSettings<IMaintainApprenticeshipIndex> _settings;
         private readonly IMediator _mediator;
         private readonly IMaintainApprenticeshipIndex _searchIndexMaintainer;
-        private readonly IMetaDataHelper _metaDataHelper;
         private readonly ILog _log;
 
         public ApprenticeshipIndexer(
@@ -30,7 +29,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             _settings = settings;
             _mediator = mediator;
             _searchIndexMaintainer = searchIndexMaintainer;
-            _metaDataHelper = metaDataHelper;
             _log = log;
         }
 

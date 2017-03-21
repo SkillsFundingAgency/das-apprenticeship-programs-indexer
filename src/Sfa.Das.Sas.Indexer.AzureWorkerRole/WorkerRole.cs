@@ -1,17 +1,16 @@
-using System;
-using System.Configuration;
-using System.Net;
-using System.Threading;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.WindowsAzure.ServiceRuntime;
-using Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution;
-using Sfa.Das.Sas.Indexer.AzureWorkerRole.Settings;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
-using StructureMap;
-
 namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 {
+    using System;
+    using System.Configuration;
+    using System.Net;
+    using System.Threading;
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.WindowsAzure.ServiceRuntime;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution;
+    using Sfa.Das.Sas.Indexer.AzureWorkerRole.Settings;
+    using StructureMap;
+
     public class WorkerRole : RoleEntryPoint, IDisposable
     {
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();

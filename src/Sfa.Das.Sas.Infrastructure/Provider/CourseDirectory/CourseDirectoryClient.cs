@@ -1,11 +1,10 @@
-﻿
-namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
     using MediatR;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.Core.Logging.Models;
     using Sfa.Das.Sas.Indexer.Core.Provider.Models;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;

@@ -1,11 +1,12 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Mapping
+﻿using System;
+using System.Linq;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Mapping
 {
-    using System;
-    using System.Linq;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-    using Provider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
+    using Provider = Core.Models.Provider.Provider;
 
     public class UkrlpProviderMapper : IUkrlpProviderMapper
     {
@@ -33,7 +34,7 @@
                 Primary = contact.ContactAddress?.PAON,
                 Secondary = contact.ContactAddress?.SAON,
                 Street = contact.ContactAddress?.StreetDescription,
-                Town = contact.ContactAddress?.PostTown,
+                Town = contact.ContactAddress?.PostTown ?? contact.ContactAddress?.Town,
                 PostCode = contact.ContactAddress?.PostCode
             };
         }

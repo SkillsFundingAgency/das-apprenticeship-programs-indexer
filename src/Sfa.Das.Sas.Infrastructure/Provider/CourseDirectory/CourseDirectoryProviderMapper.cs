@@ -1,16 +1,18 @@
-using System.Collections.Generic;
-using System.Linq;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using CourseDirectoryProvider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory.Provider;
-using Location = Sfa.Das.Sas.Indexer.Core.Models.Provider.Location;
-using Provider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
+using SFA.DAS.NLog.Logger;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.CourseDirectory
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+    using Sfa.Das.Sas.Indexer.Core.Logging;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
+    using CourseDirectoryProvider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory.Provider;
+    using Location = Sfa.Das.Sas.Indexer.Core.Models.Provider.Location;
+
     public sealed class CourseDirectoryProviderMapper : ICourseDirectoryProviderMapper
     {
         private readonly ILog _logger;
@@ -20,11 +22,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             _logger = logger;
         }
 
-        public Provider Map(CourseDirectoryProvider input)
+        public CoreProvider Map(CourseDirectoryProvider input)
         {
-            var providerLocations = input.Locations.Select(MapToLocationEntity);
+            var providerLocations = input.Locations.Select(MapToLocationEntity).ToList();
 
-            var providerImport = new Provider
+            var providerImport = new CoreProvider
             {
                 Id = input.Id.ToString(),
                 Ukprn = input.Ukprn,
@@ -81,7 +83,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 
             foreach (var apprenticeshipLocation in apprenticshipLocations)
             {
-                var matchingLocation = providerLocations.Where(x => x.Id == apprenticeshipLocation.ID).SingleOrDefault();
+                var matchingLocation = providerLocations.SingleOrDefault(x => x.Id == apprenticeshipLocation.ID);
 
                 if (matchingLocation != default(Location))
                 {
@@ -140,7 +142,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             return new Coordinate { Latitude = matchingLocation.Address.Latitude.Value, Longitude = matchingLocation.Address.Longitude.Value };
         }
 
-        private Core.Models.Provider.Location MapToLocationEntity(ApplicationServices.Provider.Models.CourseDirectory.Location matchingLocation)
+        private Location MapToLocationEntity(ApplicationServices.Provider.Models.CourseDirectory.Location matchingLocation)
         {
             var geopoint = GetGeoPoint(matchingLocation);
 

@@ -1,14 +1,14 @@
-﻿using System.Linq;
-using MediatR;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.EmployerProvider;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {
+    using System.Linq;
+    using MediatR;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.EmployerProvider;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
     public sealed class EmployerProviderVstsClient : IRequestHandler<EmployerProviderRequest, EmployerProviderResult>
     {
         private readonly IConvertFromCsv _convertFromCsv;

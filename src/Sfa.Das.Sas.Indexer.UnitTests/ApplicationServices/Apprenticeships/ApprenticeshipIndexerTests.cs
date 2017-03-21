@@ -1,14 +1,13 @@
-﻿using System;
-using MediatR;
-using Moq;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Services;
-
-namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
+﻿namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
 {
+    using System;
+    using MediatR;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+
     [TestFixture]
     public sealed class ApprenticeshipIndexerTests
     {

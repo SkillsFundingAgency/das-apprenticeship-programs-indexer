@@ -1,12 +1,15 @@
-﻿using System;
-using Moq;
-using NUnit.Framework;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.Core.Logging;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
+
 {
+    using System;
+    using Moq;
+    using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+
     [TestFixture]
     public sealed class ProviderIndexerTests
     {
@@ -40,6 +43,34 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             _sut.CreateIndex("testindex");
 
             _mockIndexMaintainer.Verify(x => x.CreateIndex(It.IsAny<string>()), Times.Once);
+        }
+
+        [TestCase(0, null, true)]
+        [TestCase(3, null, false)]
+        [TestCase(null, null, false)]
+        [TestCase(0, 3, true)]
+        [TestCase(-2, -1, false)]
+        public void ShouldCheckIfTheDateIsValid(int? start, int? end, bool expected)
+        {
+            DateTime? startDate = convertDate(start);
+            DateTime? endDate = convertDate(end);
+            RoatpProviderResult roatpProvider = new RoatpProviderResult
+            {
+                StartDate = startDate,
+                EndDate = endDate
+            };
+
+            Assert.AreEqual(expected, _sut.IsDateValid(roatpProvider));
+        }
+
+        private DateTime? convertDate(int? date)
+        {
+            if (!date.HasValue)
+            {
+                return null;
+            }
+
+            return DateTime.Now.AddDays(date.Value).Date;
         }
 
         [Test]

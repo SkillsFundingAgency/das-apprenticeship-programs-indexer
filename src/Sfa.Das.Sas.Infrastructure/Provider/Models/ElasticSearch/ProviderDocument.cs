@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
     public class ProviderDocument
     {
@@ -13,8 +13,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Models
         public bool IsHigherEducationInstitute { get; set; }
 
         public string ProviderName { get; set; }
-
-        public string LegalName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public IEnumerable<string> Aliases { get; set; }

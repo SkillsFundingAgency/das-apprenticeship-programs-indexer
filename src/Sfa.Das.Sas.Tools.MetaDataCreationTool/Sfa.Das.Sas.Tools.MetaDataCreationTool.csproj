@@ -67,6 +67,9 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SFA.DAS.NLog.Logger">
+      <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.23289\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=4.2.0.402, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.4.2.0.402\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -107,6 +110,7 @@
     <Compile Include="Models\GovLearn\GovLearnResource.cs" />
     <Compile Include="Models\GovLearn\GovLearnResponse.cs" />
     <Compile Include="Models\StandardRepositoryData.cs" />
+    <Compile Include="Services\RoatpProvidersXlsxService.cs" />
     <Compile Include="Services\ElasticsearchDataService.cs" />
     <Compile Include="Services\Interfaces\IElasticsearchDataService.cs" />
     <Compile Include="Services\Interfaces\IJsonMetaDataConvert.cs" />

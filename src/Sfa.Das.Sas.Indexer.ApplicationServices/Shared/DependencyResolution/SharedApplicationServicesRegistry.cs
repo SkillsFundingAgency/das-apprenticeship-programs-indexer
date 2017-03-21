@@ -1,6 +1,4 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.DependencyResolution
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.DependencyResolution
 {
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
     using StructureMap;

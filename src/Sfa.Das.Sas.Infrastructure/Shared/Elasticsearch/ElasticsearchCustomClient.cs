@@ -1,17 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Elasticsearch.Net;
-using Nest;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-using Sfa.Das.Sas.Indexer.Core.Services;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
+    using Nest;
+    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+    using System.Linq;
+
     public class ElasticsearchCustomClient : IElasticsearchCustomClient
     {
         private readonly ILog _logger;

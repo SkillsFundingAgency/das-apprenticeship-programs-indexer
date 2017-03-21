@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MediatR;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
-using Sfa.Das.Sas.Indexer.Core.Logging;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using MediatR;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
+    using Sfa.Das.Sas.Indexer.Core.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+
     public class ProviderDataService : IProviderDataService
     {
         private readonly ILog _logger;
@@ -100,6 +100,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task<ProviderSourceDto> LoadDatasetsAsync()
         {
+            var roatpProviders = await _mediator.SendAsync(new RoatpProviderRequest());
+
             var courseDirectoryProviders = await _mediator.SendAsync(new CourseDirectoryRequest());
             var activeProviders = await _mediator.SendAsync(new FcsProviderRequest());
 
@@ -112,20 +114,46 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             _logger.Debug($"Finished loading frameworks, standards");
 
+            var ukprnList = JoinUkprnLists(roatpProviders, activeProviders);
+
             return new ProviderSourceDto
             {
                 CourseDirectoryProviders = courseDirectoryProviders,
                 ActiveProviders = activeProviders,
-                UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(activeProviders.Providers)),
+                RoatpProviders = roatpProviders,
+                UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(ukprnList)),
                 Frameworks = frameworks.Result,
                 Standards = standards.Result,
-                EmployerProviders = _mediator.Send(new EmployerProviderRequest()),
                 AchievementRateProviders = _mediator.Send(new AchievementRateProviderRequest()),
                 AchievementRateNationals = _mediator.Send(new AchievementRateNationalRequest()),
                 LearnerSatisfactionRates = _mediator.Send(new LearnerSatisfactionRateRequest()),
                 EmployerSatisfactionRates = _mediator.Send(new EmployerSatisfactionRateRequest()),
+                EmployerProviders = _mediator.Send(new EmployerProviderRequest()),
                 HeiProviders = _mediator.Send(new HeiProvidersRequest())
             };
+        }
+
+        private List<int> JoinUkprnLists(List<RoatpProviderResult> roatpProviders, FcsProviderResult activeProviders)
+        {
+            var ukprnList = new List<int>();
+            foreach (var roatpProviderResult in roatpProviders)
+            {
+                var ukprn = int.Parse(roatpProviderResult.Ukprn);
+                if (!ukprnList.Contains(ukprn))
+                {
+                    ukprnList.Add(ukprn);
+                }
+            }
+
+            foreach (var activeProvider in activeProviders.Providers)
+            {
+                if (!ukprnList.Contains(activeProvider))
+                {
+                    ukprnList.Add(activeProvider);
+                }
+            }
+
+            return ukprnList;
         }
 
         private static double? GetNationalOverallAchievementRate(List<AchievementRateNational> nationalAchievementRate)

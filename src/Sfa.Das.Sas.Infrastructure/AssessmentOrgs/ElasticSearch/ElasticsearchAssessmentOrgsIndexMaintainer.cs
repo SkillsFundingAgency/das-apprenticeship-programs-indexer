@@ -1,28 +1,21 @@
-using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
-using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
+namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
     using Nest;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
+    using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
     using Sfa.Das.Sas.Indexer.Core.Exceptions;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
-    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+    using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
 
     public sealed class ElasticsearchAssessmentOrgsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainAssessmentOrgsIndex
     {
-        private readonly ILog _logger;
         private readonly IElasticsearchConfiguration _elasticsearchConfiguration;
 
         public ElasticsearchAssessmentOrgsIndexMaintainer(
@@ -32,7 +25,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             IElasticsearchConfiguration elasticsearchConfiguration)
             : base(elasticsearchClient, elasticsearchMapper, logger, "AssessmentOrgs")
         {
-            _logger = logger;
             _elasticsearchConfiguration = elasticsearchConfiguration;
         }
 
@@ -44,7 +36,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
                 .Mappings(ms => ms
                     .Map<OrganisationDocument>(m => m.AutoMap())
-                    .Map<StandardOrganisationsData>(m => m.AutoMap())));
+                    .Map<StandardOrganisationDocument>(m => m.AutoMap())));
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {
@@ -56,7 +48,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             where T1 : class
             where T2 : class
         {
-            var bulkLarsClient = new BulkProviderClient(indexName, Client);
+            var bulkClient = new BulkProviderClient(indexName, Client);
 
             foreach (var entry in entries)
             {
@@ -64,7 +56,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 {
                     var doc = method(entry);
 
-                    bulkLarsClient.Index<T2>(c => c.Document(doc));
+                    bulkClient.Index<T2>(c => c.Document(doc));
                 }
                 catch (Exception ex)
                 {
@@ -73,7 +65,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             }
 
             var bulkTasks = new List<Task<IBulkResponse>>();
-            bulkTasks.AddRange(bulkLarsClient.GetTasks());
+            bulkTasks.AddRange(bulkClient.GetTasks());
             LogResponse(await Task.WhenAll(bulkTasks), typeof(T1).Name.ToLower(CultureInfo.CurrentCulture));
         }
 
@@ -88,11 +80,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
         {
+            Log.Debug($"Indexing {standardOrganisationsData.Count} StandardOrganisationsData documents");
             await IndexEntries(indexName, standardOrganisationsData, ElasticsearchMapper.CreateStandardOrganisationDocument).ConfigureAwait(true);
         }
 
         public async Task IndexOrganisations(string indexName, List<Organisation> organisations)
         {
+            Log.Debug($"Indexing {organisations.Count} OrganisationsDocument");
             await IndexEntries(indexName, organisations, ElasticsearchMapper.CreateOrganisationDocument).ConfigureAwait(true);
         }
     }

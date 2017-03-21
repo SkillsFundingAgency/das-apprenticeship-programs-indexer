@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Rest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {
@@ -40,6 +39,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<Provider>>> BulkprovidersWithOperationResponseAsync(int? version = null, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<HttpOperationResponse<IList<ApplicationServices.Provider.Models.CourseDirectory.Provider>>> BulkprovidersWithOperationResponseAsync(int? version = null, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     }
 }
