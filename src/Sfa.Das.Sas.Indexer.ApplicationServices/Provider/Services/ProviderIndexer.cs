@@ -238,9 +238,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 }
 
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
-                
+
                 provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
-                
+
                 provider.LegalName = ukrlpProvider?.ProviderName;
 
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
@@ -248,6 +248,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 provider.HasNonLevyContract = true;
                 provider.HasParentCompanyGuarantee = false;
                 provider.IsNew = false;
+
+                provider.IsLevyPayerOnly = false;
 
                 var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
                 provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
@@ -270,7 +272,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 var providerFromRoatp = false;
 
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
-                
+
                 foreach (var roatpProviderResult in source.RoatpProviders)
                 {
                     if (roatpProviderResult.Ukprn == courseDirectoryProvider.Ukprn.ToString()
@@ -297,6 +299,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 provider.HasNonLevyContract = false; //roatpProvider.ContractedForNonLeviedEmployers;
                 provider.HasParentCompanyGuarantee = roatpProvider.ParentCompanyGuarantee;
                 provider.IsNew = roatpProvider.NewOrganisationWithoutFinancialTrackRecord;
+
+                provider.IsLevyPayerOnly = !source.ActiveProviders.Providers.Contains(courseDirectoryProvider.Ukprn);
 
                 var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
                 provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));

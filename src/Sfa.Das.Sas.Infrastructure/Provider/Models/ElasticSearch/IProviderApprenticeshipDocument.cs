@@ -28,5 +28,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
         bool HasNonLevyContract { get; set; }
         bool HasParentCompanyGuarantee { get; set; }
         bool IsNew { get; set; }
+        bool IsLevyPayerOnly { get; set; }
     }
 }
