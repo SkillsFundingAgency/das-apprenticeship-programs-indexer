@@ -170,7 +170,7 @@
                 propertiesLocal = new Dictionary<string, object>(properties);
             }
 
-            propertiesLocal.Add("Application", ApplicationName);
+            propertiesLocal.Add("app_Name", ApplicationName);
             propertiesLocal.Add("Environment", _settings.EnvironmentName);
             propertiesLocal.Add("LoggerType", _loggerType);
             propertiesLocal.Add("Version", _version);

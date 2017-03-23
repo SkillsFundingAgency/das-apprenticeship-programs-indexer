@@ -19,7 +19,7 @@
 
             if (typeof(T) == typeof(IMaintainLarsIndex))
             {
-                ApplicationName = "das-lars-programmes-indexer";
+                ApplicationName = "das-lars-indexer";
             }
 
             if (typeof(T) == typeof(IMaintainProviderIndex))
@@ -29,7 +29,7 @@
 
             if (typeof(T) == typeof(IMaintainAssessmentOrgsIndex))
             {
-                ApplicationName = "das-assessment-orgs-indexer";
+                ApplicationName = "das-epao-indexer";
             }
         }
     }
