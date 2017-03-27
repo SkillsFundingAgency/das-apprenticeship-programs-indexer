@@ -15,14 +15,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public int FrameworkCode { get; set; }
 
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string FrameworkName { get; set; }
 
         public int PathwayCode { get; set; }
 
         public int ProgType { get; set; }
 
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string PathwayName { get; set; }
 
         public IEnumerable<JobRoleItem> JobRoleItems { get; set; }

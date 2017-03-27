@@ -64,7 +64,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return result;
         }
 
-        public virtual bool IndexContainsDocuments(string indexName)
+        public virtual bool IndexIsCompletedAndContainsDocuments(string indexName)
         {
             var r1 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
             long r2 = 0;

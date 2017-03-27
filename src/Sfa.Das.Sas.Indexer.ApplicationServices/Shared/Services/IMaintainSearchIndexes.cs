@@ -12,7 +12,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services
 
         void CreateIndex(string indexName);
 
-        bool IndexContainsDocuments(string indexName);
+        bool IndexIsCompletedAndContainsDocuments(string indexName);
 
         void CreateIndexAlias(string aliasName, string indexName);
 

@@ -60,7 +60,7 @@
 
         public bool IsIndexCorrectlyCreated(string indexName)
         {
-            return _searchIndexMaintainer.IndexContainsDocuments(indexName);
+            return _searchIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName);
         }
 
         public void ChangeUnderlyingIndexForAlias(string newIndexName)

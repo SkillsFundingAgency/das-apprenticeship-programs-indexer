@@ -88,7 +88,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
         public bool IsIndexCorrectlyCreated(string indexName)
         {
-            return _assessmentOrgsIndexMaintainer.IndexContainsDocuments(indexName);
+            return _assessmentOrgsIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName);
         }
 
         public void ChangeUnderlyingIndexForAlias(string newIndexName)
