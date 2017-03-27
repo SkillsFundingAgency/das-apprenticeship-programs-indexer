@@ -62,10 +62,7 @@
 
             LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
             LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
-
-            var a = await Task.WhenAll(bulkProviderTasks);
-            var patata = a;
-            //LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
+            LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
         }
 
         public List<Task<IBulkResponse>> IndexFrameworks(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries)
