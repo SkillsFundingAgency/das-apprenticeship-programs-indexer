@@ -104,8 +104,8 @@
       <HintPath>..\packages\Polly.4.3.0\lib\net45\Polly.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SFA.DAS.NLog.Logger, Version=1.0.0.23289, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.23289\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
+    <Reference Include="SFA.DAS.NLog.Logger, Version=1.0.0.26805, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.26805\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=1.1.608.0, Culture=neutral, processorArchitecture=MSIL">
@@ -208,7 +208,6 @@
     <Compile Include="Shared\Models\Git\GitTree.cs" />
     <Compile Include="Shared\Models\Git\Entity.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryClient.cs" />
-    <Compile Include="Shared\Services\NLogService.cs" />
     <Compile Include="Shared\Services\NLogService{T}.cs" />
     <Compile Include="Shared\Services\RetryService.cs" />
     <Compile Include="Provider\Services\UkrlpService.cs" />

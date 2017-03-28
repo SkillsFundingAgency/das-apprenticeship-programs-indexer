@@ -1,16 +1,20 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
+using SFA.DAS.NLog.Logger;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
 {
     using System;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
-    public class NLogService<T> : NLogService
+    public class NLogService<T> : NLogLogger
     {
-        public NLogService(Type loggerType, IInfrastructureSettings settings)
-            : base(loggerType, settings)
+        public NLogService(Type loggerType)
+            : base(loggerType, null, GetProperties())
         {
             if (typeof(T) == typeof(IMaintainApprenticeshipIndex))
             {
@@ -31,6 +35,20 @@
             {
                 ApplicationName = "das-epao-indexer";
             }
+        }
+
+        private static IDictionary<string, object> GetProperties()
+        {
+            var properties = new Dictionary<string, object>();
+            properties.Add("Version", GetVersion());
+            return properties;
+        }
+
+        private static string GetVersion()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return fileVersionInfo.ProductVersion;
         }
     }
 }
