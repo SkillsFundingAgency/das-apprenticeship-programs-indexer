@@ -136,7 +136,7 @@
                 foreach (var provider in indexEntries)
                 {
                     var mappedProvider = ElasticsearchMapper.CreateProviderApiDocument(provider);
-                    bulkProviderLocation.Create<ProviderApiDocument>(c => c.Document(mappedProvider));
+                    bulkProviderLocation.Index<ProviderApiDocument>(c => c.Document(mappedProvider));
                 }
             }
             catch (Exception ex)
@@ -164,8 +164,11 @@
 
                         if (deliveryLocationsOnly100.Any())
                         {
-                            var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryLocationsOnly100);
-                            bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
+                            foreach (var deliveryInformation in deliveryLocationsOnly100)
+                            {
+                                var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryInformation);
+                                bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
+                            }
                         }
 
                         foreach (var location in standard.DeliveryLocations.Where(_anyNotAtEmployer))

@@ -23,7 +23,7 @@
             for (int i = 0; i < provideCount; i++)
             {
                 var frameworkProvider = new FrameworkProvider();
-                sut.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
+                sut.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
             }
 
             sut.GetTasks().Count.Should().Be(tasks);
@@ -43,7 +43,7 @@
             for (int i = 0; i < provideCount; i++)
             {
                 var frameworkProvider = new FrameworkProvider();
-                sut.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
+                sut.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
             }
 
             sut.GetTasks();
