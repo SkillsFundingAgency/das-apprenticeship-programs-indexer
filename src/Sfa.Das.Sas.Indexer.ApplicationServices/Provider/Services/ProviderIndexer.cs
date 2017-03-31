@@ -105,13 +105,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providers, providersApi, apprenticeshipProviders);
 
-            _log.Debug("Indexing " + providers.Count + " providers");
+            _log.Debug($"Indexing {providers.Count} providers");
             await IndexProviders(indexName, providers);
 
-            _log.Debug("Indexing " + providersApi.Count + " RoATP providers");
+            _log.Debug($"Indexing {providersApi.Count} RoATP providers");
             await IndexApiProviders(indexName, providersApi);
 
-            _log.Debug("Indexing " + apprenticeshipProviders.Count + " provider sites");
+            _log.Debug($"Indexing {apprenticeshipProviders.Count} provider sites");
             await IndexStandards(indexName, apprenticeshipProviders);
             await IndexFrameworks(indexName, apprenticeshipProviders);
             Task.WaitAll();
@@ -123,7 +123,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             try
             {
-                _log.Debug("Indexing " + providers.Count() + " providers into Providers index");
+                _log.Debug($"Indexing {providers.Count} providers into Providers index");
 
                 await _searchIndexMaintainer.IndexProviders(indexName, providers).ConfigureAwait(false);
             }
@@ -137,7 +137,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             try
             {
-                _log.Debug("Indexing " + providers.Count() + " API providers into Providers index");
+                _log.Debug($"Indexing {providers.Count} API providers into Providers index");
 
                 await _searchIndexMaintainer.IndexApiProviders(indexName, providers).ConfigureAwait(false);
             }
@@ -151,7 +151,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             try
             {
-                _log.Debug("Indexing " + apprenticeshipProviders.Count() + " standard providers into Providers index");
+                _log.Debug($"Indexing {apprenticeshipProviders.Count} standard providers into Providers index");
 
                 await _searchIndexMaintainer.IndexStandards(indexName, apprenticeshipProviders).ConfigureAwait(false);
             }
@@ -165,7 +165,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             try
             {
-                _log.Debug("Indexing " + apprenticeshipProviders.Count() + " framework providers into Providers index");
+                _log.Debug($"Indexing {apprenticeshipProviders.Count} framework providers into Providers index");
 
                 await _searchIndexMaintainer.IndexFrameworks(indexName, apprenticeshipProviders).ConfigureAwait(false);
             }
