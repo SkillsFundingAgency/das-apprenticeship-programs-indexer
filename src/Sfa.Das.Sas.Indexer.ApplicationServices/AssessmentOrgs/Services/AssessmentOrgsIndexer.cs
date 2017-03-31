@@ -1,4 +1,6 @@
-﻿using SFA.DAS.NLog.Logger;
+﻿using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
@@ -31,15 +33,24 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             _log = log;
         }
 
-        public async Task IndexEntries(string indexName)
+        public async Task<bool> IndexEntries(string indexName)
         {
             _log.Debug("Retrieving Assessment Orgs data");
             var assessmentOrgsData = _metaDataHelper.GetAssessmentOrganisationsData();
+
+            var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(assessmentOrgsData);
 
             _log.Debug("Indexing Assessment Orgs data into index");
             await IndexOrganisations(indexName, assessmentOrgsData.Organisations).ConfigureAwait(false);
             await IndexStandardOrganisationsData(indexName, assessmentOrgsData.StandardOrganisationsData).ConfigureAwait(false);
             _log.Debug("Completed indexing Assessment Orgs data");
+
+            return IsIndexCorrectlyCreated(indexName, totalAmountDocuments);
+        }
+
+        private int GetTotalAmountDocumentsToBeIndexed(AssessmentOrganisationsDTO assessmentOrgsData)
+        {
+            return assessmentOrgsData.StandardOrganisationsData.Count + assessmentOrgsData.Organisations.Count;
         }
 
         private async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
@@ -86,9 +97,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             return _assessmentOrgsIndexMaintainer.IndexExists(indexName);
         }
 
-        public bool IsIndexCorrectlyCreated(string indexName)
+        public bool IsIndexCorrectlyCreated(string indexName, int totalAmountDocuments)
         {
-            return _assessmentOrgsIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName);
+            return _assessmentOrgsIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName, totalAmountDocuments);
         }
 
         public void ChangeUnderlyingIndexForAlias(string newIndexName)

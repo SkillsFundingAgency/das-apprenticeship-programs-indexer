@@ -32,10 +32,22 @@
             _log = log;
         }
 
-        public async Task IndexEntries(string indexName)
+        public async Task<bool> IndexEntries(string indexName)
         {
-            await IndexStandards(indexName).ConfigureAwait(false);
-            await IndexFrameworks(indexName).ConfigureAwait(false);
+            var standardMetadata = await LoadStandardMetaData();
+            var frameworkMetaDataResults = _mediator.Send(new FrameworkMetaDataRequest());
+
+            var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(standardMetadata, frameworkMetaDataResults);
+
+            await IndexStandards(indexName, standardMetadata).ConfigureAwait(false);
+            await IndexFrameworks(indexName, frameworkMetaDataResults).ConfigureAwait(false);
+
+            return IsIndexCorrectlyCreated(indexName, totalAmountDocuments);
+        }
+
+        private int GetTotalAmountDocumentsToBeIndexed(ICollection<StandardMetaData> standardMetadata, FrameworkMetaDataResult frameworkMetaDataResults)
+        {
+            return standardMetadata.Count + frameworkMetaDataResults.Frameworks.Count();
         }
 
         public bool CreateIndex(string indexName)
@@ -54,9 +66,9 @@
             return _searchIndexMaintainer.IndexExists(indexName);
         }
 
-        public bool IsIndexCorrectlyCreated(string indexName)
+        public bool IsIndexCorrectlyCreated(string indexName, int totalAmountDocuments)
         {
-            return _searchIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName);
+            return _searchIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName, totalAmountDocuments);
         }
 
         public void ChangeUnderlyingIndexForAlias(string newIndexName)
@@ -82,21 +94,17 @@
                 x.StartsWith(_settings.IndexesAlias, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        private async Task IndexStandards(string indexName)
+        private async Task IndexStandards(string indexName, ICollection<StandardMetaData> entries)
         {
-            var entries = await LoadStandardMetaData();
-
             _log.Debug("Indexing " + entries.Count + " standards");
 
             await _searchIndexMaintainer.IndexStandards(indexName, entries).ConfigureAwait(false);
         }
 
-        private async Task IndexFrameworks(string indexName)
+        private async Task IndexFrameworks(string indexName, FrameworkMetaDataResult entries)
         {
             try
             {
-                var entries = _mediator.Send(new FrameworkMetaDataRequest());
-
                 _log.Debug("Indexing " + entries.Frameworks.Count() + " frameworks");
 
                 await _searchIndexMaintainer.IndexFrameworks(indexName, entries.Frameworks).ConfigureAwait(false);

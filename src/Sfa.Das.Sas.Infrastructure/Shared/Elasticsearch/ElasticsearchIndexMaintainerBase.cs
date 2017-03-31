@@ -64,13 +64,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return result;
         }
 
-        public virtual bool IndexIsCompletedAndContainsDocuments(string indexName)
+        public virtual bool IndexIsCompletedAndContainsDocuments(string indexName, int totalAmountDocuments)
         {
             var r1 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
             long r2 = 0;
             do
             {
-                System.Threading.Thread.Sleep(10000);
+                System.Threading.Thread.Sleep(15000);
 
                 r2 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
 
@@ -87,7 +87,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             } while (r1 != r2);
 
-            return true;
+            return r1 == totalAmountDocuments;
         }
 
         public virtual bool IndexExists(string indexName)

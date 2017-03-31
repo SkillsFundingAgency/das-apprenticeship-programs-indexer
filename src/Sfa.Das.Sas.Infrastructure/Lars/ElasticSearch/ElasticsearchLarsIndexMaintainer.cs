@@ -137,7 +137,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.ElasticSearch
                         var doc = method(entry);
 
                         bulkLarsClient.Index<T2>(c => c.Document(doc));
-                        //bulkLarsClient.Create<T2>(c => c.Document(doc));
                     }
                     catch (Exception ex)
                     {

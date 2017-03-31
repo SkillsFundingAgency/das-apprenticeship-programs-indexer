@@ -48,11 +48,8 @@
 
             try
             {
-                await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
+                var indexHasBeenCreated = await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
 
-                PauseWhileIndexingIsBeingRun();
-
-                var indexHasBeenCreated = _indexerHelper.IsIndexCorrectlyCreated(newIndexName);
                 if (indexHasBeenCreated)
                 {
                     _indexerHelper.ChangeUnderlyingIndexForAlias(newIndexName);
@@ -73,30 +70,24 @@
             }
         }
 
-        private void PauseWhileIndexingIsBeingRun()
-        {
-            var time = _indexSettings.PauseTime;
-            Thread.Sleep(int.Parse(time));
-        }
-
         private string GetIndexTypeName(Type type)
         {
             if (type == typeof(IMaintainProviderIndex))
             {
                 return "Provider Index";
             }
-            else if (type == typeof(IMaintainApprenticeshipIndex))
+
+            if (type == typeof(IMaintainApprenticeshipIndex))
             {
                 return "Apprenticeship Index";
             }
-            else if (type == typeof(IMaintainLarsIndex))
+
+            if (type == typeof(IMaintainLarsIndex))
             {
                 return "Lars Index";
             }
-            else
-            {
-                return "AssessmentOrgs Index";
-            }
+
+            return "AssessmentOrgs Index";
         }
     }
 }

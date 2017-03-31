@@ -38,7 +38,7 @@
 
             // Assert
             _mockHelper.Verify(x => x.IndexEntries(It.IsAny<string>()), Times.Once);
-            _mockHelper.Verify(x => x.IsIndexCorrectlyCreated(It.IsAny<string>()), Times.Once);
+            _mockHelper.Verify(x => x.IndexEntries(It.IsAny<string>()), Times.Once);
             _mockHelper.Verify(x => x.ChangeUnderlyingIndexForAlias(It.IsAny<string>()), Times.AtMostOnce);
             _mockHelper.VerifyAll();
         }
@@ -62,14 +62,13 @@
         {
             // Arrange
             _mockHelper.Setup(x => x.CreateIndex(It.IsAny<string>())).Returns(true);
-            _mockHelper.Setup(x => x.IsIndexCorrectlyCreated(It.IsAny<string>())).Returns(false);
+            _mockHelper.Setup(x => x.IndexEntries(It.IsAny<string>())).Returns(Task.FromResult(false));
 
             // Act
             await _sut.CreateScheduledIndex(It.IsAny<DateTime>());
 
             // Assert
             _mockHelper.Verify(x => x.IndexEntries(It.IsAny<string>()), Times.Once);
-            _mockHelper.Verify(x => x.IsIndexCorrectlyCreated(It.IsAny<string>()), Times.Once);
             _mockHelper.Verify(x => x.ChangeUnderlyingIndexForAlias(It.IsAny<string>()), Times.Never);
             _mockHelper.VerifyAll();
         }
@@ -79,14 +78,13 @@
         {
             // Arrange
             _mockHelper.Setup(x => x.CreateIndex(It.IsAny<string>())).Returns(true);
-            _mockHelper.Setup(x => x.IsIndexCorrectlyCreated(It.IsAny<string>())).Returns(true);
+            _mockHelper.Setup(x => x.IndexEntries(It.IsAny<string>())).Returns(Task.FromResult(true));
 
             // Act
             await _sut.CreateScheduledIndex(It.IsAny<DateTime>());
 
             // Assert
             _mockHelper.Verify(x => x.IndexEntries(It.IsAny<string>()), Times.Once);
-            _mockHelper.Verify(x => x.IsIndexCorrectlyCreated(It.IsAny<string>()), Times.Once);
             _mockHelper.Verify(x => x.ChangeUnderlyingIndexForAlias(It.IsAny<string>()), Times.Once);
             _mockHelper.VerifyAll();
         }

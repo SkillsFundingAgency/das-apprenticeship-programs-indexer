@@ -33,10 +33,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             _log = log;
         }
 
-        public async Task IndexEntries(string indexName)
+        public async Task<bool> IndexEntries(string indexName)
         {
             _log.Debug("Retrieving Lars data");
             var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
+
+            var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(larsData);
 
             _log.Debug("Indexing Lars data into index");
             await IndexStandards(indexName, larsData.Standards).ConfigureAwait(true);
@@ -48,6 +50,19 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             await IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(true);
             Task.WaitAll();
             _log.Debug("Completed indexing Lars data");
+
+            return IsIndexCorrectlyCreated(indexName, totalAmountDocuments);
+        }
+
+        private int GetTotalAmountDocumentsToBeIndexed(LarsData larsData)
+        {
+            return larsData.Standards.Count() +
+                larsData.Frameworks.Count() +
+                larsData.FundingMetaData.Count() +
+                larsData.FrameworkAimMetaData.Count() +
+                larsData.LearningDeliveryMetaData.Count() +
+                larsData.ApprenticeshipComponentTypeMetaData.Count() +
+                larsData.ApprenticeshipFunding.Count();
         }
 
         public bool CreateIndex(string indexName)
@@ -66,9 +81,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             return _searchIndexMaintainer.IndexExists(indexName);
         }
 
-        public bool IsIndexCorrectlyCreated(string indexName)
+        public bool IsIndexCorrectlyCreated(string indexName, int totalAmountDocuments)
         {
-            return _searchIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName);
+            return _searchIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName, totalAmountDocuments);
         }
 
         public void ChangeUnderlyingIndexForAlias(string newIndexName)
