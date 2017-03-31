@@ -41,6 +41,8 @@
                         .NumberOfShards(_elasticsearchConfiguration.ProviderIndexShards())
                         .NumberOfReplicas(_elasticsearchConfiguration.ProviderIndexReplicas()))
                     .Mappings(ms => ms
+                        .Map<ProviderDocument>(m => m.AutoMap())
+                        .Map<ProviderApiDocument>(m => m.AutoMap())
                         .Map<StandardProvider>(m => m.AutoMap())
                         .Map<FrameworkProvider>(m => m.AutoMap())));
 
