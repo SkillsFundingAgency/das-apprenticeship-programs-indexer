@@ -66,9 +66,28 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public virtual bool IndexContainsDocuments(string indexName)
         {
-            var a = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().From(0).Size(10).MatchAll()).Documents;
+            var r1 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
+            long r2 = 0;
+            do
+            {
+                System.Threading.Thread.Sleep(10000);
 
-            return a.Any();
+                r2 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
+
+                if (r1 == 0 && r2 == 0)
+                {
+                    return false;
+                }
+
+                if (r1 < r2)
+                {
+                    r1 = r2;
+                    r2 = 0;
+                }
+
+            } while (r1 != r2);
+
+            return true;
         }
 
         public virtual bool IndexExists(string indexName)
@@ -100,7 +119,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             foreach (var bulkResponse in elementIndexResult)
             {
                 totalCount += bulkResponse.Items.Count();
-                took += bulkResponse.Took;
+                took += (int)bulkResponse.Took;
                 errorCount += bulkResponse.ItemsWithErrors.Count();
             }
 

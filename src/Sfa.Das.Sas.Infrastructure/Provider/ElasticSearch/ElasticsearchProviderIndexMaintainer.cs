@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Nest;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.Core.Exceptions;
-using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Nest;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+    using Sfa.Das.Sas.Indexer.Core.Exceptions;
+    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
+
     public sealed class ElasticsearchProviderIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainProviderIndex
     {
         private readonly ILog _log;
@@ -62,39 +62,38 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 
             LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
             LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
-            LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
+
+            var a = await Task.WhenAll(bulkProviderTasks);
+            var patata = a;
+            //LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
         }
 
-        public List<Task<IBulkResponse>> IndexFrameworks(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries)
+        public List<Task<IBulkResponse>> IndexStandards(string indexName, IEnumerable<Core.Models.Provider.Provider> indexEntries)
         {
             var bulkProviderLocation = new BulkProviderClient(indexName, Client);
-
             try
             {
                 foreach (var provider in indexEntries)
                 {
-                    foreach (var framework in provider.Frameworks)
+                    foreach (var standard in provider.Standards)
                     {
-                        var deliveryLocationsOnly100 = framework.DeliveryLocations
+                        var deliveryLocationsOnly100 = standard.DeliveryLocations
                             .Where(_onlyAtEmployer)
                             .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
                             .ToArray();
 
                         if (deliveryLocationsOnly100.Any())
                         {
-                            foreach (var deliveryInformation in deliveryLocationsOnly100)
-                            {
-                                var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryInformation);
-                                bulkProviderLocation.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
-                            }
+                            var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryLocationsOnly100);
+                            bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
                         }
 
-                        foreach (var location in framework.DeliveryLocations.Where(_anyNotAtEmployer))
+                        foreach (var location in standard.DeliveryLocations.Where(_anyNotAtEmployer))
                         {
                             if (location.DeliveryLocation.Address.GeoPoint != null)
                             {
-                                var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, location);
-                                bulkProviderLocation.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
+                                var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, location);
+                                bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
                             }
                         }
                     }
@@ -117,7 +116,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
                 foreach (var provider in indexEntries)
                 {
                     var mappedProvider = ElasticsearchMapper.CreateProviderDocument(provider);
-                    bulkProviderLocation.Create<ProviderDocument>(c => c.Document(mappedProvider));
+                    bulkProviderLocation.Index<ProviderDocument>(c => c.Document(mappedProvider));
                 }
             }
             catch (Exception ex)
@@ -149,32 +148,35 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
             return bulkProviderLocation.GetTasks();
         }
 
-        public List<Task<IBulkResponse>> IndexStandards(string indexName, IEnumerable<Core.Models.Provider.Provider> indexEntries)
+        public List<Task<IBulkResponse>> IndexFrameworks(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries)
         {
             var bulkProviderLocation = new BulkProviderClient(indexName, Client);
             try
             {
                 foreach (var provider in indexEntries)
                 {
-                    foreach (var standard in provider.Standards)
+                    foreach (var framework in provider.Frameworks)
                     {
-                        var deliveryLocationsOnly100 = standard.DeliveryLocations
+                        var deliveryLocationsOnly100 = framework.DeliveryLocations
                             .Where(_onlyAtEmployer)
                             .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
                             .ToArray();
 
                         if (deliveryLocationsOnly100.Any())
                         {
-                            var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryLocationsOnly100);
-                            bulkProviderLocation.Create<StandardProvider>(c => c.Document(standardProvider));
+                            foreach (var deliveryInformation in deliveryLocationsOnly100)
+                            {
+                                var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryInformation);
+                                bulkProviderLocation.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
+                            }
                         }
 
-                        foreach (var location in standard.DeliveryLocations.Where(_anyNotAtEmployer))
+                        foreach (var location in framework.DeliveryLocations.Where(_anyNotAtEmployer))
                         {
                             if (location.DeliveryLocation.Address.GeoPoint != null)
                             {
-                                var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, location);
-                                bulkProviderLocation.Create<StandardProvider>(c => c.Document(standardProvider));
+                                var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, location);
+                                bulkProviderLocation.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
                             }
                         }
                     }
@@ -188,5 +190,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 
             return bulkProviderLocation.GetTasks();
         }
+
     }
 }

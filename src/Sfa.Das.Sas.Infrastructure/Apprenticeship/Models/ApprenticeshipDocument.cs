@@ -7,7 +7,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
     public class ApprenticeshipDocument
     {
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string Title { get; set; }
 
         public int Level { get; set; }
@@ -22,7 +22,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public TypicalLength TypicalLength { get; set; }
 
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public IEnumerable<string> Keywords { get; set; }
+
+        [Keyword(NullValue = "null")]
+        public string TitleKeyword => Title;
     }
 }

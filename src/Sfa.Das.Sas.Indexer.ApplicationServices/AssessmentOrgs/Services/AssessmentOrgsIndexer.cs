@@ -62,7 +62,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             {
                 _log.Debug("Indexing " + organisations.Count + " organisations into Assessment Organisations index");
 
-                await _assessmentOrgsIndexMaintainer.IndexOrganisations(indexName, organisations).ConfigureAwait(false);
+                await _assessmentOrgsIndexMaintainer.IndexOrganisations(indexName, organisations).ConfigureAwait(true);
             }
             catch (Exception ex)
             {

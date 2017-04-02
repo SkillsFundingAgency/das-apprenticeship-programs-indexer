@@ -1,4 +1,5 @@
 using Elasticsearch.Net;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -8,8 +9,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using Nest;
-    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+    using System.Linq;
 
     public class ElasticsearchCustomClient : IElasticsearchCustomClient
     {
@@ -111,7 +112,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var timer = Stopwatch.StartNew();
             var result = _client.GetIndicesPointingToAlias(aliasName);
             SendLog(null, null, timer.ElapsedMilliseconds, $"Elasticsearch.GetIndicesPointingToAlias.{callerName}");
-            return result;
+            return result.ToList();
         }
 
         public ICreateIndexResponse CreateIndex(IndexName index, Func<CreateIndexDescriptor, ICreateIndexRequest> selector = null, string callerName = "")

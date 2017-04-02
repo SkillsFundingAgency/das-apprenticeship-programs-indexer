@@ -88,6 +88,9 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                     throw new NotImplementedException();
                 }
             }
+
+            IApiCallDetails IBodyWithApiCallDetails.ApiCall { get; set; }
+            public bool ShardsAcknowledged { get; }
         }
     }
 }

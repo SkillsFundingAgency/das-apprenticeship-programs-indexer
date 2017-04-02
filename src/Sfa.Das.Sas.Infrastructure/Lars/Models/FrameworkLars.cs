@@ -23,7 +23,7 @@
         public IEnumerable<JobRoleItem> JobRoleItems { get; set; }
 
         public IEnumerable<string> Keywords { get; set; }
-        
+
         public double SectorSubjectAreaTier1 { get; set; }
 
         public double SectorSubjectAreaTier2 { get; set; }
@@ -41,7 +41,9 @@
         public IEnumerable<string> KnowledgeQualification { get; set; }
 
         public IEnumerable<string> CombinedQualification { get; set; }
+
         public int Duration { get; set; }
+
         public int FundingCap { get; set; }
     }
 }

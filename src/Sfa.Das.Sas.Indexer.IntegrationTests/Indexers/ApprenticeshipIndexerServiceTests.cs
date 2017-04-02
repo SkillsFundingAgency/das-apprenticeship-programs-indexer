@@ -62,7 +62,7 @@
 
             DeleteIndexIfExists(_indexName);
 
-            if (!_elasticClient.IndexExists(Indices.Index(_indexName)).Exists)
+            if (!_elasticClient.IndexExists(Indices.Index(_indexName).Indices.FirstOrDefault()).Exists)
             {
                 _indexerService.CreateIndex(_indexName);
                 var indexTask = _indexerService.IndexEntries(_indexName);
@@ -80,8 +80,8 @@
         [OneTimeTearDown]
         public void AfterAllTestAreRun()
         {
-            _elasticClient.DeleteIndex(Indices.Index(_indexName));
-            _elasticClient.IndexExists(Indices.Index(_indexName)).Exists.Should().BeFalse();
+            _elasticClient.DeleteIndex(Indices.Index(_indexName).Indices.FirstOrDefault());
+            _elasticClient.IndexExists(Indices.Index(_indexName).Indices.FirstOrDefault()).Exists.Should().BeFalse();
         }
 
         [Test]
@@ -196,10 +196,10 @@
 
         private void DeleteIndexIfExists(string indexName)
         {
-            var exists = _elasticClient.IndexExists(Indices.Index(indexName));
+            var exists = _elasticClient.IndexExists(Indices.Index(indexName).Indices.FirstOrDefault());
             if (exists.Exists)
             {
-                _elasticClient.DeleteIndex(Indices.Index(indexName));
+                _elasticClient.DeleteIndex(Indices.Index(indexName).Indices.FirstOrDefault());
             }
         }
 

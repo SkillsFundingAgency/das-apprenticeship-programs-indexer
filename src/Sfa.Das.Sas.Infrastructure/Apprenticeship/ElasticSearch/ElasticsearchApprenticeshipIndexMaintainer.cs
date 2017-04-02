@@ -68,7 +68,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
                 {
                     var doc = method(entry);
 
-                    bulkProviderClient.Create<T2>(c => c.Document(doc));
+                    bulkProviderClient.Index<T2>(c => c.Document(doc));
                 }
                 catch (Exception ex)
                 {
