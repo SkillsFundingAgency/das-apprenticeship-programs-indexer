@@ -21,10 +21,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
             Mock<IInfrastructureSettings> mockInfrastructureSettings = new Mock<IInfrastructureSettings>();
             Mock<IProviderQueryApiClient> mockProviderQueryPortTypeClientWrapper = new Mock<IProviderQueryApiClient>();
 
-            mockInfrastructureSettings.SetupGet(x => x.UkrlpQueryId).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpStakeholderId).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpProviderStatus).Returns(It.IsAny<string>());
-            mockInfrastructureSettings.SetupGet(x => x.UkrlpRequestUkprnBatchSize).Returns(2);
 
             mockProviderQueryPortTypeClientWrapper.Setup(x => x.ProviderQuery(It.IsAny<SelectionCriteriaStructure>(), "2", 35)).Returns(GetClientResponseMockValues());
 

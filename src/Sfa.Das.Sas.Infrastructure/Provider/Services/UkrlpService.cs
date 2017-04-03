@@ -14,7 +14,6 @@
         private readonly IInfrastructureSettings _infrastructureSettings;
         private readonly IProviderQueryApiClient _providerClient;
         private readonly ILog _logger;
-        private readonly int _ukprnRequestUkprnBatchSize;
 
         public UkrlpService(
             IInfrastructureSettings infrastructureSettings,
@@ -24,7 +23,6 @@
             _infrastructureSettings = infrastructureSettings;
             _providerClient = providerClient;
             _logger = logger;
-            _ukprnRequestUkprnBatchSize = _infrastructureSettings.UkrlpRequestUkprnBatchSize;
         }
 
         public UkrlpProviderResponse Handle(UkrlpProviderRequest request)
