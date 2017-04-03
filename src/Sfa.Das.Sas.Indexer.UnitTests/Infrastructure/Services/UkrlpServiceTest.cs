@@ -1,5 +1,6 @@
 ﻿using Ukrlp.SoapApi.Client;
 using Ukrlp.SoapApi.Client.ProviderQueryServiceV4;
+using Ukrlp.SoapApi.Types;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
@@ -24,7 +25,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
             mockInfrastructureSettings.SetupGet(x => x.UkrlpStakeholderId).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpProviderStatus).Returns(It.IsAny<string>());
 
-            mockProviderQueryPortTypeClientWrapper.Setup(x => x.ProviderQuery(It.IsAny<SelectionCriteriaStructure>(), "2", 35)).Returns(GetClientResponseMockValues());
+            mockProviderQueryPortTypeClientWrapper.Setup(x => x.ProviderQuery(It.IsAny<SelectionCriteriaStructure>(), "2", 35)).Returns(new ProviderResponse { Providers = GetClientResponseMockValues(), Warnings = new Dictionary<string, string>() });
 
             var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, Mock.Of<ILog>());
 
