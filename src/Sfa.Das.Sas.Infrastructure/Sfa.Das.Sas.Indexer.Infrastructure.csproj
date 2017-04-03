@@ -137,6 +137,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Ukrlp.SoapApi.Client, Version=0.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UKRLP.SoapAPI.Client.0.0.8\lib\net45\Ukrlp.SoapApi.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ukrlp.SoapApi.Types, Version=0.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UKRLP.SoapAPI.Types.0.0.8\lib\net45\Ukrlp.SoapApi.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apprenticeship\DependencyResolution\ApprenticeshipInfrastructureRegistry.cs" />
@@ -192,15 +200,8 @@
     <Compile Include="Provider\Models\ElasticSearch\TrainingLocation.cs" />
     <Compile Include="Provider\Models\ElasticSearch\ProviderDocument.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Provider\Mapping\IUkrlpProviderResponseMapper.cs" />
     <Compile Include="Provider\Mapping\UkrlpProviderMapper.cs" />
-    <Compile Include="Provider\Mapping\UkrlpProviderResponseMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\Ukrlp\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Shared\Services\CsvService.cs" />
     <Compile Include="Shared\Elasticsearch\ElasticsearchClientFactory.cs" />
     <Compile Include="Shared\Services\FileHelper.cs" />
@@ -212,8 +213,6 @@
     <Compile Include="Shared\Services\RetryService.cs" />
     <Compile Include="Provider\Services\UkrlpService.cs" />
     <Compile Include="Shared\Services\VstsClient.cs" />
-    <Compile Include="Provider\Services\Wrappers\IUkrlpClient.cs" />
-    <Compile Include="Provider\Services\Wrappers\UkrlpClient.cs" />
     <Compile Include="Shared\Services\ZipFileExtractor.cs" />
     <Compile Include="Shared\Settings\AppConfigSettingsProvider.cs" />
     <Compile Include="Shared\Settings\ElasticsearchSettings.cs" />
@@ -226,38 +225,10 @@
     <Compile Include="Shared\Settings\MachineSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\Ukrlp\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\Ukrlp\configuration.svcinfo" />
-    <None Include="Service References\Ukrlp\configuration91.svcinfo" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Service References\Ukrlp\BS7666.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Ukrlp\CommonSimpleTypes-v1-3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Ukrlp\PersonDescriptiveTypes.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Ukrlp\ProviderQueryServiceV4.wsdl" />
-    <None Include="Service References\Ukrlp\ProviderQueryServiceV4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Ukrlp\Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.ProviderQueryResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Ukrlp\Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp.response.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Ukrlp\UKRLP-CommonLibrary-v1-6.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Sfa.Das.Sas.Indexer.Infrastructure.ruleset" />
     <None Include="stylecop.json" />
   </ItemGroup>
@@ -275,12 +246,6 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\Ukrlp\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

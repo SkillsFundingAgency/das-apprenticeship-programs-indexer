@@ -1,26 +1,24 @@
 ﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using MediatR;
     using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
-    using Provider = ApplicationServices.Provider.Models.UkRlp.Provider;
+    using Ukrlp.SoapApi.Client;
+    using Ukrlp.SoapApi.Client.ProviderQueryServiceV4;
 
     public class UkrlpService : IRequestHandler<UkrlpProviderRequest, UkrlpProviderResponse>
     {
         private readonly IInfrastructureSettings _infrastructureSettings;
-        private readonly IUkrlpClient _providerClient;
+        private readonly IProviderQueryApiClient _providerClient;
         private readonly ILog _logger;
         private readonly int _ukprnRequestUkprnBatchSize;
 
         public UkrlpService(
             IInfrastructureSettings infrastructureSettings,
-            IUkrlpClient providerClient,
+            IProviderQueryApiClient providerClient,
             ILog logger)
         {
             _infrastructureSettings = infrastructureSettings;
@@ -34,42 +32,16 @@
             _logger.Debug("Starting to get providers from UKRLP");
             try
             {
-                var providerList = new List<Provider>();
-                var noOfUkprnsProcessed = 0;
-
-                var ukprnsListSize = request.Providers.Count();
-
-                do
+                var providerList = _providerClient.ProviderQuery(new SelectionCriteriaStructure
                 {
-                    var numberOfUkprnsUnprocessed = ukprnsListSize - noOfUkprnsProcessed;
-                    var numberOfUkprnsToSend = numberOfUkprnsUnprocessed > _ukprnRequestUkprnBatchSize ? _ukprnRequestUkprnBatchSize : numberOfUkprnsUnprocessed;
-
-                    var ukprnToRequest = request.Providers.Skip(noOfUkprnsProcessed).Take(numberOfUkprnsToSend);
-
-                    var response = _providerClient.RetrieveAllProviders(new ProviderQueryStructure
-                    {
-                        QueryId = _infrastructureSettings.UkrlpQueryId,
-                        SchemaVersion = "?",
-                        SelectionCriteria = new SelectionCriteriaStructure
-                        {
-                            UnitedKingdomProviderReferenceNumberList = ukprnToRequest.Select(x => x.ToString()).ToArray(),
-                            CriteriaCondition = QueryCriteriaConditionType.AND,
-                            CriteriaConditionSpecified = true,
-                            StakeholderId = _infrastructureSettings.UkrlpStakeholderId,
-                            ApprovedProvidersOnly = YesNoType.No,
-                            ApprovedProvidersOnlySpecified = true,
-                            ProviderStatus = _infrastructureSettings.UkrlpProviderStatus
-                        }
-                    });
-
-                    if (response != null)
-                    {
-                        providerList.AddRange(response);
-                    }
-
-                    noOfUkprnsProcessed += numberOfUkprnsToSend;
-                }
-                while (noOfUkprnsProcessed < ukprnsListSize);
+                    UnitedKingdomProviderReferenceNumberList = request.Providers.Select(x => x.ToString()).ToArray(),
+                    CriteriaCondition = QueryCriteriaConditionType.AND,
+                    CriteriaConditionSpecified = true,
+                    StakeholderId = _infrastructureSettings.UkrlpStakeholderId,
+                    ApprovedProvidersOnly = YesNoType.No,
+                    ApprovedProvidersOnlySpecified = true,
+                    ProviderStatus = _infrastructureSettings.UkrlpProviderStatus
+                }).ToList();
 
                 _logger.Debug($"Retreived {providerList.Count} Providers from UKRLP");
 
