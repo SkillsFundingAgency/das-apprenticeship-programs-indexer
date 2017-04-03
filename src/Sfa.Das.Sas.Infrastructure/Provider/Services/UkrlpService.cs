@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
+﻿using System.Collections.Generic;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 {
     using System;
     using System.Linq;
@@ -30,7 +32,7 @@
             _logger.Debug("Starting to get providers from UKRLP");
             try
             {
-                var providerList = _providerClient.ProviderQuery(new SelectionCriteriaStructure
+                var response = _providerClient.ProviderQuery(new SelectionCriteriaStructure
                 {
                     UnitedKingdomProviderReferenceNumberList = request.Providers.Select(x => x.ToString()).ToArray(),
                     CriteriaCondition = QueryCriteriaConditionType.AND,
@@ -39,11 +41,16 @@
                     ApprovedProvidersOnly = YesNoType.No,
                     ApprovedProvidersOnlySpecified = true,
                     ProviderStatus = _infrastructureSettings.UkrlpProviderStatus
-                }).ToList();
+                });
 
-                _logger.Debug($"Retreived {providerList.Count} Providers from UKRLP");
+                foreach (var warning in response.Warnings)
+                {
+                    _logger.Warn(warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
+                }
 
-                return new UkrlpProviderResponse { MatchingProviderRecords = providerList };
+                _logger.Debug($"Retreived {response.Providers.Count()} Providers from UKRLP");
+
+                return new UkrlpProviderResponse { MatchingProviderRecords = response.Providers };
             }
             catch (Exception ex)
             {
