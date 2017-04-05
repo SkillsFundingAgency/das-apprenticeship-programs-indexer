@@ -16,6 +16,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
             _settingsProvider = settingsProvider;
         }
 
+        public string ElasticsearchUsername => ConfigurationManager.AppSettings["ElasticsearchUsername"];
+
+        public string ElasticsearchPassword => ConfigurationManager.AppSettings["ElasticsearchPassword"];
+
         public string FrameworkIdFormat => ConfigurationManager.AppSettings["FrameworkIdFormat"];
 
         public string UkrlpStakeholderId => ConfigurationManager.AppSettings["UkrlpStakeholderId"];

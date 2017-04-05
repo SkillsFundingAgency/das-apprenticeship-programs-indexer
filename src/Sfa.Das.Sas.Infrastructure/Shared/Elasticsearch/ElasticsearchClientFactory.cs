@@ -17,6 +17,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             using (var settings = new ConnectionSettings(new StaticConnectionPool(_infrastructureSettings.ElasticServerUrls)))
             {
+                settings.BasicAuthentication(_infrastructureSettings.ElasticsearchUsername, _infrastructureSettings.ElasticsearchPassword);
                 return new ElasticClient(settings);
             }
         }
