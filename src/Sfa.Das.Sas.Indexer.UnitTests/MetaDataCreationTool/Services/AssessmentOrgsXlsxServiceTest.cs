@@ -61,8 +61,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.MetaDataCreationTool.Services
                 }
             };
 
-            //Assert.AreEqual(actual, expected);
-            //actual.Should().Be(expected);
+            actual.Should().NotBeNull();
+            actual.Count.Should().Be(expected.Count);
         }
 
         public List<Organisation> LoadOrganisationsTestData()
