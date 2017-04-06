@@ -51,18 +51,12 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.MetaDataCreationTool.Services
                 },
                 new Organisation
                 {
-                    EpaOrganisationIdentifier = "EPA4",
-                    EpaOrganisation = "EPAorganisation4"
-                },
-                new Organisation
-                {
                     EpaOrganisationIdentifier = "EPA5",
                     EpaOrganisation = "EPAorganisation5"
                 }
             };
 
-            //Assert.AreEqual(actual, expected);
-            //actual.Should().Be(expected);
+            actual.ShouldBeEquivalentTo(expected);
         }
 
         public List<Organisation> LoadOrganisationsTestData()
@@ -86,8 +80,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.MetaDataCreationTool.Services
                 },
                 new Organisation
                 {
-                    EpaOrganisationIdentifier = "EPA4",
-                    EpaOrganisation = "EPAorganisation4"
+                    EpaOrganisationIdentifier = "EPA3",
+                    EpaOrganisation = "EPAorganisation3"
                 },
                 new Organisation
                 {
