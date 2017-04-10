@@ -109,13 +109,13 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             if (excelRange.Value != null)
             {
-                switch (excelRange.Value.ToString())
+                switch (excelRange.Value.ToString().ToLower())
                 {
-                    case "Main provider":
+                    case "main provider":
                         return ProviderType.MainProvider;
-                    case "Supporting provider":
+                    case "supporting provider":
                         return ProviderType.SupportingProvider;
-                    case "Employer provider":
+                    case "employer provider":
                         return ProviderType.EmployerProvider;
                     default:
                         return ProviderType.Unknown;

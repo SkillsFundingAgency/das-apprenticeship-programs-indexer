@@ -160,7 +160,10 @@
 
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
         {
-            foreach (var roatpProvider in source.RoatpProviders.Where(r => r.ProviderType != ProviderType.SupportingProvider && IsDateValid(r)))
+            foreach (var roatpProvider in source.RoatpProviders.Where(r =>
+                r.ProviderType == ProviderType.MainProvider
+                && r.ProviderType == ProviderType.EmployerProvider
+                && IsDateValid(r)))
             {
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
 
