@@ -9,7 +9,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
     using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
     using Sfa.Das.Sas.Indexer.Core.Services;
 
     public sealed class AssessmentOrgsIndexer : IGenericIndexerHelper<IMaintainAssessmentOrgsIndex>
