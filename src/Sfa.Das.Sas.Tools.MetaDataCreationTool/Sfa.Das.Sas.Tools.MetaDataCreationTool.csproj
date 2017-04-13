@@ -104,6 +104,7 @@
     <Compile Include="Factories\MetaData\FundingMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\IMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\LearningDeliveryMetaDataFactory.cs" />
+    <Compile Include="Factories\MetaData\StandardCsvCols.cs" />
     <Compile Include="Factories\MetaData\StandardMetaDataFactory.cs" />
     <Compile Include="Infrastructure\IWebClient.cs" />
     <Compile Include="Infrastructure\WebClientWrapper.cs" />
