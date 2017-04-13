@@ -9,7 +9,7 @@ using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
 namespace Sfa.Das.Sas.Indexer.UnitTests.Core.Models
 {
     [TestFixture]
-    class LarsStandardTests
+    public class LarsStandardTests
     {
         [Test]
         public void ShouldBeValidIfItHasNoEndDate()
