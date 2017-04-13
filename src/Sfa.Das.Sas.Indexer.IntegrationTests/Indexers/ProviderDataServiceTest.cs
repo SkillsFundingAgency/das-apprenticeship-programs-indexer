@@ -33,7 +33,7 @@
             _mockMediator.Setup(m => m.Send(It.IsAny<AchievementRateNationalRequest>())).Returns(GetNationalAchievementData());
 
             _mockMediator.Setup(m => m.Send(It.IsAny<LearnerSatisfactionRateRequest>())).Returns(GetLearnerSatisfactionRateData());
-            _mockMediator.Setup(m => m.Send(It.IsAny<UkrlpProviderRequest>())).Returns(new UkrlpProviderResponse { MatchingProviderRecords = new List<Provider>() });
+            _mockMediator.Setup(m => m.Send(It.IsAny<UkrlpProviderRequest>())).Returns(new UkrlpProviderResponse { MatchingProviderRecords = new List<Ukrlp.SoapApi.Types.Provider>() });
 
             _sut = new ProviderDataService(_mockMediator.Object, Mock.Of<ILog>());
         }

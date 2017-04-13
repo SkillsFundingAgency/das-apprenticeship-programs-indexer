@@ -7,6 +7,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp
 
     public class UkrlpProviderResponse
     {
-        public IEnumerable<Provider> MatchingProviderRecords { get; set; } = new List<Provider>();
+        public IEnumerable<Ukrlp.SoapApi.Types.Provider> MatchingProviderRecords { get; set; } = new List<Ukrlp.SoapApi.Types.Provider>();
     }
 }

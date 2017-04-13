@@ -1,4 +1,8 @@
-﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
+﻿using Ukrlp.SoapApi.Client;
+using Ukrlp.SoapApi.Client.ProviderQueryServiceV4;
+using Ukrlp.SoapApi.Types;
+
+namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,9 +11,7 @@
     using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
     using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services.Wrappers;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Ukrlp;
 
     [TestFixture]
     public class UkrlpServiceTest
@@ -18,14 +20,12 @@
         public void ShouldReturnProviderResults()
         {
             Mock<IInfrastructureSettings> mockInfrastructureSettings = new Mock<IInfrastructureSettings>();
-            Mock<IUkrlpClient> mockProviderQueryPortTypeClientWrapper = new Mock<IUkrlpClient>();
+            Mock<IProviderQueryApiClient> mockProviderQueryPortTypeClientWrapper = new Mock<IProviderQueryApiClient>();
 
-            mockInfrastructureSettings.SetupGet(x => x.UkrlpQueryId).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpStakeholderId).Returns(It.IsAny<string>());
             mockInfrastructureSettings.SetupGet(x => x.UkrlpProviderStatus).Returns(It.IsAny<string>());
-            mockInfrastructureSettings.SetupGet(x => x.UkrlpRequestUkprnBatchSize).Returns(2);
 
-            mockProviderQueryPortTypeClientWrapper.Setup(x => x.RetrieveAllProviders(It.IsAny<ProviderQueryStructure>())).Returns(GetClientResponseMockValues());
+            mockProviderQueryPortTypeClientWrapper.Setup(x => x.ProviderQuery(It.IsAny<SelectionCriteriaStructure>(), "2", 35)).Returns(new ProviderResponse { Providers = GetClientResponseMockValues(), Warnings = new Dictionary<string, string>() });
 
             var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, Mock.Of<ILog>());
 
@@ -34,22 +34,22 @@
             Assert.AreEqual(2, models.MatchingProviderRecords.Count());
         }
 
-        private static IEnumerable<Provider> GetClientResponseMockValues()
+        private static IEnumerable<Ukrlp.SoapApi.Types.Provider> GetClientResponseMockValues()
         {
-            yield return new Provider
+            yield return new Ukrlp.SoapApi.Types.Provider
             {
                 ProviderName = "Abc Ltd",
                 ProviderAliases = new List<string>
-                { 
+                {
                     "ABC",
                     "abc trading"
                 },
                 ProviderContact = new[]
                 {
-                    new ProviderContact
+                    new Ukrlp.SoapApi.Types.Contact
                     {
                         ContactType = "P",
-                        ContactAddress = new ContactAddress
+                        Address = new Ukrlp.SoapApi.Types.Address
                         {
                             StreetDescription = "Down a Road",
                             PostTown = "Coventry",
@@ -61,7 +61,7 @@
                 },
                 UnitedKingdomProviderReferenceNumber = "1234"
             };
-            yield return new Provider { UnitedKingdomProviderReferenceNumber = "5678" };
+            yield return new Ukrlp.SoapApi.Types.Provider { UnitedKingdomProviderReferenceNumber = "5678" };
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     public interface IUkrlpProviderMapper
     {
-        Core.Models.Provider.Provider Map(ApplicationServices.Provider.Models.UkRlp.Provider ukrlpProvider);
-        Core.Models.Provider.ContactAddress MapAddress(ProviderContact contact);
+        Core.Models.Provider.Provider Map(Ukrlp.SoapApi.Types.Provider ukrlpProvider);
+        Core.Models.Provider.ContactAddress MapAddress(Ukrlp.SoapApi.Types.Contact contact);
     }
 }
