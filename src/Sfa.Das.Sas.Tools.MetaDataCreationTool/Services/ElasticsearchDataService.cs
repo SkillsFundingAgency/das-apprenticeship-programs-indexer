@@ -1,4 +1,7 @@
-﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
+﻿using System;
+using System.Linq;
+
+namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     using System.Collections.Generic;
     using Nest;
@@ -34,7 +37,7 @@
                     .From(0)
                     .Size(size));
 
-            return standards.Documents;
+            return standards.Documents.Where(x => x.IsValidDate(DateTime.UtcNow));
         }
 
         private int GetLarsStandardsSize()
