@@ -29,6 +29,23 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Core.Models
         }
 
         [Test]
+        public void ShouldBeValidIfTheStartDateisTodayAndEndDateIsInFuture()
+        {
+            // Arrange
+            var sut = new LarsStandard
+            {
+                EffectiveFrom = DateTime.UtcNow,
+                EffectiveTo = DateTime.MaxValue
+            };
+
+            // Act
+            var result = sut.IsValidDate(DateTime.UtcNow);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
         public void ShouldBeInvalidIfItHasNoStartDate()
         {
             // Arrange

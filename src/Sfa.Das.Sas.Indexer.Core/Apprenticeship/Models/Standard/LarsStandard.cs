@@ -24,7 +24,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard
 
         public bool IsValidDate(DateTime currentDate)
         {
-            return EffectiveFrom <= currentDate.Date && (EffectiveTo == null || EffectiveTo >= currentDate.Date);
+            return EffectiveFrom != null && EffectiveFrom.Value.Date <= currentDate.Date && (EffectiveTo == null || EffectiveTo.Value.Date >= currentDate.Date);
         }
     }
 }
