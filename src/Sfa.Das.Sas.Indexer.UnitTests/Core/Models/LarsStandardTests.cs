@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
 using NUnit.Framework;
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
 
@@ -96,5 +93,32 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Core.Models
             Assert.IsFalse(result);
         }
 
+        [Test]
+        [TestCaseSource(typeof(LarsStandardDateTestDataClass), "LarsStandardTestData")]
+        public bool Testcase(DateTime effectivefrom, DateTime effectiveto)
+        {
+            // Arrange
+            var sut = new LarsStandard
+            {
+                EffectiveFrom = effectivefrom,
+                EffectiveTo = effectiveto
+            };
+
+            // Act
+            return sut.IsValidDate(DateTime.UtcNow);
+        }
     }
+
+    public class LarsStandardDateTestDataClass
+    {
+        public static IEnumerable LarsStandardTestData
+        {
+            get
+            {
+                yield return new TestCaseData(DateTime.UtcNow, DateTime.MaxValue).SetName("ShouldBeValidIfTheStartDateisTodayAndEndDateIsInFuture").Returns(true);
+                yield return new TestCaseData(DateTime.MinValue, DateTime.UtcNow).SetName("ShouldBeValidIfTheStartDateinPastAndEndDateIsToday").Returns(true);
+            }
+        }
+    }
+
 }
