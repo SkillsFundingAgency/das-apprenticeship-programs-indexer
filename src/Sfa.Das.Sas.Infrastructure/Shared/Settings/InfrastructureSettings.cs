@@ -22,7 +22,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string UkrlpProviderStatus => ConfigurationManager.AppSettings["UkrlpProviderStatus"];
 
-        public string UkrlpServiceEndpointUrl => ConfigurationManager.AppSettings["UKRLP_EndpointUri"];
+        public string UkrlpServiceEndpointUrl => _settingsProvider.GetSetting("UKRLP_EndpointUri");
 
         public string CourseDirectoryUri => ConfigurationManager.AppSettings["CourseDirectoryUri"];
 
