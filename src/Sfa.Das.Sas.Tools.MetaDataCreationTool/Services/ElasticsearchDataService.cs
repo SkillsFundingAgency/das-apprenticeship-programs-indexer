@@ -42,11 +42,18 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         private int GetLarsStandardsSize()
         {
-            return (int)_elasticsearchCustomClient
+            var response = _elasticsearchCustomClient
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
                     .Type(Types.Parse("standardlars"))
-                    .MatchAll()).HitsMetaData.Total;
+                    .MatchAll());
+
+            if (!response.IsValid)
+            {
+                throw new Exception($"{response.ServerError.Error.Reason} {response.ServerError.Error.Index}", response.OriginalException);
+            }
+
+            return (int)response.HitsMetaData.Total;
         }
 
         public IEnumerable<FrameworkMetaData> GetListOfCurrentFrameworks()
@@ -66,11 +73,18 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         private int GetLarsFrameworksSize()
         {
-            return (int)_elasticsearchCustomClient
+            var response = _elasticsearchCustomClient
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
                     .Type(Types.Parse("frameworklars"))
-                    .MatchAll()).HitsMetaData.Total;
+                    .MatchAll());
+
+            if (!response.IsValid)
+            {
+                throw new Exception($"{response.ServerError.Error.Reason} {response.ServerError.Error.Index}", response.OriginalException);
+            }
+
+            return (int)response.HitsMetaData.Total;
         }
     }
 }
