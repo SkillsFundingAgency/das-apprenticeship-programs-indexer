@@ -10,6 +10,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Extensions;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
@@ -25,10 +26,12 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         private const int EndDatePosition = 8;
 
         private readonly IAppServiceSettings _appServiceSettings;
+        private readonly ILog _log;
 
-        public RoatpProvidersXlsxService(IAppServiceSettings appServiceSettings)
+        public RoatpProvidersXlsxService(IAppServiceSettings appServiceSettings, ILog log)
         {
             _appServiceSettings = appServiceSettings;
+            _log = log;
         }
 
         public List<RoatpProviderResult> GetRoatpData()
@@ -56,7 +59,30 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return response;
         }
 
-        private static void GetRoatp(ExcelPackage package, List<RoatpProviderResult> roatpProviders)
+        public ProviderType GetProviderType(object providerType)
+        {
+            if (providerType != null)
+            {
+                switch (providerType.ToString().ToLower().Trim())
+                {
+                    case "main provider":
+                        return ProviderType.MainProvider;
+                    case "supporting provider":
+                        return ProviderType.SupportingProvider;
+                    case "employer provider":
+                        return ProviderType.EmployerProvider;
+                    default:
+                        {
+                            _log.Warn($"Couldn't find the provider type \"{providerType}\"");
+                            return ProviderType.Unknown;
+                        }
+                }
+            }
+
+            return ProviderType.Unknown;
+        }
+
+        private void GetRoatp(ExcelPackage package, List<RoatpProviderResult> roatpProviders)
         {
             var roatpWorkSheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == "RoATP");
             if (roatpWorkSheet == null) return;
@@ -67,7 +93,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 {
                     Ukprn = roatpWorkSheet.Cells[i, UkprnPosition].Value != null ? roatpWorkSheet.Cells[i, UkprnPosition].Value.ToString() : string.Empty,
                     OrganisationName = roatpWorkSheet.Cells[i, OrganisationNamePosition].Value != null ? roatpWorkSheet.Cells[i, OrganisationNamePosition].Value.ToString() : string.Empty,
-                    ProviderType = GetProviderType(roatpWorkSheet.Cells[i, ProviderTypePosition]),
+                    ProviderType = GetProviderType(roatpWorkSheet.Cells[i, ProviderTypePosition].Value),
                     ContractedForNonLeviedEmployers = GetBooleanValue(roatpWorkSheet.Cells[i, ContractedForNonLeviedEmployersPosition]),
                     ParentCompanyGuarantee = GetBooleanValue(roatpWorkSheet.Cells[i, ParentCompanyGuaranteePosition]),
                     NewOrganisationWithoutFinancialTrackRecord = GetBooleanValue(roatpWorkSheet.Cells[i, NewOrganisationWithoutFinancialTrackRecordPosition]),
@@ -103,26 +129,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             }
 
             return false;
-        }
-
-        private static ProviderType GetProviderType(ExcelRange excelRange)
-        {
-            if (excelRange.Value != null)
-            {
-                switch (excelRange.Value.ToString().ToLower())
-                {
-                    case "main provider":
-                        return ProviderType.MainProvider;
-                    case "supporting provider":
-                        return ProviderType.SupportingProvider;
-                    case "employer provider":
-                        return ProviderType.EmployerProvider;
-                    default:
-                        return ProviderType.Unknown;
-                }
-            }
-
-            return ProviderType.Unknown;
         }
     }
 }
