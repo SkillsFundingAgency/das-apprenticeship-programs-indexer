@@ -25,6 +25,8 @@
         private readonly IUkrlpProviderMapper _ukrlpProviderMapper;
         private readonly ILog _log;
 
+        private readonly ProviderType[] _validProviderTypes = { ProviderType.MainProvider, ProviderType.EmployerProvider };
+
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
             ICourseDirectoryProviderMapper courseDirectoryProviderMapper,
@@ -160,10 +162,7 @@
 
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
         {
-            foreach (var roatpProvider in source.RoatpProviders.Where(r =>
-                r.ProviderType == ProviderType.MainProvider
-                && r.ProviderType == ProviderType.EmployerProvider
-                && IsDateValid(r)))
+            foreach (var roatpProvider in source.RoatpProviders.Where(r => _validProviderTypes.Contains(r.ProviderType) && IsDateValid(r)))
             {
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
 
