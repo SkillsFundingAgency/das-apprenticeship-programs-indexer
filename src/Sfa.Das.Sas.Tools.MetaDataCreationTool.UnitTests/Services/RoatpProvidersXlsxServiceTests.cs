@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
-using OfficeOpenXml;
+using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
-using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
 {
@@ -18,9 +12,14 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
         [TestCase("main provider", ProviderType.MainProvider)]
         [TestCase("Main Provider", ProviderType.MainProvider)]
         [TestCase("Mian provider", ProviderType.Unknown)]
+        [TestCase("MainProvider", ProviderType.Unknown)]
+        [TestCase(" ", ProviderType.Unknown)]
+        [TestCase("", ProviderType.Unknown)]
+        [TestCase("null", ProviderType.Unknown)]
         [TestCase("Supporting Provider", ProviderType.SupportingProvider)]
         [TestCase("Employer Provider", ProviderType.EmployerProvider)]
         [TestCase(" Employer Provider", ProviderType.EmployerProvider)]
+        [TestCase("Employer Provider ", ProviderType.EmployerProvider)]
         public void ShouldMatchTheProviderType(string input, ProviderType expected)
         {
             // Arrange
