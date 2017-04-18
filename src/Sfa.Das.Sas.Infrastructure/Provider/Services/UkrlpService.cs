@@ -29,9 +29,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 
         public UkrlpProviderResponse Handle(UkrlpProviderRequest request)
         {
-            _logger.Debug("Starting to get providers from UKRLP");
             try
             {
+                _logger.Debug("Starting to get providers from UKRLP");
                 var response = _providerClient.ProviderQuery(new SelectionCriteriaStructure
                 {
                     UnitedKingdomProviderReferenceNumberList = request.Providers.Select(x => x.ToString()).ToArray(),
@@ -45,17 +45,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 
                 foreach (var warning in response.Warnings)
                 {
-                    _logger.Warn(warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
+                    _logger.Warn(warning.Value, new Dictionary<string, object> {{"UKPRN", warning.Key}});
                 }
 
                 _logger.Debug($"Retreived {response.Providers.Count()} Providers from UKRLP");
 
-                return new UkrlpProviderResponse { MatchingProviderRecords = response.Providers };
+                return new UkrlpProviderResponse {MatchingProviderRecords = response.Providers};
             }
             catch (Exception ex)
             {
-                _logger.Warn(ex, ex.Message);
-                return new UkrlpProviderResponse();
+                throw new ApplicationException("There was a problem with UKRLP", ex);
             }
         }
     }
