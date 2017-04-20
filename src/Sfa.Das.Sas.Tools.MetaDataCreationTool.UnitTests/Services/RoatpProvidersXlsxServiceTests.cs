@@ -26,7 +26,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
             var sut = new RoatpProvidersXlsxService(null, new Mock<ILog>().Object);
 
             // Act
-            var result = sut.GetProviderType(input);
+            var result = sut.GetProviderType(input, null);
 
             // Assert
             Assert.AreEqual(expected, result);
