@@ -68,7 +68,9 @@
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 Duration = standard.Duration,
-                FundingCap = standard.FundingCap
+                FundingCap = standard.FundingCap,
+                EffectiveFrom = standard.EffectiveFrom,
+                EffectiveTo = standard.EffectiveTo
             };
         }
 
@@ -103,7 +105,9 @@
                 FrameworkOverview = frameworkMetaData.FrameworkOverview,
                 CompetencyQualification = frameworkMetaData.CompetencyQualification,
                 KnowledgeQualification = frameworkMetaData.KnowledgeQualification,
-                CombinedQualification = frameworkMetaData.CombinedQualification
+                CombinedQualification = frameworkMetaData.CombinedQualification,
+                EffectiveFrom = frameworkMetaData.EffectiveFrom,
+                EffectiveTo = frameworkMetaData.EffectiveTo
             };
         }
 
