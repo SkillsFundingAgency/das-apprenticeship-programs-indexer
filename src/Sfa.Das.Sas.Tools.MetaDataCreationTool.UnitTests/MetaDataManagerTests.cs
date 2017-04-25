@@ -96,11 +96,6 @@
             var standard = standardJson.FirstOrDefault(m => m.Id == 2);
             standard.NotionalEndLevel.Should().Be(4);
 
-            var standard2 = standardJson.FirstOrDefault(m => m.Id == 3);
-            standard2.StandardPdfUrl.Should().BeNullOrEmpty();
-            standard2.AssessmentPlanPdfUrl.Should().BeNullOrEmpty();
-            standard2.NotionalEndLevel.Should().Be(0);
-
             Assert.That(standardJson, Is.TypeOf<List<StandardMetaData>>());
         }
 
