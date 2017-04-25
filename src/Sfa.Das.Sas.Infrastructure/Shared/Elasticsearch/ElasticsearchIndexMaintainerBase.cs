@@ -49,17 +49,26 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var result = true;
 
-            var indicesToBeDelete = Client.IndicesStats(Indices.All).Indices.Select(x => x.Key).Where(indexNameMatch);
+            var allIndices = Client.IndicesStats(Indices.All).Indices;
 
-            Log.Debug($"Deleting {indicesToBeDelete.Count()} old {_typeOfIndex} indexes...");
-
-            foreach (var index in indicesToBeDelete)
+            if (allIndices?.Count > 0)
             {
-                Log.Debug($"Deleting {index}");
-                result = result && this.DeleteIndex(index);
-            }
+                var indicesToBeDeleted = allIndices.Select(x => x.Key).Where(indexNameMatch);
 
-            Log.Debug("Deletion completed...");
+                Log.Debug($"Deleting {indicesToBeDeleted.Count()} old {_typeOfIndex} indexes...");
+
+                foreach (var index in indicesToBeDeleted)
+                {
+                    Log.Debug($"Deleting {index}");
+                    result = result && this.DeleteIndex(index);
+                }
+
+                Log.Debug("Deletion completed...");
+            }
+            else
+            {
+                Log.Warn("Could not find indices to delete.");
+            }
 
             return result;
         }

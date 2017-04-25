@@ -73,10 +73,8 @@
 
                 _searchIndexMaintainer.CreateIndexAlias(_settings.IndexesAlias, newIndexName);
             }
-            else
-            {
-                _searchIndexMaintainer.SwapAliasIndex(_settings.IndexesAlias, newIndexName);
-            }
+
+            _searchIndexMaintainer.SwapAliasIndex(_settings.IndexesAlias, newIndexName);
         }
 
         public bool DeleteOldIndexes(DateTime scheduledRefreshDateTime)
