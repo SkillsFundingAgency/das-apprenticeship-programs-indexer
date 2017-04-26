@@ -37,6 +37,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         public List<RoatpProviderResult> GetRoatpData()
         {
             var roatpProviders = new List<RoatpProviderResult>();
+            IDictionary<string, object> extras = new Dictionary<string, object>();
+            extras.Add("DependencyLogEntry.Url", _appServiceSettings.VstsRoatpUrl);
 
             using (var client = new WebClient())
             {
@@ -46,17 +48,36 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
                 }
 
-                var filePath = Path.GetTempFileName();
-                client.DownloadFile(new Uri(_appServiceSettings.VstsRoatpUrl), filePath);
-
-                using (ExcelPackage package = new ExcelPackage(new FileInfo(filePath)))
+                try
                 {
-                    GetRoatp(package, roatpProviders);
+                    _log.Debug("Downloading ROATP", new Dictionary<string, object> { { "Url", _appServiceSettings.VstsRoatpUrl } });
+
+                    using (var stream = new MemoryStream(client.DownloadData(new Uri(_appServiceSettings.VstsRoatpUrl))))
+                    using (var package = new ExcelPackage(stream))
+                    {
+
+                        GetRoatp(package, roatpProviders);
+                    }
+
+                    return roatpProviders.Where(roatpProviderResult => roatpProviderResult.Ukprn != string.Empty && roatpProviderResult.OrganisationName != string.Empty).DistinctBy(x => x.Ukprn).ToList();
+                }
+                catch (WebException wex)
+                {
+                    var response = (HttpWebResponse) wex.Response;
+                    if (response != null)
+                    {
+                        extras.Add("DependencyLogEntry.ResponseCode", response.StatusCode);
+                    }
+
+                    _log.Error(wex, "Problem downloading ROATP from VSTS", extras);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, "Problem downloading ROATP from VSTS", extras);
                 }
             }
 
-            var response = roatpProviders.Where(roatpProviderResult => roatpProviderResult.Ukprn != string.Empty && roatpProviderResult.OrganisationName != string.Empty).DistinctBy(x => x.Ukprn).ToList();
-            return response;
+            return null;
         }
 
         public ProviderType GetProviderType(object providerType, string ukprn)
