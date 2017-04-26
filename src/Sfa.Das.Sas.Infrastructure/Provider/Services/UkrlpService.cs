@@ -45,12 +45,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 
                 foreach (var warning in response.Warnings)
                 {
-                    _logger.Warn(warning.Value, new Dictionary<string, object> {{"UKPRN", warning.Key}});
+                    _logger.Warn(warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
                 }
 
                 _logger.Debug($"Retreived {response.Providers.Count()} Providers from UKRLP");
 
-                return new UkrlpProviderResponse {MatchingProviderRecords = response.Providers};
+                return new UkrlpProviderResponse { MatchingProviderRecords = response.Providers };
             }
             catch (Exception ex)
             {
