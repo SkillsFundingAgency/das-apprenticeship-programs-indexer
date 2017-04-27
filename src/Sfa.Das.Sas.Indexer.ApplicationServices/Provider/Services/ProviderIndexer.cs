@@ -165,7 +165,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
         {
             var invalid = 0;
-            foreach (var roatpProvider in source.RoatpProviders.Where(r => _validProviderTypes.Contains(r.ProviderType) && IsDateValid(r)))
+            var roatpProviderResults = source.RoatpProviders.Where(r => _validProviderTypes.Contains(r.ProviderType) && IsDateValid(r)).ToList();
+            _log.Debug("Mapping API providers from valid ROATP providers", new Dictionary<string, object> { { "TotalCount", roatpProviderResults.Count } });
+            var missing = roatpProviderResults.Where(x => source.UkrlpProviders.All(y => y.UnitedKingdomProviderReferenceNumber != x.Ukprn)).ToList();
+            if (missing.Any())
+            {
+                _log.Warn("Missing providers from UKRLP", new Dictionary<string, object> { { "TotalCount", missing.Count() }, { "Body", JsonConvert.SerializeObject(missing.Select(x => x.Ukprn)) } });
+            }
+
+            foreach (var roatpProvider in roatpProviderResults)
             {
                 var ukrlpProvider = source.UkrlpProviders.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
 
