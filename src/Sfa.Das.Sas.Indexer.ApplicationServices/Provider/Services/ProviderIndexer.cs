@@ -184,7 +184,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     continue;
                 }
 
-                provider.Name = ukrlpProvider?.ProviderName;
+                if (!string.IsNullOrEmpty(ukrlpProvider?.ProviderName))
+                {
+                    provider.Name = ukrlpProvider.ProviderName;
+                }
+
                 provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
                 provider.Aliases = ukrlpProvider?.ProviderAliases;
 
