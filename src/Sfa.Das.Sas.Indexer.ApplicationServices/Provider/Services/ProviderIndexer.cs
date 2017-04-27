@@ -229,7 +229,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 }
             }
 
-            _log.Warn("Invalid API Providers were found", new Dictionary<string, object> { { "TotalCount", invalid } });
+            if (invalid > 0)
+            {
+                _log.Warn("Invalid API Providers were found", new Dictionary<string, object> { { "TotalCount", invalid } });
+            }
         }
 
         public bool IsDateValid(RoatpProviderResult roatpProvider)
