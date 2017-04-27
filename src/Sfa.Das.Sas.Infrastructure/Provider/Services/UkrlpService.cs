@@ -26,13 +26,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
             _infrastructureSettings = infrastructureSettings;
             _providerClient = providerClient;
             _providerClient.PostRequest = LogResponse;
-            _providerClient.PreRequest = LogRequest;
             _logger = logger;
-        }
-
-        private void LogRequest(SelectionCriteriaStructure request)
-        {
-            _logger.Debug("UKRLP Request", new Dictionary<string, object> { { "Body", JsonConvert.SerializeObject(request, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) } });
         }
 
         public UkrlpProviderResponse Handle(UkrlpProviderRequest request)
@@ -65,9 +59,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
             }
         }
 
-        private void LogResponse(ProviderQueryResponse response)
+        private void LogResponse(SelectionCriteriaStructure criteria, ProviderQueryResponse response)
         {
-            _logger.Debug($"UKRLP response", new Dictionary<string, object> { { "TotalCount", response.MatchingProviderRecords.Length }, { "Body", string.Join(", ", response.MatchingProviderRecords.Select(x => x.UnitedKingdomProviderReferenceNumber)) } });
+            _logger.Debug("UKRLP response", new Dictionary<string, object> { { "TotalCount", response.MatchingProviderRecords.Length }, { "Request", JsonConvert.SerializeObject(criteria.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) }, { "Body", string.Join(", ", response.MatchingProviderRecords.Select(x => x.UnitedKingdomProviderReferenceNumber)) } });
         }
     }
 }
