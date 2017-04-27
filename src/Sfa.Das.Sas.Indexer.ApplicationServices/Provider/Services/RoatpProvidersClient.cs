@@ -30,7 +30,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _logger.Debug($"Retrieved {records.Count} providers on the ROATP list", new Dictionary<string, object> { { "TotalCount", records.Count } });
             var filtered = records.Where(x => _validProviderTypes.Contains(x.ProviderType) && x.IsDateValid()).ToList();
             _logger.Debug($"Filtered out Supporting providers on ROATP", new Dictionary<string, object> { { "TotalCount", filtered.Count } });
-            return records;
+            return filtered;
         }
     }
 }
