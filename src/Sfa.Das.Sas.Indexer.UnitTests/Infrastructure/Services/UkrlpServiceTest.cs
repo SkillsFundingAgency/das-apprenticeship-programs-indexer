@@ -41,7 +41,8 @@
 
             Assert.AreEqual(2, models.MatchingProviderRecords.Count());
 
-            mockLog.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
+            mockLog.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(1));
+            mockLog.Verify(x => x.Debug(It.IsAny<string>(), It.IsAny<IDictionary<string, object>>()), Times.Exactly(1));
         }
 
         [Test]
