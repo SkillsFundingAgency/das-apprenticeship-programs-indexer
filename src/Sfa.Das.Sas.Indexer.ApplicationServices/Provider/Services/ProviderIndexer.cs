@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.Core.Logging.Models;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
@@ -97,8 +99,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
 
             // Load data
-            _log.Debug("Loading data at provider index");
-            var source = await _providerDataService.LoadDatasetsAsync();
+            var timing = ExecutionTimer.GetTiming(() => _providerDataService.LoadDatasetsAsync());
+
+            var source = await timing.Result;
+            _log.Debug("Loaded data for provider index", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 
             _log.Debug($"Received {source.ActiveProviders.Providers.Count()} FCS providers", new Dictionary<string, object> { { "TotalCount", source.ActiveProviders.Providers.Count() } });
             _log.Debug($"Received {source.RoatpProviders.Count} RoATP providers", new Dictionary<string, object> { { "TotalCount", source.RoatpProviders.Count } });
