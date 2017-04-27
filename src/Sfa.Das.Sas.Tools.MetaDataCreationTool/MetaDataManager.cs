@@ -76,8 +76,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 .ToList();
             _logger.Debug($"Retrieved {standards.Count} standards from VSTS");
 
-            UpdateStandardsInformationFromLarsAndResolveUrls(standards);
-            return standards;
+            var activeStandards = UpdateStandardsInformationFromLarsAndResolveUrls(standards);
+            return activeStandards;
         }
 
         public IEnumerable<FrameworkMetaData> GetAllFrameworks()
@@ -161,7 +161,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             _logger.Debug($"Updated {updated} frameworks from VSTS");
         }
 
-        private void UpdateStandardsInformationFromLarsAndResolveUrls(IEnumerable<StandardMetaData> standards)
+        private IEnumerable<StandardMetaData> UpdateStandardsInformationFromLarsAndResolveUrls(IEnumerable<StandardMetaData> standards)
         {
             int updated = 0;
             var currentStandards = _elasticsearchLarsDataService.GetListOfCurrentStandards();
@@ -185,7 +185,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 updated++;
             }
 
+            var activeStandards = standards.Where(standardMetaData => currentStandards.SingleOrDefault(m => m.Id.Equals(standardMetaData.Id)) != null).ToList();
+
             _logger.Debug($"Updated {updated} standards from LARS and resolved PDF urls");
+
+            return activeStandards;
         }
 
         private string GetLinkUri(string link, string linkTitle)

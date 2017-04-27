@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
+﻿using System;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
     public class StandardLars
     {
@@ -17,5 +19,7 @@
         public int Duration { get; set; }
 
         public int FundingCap { get; set; }
+        public DateTime? EffectiveFrom { get; set; }
+        public DateTime? EffectiveTo { get; set; }
     }
 }

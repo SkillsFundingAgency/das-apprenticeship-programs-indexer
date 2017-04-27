@@ -31,11 +31,13 @@
             return new LarsStandard
             {
                 Id = standardid,
-                Title = values[2].RemoveQuotationMark(),
-                NotionalEndLevel = values[4].RemoveQuotationMark().SafeParseInt(),
-                StandardUrl = values[8],
-                SectorSubjectAreaTier1 = values[9].RemoveQuotationMark().SafeParseDouble(),
-                SectorSubjectAreaTier2 = values[10].RemoveQuotationMark().SafeParseDouble(),
+                Title = values[StandardCsvCols.Title].RemoveQuotationMark(),
+                NotionalEndLevel = values[StandardCsvCols.NotionalEndLevel].RemoveQuotationMark().SafeParseInt(),
+                StandardUrl = values[StandardCsvCols.UrlLink],
+                SectorSubjectAreaTier1 = values[StandardCsvCols.SectorSubjectAreaTier1].RemoveQuotationMark().SafeParseDouble(),
+                SectorSubjectAreaTier2 = values[StandardCsvCols.SectorSubjectAreaTier2].RemoveQuotationMark().SafeParseDouble(),
+                EffectiveFrom = values[StandardCsvCols.EffectiveFrom].SafeParseDate(),
+                EffectiveTo = values[StandardCsvCols.EffectiveTo].SafeParseDate()
             };
         }
 

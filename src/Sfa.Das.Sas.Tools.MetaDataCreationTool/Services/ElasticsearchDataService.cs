@@ -1,4 +1,7 @@
-﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
+﻿using System;
+using System.Linq;
+
+namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     using System.Collections.Generic;
     using Nest;
@@ -34,16 +37,23 @@
                     .From(0)
                     .Size(size));
 
-            return standards.Documents;
+            return standards.Documents.Where(x => x.IsValidDate(DateTime.UtcNow));
         }
 
         private int GetLarsStandardsSize()
         {
-            return (int)_elasticsearchCustomClient
+            var response = _elasticsearchCustomClient
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
                     .Type(Types.Parse("standardlars"))
-                    .MatchAll()).HitsMetaData.Total;
+                    .MatchAll());
+
+            if (!response.IsValid)
+            {
+                throw new Exception($"{response.ServerError.Error.Reason} {response.ServerError.Error.Index}", response.OriginalException);
+            }
+
+            return (int)response.HitsMetaData.Total;
         }
 
         public IEnumerable<FrameworkMetaData> GetListOfCurrentFrameworks()
@@ -63,11 +73,18 @@
 
         private int GetLarsFrameworksSize()
         {
-            return (int)_elasticsearchCustomClient
+            var response = _elasticsearchCustomClient
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
                     .Type(Types.Parse("frameworklars"))
-                    .MatchAll()).HitsMetaData.Total;
+                    .MatchAll());
+
+            if (!response.IsValid)
+            {
+                throw new Exception($"{response.ServerError.Error.Reason} {response.ServerError.Error.Index}", response.OriginalException);
+            }
+
+            return (int)response.HitsMetaData.Total;
         }
     }
 }

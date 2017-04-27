@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Sfa.Das.Sas.Tools.MetaDataCreationTool.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\SharedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,7 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Sfa.Das.Sas.Tools.MetaDataCreationTool.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\SharedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -68,7 +68,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SFA.DAS.NLog.Logger">
-      <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.23289\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
+      <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.26805\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=4.2.0.402, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.4.2.0.402\lib\net40\StructureMap.dll</HintPath>
@@ -104,12 +104,17 @@
     <Compile Include="Factories\MetaData\FundingMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\IMetaDataFactory.cs" />
     <Compile Include="Factories\MetaData\LearningDeliveryMetaDataFactory.cs" />
+    <Compile Include="Factories\MetaData\StandardCsvCols.cs" />
     <Compile Include="Factories\MetaData\StandardMetaDataFactory.cs" />
+    <Compile Include="Infrastructure\IWebClient.cs" />
+    <Compile Include="Infrastructure\WebClientWrapper.cs" />
     <Compile Include="Models\Git\FileContents.cs" />
     <Compile Include="Models\Git\VstsFrameworkMetaData.cs" />
     <Compile Include="Models\GovLearn\GovLearnResource.cs" />
     <Compile Include="Models\GovLearn\GovLearnResponse.cs" />
     <Compile Include="Models\StandardRepositoryData.cs" />
+    <Compile Include="Services\AssessmentOrgsExcelPackageService.cs" />
+    <Compile Include="Services\Interfaces\IAssessmentOrgsExcelPackageService.cs" />
     <Compile Include="Services\RoatpProvidersXlsxService.cs" />
     <Compile Include="Services\ElasticsearchDataService.cs" />
     <Compile Include="Services\Interfaces\IElasticsearchDataService.cs" />

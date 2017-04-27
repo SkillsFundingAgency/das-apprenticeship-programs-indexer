@@ -10,6 +10,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Extensions;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
@@ -25,10 +26,12 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         private const int EndDatePosition = 8;
 
         private readonly IAppServiceSettings _appServiceSettings;
+        private readonly ILog _log;
 
-        public RoatpProvidersXlsxService(IAppServiceSettings appServiceSettings)
+        public RoatpProvidersXlsxService(IAppServiceSettings appServiceSettings, ILog log)
         {
             _appServiceSettings = appServiceSettings;
+            _log = log;
         }
 
         public List<RoatpProviderResult> GetRoatpData()
@@ -56,18 +59,45 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return response;
         }
 
-        private static void GetRoatp(ExcelPackage package, List<RoatpProviderResult> roatpProviders)
+        public ProviderType GetProviderType(object providerType, string ukprn)
+        {
+            if (providerType != null)
+            {
+                var type = providerType.ToString().ToLower().Trim();
+
+                if (type == "main provider")
+                {
+                    return ProviderType.MainProvider;
+                }
+
+                if (type == "supporting provider")
+                {
+                    return ProviderType.SupportingProvider;
+                }
+
+                if (type == "employer provider")
+                {
+                    return ProviderType.EmployerProvider;
+                }
+            }
+
+            _log.Warn($"Couldn't find the provider type \"{providerType}\"", new Dictionary<string, object> { { "UKPRN", ukprn } });
+            return ProviderType.Unknown;
+        }
+
+        private void GetRoatp(ExcelPackage package, List<RoatpProviderResult> roatpProviders)
         {
             var roatpWorkSheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == "RoATP");
             if (roatpWorkSheet == null) return;
 
             for (var i = roatpWorkSheet.Dimension.Start.Row + 1; i <= roatpWorkSheet.Dimension.End.Row; i++)
             {
+                var ukprn = roatpWorkSheet.Cells[i, UkprnPosition].Value != null ? roatpWorkSheet.Cells[i, UkprnPosition].Value.ToString() : string.Empty;
                 var roatpData = new RoatpProviderResult
                 {
-                    Ukprn = roatpWorkSheet.Cells[i, UkprnPosition].Value != null ? roatpWorkSheet.Cells[i, UkprnPosition].Value.ToString() : string.Empty,
+                    Ukprn = ukprn,
                     OrganisationName = roatpWorkSheet.Cells[i, OrganisationNamePosition].Value != null ? roatpWorkSheet.Cells[i, OrganisationNamePosition].Value.ToString() : string.Empty,
-                    ProviderType = GetProviderType(roatpWorkSheet.Cells[i, ProviderTypePosition]),
+                    ProviderType = GetProviderType(roatpWorkSheet.Cells[i, ProviderTypePosition].Value, ukprn),
                     ContractedForNonLeviedEmployers = GetBooleanValue(roatpWorkSheet.Cells[i, ContractedForNonLeviedEmployersPosition]),
                     ParentCompanyGuarantee = GetBooleanValue(roatpWorkSheet.Cells[i, ParentCompanyGuaranteePosition]),
                     NewOrganisationWithoutFinancialTrackRecord = GetBooleanValue(roatpWorkSheet.Cells[i, NewOrganisationWithoutFinancialTrackRecordPosition]),
@@ -103,26 +133,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             }
 
             return false;
-        }
-
-        private static ProviderType GetProviderType(ExcelRange excelRange)
-        {
-            if (excelRange.Value != null)
-            {
-                switch (excelRange.Value.ToString())
-                {
-                    case "Main provider":
-                        return ProviderType.MainProvider;
-                    case "Supporting provider":
-                        return ProviderType.SupportingProvider;
-                    case "Employer provider":
-                        return ProviderType.EmployerProvider;
-                    default:
-                        return ProviderType.Unknown;
-                }
-            }
-
-            return ProviderType.Unknown;
         }
     }
 }

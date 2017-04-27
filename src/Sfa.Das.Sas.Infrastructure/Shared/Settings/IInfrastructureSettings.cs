@@ -25,9 +25,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         string UkrlpProviderStatus { get; }
 
-        string UkrlpQueryId { get; }
-
-        int UkrlpRequestUkprnBatchSize { get; }
         string UkrlpServiceEndpointUrl { get; }
 
         double HttpClientTimeout { get; }

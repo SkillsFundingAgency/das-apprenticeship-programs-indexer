@@ -1,4 +1,5 @@
 ﻿using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+﻿using Newtonsoft.Json;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
@@ -26,6 +27,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly ICourseDirectoryProviderMapper _courseDirectoryProviderMapper;
         private readonly IUkrlpProviderMapper _ukrlpProviderMapper;
         private readonly ILog _log;
+
+        private readonly ProviderType[] _validProviderTypes = { ProviderType.MainProvider, ProviderType.EmployerProvider };
 
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
@@ -73,10 +76,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 _searchIndexMaintainer.CreateIndexAlias(_settings.IndexesAlias, newIndexName);
             }
-            else
-            {
-                _searchIndexMaintainer.SwapAliasIndex(_settings.IndexesAlias, newIndexName);
-            }
+
+            _searchIndexMaintainer.SwapAliasIndex(_settings.IndexesAlias, newIndexName);
         }
 
         public bool DeleteOldIndexes(DateTime scheduledRefreshDateTime)
@@ -259,7 +260,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
         {
-            foreach (var roatpProvider in source.RoatpProviders.Where(r => r.ProviderType != ProviderType.SupportingProvider && IsDateValid(r)))
+            foreach (var roatpProvider in source.RoatpProviders.Where(r => _validProviderTypes.Contains(r.ProviderType) && IsDateValid(r)))
             {
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
 
@@ -297,6 +298,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
                 _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
+
+                if (!provider.IsValid())
+                {
+                    _log.Warn("API Provider is invalid", new Dictionary<string, object> { { "Body", JsonConvert.SerializeObject(provider) } });
+                }
 
                 yield return provider;
             }

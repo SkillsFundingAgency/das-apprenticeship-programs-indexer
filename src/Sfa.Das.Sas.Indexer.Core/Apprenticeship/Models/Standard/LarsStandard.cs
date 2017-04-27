@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard
+﻿using System;
+
+namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard
 {
     public sealed class LarsStandard
     {
@@ -17,5 +19,12 @@
         public int Duration { get; set; }
 
         public int FundingCap { get; set; }
+        public DateTime? EffectiveTo { get; set; }
+        public DateTime? EffectiveFrom { get; set; }
+
+        public bool IsValidDate(DateTime currentDate)
+        {
+            return EffectiveFrom != null && EffectiveFrom.Value.Date <= currentDate.Date && (EffectiveTo == null || EffectiveTo.Value.Date >= currentDate.Date);
+        }
     }
 }

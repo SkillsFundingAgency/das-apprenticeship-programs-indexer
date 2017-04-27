@@ -7,10 +7,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Extensions
     {
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
-            HashSet<TKey> seenKeys = new HashSet<TKey>();
+            HashSet<string> seenKeys = new HashSet<string>();
             foreach (TSource element in source)
             {
-                if (seenKeys.Add(keySelector(element)))
+                var key = keySelector(element).ToString().ToLower();
+                if (seenKeys.Add(key))
                 {
                     yield return element;
                 }
