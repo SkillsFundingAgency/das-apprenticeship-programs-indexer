@@ -49,9 +49,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
                     _logger.Warn(warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
                 }
 
-                _logger.Debug($"Retreived {response.Providers.Count()} Providers in total from UKRLP", new Dictionary<string, object> { { "TotalCount", response.Providers.Count() } });
+                var matchingProviderRecords = response.Providers.ToList();
+                _logger.Debug($"Retreived {matchingProviderRecords.Count} Providers in total from UKRLP", new Dictionary<string, object> { { "TotalCount", matchingProviderRecords.Count } });
 
-                return new UkrlpProviderResponse { MatchingProviderRecords = response.Providers };
+                return new UkrlpProviderResponse { MatchingProviderRecords = matchingProviderRecords };
             }
             catch (Exception ex)
             {
