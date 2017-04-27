@@ -295,7 +295,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 {
                     if (roatpProviderResult.Ukprn == courseDirectoryProvider.Ukprn.ToString()
                         && roatpProviderResult.ProviderType == ProviderType.MainProvider
-                        && IsDateValid(roatpProviderResult))
+                        && roatpProviderResult.IsDateValid())
                     {
                         providerFromRoatp = true;
                         roatpProvider = roatpProviderResult;
