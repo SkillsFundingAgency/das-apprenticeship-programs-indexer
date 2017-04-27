@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
+﻿using System.Collections.Generic;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
 {
     using System.Linq;
     using MediatR;
@@ -31,7 +33,7 @@
         public EmployerProviderResult Handle(EmployerProviderRequest request)
         {
             var records = _convertFromCsv.CsvTo<EmployerProviderCsvRecord>(LoadEmployerProvidersFromVsts());
-            _logger.Debug($"Retreived {records.Count} Employer providers");
+            _logger.Debug($"Retreived {records.Count} Employer providers", new Dictionary<string, object> { { "TotalCount", records.Count } });
 
             return new EmployerProviderResult { Providers = records.Select(employerProviderCsvRecord => employerProviderCsvRecord.UkPrn.ToString()).ToList() };
         }
