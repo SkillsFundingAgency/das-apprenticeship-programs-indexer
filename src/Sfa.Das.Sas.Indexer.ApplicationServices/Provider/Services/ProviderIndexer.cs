@@ -96,17 +96,21 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
             var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
 
+            // Load data
             _log.Debug("Loading data at provider index");
             var source = await _providerDataService.LoadDatasetsAsync();
 
             _log.Debug($"Received {source.ActiveProviders.Providers.Count()} FCS providers", new Dictionary<string, object> { { "TotalCount", source.ActiveProviders.Providers.Count() } });
             _log.Debug($"Received {source.RoatpProviders.Count} RoATP providers", new Dictionary<string, object> { { "TotalCount", source.RoatpProviders.Count } });
 
+            // Providers
             var providersApi = CreateApiProviders(source).ToList();
 
             _log.Debug("Indexing " + providersApi.Count + " API providers", new Dictionary<string, object> { { "TotalCount", providersApi.Count } });
             bulkApiProviderTasks.AddRange(_searchIndexMaintainer.IndexApiProviders(indexName, providersApi));
+            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkApiProviderTasks), "ProviderApiDocument");
 
+            // Provider Sites
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
 
             _log.Debug("Indexing " + apprenticeshipProviders.Count + " provider sites", new Dictionary<string, object> { { "TotalCount", apprenticeshipProviders.Count } });
@@ -115,7 +119,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
-            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkApiProviderTasks), "ProviderApiDocument");
         }
 
         private IEnumerable<CoreProvider> CreateProviders(ProviderSourceDto source)
@@ -157,6 +160,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
         {
+            var invalid = 0;
             foreach (var roatpProvider in source.RoatpProviders.Where(r => _validProviderTypes.Contains(r.ProviderType) && IsDateValid(r)))
             {
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
@@ -184,25 +188,31 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
                 provider.Aliases = ukrlpProvider?.ProviderAliases;
 
-                var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
+                //var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
 
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
-                provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
-                provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
+                //provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
+                //provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
 
                 _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
                 _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
 
                 if (!provider.IsValid())
                 {
-                    _log.Warn("API Provider is invalid", new Dictionary<string, object> { { "Body", JsonConvert.SerializeObject(provider) } });
+                    _log.Warn(
+                        "API Provider is invalid",
+                        new Dictionary<string, object> { { "Body", JsonConvert.SerializeObject(provider,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) }, { "UKPRN", provider.Ukprn } });
+                    invalid++;
+                }
                 }
 
                 yield return provider;
             }
+
+            _log.Warn("Invalid API Providers were found", new Dictionary<string, object> { { "TotalCount", invalid } });
         }
 
         public bool IsDateValid(RoatpProviderResult roatpProvider)
