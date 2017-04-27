@@ -169,7 +169,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Sfa.Das.Sas.Indexer.AzureWorkerRole.ruleset" />
     <None Include="stylecop.json" />
     <None Include="Transform.Nlog.config">
       <SubType>Designer</SubType>

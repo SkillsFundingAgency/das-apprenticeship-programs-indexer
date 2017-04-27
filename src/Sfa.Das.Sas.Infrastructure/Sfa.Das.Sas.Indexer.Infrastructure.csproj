@@ -229,7 +229,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Sfa.Das.Sas.Indexer.Infrastructure.ruleset" />
     <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
