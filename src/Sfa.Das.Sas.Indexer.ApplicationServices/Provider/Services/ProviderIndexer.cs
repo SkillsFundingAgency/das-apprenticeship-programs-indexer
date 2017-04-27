@@ -211,9 +211,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                         new Dictionary<string, object> { { "Body", JsonConvert.SerializeObject(provider,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) }, { "UKPRN", provider.Ukprn } });
                     invalid++;
                 }
+                else
+                {
+                    yield return provider;
                 }
-
-                yield return provider;
             }
 
             _log.Warn("Invalid API Providers were found", new Dictionary<string, object> { { "TotalCount", invalid } });
