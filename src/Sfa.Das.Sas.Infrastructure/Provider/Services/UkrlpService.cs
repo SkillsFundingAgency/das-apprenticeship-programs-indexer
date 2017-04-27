@@ -24,6 +24,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
         {
             _infrastructureSettings = infrastructureSettings;
             _providerClient = providerClient;
+            _providerClient.PostRequest = LogResponse;
             _logger = logger;
         }
 
@@ -48,7 +49,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
                     _logger.Warn(warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
                 }
 
-                _logger.Debug($"Retreived {response.Providers.Count()} Providers from UKRLP");
+                _logger.Debug($"Retreived {response.Providers.Count()} Providers in total from UKRLP", new Dictionary<string, object> { { "TotalCount", response.Providers.Count() } });
 
                 return new UkrlpProviderResponse { MatchingProviderRecords = response.Providers };
             }
@@ -56,6 +57,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
             {
                 throw new ApplicationException("There was a problem with UKRLP", ex);
             }
+        }
+
+        private void LogResponse(ProviderQueryResponse response)
+        {
+            _logger.Debug($"UKRLP response", new Dictionary<string, object> { { "TotalCount", response.MatchingProviderRecords.Length } });
         }
     }
 }

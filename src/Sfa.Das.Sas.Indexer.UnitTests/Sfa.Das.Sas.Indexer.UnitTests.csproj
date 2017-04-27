@@ -111,12 +111,12 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Ukrlp.SoapApi.Client, Version=0.0.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UKRLP.SoapAPI.Client.0.0.14\lib\net45\Ukrlp.SoapApi.Client.dll</HintPath>
+    <Reference Include="Ukrlp.SoapApi.Client, Version=0.0.16.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UKRLP.SoapAPI.Client.0.0.16\lib\net45\Ukrlp.SoapApi.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Ukrlp.SoapApi.Types, Version=0.0.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UKRLP.SoapAPI.Types.0.0.14\lib\net45\Ukrlp.SoapApi.Types.dll</HintPath>
+    <Reference Include="Ukrlp.SoapApi.Types, Version=0.0.16.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UKRLP.SoapAPI.Types.0.0.16\lib\net45\Ukrlp.SoapApi.Types.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
