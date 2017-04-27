@@ -29,8 +29,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly IUkrlpProviderMapper _ukrlpProviderMapper;
         private readonly ILog _log;
 
-        private readonly ProviderType[] _validProviderTypes = { ProviderType.MainProvider, ProviderType.EmployerProvider };
-
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
             ICourseDirectoryProviderMapper courseDirectoryProviderMapper,
@@ -165,12 +163,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
         {
             var invalid = 0;
-            var roatpProviderResults = source.RoatpProviders.Where(r => _validProviderTypes.Contains(r.ProviderType) && IsDateValid(r)).ToList();
+            var roatpProviderResults = source.RoatpProviders.ToList();
             _log.Debug("Mapping API providers from valid ROATP providers", new Dictionary<string, object> { { "TotalCount", roatpProviderResults.Count } });
+
             var missing = roatpProviderResults.Where(x => source.UkrlpProviders.All(y => y.UnitedKingdomProviderReferenceNumber != x.Ukprn)).ToList();
             if (missing.Any())
             {
-                _log.Warn("Missing providers from UKRLP", new Dictionary<string, object> { { "TotalCount", missing.Count() }, { "Body", JsonConvert.SerializeObject(missing.Select(x => x.Ukprn)) } });
+                _log.Warn("Missing providers from UKRLP", new Dictionary<string, object> { { "TotalCount", missing.Count }, { "Body", JsonConvert.SerializeObject(missing.Select(x => x.Ukprn)) } });
             }
 
             foreach (var roatpProvider in roatpProviderResults)
@@ -181,28 +180,30 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 var roatProviderUkprn = int.Parse(roatpProvider.Ukprn);
 
-                if (source.CourseDirectoryUkPrns.Contains(roatProviderUkprn))
-                {
-                    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == roatProviderUkprn);
-                    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
-                }
-                else if (source.UkrlpProviders.Any(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn))
+                //if (source.CourseDirectoryUkPrns.Contains(roatProviderUkprn))
+                //{
+                //    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == roatProviderUkprn);
+                //    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
+                //}
+                //else 
+                if (ukrlpProvider != null)
                 {
                     provider = _ukrlpProviderMapper.Map(ukrlpProvider);
+                    if (!string.IsNullOrEmpty(ukrlpProvider?.ProviderName))
+                    {
+                        provider.Name = ukrlpProvider.ProviderName;
+                    }
+
+                    provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
+                    provider.Aliases = ukrlpProvider?.ProviderAliases;
                 }
                 else
                 {
                     // skip this provider if they don't exist in Course Directory or UKRLP
+                    _log.Warn("Provider doesn't exist on Course Directory or UKRLP", new Dictionary<string, object> { { "UKPRN", roatProviderUkprn } });
                     continue;
                 }
 
-                if (!string.IsNullOrEmpty(ukrlpProvider?.ProviderName))
-                {
-                    provider.Name = ukrlpProvider.ProviderName;
-                }
-
-                provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
-                provider.Aliases = ukrlpProvider?.ProviderAliases;
 
                 //var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
 
@@ -233,21 +234,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             {
                 _log.Warn("Invalid API Providers were found", new Dictionary<string, object> { { "TotalCount", invalid } });
             }
-        }
-
-        public bool IsDateValid(RoatpProviderResult roatpProvider)
-        {
-            if (roatpProvider.StartDate == null)
-            {
-                return false;
-            }
-
-            if (roatpProvider.StartDate?.Date <= DateTime.Today.Date && DateTime.Today.Date <= roatpProvider.EndDate)
-            {
-                return true;
-            }
-
-            return roatpProvider.StartDate?.Date <= DateTime.Today && roatpProvider.EndDate == null;
         }
 
         private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)
