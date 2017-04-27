@@ -102,9 +102,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var source = await timing.Result;
             _log.Debug("Loaded data for provider index", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 
-            _log.Debug($"Received {source.ActiveProviders.Providers.Count()} FCS providers", new Dictionary<string, object> { { "TotalCount", source.ActiveProviders.Providers.Count() } });
-            _log.Debug($"Received {source.RoatpProviders.Count} RoATP providers", new Dictionary<string, object> { { "TotalCount", source.RoatpProviders.Count } });
-
             // Providers
             var providersApi = CreateApiProviders(source).ToList();
 
