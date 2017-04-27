@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿using Newtonsoft.Json;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     using System;
     using System.Collections.Generic;
@@ -198,6 +200,11 @@
 
                 _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
                 _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
+
+                if (!provider.IsValid())
+                {
+                    _log.Warn("API Provider is invalid", new Dictionary<string, object> { { "Body", JsonConvert.SerializeObject(provider) } });
+                }
 
                 yield return provider;
             }

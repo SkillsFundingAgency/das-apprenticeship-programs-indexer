@@ -141,6 +141,7 @@
     <Compile Include="Core\Extensions\EnumWithDescription.cs" />
     <Compile Include="Core\Extensions\StringExtensionsTests.cs" />
     <Compile Include="Core\Models\LarsStandardTests.cs" />
+    <Compile Include="Core\Models\ProviderTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\DapperDB\AchievementRatesNationalTest.cs" />
     <Compile Include="Infrastructure\DapperDB\SatisfactionRateProviderTest.cs" />

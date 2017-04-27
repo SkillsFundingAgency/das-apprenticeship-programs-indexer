@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 {
@@ -43,5 +44,20 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public IEnumerable<ContactAddress> Addresses { get; set; }
 
         public bool IsLevyPayerOnly { get; set; }
+
+        public bool IsValid()
+        {
+            if (string.IsNullOrEmpty(Name))
+            {
+                return false;
+            }
+
+            if (Ukprn.ToString().Length != 8)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
