@@ -94,33 +94,28 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             var bulkStandardTasks = new List<Task<IBulkResponse>>();
             var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
-            var bulkProviderTasks = new List<Task<IBulkResponse>>();
             var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
 
             _log.Debug("Loading data at provider index");
             var source = await _providerDataService.LoadDatasetsAsync();
 
-            _log.Debug($"Received {source.ActiveProviders.Providers.Count()} FCS providers");
-            _log.Debug($"Received {source.RoatpProviders.Count} RoATP providers");
+            _log.Debug($"Received {source.ActiveProviders.Providers.Count()} FCS providers", new Dictionary<string, object> { { "TotalCount", source.ActiveProviders.Providers.Count() } });
+            _log.Debug($"Received {source.RoatpProviders.Count} RoATP providers", new Dictionary<string, object> { { "TotalCount", source.RoatpProviders.Count } });
 
-            _log.Debug("Creating providers");
-            var providers = CreateProviders(source).ToList();
             var providersApi = CreateApiProviders(source).ToList();
 
-            _log.Debug("Indexing " + providers.Count + " providers");
-            bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
-            _log.Debug("Indexing " + providersApi.Count + " RoATP providers");
+            _log.Debug("Indexing " + providersApi.Count + " API providers", new Dictionary<string, object> { { "TotalCount", providersApi.Count } });
             bulkApiProviderTasks.AddRange(_searchIndexMaintainer.IndexApiProviders(indexName, providersApi));
 
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
 
-            _log.Debug("Indexing " + apprenticeshipProviders.Count + " provider sites");
+            _log.Debug("Indexing " + apprenticeshipProviders.Count + " provider sites", new Dictionary<string, object> { { "TotalCount", apprenticeshipProviders.Count } });
             bulkStandardTasks.AddRange(_searchIndexMaintainer.IndexStandards(indexName, apprenticeshipProviders));
             bulkFrameworkTasks.AddRange(_searchIndexMaintainer.IndexFrameworks(indexName, apprenticeshipProviders));
 
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
-            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
+            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkApiProviderTasks), "ProviderApiDocument");
         }
 
         private IEnumerable<CoreProvider> CreateProviders(ProviderSourceDto source)

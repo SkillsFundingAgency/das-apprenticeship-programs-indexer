@@ -32,7 +32,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
         {
             try
             {
-                _logger.Debug("Starting to get providers from UKRLP");
                 var response = _providerClient.ProviderQuery(new SelectionCriteriaStructure
                 {
                     UnitedKingdomProviderReferenceNumberList = request.Providers.Select(x => x.ToString()).ToArray(),
