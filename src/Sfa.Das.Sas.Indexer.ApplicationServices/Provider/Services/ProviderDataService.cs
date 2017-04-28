@@ -121,7 +121,7 @@
                 CourseDirectoryProviders = courseDirectoryProviders,
                 ActiveProviders = activeProviders,
                 RoatpProviders = roatpProviders,
-                UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(ukprnList))?.MatchingProviderRecords?.ToList(),
+                UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(ukprnList)),
                 Frameworks = frameworks.Result,
                 Standards = standards.Result,
                 AchievementRateProviders = _mediator.Send(new AchievementRateProviderRequest()),

@@ -124,7 +124,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             foreach (var ukprn in source.ActiveProviders.Providers)
             {
-                var ukrlpProvider = source.UkrlpProviders.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString());
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString());
 
                 CoreProvider provider;
 
@@ -133,7 +133,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == ukprn);
                     provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
                 }
-                else if (source.UkrlpProviders.Any(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString()))
+                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString()))
                 {
                     provider = _ukrlpProviderMapper.Map(ukrlpProvider);
                 }
@@ -163,7 +163,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var roatpProviderResults = source.RoatpProviders.ToList();
             _log.Debug("Mapping API providers from valid ROATP providers", new Dictionary<string, object> { { "TotalCount", roatpProviderResults.Count } });
 
-            var missing = roatpProviderResults.Where(x => source.UkrlpProviders.All(y => y.UnitedKingdomProviderReferenceNumber != x.Ukprn)).ToList();
+            var missing = roatpProviderResults.Where(x => source.UkrlpProviders.MatchingProviderRecords.All(y => y.UnitedKingdomProviderReferenceNumber != x.Ukprn)).ToList();
             if (missing.Any())
             {
                 _log.Warn("Missing providers from UKRLP", new Dictionary<string, object> { { "TotalCount", missing.Count }, { "Body", JsonConvert.SerializeObject(missing.Select(x => x.Ukprn)) } });
@@ -171,7 +171,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             foreach (var roatpProvider in roatpProviderResults)
             {
-                var ukrlpProvider = source.UkrlpProviders.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
 
                 CoreProvider provider;
 
@@ -252,7 +252,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     continue;
                 }
 
-                var ukrlpProvider = source.UkrlpProviders.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
 
                 provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
 
@@ -286,7 +286,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 var providerFromRoatp = false;
 
-                var ukrlpProvider = source.UkrlpProviders.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
+                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
 
                 foreach (var roatpProviderResult in source.RoatpProviders)
                 {
