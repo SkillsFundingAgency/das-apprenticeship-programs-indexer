@@ -94,6 +94,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             var bulkStandardTasks = new List<Task<IBulkResponse>>();
             var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
+            var bulkProviderTasks = new List<Task<IBulkResponse>>();
             var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
 
             // Load data
@@ -108,6 +109,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _log.Debug("Indexing " + providersApi.Count + " API providers", new Dictionary<string, object> { { "TotalCount", providersApi.Count } });
             bulkApiProviderTasks.AddRange(_searchIndexMaintainer.IndexApiProviders(indexName, providersApi));
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkApiProviderTasks), "ProviderApiDocument");
+
+            // Providers (pre-ROATP)
+            // TODO remove these after the API has been updated
+            var providers = CreateProviders(source).ToList();
+            _log.Debug("Indexing " + providers.Count + " (pre-ROATP) providers", new Dictionary<string, object> { { "TotalCount", providers.Count } });
+            bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
+            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
 
             // Provider Sites
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
