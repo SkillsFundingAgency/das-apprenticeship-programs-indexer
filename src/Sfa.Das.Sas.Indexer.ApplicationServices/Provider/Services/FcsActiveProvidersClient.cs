@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿using System.Collections.Generic;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -29,10 +31,9 @@
 
         public async Task<FcsProviderResult> Handle(FcsProviderRequest message)
         {
-            _logger.Debug("Starting to retreive active providers");
             var loadProvidersFromVsts = await _vstsClient.GetFileContentAsync($"fcs/{_appServiceSettings.EnvironmentName}/fcs-active.csv");
             var records = _convertFromCsv.CsvTo<ActiveProviderCsvRecord>(loadProvidersFromVsts);
-            _logger.Debug($"Retrieved {records.Count} providers on the FCS list");
+            _logger.Debug($"Retrieved {records.Count} providers on the FCS list", new Dictionary<string, object> { { "TotalCount", records.Count } });
             return new FcsProviderResult { Providers = records.Select(x => x.UkPrn) };
         }
     }

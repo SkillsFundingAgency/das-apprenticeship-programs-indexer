@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 {
@@ -32,7 +33,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
         {
             try
             {
-                _logger.Debug("Starting to get providers from UKRLP");
                 var response = _providerClient.ProviderQuery(new SelectionCriteriaStructure
                 {
                     UnitedKingdomProviderReferenceNumberList = request.Providers.Select(x => x.ToString()).ToArray(),
@@ -49,9 +49,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
                     _logger.Warn(warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
                 }
 
-                _logger.Debug($"Retreived {response.Providers.Count()} Providers in total from UKRLP", new Dictionary<string, object> { { "TotalCount", response.Providers.Count() } });
+                var matchingProviderRecords = response.Providers.ToList();
+                _logger.Debug($"Retreived {matchingProviderRecords.Count} Providers in total from UKRLP", new Dictionary<string, object> { { "TotalCount", matchingProviderRecords.Count } });
 
-                return new UkrlpProviderResponse { MatchingProviderRecords = response.Providers };
+                return new UkrlpProviderResponse { MatchingProviderRecords = matchingProviderRecords };
             }
             catch (Exception ex)
             {
@@ -59,9 +60,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
             }
         }
 
-        private void LogResponse(ProviderQueryResponse response)
+        private void LogResponse(SelectionCriteriaStructure criteria, ProviderQueryResponse response)
         {
-            _logger.Debug($"UKRLP response", new Dictionary<string, object> { { "TotalCount", response.MatchingProviderRecords.Length } });
+            _logger.Debug($"UKRLP response {response.MatchingProviderRecords.Length}", new Dictionary<string, object> { { "TotalCount", response.MatchingProviderRecords.Length }, { "Request", JsonConvert.SerializeObject(criteria.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) }, { "Body", string.Join(", ", response.MatchingProviderRecords.Select(x => x.UnitedKingdomProviderReferenceNumber)) } });
         }
     }
 }

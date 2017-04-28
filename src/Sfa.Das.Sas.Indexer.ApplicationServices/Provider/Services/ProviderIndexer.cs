@@ -1,5 +1,7 @@
 ﻿using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
+using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.Core.Logging.Models;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
@@ -27,8 +29,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly ICourseDirectoryProviderMapper _courseDirectoryProviderMapper;
         private readonly IUkrlpProviderMapper _ukrlpProviderMapper;
         private readonly ILog _log;
-
-        private readonly ProviderType[] _validProviderTypes = { ProviderType.MainProvider, ProviderType.EmployerProvider };
 
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
@@ -93,26 +93,31 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task<bool> IndexEntries(string indexName)
         {
-            _log.Debug("Loading data at provider index");
-            var source = await _providerDataService.LoadDatasetsAsync();
+            var bulkStandardTasks = new List<Task<IBulkResponse>>();
+            var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
+            var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
 
-            _log.Debug($"Received {source.ActiveProviders.Providers.Count()} FCS providers");
-            _log.Debug($"Received {source.RoatpProviders.Count} RoATP providers");
+            // Load data
+            var timing = ExecutionTimer.GetTiming(() => _providerDataService.LoadDatasetsAsync());
 
-            _log.Debug("Creating providers");
+            var source = await timing.Result;
+            _log.Debug("Loaded data for provider index", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
+
+            // Providers
             var providers = CreateProviders(source).ToList();
             var providersApi = CreateApiProviders(source).ToList();
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
 
+            _log.Debug("Indexing " + providersApi.Count + " API providers", new Dictionary<string, object> { { "TotalCount", providersApi.Count } });
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providers, providersApi, apprenticeshipProviders);
+            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkApiProviderTasks), "ProviderApiDocument");
 
-            _log.Debug($"Indexing {providers.Count} providers");
+            // Provider Sites
             await IndexProviders(indexName, providers);
 
-            _log.Debug($"Indexing {providersApi.Count} RoATP providers");
+            _log.Debug("Indexing " + apprenticeshipProviders.Count + " provider sites", new Dictionary<string, object> { { "TotalCount", apprenticeshipProviders.Count } });
             await IndexApiProviders(indexName, providersApi);
 
-            _log.Debug($"Indexing {apprenticeshipProviders.Count} provider sites");
             await IndexStandards(indexName, apprenticeshipProviders);
             await IndexFrameworks(indexName, apprenticeshipProviders);
             Task.WaitAll();
@@ -225,7 +230,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             foreach (var ukprn in source.ActiveProviders.Providers)
             {
-                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString());
+                var ukrlpProvider = source.UkrlpProviders.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString());
 
                 CoreProvider provider;
 
@@ -234,7 +239,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == ukprn);
                     provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
                 }
-                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString()))
+                else if (source.UkrlpProviders.Any(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString()))
                 {
                     provider = _ukrlpProviderMapper.Map(ukrlpProvider);
                 }
@@ -260,67 +265,78 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
         {
-            foreach (var roatpProvider in source.RoatpProviders.Where(r => _validProviderTypes.Contains(r.ProviderType) && IsDateValid(r)))
+            var invalid = 0;
+            var roatpProviderResults = source.RoatpProviders.ToList();
+            _log.Debug("Mapping API providers from valid ROATP providers", new Dictionary<string, object> { { "TotalCount", roatpProviderResults.Count } });
+
+            var missing = roatpProviderResults.Where(x => source.UkrlpProviders.All(y => y.UnitedKingdomProviderReferenceNumber != x.Ukprn)).ToList();
+            if (missing.Any())
             {
-                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
+                _log.Warn("Missing providers from UKRLP", new Dictionary<string, object> { { "TotalCount", missing.Count }, { "Body", JsonConvert.SerializeObject(missing.Select(x => x.Ukprn)) } });
+            }
+
+            foreach (var roatpProvider in roatpProviderResults)
+            {
+                var ukrlpProvider = source.UkrlpProviders.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
 
                 CoreProvider provider;
 
                 var roatProviderUkprn = int.Parse(roatpProvider.Ukprn);
 
-                if (source.CourseDirectoryUkPrns.Contains(roatProviderUkprn))
-                {
-                    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == roatProviderUkprn);
-                    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
-                }
-                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn))
+                //if (source.CourseDirectoryUkPrns.Contains(roatProviderUkprn))
+                //{
+                //    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == roatProviderUkprn);
+                //    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
+                //}
+                //else 
+                if (ukrlpProvider != null)
                 {
                     provider = _ukrlpProviderMapper.Map(ukrlpProvider);
+                    if (!string.IsNullOrEmpty(ukrlpProvider?.ProviderName))
+                    {
+                        provider.Name = ukrlpProvider.ProviderName;
+                    }
+
+                    provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
+                    provider.Aliases = ukrlpProvider?.ProviderAliases;
                 }
                 else
                 {
                     // skip this provider if they don't exist in Course Directory or UKRLP
+                    _log.Warn("Provider doesn't exist on Course Directory or UKRLP", new Dictionary<string, object> { { "UKPRN", roatProviderUkprn } });
                     continue;
                 }
 
-                provider.Name = ukrlpProvider?.ProviderName;
-                provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
-                provider.Aliases = ukrlpProvider?.ProviderAliases;
 
-                var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
+                //var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
 
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
-                provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
-                provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
+                //provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
+                //provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
 
                 _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
                 _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
 
                 if (!provider.IsValid())
                 {
-                    _log.Warn("API Provider is invalid", new Dictionary<string, object> { { "Body", JsonConvert.SerializeObject(provider) } });
+                    _log.Warn(
+                        "API Provider is invalid",
+                        new Dictionary<string, object> { { "Body", JsonConvert.SerializeObject(provider,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) }, { "UKPRN", provider.Ukprn } });
+                    invalid++;
                 }
-
-                yield return provider;
+                else
+                {
+                    yield return provider;
+                }
             }
-        }
 
-        public bool IsDateValid(RoatpProviderResult roatpProvider)
-        {
-            if (roatpProvider.StartDate == null)
+            if (invalid > 0)
             {
-                return false;
+                _log.Warn("Invalid API Providers were found", new Dictionary<string, object> { { "TotalCount", invalid } });
             }
-
-            if (roatpProvider.StartDate?.Date <= DateTime.Today.Date && DateTime.Today.Date <= roatpProvider.EndDate)
-            {
-                return true;
-            }
-
-            return roatpProvider.StartDate?.Date <= DateTime.Today && roatpProvider.EndDate == null;
         }
 
         private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)
@@ -342,7 +358,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     continue;
                 }
 
-                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
+                var ukrlpProvider = source.UkrlpProviders.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
 
                 provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
 
@@ -376,13 +392,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 var providerFromRoatp = false;
 
-                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
+                var ukrlpProvider = source.UkrlpProviders.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
 
                 foreach (var roatpProviderResult in source.RoatpProviders)
                 {
                     if (roatpProviderResult.Ukprn == courseDirectoryProvider.Ukprn.ToString()
                         && roatpProviderResult.ProviderType == ProviderType.MainProvider
-                        && IsDateValid(roatpProviderResult))
+                        && roatpProviderResult.IsDateValid())
                     {
                         providerFromRoatp = true;
                         roatpProvider = roatpProviderResult;

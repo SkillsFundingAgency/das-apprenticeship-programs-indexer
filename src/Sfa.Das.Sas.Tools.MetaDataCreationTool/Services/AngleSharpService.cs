@@ -32,7 +32,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             try
             {
                 var timing = ExecutionTimer.GetTiming(() => _httpGet.Get(fromUrl, null, null));
-
+                _logger.Debug("Downloaded standard page", new Dictionary<string, object> { { "Url", fromUrl } });
                 var parser = new HtmlParser();
                 var result = parser.Parse(timing.Result);
                 var all = result.QuerySelectorAll(selector);

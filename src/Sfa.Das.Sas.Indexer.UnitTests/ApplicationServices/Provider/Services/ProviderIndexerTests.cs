@@ -60,7 +60,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
                 EndDate = endDate
             };
 
-            Assert.AreEqual(expected, _sut.IsDateValid(roatpProvider));
+            Assert.AreEqual(expected, roatpProvider.IsDateValid());
         }
 
         private DateTime? convertDate(int? date)

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
     using System.Linq;
@@ -30,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
                     ";
 
             var results = _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
-            _log.Debug($"Retrieved {results.Count} leaner satisfaction rates");
+            _log.Debug("Retrieved learner satisfaction rates from DB", new Dictionary<string, object> { { "TotalCount", results.Count } });
             return new LearnerSatisfactionRateResult { Rates = results };
         }
     }

@@ -9,7 +9,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
     {
         public EmployerProviderResult EmployerProviders { get; set; }
         public CourseDirectoryResult CourseDirectoryProviders { get; set; }
-        public UkrlpProviderResponse UkrlpProviders { get; set; }
+        public IEnumerable<Ukrlp.SoapApi.Types.Provider> UkrlpProviders { get; set; }
         public FcsProviderResult ActiveProviders { get; set; }
         public List<RoatpProviderResult> RoatpProviders { get; set; }
         public IEnumerable<int> CourseDirectoryUkPrns => CourseDirectoryProviders.Providers.Select(x => x.Ukprn);

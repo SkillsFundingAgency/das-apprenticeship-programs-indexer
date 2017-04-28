@@ -21,5 +21,20 @@ namespace Sfa.Das.Sas.Indexer.Core.Provider.Models
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public bool IsDateValid()
+        {
+            if (StartDate == null)
+            {
+                return false;
+            }
+
+            if (StartDate?.Date <= DateTime.Today.Date && DateTime.Today.Date <= EndDate)
+            {
+                return true;
+            }
+
+            return StartDate?.Date <= DateTime.Today && EndDate == null;
+        }
     }
 }

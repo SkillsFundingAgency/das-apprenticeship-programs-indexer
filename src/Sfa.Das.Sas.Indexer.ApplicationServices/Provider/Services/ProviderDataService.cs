@@ -121,7 +121,7 @@
                 CourseDirectoryProviders = courseDirectoryProviders,
                 ActiveProviders = activeProviders,
                 RoatpProviders = roatpProviders,
-                UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(ukprnList)),
+                UkrlpProviders = _mediator.Send(new UkrlpProviderRequest(ukprnList))?.MatchingProviderRecords?.ToList(),
                 Frameworks = frameworks.Result,
                 Standards = standards.Result,
                 AchievementRateProviders = _mediator.Send(new AchievementRateProviderRequest()),
@@ -133,7 +133,7 @@
             };
         }
 
-        private List<int> JoinUkprnLists(List<RoatpProviderResult> roatpProviders, FcsProviderResult activeProviders)
+        private IEnumerable<int> JoinUkprnLists(IEnumerable<RoatpProviderResult> roatpProviders, FcsProviderResult activeProviders)
         {
             var ukprnList = new List<int>();
             foreach (var roatpProviderResult in roatpProviders)
