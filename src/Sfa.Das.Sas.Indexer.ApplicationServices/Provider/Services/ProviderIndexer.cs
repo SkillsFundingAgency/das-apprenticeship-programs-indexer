@@ -185,12 +185,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 var roatProviderUkprn = int.Parse(roatpProvider.Ukprn);
 
-                //if (source.CourseDirectoryUkPrns.Contains(roatProviderUkprn))
-                //{
-                //    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == roatProviderUkprn);
-                //    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
-                //}
-                //else 
                 if (ukrlpProvider != null)
                 {
                     provider = _ukrlpProviderMapper.Map(ukrlpProvider);
@@ -204,20 +198,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 }
                 else
                 {
-                    // skip this provider if they don't exist in Course Directory or UKRLP
                     _log.Warn("Provider doesn't exist on Course Directory or UKRLP", new Dictionary<string, object> { { "UKPRN", roatProviderUkprn } });
                     continue;
                 }
 
-
-                //var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
-
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
-
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
-
-                //provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
-                //provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
 
                 _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
                 _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
