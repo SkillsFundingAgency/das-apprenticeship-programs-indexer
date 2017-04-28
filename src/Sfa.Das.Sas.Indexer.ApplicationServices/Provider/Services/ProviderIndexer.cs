@@ -93,41 +93,26 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task<bool> IndexEntries(string indexName)
         {
-            var bulkStandardTasks = new List<Task<IBulkResponse>>();
-            var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
-            var bulkProviderTasks = new List<Task<IBulkResponse>>();
-            var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
-
             // Load data
             var timing = ExecutionTimer.GetTiming(() => _providerDataService.LoadDatasetsAsync());
 
             var source = await timing.Result;
-            _log.Debug("Loaded data for provider index", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 
             // Providers
-            var providers = CreateProviders(source).ToList();
             var providersApi = CreateApiProviders(source).ToList();
-            var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
-
-            _log.Debug("Indexing " + providersApi.Count + " API providers", new Dictionary<string, object> { { "TotalCount", providersApi.Count } });
-            var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providers, providersApi, apprenticeshipProviders);
-            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkApiProviderTasks), "ProviderApiDocument");
+            await IndexApiProviders(indexName, providersApi);
 
             // Providers (pre-ROATP)
             // TODO remove these after the API has been updated
             var providers = CreateProviders(source).ToList();
-            _log.Debug("Indexing " + providers.Count + " (pre-ROATP) providers", new Dictionary<string, object> { { "TotalCount", providers.Count } });
-            bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
-            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
-
-            // Provider Sites
             await IndexProviders(indexName, providers);
 
-            _log.Debug("Indexing " + apprenticeshipProviders.Count + " provider sites", new Dictionary<string, object> { { "TotalCount", apprenticeshipProviders.Count } });
-            await IndexApiProviders(indexName, providersApi);
-
+            // Provider Sites
+            var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
             await IndexStandards(indexName, apprenticeshipProviders);
             await IndexFrameworks(indexName, apprenticeshipProviders);
+
+            var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providers, providersApi, apprenticeshipProviders);
             Task.WaitAll();
 
             return IsIndexCorrectlyCreated(indexName, totalAmountDocuments);
