@@ -180,6 +180,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             foreach (var roatpProvider in roatpProviderResults)
             {
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
+                var courseDirectory = source.CourseDirectoryProviders.Providers.FirstOrDefault(x => x.Ukprn.ToString() == roatpProvider.Ukprn);
 
                 CoreProvider provider;
 
@@ -198,8 +199,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 }
                 else
                 {
-                    _log.Warn("Provider doesn't exist on Course Directory or UKRLP", new Dictionary<string, object> { { "UKPRN", roatProviderUkprn } });
+                    _log.Warn("Provider doesn't exist on UKRLP", new Dictionary<string, object> { { "UKPRN", roatProviderUkprn } });
                     continue;
+                }
+
+                if (courseDirectory != null)
+                {
+                    provider.ContactDetails.Email = provider.ContactDetails.Email ?? courseDirectory.Email;
+                    provider.ContactDetails.Website = provider.ContactDetails.Website ?? courseDirectory.Website;
+                    provider.ContactDetails.Phone = provider.ContactDetails.Phone ?? courseDirectory.Phone;
                 }
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
