@@ -23,8 +23,7 @@
 
             var result = sut.Handle(null).Rates.ToArray();
 
-            result.Length.Should().BeGreate
-                rThan(0);
+            result.Length.Should().BeGreaterThan(0);
             var totalCount = result.Length;
 
             result.Any(m => Math.Abs(m.Ssa2Code) > 0.0).Should().BeTrue();
