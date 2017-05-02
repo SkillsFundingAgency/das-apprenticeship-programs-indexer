@@ -62,7 +62,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 
         private void LogResponse(SelectionCriteriaStructure criteria, ProviderQueryResponse response)
         {
-            _logger.Debug($"UKRLP response {response.MatchingProviderRecords.Length}", new Dictionary<string, object> { { "TotalCount", response.MatchingProviderRecords.Length }, { "Request", JsonConvert.SerializeObject(criteria.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) }, { "Body", string.Join(", ", response.MatchingProviderRecords.Select(x => x.UnitedKingdomProviderReferenceNumber)) } });
+            _logger.Debug($"UKRLP response", new Dictionary<string, object> { { "TotalCount", response.MatchingProviderRecords.Length }, { "Request", JsonConvert.SerializeObject(criteria.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) }, { "Body", string.Join(", ", response.MatchingProviderRecords.Select(x => x.UnitedKingdomProviderReferenceNumber)) } });
         }
     }
 }
