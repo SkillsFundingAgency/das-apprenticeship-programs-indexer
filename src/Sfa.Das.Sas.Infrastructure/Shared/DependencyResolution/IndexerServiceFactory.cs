@@ -21,7 +21,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution
             {
                 nested.Configure(_ =>
                 {
-                    _.For<ILog>().Use(x => new NLogService<T>(x.ParentType));
+                    _.For<ILog>().Use(x => new NLogService<T>());
                 });
 
                 return nested.GetInstance<IIndexerService<T>>();

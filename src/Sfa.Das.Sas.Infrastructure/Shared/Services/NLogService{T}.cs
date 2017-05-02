@@ -5,7 +5,6 @@ using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
 {
-    using System;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
@@ -13,8 +12,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
 
     public class NLogService<T> : NLogLogger
     {
-        public NLogService(Type loggerType)
-            : base(loggerType, null, GetProperties())
+        public NLogService()
+            : base(null, null, GetProperties())
         {
             if (typeof(T) == typeof(IMaintainApprenticeshipIndex))
             {
