@@ -15,7 +15,7 @@
         [Test]
         [Category("ExternalDependency")]
         [Category("Integration")]
-        [Explicit]
+        [Ignore("explicit tests show up in the VSTS report")]
         public void NationalTest()
         {
             var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());
@@ -23,7 +23,8 @@
 
             var result = sut.Handle(null).Rates.ToArray();
 
-            result.Length.Should().BeGreaterThan(0);
+            result.Length.Should().BeGreate
+                rThan(0);
             var totalCount = result.Length;
 
             result.Any(m => Math.Abs(m.Ssa2Code) > 0.0).Should().BeTrue();

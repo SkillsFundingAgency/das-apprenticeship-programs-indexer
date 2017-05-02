@@ -20,7 +20,7 @@
         [Test]
         [Category("ExternalDependency")]
         [Category("Integration")]
-        [Explicit]
+        [Ignore("explicit tests show up in the VSTS report")]
         public void TestGenerationOfFiles()
         {
             var container = new Container(c =>
