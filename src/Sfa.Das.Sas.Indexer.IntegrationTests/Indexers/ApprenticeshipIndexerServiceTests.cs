@@ -24,6 +24,7 @@
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 
     [TestFixture]
+    [Ignore("Waiting for ElasticSearch service")]
     public class ApprenticeshipIndexerServiceTests
     {
         private IIndexSettings<IMaintainApprenticeshipIndex> _standardSettings;
