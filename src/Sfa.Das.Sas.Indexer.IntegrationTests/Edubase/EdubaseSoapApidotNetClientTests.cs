@@ -23,7 +23,7 @@
         }
 
         [Test]
-        [Ignore("Need to edit build definition to transform EduBaseUsername and EduBasePassword in app.config")]
+        [Ignore("Need to edit vstsbuild definition to transform EduBaseUsername and EduBasePassword in app.config")]
         public void ShouldReturnAHigherEducationInstitution()
         {
             var hei =
@@ -38,7 +38,7 @@
         }
 
         [Test]
-        [Ignore("Need to edit build definition to transform EduBaseUsername and EduBasePassword in app.config")]
+        [Ignore("Need to edit vstsbuild definition to transform EduBaseUsername and EduBasePassword in app.config")]
         public async Task ShouldReturnAHigherEducationInstitutionAsync()
         {
             var hei =
@@ -53,7 +53,7 @@
         }
 
         [Test]
-        [Ignore("Need to edit build definition to transform EduBaseUsername and EduBasePassword in app.config")]
+        [Ignore("Need to edit vstsbuild definition to transform EduBaseUsername and EduBasePassword in app.config")]
         public async Task ShouldhaveEqualNoofHigherEducationInstitutions()
         {
             var results =
