@@ -24,6 +24,7 @@
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 
     [TestFixture]
+    [Ignore("Waiting for ElasticSearch service")]
     public class ApprenticeshipIndexerServiceTests
     {
         private IIndexSettings<IMaintainApprenticeshipIndex> _standardSettings;
@@ -86,7 +87,6 @@
 
         [Test]
         [Category("Integration")]
-        [Ignore("Waiting for ElasticSearch service")]
         public void ShouldCreateScheduledIndexAndMappingForStandardsAndFrameworks()
         {
             var mappingStandards = _elasticClient.GetMapping<StandardDocument>(i => i.Index(_indexName));
@@ -98,7 +98,6 @@
 
         [Test]
         [Category("Integration")]
-        [Ignore("Waiting for ElasticSearch service")]
         public void ShouldRetrieveStandardSearchingForTitle()
         {
             var expectedStandardResult = new StandardMetaData
@@ -125,7 +124,6 @@
 
         [Test]
         [Category("Integration")]
-        [Ignore("Waiting for ElasticSearch service")]
         public void ShouldRetrieveFrameworksSearchingForAll()
         {
             // Assert
@@ -142,7 +140,6 @@
 
         [Test]
         [Category("Integration")]
-        [Ignore("Waiting for ElasticSearch service")]
         public void ShouldRetrieveStandardsWhenSearchingOnWordRootForm()
         {
             var retrievedResult = _elasticClient.Search<StandardDocument>(p => p
@@ -167,7 +164,6 @@
         [TestCase("textile", 1, "Fashion and Textiles")]
         [TestCase("brew", 1, "Food and Drink")]
         [Category("Integration")]
-        [Ignore("Waiting for ElasticSearch service")]
         public void ShouldRetrieveFrameworksWhenSearchingWithRootForm(string query, int expectedResultCount, string exectedFrameworkTitle)
         {
             var retrievedResultTextile = _elasticClient.Search<FrameworkDocument>(p => p
@@ -185,7 +181,6 @@
 
         [TestCase("and", 0)]
         [Category("Integration")]
-        [Ignore("Waiting for ElasticSearch service")]
         public void ShouldNotRetrieveFrameworksWhenSearchingOnStopWords(string query, int expectedResultCount)
         {
             var retrievedResultTextile = _elasticClient.Search<FrameworkDocument>(p => p
