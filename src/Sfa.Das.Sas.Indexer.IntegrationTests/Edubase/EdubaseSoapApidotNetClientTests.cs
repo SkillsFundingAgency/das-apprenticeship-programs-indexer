@@ -8,7 +8,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    
+    [Ignore("Need to edit build definition to transform EduBaseUsername and EduBasePassword in app.config")]
     public class EdubaseSoapApidotNetClientTests
     {
         private EstablishmentClient _client;
@@ -23,7 +23,6 @@
         }
 
         [Test]
-        [Ignore("Need to edit build definition to transform EduBaseUsername and EduBasePassword in app.config")]
         public void ShouldReturnAHigherEducationInstitution()
         {
             var hei =
@@ -38,7 +37,6 @@
         }
 
         [Test]
-        [Ignore("Need to edit build definition to transform EduBaseUsername and EduBasePassword in app.config")]
         public async Task ShouldReturnAHigherEducationInstitutionAsync()
         {
             var hei =
@@ -53,7 +51,6 @@
         }
 
         [Test]
-        [Ignore("Need to edit build definition to transform EduBaseUsername and EduBasePassword in app.config")]
         public async Task ShouldhaveEqualNoofHigherEducationInstitutions()
         {
             var results =
