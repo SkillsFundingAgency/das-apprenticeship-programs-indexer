@@ -1,4 +1,8 @@
+using System.Linq;
 using Elasticsearch.Net;
+using LINQtoCSV;
+using Newtonsoft.Json;
+using Polly;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -125,9 +129,34 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         public virtual Task<IBulkResponse> BulkAsync(IBulkRequest request, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.BulkAsync(request);
+            var policy = Policy
+                .Handle<TooManyRequestsException>()
+                .WaitAndRetry(5, retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt) * 10)
+                );
+
+            var result = policy.Execute(() => BulkData(request));
+
             SendLog(null, null, timer.ElapsedMilliseconds, $"Elasticsearch.BulkAsync.{callerName}");
             return result;
+        }
+
+        private Task<IBulkResponse> BulkData(IBulkRequest request)
+        {
+            var response = _client.BulkAsync(request);
+
+            if (!response.Result.IsValid && response.Result.ItemsWithErrors.First().Status == 429)
+            {
+                _logger.Warn("Received status code 429, retrying");
+                throw new TooManyRequestsException();
+            }
+
+            if (!response.Result.IsValid)
+            {
+                throw new ApplicationException();
+            }
+
+            return response;
         }
 
         private void SendLog(IApiCallDetails apiCallDetails, long? took, double networkTime, string identifier)
@@ -149,5 +178,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             _logger.Debug($"ElasticsearchQuery: {identifier}", logEntry);
         }
+    }
+
+    internal class TooManyRequestsException : Exception
+    {
     }
 }
