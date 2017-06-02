@@ -153,6 +153,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             if (!response.Result.IsValid)
             {
+                _logger.Error(new Exception(), "Something failed trying to insert data into the bulk service");
                 throw new ApplicationException();
             }
 
