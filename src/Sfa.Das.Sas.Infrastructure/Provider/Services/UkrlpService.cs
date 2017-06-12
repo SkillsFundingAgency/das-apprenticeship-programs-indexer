@@ -46,7 +46,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 
                 foreach (var warning in response.Warnings)
                 {
-                    _logger.Warn(warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
+                    _logger.Warn("UKRLP: " + warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
                 }
 
                 var matchingProviderRecords = response.Providers.ToList();
