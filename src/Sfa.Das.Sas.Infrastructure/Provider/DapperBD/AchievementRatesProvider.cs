@@ -31,6 +31,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
                     WHERE [Age] = 'All Age'
                     AND [Sector Subject Area Tier 2] <> 'All SSA T2'
                     AND [Apprenticeship Level] <> 'All'
+                    AND [Hybrid End Year] = (SELECT MAX([Hybrid End Year]) FROM ar_by_provider)
                     ";
             var achievementRateProviders = _databaseProvider.Query<AchievementRateProvider>(query).ToList();
             _logger.Debug($"Retreived {achievementRateProviders.Count} Provider rates");
