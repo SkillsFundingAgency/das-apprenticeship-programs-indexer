@@ -19,8 +19,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 
         public AchievementRateNationalResult Handle(AchievementRateNationalRequest message)
         {
-            var latestHybridYear = GetLatestNationalHybridEndYear();
-
             var query = @"
                     SELECT 
                         [Institution Type] as InstitutionType,
@@ -36,19 +34,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
                     AND [Age] = 'All Age'
                     AND [Sector Subject Area Tier 2] <> 'All SSA T2'
                     AND [Apprenticeship Level] <> 'All'
-                    AND [Hybrid End Year] = @date
+                    AND [Hybrid End Year] = (SELECT MAX([Hybrid End Year]) FROM ar_national)
                     ";
 
-            var results = _databaseProvider.Query<AchievementRateNational>(query, new { date = latestHybridYear }).ToList();
+            var results = _databaseProvider.Query<AchievementRateNational>(query).ToList();
             _logger.Debug($"Retreived {results.Count} national provider rates");
             return new AchievementRateNationalResult { Rates = results };
-        }
-
-        private string GetLatestNationalHybridEndYear()
-        {
-            var query = @"SELECT MAX([Hybrid End Year]) FROM ar_national";
-
-            return _databaseProvider.ExecuteScalar<string>(query);
         }
     }
 }
