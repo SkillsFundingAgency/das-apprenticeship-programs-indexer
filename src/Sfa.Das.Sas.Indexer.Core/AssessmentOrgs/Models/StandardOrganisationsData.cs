@@ -11,7 +11,7 @@ namespace Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models
 
         public DateTime EffectiveFrom { get; set; }
 
-        public DateTime EffectiveTo { get; set; }
+        public DateTime? EffectiveTo { get; set; }
 
         public string Email { get; set; }
 
