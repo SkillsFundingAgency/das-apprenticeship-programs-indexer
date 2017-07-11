@@ -1,11 +1,10 @@
-﻿using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
     using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
