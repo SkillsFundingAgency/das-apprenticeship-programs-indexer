@@ -35,16 +35,29 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
         }
 
         [TestMethod]
+        public void ShouldHaveAValidEffectiveFromDateForStandardPeriods()
+        {
+            List<string> errors = new List<string>();
+            foreach (var data in results.StandardOrganisationsData)
+            {
+                if (data.EffectiveFrom == default(DateTime) || data.EffectiveFrom == DateTime.MaxValue || data.EffectiveFrom == DateTime.MinValue)
+                {
+                    errors.Add($"EPA {data.EpaOrganisationIdentifier} has an invalid effective from date for Standard {data.StandardCode}");
+                }
+            }
+            Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
+        }
+
+        [TestMethod]
         public void ShouldNotHaveOverlappingPeriods()
         {
-            List<KeyValuePair<string, string>> errors = new List<KeyValuePair<string, string>>();
-            foreach (var organisationsData in results.Organisations.OrderBy(x => x.EpaOrganisationIdentifier))
+            List<string> errors = new List<string>();
+            foreach (var organisationIdentifier in results.Organisations.GroupBy(x => x.EpaOrganisationIdentifier).Select(id => id.Key))
             {
-                var epadata = results.StandardOrganisationsData.Where(x => x.EpaOrganisationIdentifier == organisationsData.EpaOrganisationIdentifier);
+                var epadata = results.StandardOrganisationsData.Where(x => x.EpaOrganisationIdentifier == organisationIdentifier);
                 var standardCodes = epadata.GroupBy(y => y.StandardCode).Where(g => g.Count() > 1).Select(z => z.Key);
                 foreach (var standardCode in standardCodes)
                 {
-                    var epaorg = organisationsData.EpaOrganisationIdentifier;
                     var periods = epadata.Where(x => x.StandardCode == standardCode).OrderBy(y => y.EffectiveFrom);
                     for (int i = 0; i < periods.Count() - 1; i++)
                     {
@@ -53,13 +66,12 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
 
                         if (from < to)
                         {
-                            Console.WriteLine($"{epaorg} assessment for Standard {standardCode} has effective to as {to} but next assessment starts from {from}");
-                            errors.Add(new KeyValuePair<string, string>(standardCode, epaorg));
+                            errors.Add($"{organisationIdentifier} assessment for Standard {standardCode} has effective to as {to} but next assessment starts from {from}");
                         }
                     }
                 }
             }
-            Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors.Select(x => $"EPA {x.Value} has overlapping period for Standard {x.Key} ")));
+            Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
     }
 }
