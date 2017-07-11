@@ -35,6 +35,20 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
         }
 
         [TestMethod]
+        public void ShouldHaveAValidEffectiveFromDateForStandardPeriods()
+        {
+            List<KeyValuePair<string, string>> errors = new List<KeyValuePair<string, string>>();
+            foreach (var data in results.StandardOrganisationsData)
+            {
+                if (data.EffectiveFrom == default(DateTime))
+                {
+                    errors.Add(new KeyValuePair<string, string>(data.StandardCode, data.EpaOrganisationIdentifier));
+                }
+            }
+            Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors.Select(x => $"EPA {x.Value} has an invalid effective from date for Standard {x.Key} ")));
+        }
+
+        [TestMethod]
         public void ShouldNotHaveOverlappingPeriods()
         {
             List<KeyValuePair<string, string>> errors = new List<KeyValuePair<string, string>>();
