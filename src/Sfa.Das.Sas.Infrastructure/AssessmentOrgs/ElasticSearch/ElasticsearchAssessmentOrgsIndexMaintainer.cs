@@ -40,7 +40,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
 
             if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
             {
-                throw new ConnectionException($"Received non-200 response when trying to create the Assessment Organisations Index, Status Code:{response.ApiCall.HttpStatusCode}, Message: {response.OriginalException.Message}");
+                throw new ConnectionException($"Received non-200 response when trying to create the Assessment Organisations Index, Status Code:{response.ApiCall.HttpStatusCode}, Message: {response.OriginalException?.InnerException?.Message}", response.OriginalException);
             }
         }
 
