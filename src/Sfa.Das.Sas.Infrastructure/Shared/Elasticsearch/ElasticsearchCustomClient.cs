@@ -169,7 +169,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var status = response?.ApiCall?.HttpStatusCode;
             if (status == null)
             {
-                throw new ConnectionException($"The response to elastic search was not 200", response?.ApiCall?.OriginalException);
+                throw new ConnectionException($"The response to elastic search was not 200 : {response?.ApiCall?.OriginalException.Message}", response?.ApiCall?.OriginalException);
             }
 
             switch (status.Value)

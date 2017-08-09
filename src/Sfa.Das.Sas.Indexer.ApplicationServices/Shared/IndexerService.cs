@@ -6,9 +6,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
     using Sfa.Das.Sas.Indexer.Core.Services;
 
@@ -16,25 +13,25 @@
     {
         private readonly IGenericIndexerHelper<T> _indexerHelper;
 
-        private readonly ILog _log;
-
         private readonly IIndexSettings<T> _indexSettings;
 
         private readonly string _name;
+
+        public ILog Log { get; set; }
 
         public IndexerService(IIndexSettings<T> indexSettings, IGenericIndexerHelper<T> indexerHelper, ILog log)
         {
             _indexSettings = indexSettings;
             _indexerHelper = indexerHelper;
-            _log = log;
-            _name = GetIndexTypeName(typeof(T));
+            Log = log;
+            _name = IndexerNameLookup.GetIndexTypeName(typeof(T));
         }
 
         public async Task CreateScheduledIndex(DateTime scheduledRefreshDateTime)
         {
-            _log.Info($"Creating new scheduled {_name}");
+            Log.Info($"Creating new scheduled {_name}");
 
-            Stopwatch stopwatch = Stopwatch.StartNew();
+            var stopwatch = Stopwatch.StartNew();
 
             var newIndexName = IndexerHelper.GetIndexNameAndDateExtension(scheduledRefreshDateTime, _indexSettings.IndexesAlias);
             var indexProperlyCreated = _indexerHelper.CreateIndex(newIndexName);
@@ -44,50 +41,23 @@
                 throw new Exception($"{_name} index not created properly, exiting...");
             }
 
-            _log.Info($"Indexing documents for {_name}.");
+            Log.Info($"Indexing documents for {_name}.");
 
-            try
+            var indexHasBeenCreated = await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
+
+            if (indexHasBeenCreated)
             {
-                var indexHasBeenCreated = await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
+                _indexerHelper.ChangeUnderlyingIndexForAlias(newIndexName);
 
-                if (indexHasBeenCreated)
-                {
-                    _indexerHelper.ChangeUnderlyingIndexForAlias(newIndexName);
+                Log.Debug("Swap completed...");
 
-                    _log.Debug("Swap completed...");
-
-                    _indexerHelper.DeleteOldIndexes(scheduledRefreshDateTime);
-                }
-
-                stopwatch.Stop();
-                var properties = new Dictionary<string, object> { { "Alias", _indexSettings.IndexesAlias }, { "ExecutionTime", stopwatch.ElapsedMilliseconds }, { "IndexCorrectlyCreated", indexHasBeenCreated } };
-                _log.Debug($"Created {_name}", properties);
-                _log.Info($"{_name}ing complete.");
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Error indexing");
-            }
-        }
-
-        private string GetIndexTypeName(Type type)
-        {
-            if (type == typeof(IMaintainProviderIndex))
-            {
-                return "Provider Index";
+                _indexerHelper.DeleteOldIndexes(scheduledRefreshDateTime);
             }
 
-            if (type == typeof(IMaintainApprenticeshipIndex))
-            {
-                return "Apprenticeship Index";
-            }
-
-            if (type == typeof(IMaintainLarsIndex))
-            {
-                return "Lars Index";
-            }
-
-            return "AssessmentOrgs Index";
+            stopwatch.Stop();
+            var properties = new Dictionary<string, object> {{"Alias", _indexSettings.IndexesAlias}, {"ExecutionTime", stopwatch.ElapsedMilliseconds}, {"IndexCorrectlyCreated", indexHasBeenCreated}};
+            Log.Debug($"Created {_name}", properties);
+            Log.Info($"{_name}ing complete.");
         }
     }
 }

@@ -33,48 +33,53 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
             try
             {
                 var indexerService = _indexerServiceFactory.GetIndexerService<T>();
-
                 if (indexerService == null)
                 {
                     return;
                 }
 
-                var queueName = _appServiceSettings.QueueName(typeof(T));
-
-                if (string.IsNullOrEmpty(queueName))
+                try
                 {
-                    return;
+                    var queueName = _appServiceSettings.QueueName(typeof(T));
+
+                    if (string.IsNullOrEmpty(queueName))
+                    {
+                        return;
+                    }
+
+                    var messages = _cloudQueueService.GetQueueMessages(queueName)?.ToArray();
+
+                    if (messages != null && messages.Any())
+                    {
+                        var latestMessage = messages?.FirstOrDefault();
+
+                        var extraMessages = messages?.Where(m => m != latestMessage).ToList();
+
+                        // Delete all the messages except the first as they are not needed
+                        _cloudQueueService.DeleteQueueMessages(queueName, extraMessages);
+
+                        var indexTime = latestMessage?.InsertionTime ?? DateTime.Now;
+
+                        await indexerService.CreateScheduledIndex(indexTime).ConfigureAwait(false);
+
+                        _cloudQueueService.DeleteQueueMessage(queueName, latestMessage);
+                    }
                 }
-
-                var messages = _cloudQueueService.GetQueueMessages(queueName)?.ToArray();
-
-                if (messages != null && messages.Any())
+                catch (AggregateException ex)
                 {
-                    var latestMessage = messages?.FirstOrDefault();
-
-                    var extraMessages = messages?.Where(m => m != latestMessage).ToList();
-
-                    // Delete all the messages except the first as they are not needed
-                    _cloudQueueService.DeleteQueueMessages(queueName, extraMessages);
-
-                    var indexTime = latestMessage?.InsertionTime ?? DateTime.Now;
-
-                    await indexerService.CreateScheduledIndex(indexTime).ConfigureAwait(false);
-
-                    _cloudQueueService.DeleteQueueMessage(queueName, latestMessage);
+                    foreach (var exception in ex.InnerExceptions)
+                    {
+                        indexerService.Log.Fatal(exception, exception.Message);
+                    }
                 }
-            }
-            catch
-                (AggregateException ex)
-            {
-                foreach (var exception in ex.InnerExceptions)
+                catch (Exception ex)
                 {
-                    _log.Fatal(exception, $"Unexpected Failure {typeof(T)}");
+                    indexerService.Log.Fatal(ex, ex.Message);
                 }
             }
             catch (Exception ex)
             {
-                _log.Fatal(ex, $"Unexpected Failure {typeof(T)}");
+                _log.Fatal(ex, $"Unexpected Failure {IndexerNameLookup.GetIndexTypeName(typeof(T))}");
             }
         }
     }
