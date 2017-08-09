@@ -36,7 +36,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 
         public override void CreateIndex(string indexName)
         {
-            var response = Client.CreateIndex(
+            Client.CreateIndex(
                 indexName,
                 i => i
                     .Settings(settings => settings

@@ -19,16 +19,6 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
     public sealed class ElasticsearchApprenticeshipIndexMaintainerTests : BaseElasticIndexMaintainerTests
     {
         [Test]
-        public void ShouldThrowAnExceptionIfCantCreateAnIndex()
-        {
-            var response = new StubResponse(400);
-            MockElasticClient.Setup(x => x.CreateIndex(It.IsAny<IndexName>(), It.IsAny<Func<CreateIndexDescriptor, ICreateIndexRequest>>(), It.IsAny<string>())).Returns(response);
-
-            var indexMaintainer = new ElasticsearchApprenticeshipIndexMaintainer(MockElasticClient.Object, Mock.Of<IElasticsearchMapper>(), Mock.Of<ILog>(), Mock.Of<IElasticsearchConfiguration>());
-            Assert.Throws<ConnectionException>(() => indexMaintainer.CreateIndex("testindex"));
-        }
-
-        [Test]
         public async Task ShouldBulk2TimeWith4001standards()
         {
             var response = new StubResponse(400);
