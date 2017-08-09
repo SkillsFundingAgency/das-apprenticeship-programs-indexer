@@ -51,6 +51,7 @@
         string GovWebsiteUrl { get; }
 
         string MetadataApiUri { get; }
+        string ImServiceLinkText { get; }
 
         string QueueName(Type type);
     }

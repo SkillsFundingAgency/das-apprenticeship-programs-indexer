@@ -60,6 +60,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         public string GovWebsiteUrl => _settings.GetSetting("GovWebsiteUrl");
 
         public string MetadataApiUri => CloudConfigurationManager.GetSetting("MetadataApiUri");
+        public string ImServiceLinkText => _settings.GetSetting("ImServiceLinkText");
 
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
 
