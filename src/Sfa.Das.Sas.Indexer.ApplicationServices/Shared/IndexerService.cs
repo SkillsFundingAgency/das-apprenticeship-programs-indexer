@@ -43,9 +43,9 @@
 
             Log.Info($"Indexing documents for {_name}.");
 
-            var indexHasBeenCreated = await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
+            var result = await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
 
-            if (indexHasBeenCreated)
+            if (result.IsSuccessful)
             {
                 _indexerHelper.ChangeUnderlyingIndexForAlias(newIndexName);
 
@@ -55,9 +55,15 @@
             }
 
             stopwatch.Stop();
-            var properties = new Dictionary<string, object> {{"Alias", _indexSettings.IndexesAlias}, {"ExecutionTime", stopwatch.ElapsedMilliseconds}, {"IndexCorrectlyCreated", indexHasBeenCreated}};
+            var properties = new Dictionary<string, object>
+            {
+                { "Alias", _indexSettings.IndexesAlias },
+                { "ExecutionTime", stopwatch.ElapsedMilliseconds },
+                { "IndexCorrectlyCreated", result.IsSuccessful },
+                { "TotalCount", result.TotalCount }
+            };
             Log.Debug($"Created {_name}", properties);
-            Log.Info($"{_name}ing complete.");
+            Log.Info($"[SUCCESS] {_name}ing complete.", properties);
         }
     }
 }

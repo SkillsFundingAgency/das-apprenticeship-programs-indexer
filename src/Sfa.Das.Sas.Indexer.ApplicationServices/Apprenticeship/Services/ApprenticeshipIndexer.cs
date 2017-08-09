@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿using Sfa.Das.Sas.Indexer.Core.Shared.Models;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
     using System;
     using System.Collections.Generic;
@@ -32,7 +34,7 @@
             _log = log;
         }
 
-        public async Task<bool> IndexEntries(string indexName)
+        public async Task<IndexerResult> IndexEntries(string indexName)
         {
             var standardMetadata = await LoadStandardMetaData();
             var frameworkMetaDataResults = _mediator.Send(new FrameworkMetaDataRequest());
@@ -42,7 +44,11 @@
             await IndexStandards(indexName, standardMetadata).ConfigureAwait(false);
             await IndexFrameworks(indexName, frameworkMetaDataResults).ConfigureAwait(false);
 
-            return IsIndexCorrectlyCreated(indexName, totalAmountDocuments);
+            return new IndexerResult
+            {
+                IsSuccessful = IsIndexCorrectlyCreated(indexName, totalAmountDocuments),
+                TotalCount = totalAmountDocuments
+            };
         }
 
         private int GetTotalAmountDocumentsToBeIndexed(ICollection<StandardMetaData> standardMetadata, FrameworkMetaDataResult frameworkMetaDataResults)

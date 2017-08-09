@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
 using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+using Sfa.Das.Sas.Indexer.Core.Shared.Models;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
@@ -91,7 +92,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 x.StartsWith(_settings.IndexesAlias, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public async Task<bool> IndexEntries(string indexName)
+        public async Task<IndexerResult> IndexEntries(string indexName)
         {
             // Load data
             var timing = ExecutionTimer.GetTiming(() => _providerDataService.LoadDatasetsAsync());
@@ -115,7 +116,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providers, providersApi, apprenticeshipProviders);
             Task.WaitAll();
 
-            return IsIndexCorrectlyCreated(indexName, totalAmountDocuments);
+            return new IndexerResult
+            {
+                IsSuccessful = IsIndexCorrectlyCreated(indexName, totalAmountDocuments),
+                TotalCount = totalAmountDocuments
+            };
         }
 
         private async Task IndexProviders(string indexName, ICollection<CoreProvider> providers)

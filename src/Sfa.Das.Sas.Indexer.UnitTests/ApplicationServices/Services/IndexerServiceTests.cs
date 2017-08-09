@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
+﻿using Sfa.Das.Sas.Indexer.Core.Shared.Models;
+
+namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
 {
     using System;
     using System.Threading.Tasks;
@@ -62,7 +64,7 @@
         {
             // Arrange
             _mockHelper.Setup(x => x.CreateIndex(It.IsAny<string>())).Returns(true);
-            _mockHelper.Setup(x => x.IndexEntries(It.IsAny<string>())).Returns(Task.FromResult(false));
+            _mockHelper.Setup(x => x.IndexEntries(It.IsAny<string>())).Returns(Task.FromResult(new IndexerResult { IsSuccessful = false }));
 
             // Act
             await _sut.CreateScheduledIndex(It.IsAny<DateTime>());
@@ -78,7 +80,7 @@
         {
             // Arrange
             _mockHelper.Setup(x => x.CreateIndex(It.IsAny<string>())).Returns(true);
-            _mockHelper.Setup(x => x.IndexEntries(It.IsAny<string>())).Returns(Task.FromResult(true));
+            _mockHelper.Setup(x => x.IndexEntries(It.IsAny<string>())).Returns(Task.FromResult(new IndexerResult { IsSuccessful = false }));
 
             // Act
             await _sut.CreateScheduledIndex(It.IsAny<DateTime>());

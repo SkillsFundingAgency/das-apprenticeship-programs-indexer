@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using Sfa.Das.Sas.Indexer.Core.Shared.Models;
 using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
@@ -32,7 +33,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             _log = log;
         }
 
-        public async Task<bool> IndexEntries(string indexName)
+        public async Task<IndexerResult> IndexEntries(string indexName)
         {
             _log.Debug("Retrieving Assessment Orgs data");
             var assessmentOrgsData = _metaDataHelper.GetAssessmentOrganisationsData();
@@ -44,7 +45,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             await IndexStandardOrganisationsData(indexName, assessmentOrgsData.StandardOrganisationsData).ConfigureAwait(false);
             _log.Debug("Completed indexing Assessment Orgs data");
 
-            return IsIndexCorrectlyCreated(indexName, totalAmountDocuments);
+            return new IndexerResult
+            {
+                IsSuccessful = IsIndexCorrectlyCreated(indexName, totalAmountDocuments),
+                TotalCount = totalAmountDocuments
+            };
         }
 
         private int GetTotalAmountDocumentsToBeIndexed(AssessmentOrganisationsDTO assessmentOrgsData)

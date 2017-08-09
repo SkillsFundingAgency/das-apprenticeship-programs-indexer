@@ -1,4 +1,5 @@
-﻿using SFA.DAS.NLog.Logger;
+﻿using Sfa.Das.Sas.Indexer.Core.Shared.Models;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
@@ -33,7 +34,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             _log = log;
         }
 
-        public async Task<bool> IndexEntries(string indexName)
+        public async Task<IndexerResult> IndexEntries(string indexName)
         {
             _log.Debug("Retrieving Lars data");
             var larsData = _metaDataHelper.GetAllApprenticeshipLarsMetaData();
@@ -51,7 +52,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             Task.WaitAll();
             _log.Debug("Completed indexing Lars data");
 
-            return IsIndexCorrectlyCreated(indexName, totalAmountDocuments);
+            return new IndexerResult
+            {
+                IsSuccessful = IsIndexCorrectlyCreated(indexName, totalAmountDocuments),
+                TotalCount = totalAmountDocuments
+            };
         }
 
         private int GetTotalAmountDocumentsToBeIndexed(LarsData larsData)
