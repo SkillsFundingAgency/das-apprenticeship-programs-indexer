@@ -167,19 +167,22 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         private void ValidateResponse(IBodyWithApiCallDetails response)
         {
             var status = response?.ApiCall?.HttpStatusCode;
-            if (status == null)
+            if (response?.ApiCall == null || status == null)
             {
-                throw new ConnectionException($"The response to elastic search was not 200 : {response?.ApiCall?.OriginalException.Message}", response?.ApiCall?.OriginalException);
+                throw new ConnectionException($"The response from elastic search was not 200 : {response?.ApiCall?.OriginalException.Message}", response?.ApiCall?.OriginalException);
             }
 
-            switch (status.Value)
+            if (!response.ApiCall.Success)
             {
-                case (int) HttpStatusCode.OK:
-                    return;
-                case (int) HttpStatusCode.Unauthorized:
-                    throw new UnauthorizedAccessException("The request to elasticsearch was unauthorised", response.ApiCall.OriginalException);
-                default:
-                    throw new HttpException(status.Value, response.ApiCall.DebugInformation, response.ApiCall.OriginalException);
+                switch (status.Value)
+                {
+                    case (int)HttpStatusCode.OK:
+                        return;
+                    case (int)HttpStatusCode.Unauthorized:
+                        throw new UnauthorizedAccessException("The request to elasticsearch was unauthorised", response.ApiCall.OriginalException);
+                    default:
+                        throw new HttpException(status.Value, $"The response from elastic search was {response.ApiCall.HttpStatusCode}\n {response.ApiCall.DebugInformation}", response.ApiCall.OriginalException);
+                }
             }
         }
     }
