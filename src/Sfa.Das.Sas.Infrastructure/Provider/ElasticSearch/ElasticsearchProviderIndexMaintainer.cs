@@ -45,11 +45,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
                     .Mappings(ms => ms
                         .Map<StandardProvider>(m => m.AutoMap())
                         .Map<FrameworkProvider>(m => m.AutoMap())));
-
-            if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
-            {
-                throw new ConnectionException($"Received non-200 response when trying to create the Apprenticeship Provider Index, Status Code:{response.ApiCall.HttpStatusCode}");
-            }
         }
 
         public async Task IndexProviders(string indexName, ICollection<Provider> entries)

@@ -30,18 +30,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
 
         public override void CreateIndex(string indexName)
         {
-            var response = Client.CreateIndex(indexName, i => i
+            Client.CreateIndex(indexName, i => i
                 .Settings(settings => settings
                     .NumberOfShards(_elasticsearchConfiguration.LarsIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
                 .Mappings(ms => ms
                     .Map<OrganisationDocument>(m => m.AutoMap())
                     .Map<StandardOrganisationDocument>(m => m.AutoMap())));
-
-            if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
-            {
-                throw new ConnectionException($"Received non-200 response when trying to create the Assessment Organisations Index, Status Code:{response.ApiCall.HttpStatusCode}, Message: {response.OriginalException?.InnerException?.Message}", response.OriginalException);
-            }
         }
 
         private async Task IndexEntries<T1, T2>(string indexName, IEnumerable<T1> entries, Func<T1, T2> method)

@@ -62,11 +62,16 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
                     await indexerService.CreateScheduledIndex(indexTime).ConfigureAwait(false);
 
                     _cloudQueueService.DeleteQueueMessage(queueName, latestMessage);
+            catch (AggregateException ex)
+            {
+                foreach (var exception in ex.InnerExceptions)
+                {
+                    _log.Fatal(exception, $"Unexpected Failure {typeof(T)}");
                 }
             }
             catch (Exception ex)
             {
-                _log.Error(ex, $"Something failed creating index: {typeof(T)}");
+                _log.Fatal(ex, $"Unexpected Failure {typeof(T)}");
             }
         }
     }

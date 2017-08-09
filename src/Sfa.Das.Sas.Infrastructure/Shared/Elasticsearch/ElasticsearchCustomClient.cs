@@ -120,6 +120,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var timer = Stopwatch.StartNew();
             var result = _client.CreateIndex(index, selector);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.CreateIndex.{callerName}");
+            ValidateResponse(result);
             return result;
         }
 
@@ -149,6 +150,19 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             };
 
             _logger.Debug($"ElasticsearchQuery: {identifier}", logEntry);
+        }
+
+        private void ValidateResponse(ICreateIndexResponse response)
+        {
+            switch (response?.ApiCall?.HttpStatusCode)
+            {
+                case (int)HttpStatusCode.OK:
+                    return;
+                case (int)HttpStatusCode.Unauthorized:
+                    throw new UnauthorizedAccessException("The request to elasticsearch was unauthorised", response.ApiCall.OriginalException);
+                default:
+                    throw new ConnectionException($"Received non-200 response when trying to create the Apprenticeship Provider Index, Status Code:{response.ApiCall.HttpStatusCode}");
+            }
         }
     }
 }
