@@ -31,7 +31,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
 
         public override void CreateIndex(string indexName)
         {
-            var response = Client.CreateIndex(indexName, i => i
+            Client.CreateIndex(indexName, i => i
                 .Settings(settings => settings
                     .NumberOfShards(_elasticsearchConfiguration.ApprenticeshipIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.ApprenticeshipIndexReplicas())
@@ -39,11 +39,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
                 .Mappings(ms => ms
                     .Map<StandardDocument>(m => m.AutoMap())
                     .Map<FrameworkDocument>(m => m.AutoMap())));
-
-            if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
-            {
-                throw new ConnectionException($"Received non-200 response when trying to create the Apprenticeship Index, Status Code:{response.ApiCall.HttpStatusCode}");
-            }
         }
 
         public async Task IndexStandards(string indexName, IEnumerable<StandardMetaData> entries)

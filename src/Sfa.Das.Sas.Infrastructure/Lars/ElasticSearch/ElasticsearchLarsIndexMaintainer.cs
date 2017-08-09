@@ -45,11 +45,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.ElasticSearch
                     .Map<FrameworkLars>(m => m.AutoMap())
                     .Map<StandardLars>(m => m.AutoMap())
                     .Map<ApprenticeshipComponentTypeDocument>(m => m.AutoMap())));
-
-            if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
-            {
-                throw new ConnectionException($"Received non-200 response when trying to create the Lars Index, Status Code:{response.ApiCall.HttpStatusCode}, Message: {response.OriginalException.Message}");
-            }
         }
 
         public async Task IndexStandards(string indexName, IEnumerable<LarsStandard> entries)

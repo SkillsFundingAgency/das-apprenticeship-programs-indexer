@@ -1,4 +1,5 @@
 using System.Net;
+using System.Web;
 using Elasticsearch.Net;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using SFA.DAS.NLog.Logger;
@@ -8,11 +9,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using Nest;
     using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-    using System.Linq;
 
     public class ElasticsearchCustomClient : IElasticsearchCustomClient
     {
@@ -31,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.Search(selector);
-
+            ValidateResponse(result);
             SendLog(result.ApiCall, result.Took, timer.ElapsedMilliseconds, $"Elasticsearch.Search.{callerName}");
             return result;
         }
@@ -40,6 +41,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.IndexExists(index);
+            ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.IndexExists.{callerName}");
             return result;
         }
@@ -48,6 +50,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.DeleteIndex(index);
+            ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.DeleteIndex.{callerName}");
             return result;
         }
@@ -57,6 +60,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.GetMapping(selector);
+            ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.GetMapping.{callerName}");
             return result;
         }
@@ -65,6 +69,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.Refresh(request);
+            ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.Refresh.{callerName}");
             return result;
         }
@@ -73,6 +78,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.Refresh(indices);
+            ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.Refresh.{callerName}");
             return result;
         }
@@ -81,6 +87,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.AliasExists(selector);
+            ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.AliasExists.{callerName}");
             return result;
         }
@@ -89,6 +96,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.Alias(selector);
+            ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.Alias.{callerName}");
             return result;
         }
@@ -97,6 +105,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.Alias(request);
+            ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.Alias.{callerName}");
             return result;
         }
@@ -105,6 +114,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.IndicesStats(indices, selector);
+            ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.IndicesStats.{callerName}");
             return result;
         }
@@ -121,8 +131,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var timer = Stopwatch.StartNew();
             var result = _client.CreateIndex(index, selector);
-            SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.CreateIndex.{callerName}");
             ValidateResponse(result);
+            SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.CreateIndex.{callerName}");
             return result;
         }
 
@@ -154,16 +164,22 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             _logger.Debug($"ElasticsearchQuery: {identifier}", logEntry);
         }
 
-        private void ValidateResponse(ICreateIndexResponse response)
+        private void ValidateResponse(IBodyWithApiCallDetails response)
         {
-            switch (response?.ApiCall?.HttpStatusCode)
+            var status = response?.ApiCall?.HttpStatusCode;
+            if (status == null)
             {
-                case (int)HttpStatusCode.OK:
+                throw new ConnectionException($"The response to elastic search was not 200", response?.ApiCall?.OriginalException);
+            }
+
+            switch (status.Value)
+            {
+                case (int) HttpStatusCode.OK:
                     return;
-                case (int)HttpStatusCode.Unauthorized:
+                case (int) HttpStatusCode.Unauthorized:
                     throw new UnauthorizedAccessException("The request to elasticsearch was unauthorised", response.ApiCall.OriginalException);
                 default:
-                    throw new ConnectionException($"Received non-200 response when trying to create the Apprenticeship Provider Index, Status Code:{response.ApiCall.HttpStatusCode}");
+                    throw new HttpException(status.Value, response.ApiCall.DebugInformation, response.ApiCall.OriginalException);
             }
         }
     }
