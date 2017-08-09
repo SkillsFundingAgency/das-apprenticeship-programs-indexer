@@ -34,6 +34,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
         {
             // Arrange
             _mockHelper.Setup(x => x.CreateIndex(It.IsAny<string>())).Returns(true);
+            _mockHelper.Setup(x => x.IndexEntries(It.IsAny<string>())).Returns(Task.FromResult(new IndexerResult { IsSuccessful = true }));
 
             // Act
             await _sut.CreateScheduledIndex(It.IsAny<DateTime>());
@@ -80,7 +81,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
         {
             // Arrange
             _mockHelper.Setup(x => x.CreateIndex(It.IsAny<string>())).Returns(true);
-            _mockHelper.Setup(x => x.IndexEntries(It.IsAny<string>())).Returns(Task.FromResult(new IndexerResult { IsSuccessful = false }));
+            _mockHelper.Setup(x => x.IndexEntries(It.IsAny<string>())).Returns(Task.FromResult(new IndexerResult { IsSuccessful = true }));
 
             // Act
             await _sut.CreateScheduledIndex(It.IsAny<DateTime>());
