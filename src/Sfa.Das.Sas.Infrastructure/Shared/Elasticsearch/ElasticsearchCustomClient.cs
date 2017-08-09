@@ -1,4 +1,6 @@
+using System.Net;
 using Elasticsearch.Net;
+using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch

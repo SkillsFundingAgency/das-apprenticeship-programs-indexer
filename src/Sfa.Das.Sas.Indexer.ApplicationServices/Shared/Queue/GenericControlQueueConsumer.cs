@@ -30,15 +30,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
         public async Task CheckMessage<T>()
             where T : IMaintainSearchIndexes
         {
-            var indexerService = _indexerServiceFactory.GetIndexerService<T>();
-
-            if (indexerService == null)
-            {
-                return;
-            }
-
             try
             {
+                var indexerService = _indexerServiceFactory.GetIndexerService<T>();
+
+                if (indexerService == null)
+                {
+                    return;
+                }
+
                 var queueName = _appServiceSettings.QueueName(typeof(T));
 
                 if (string.IsNullOrEmpty(queueName))
@@ -62,7 +62,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
                     await indexerService.CreateScheduledIndex(indexTime).ConfigureAwait(false);
 
                     _cloudQueueService.DeleteQueueMessage(queueName, latestMessage);
-            catch (AggregateException ex)
+                }
+            }
+            catch
+                (AggregateException ex)
             {
                 foreach (var exception in ex.InnerExceptions)
                 {
