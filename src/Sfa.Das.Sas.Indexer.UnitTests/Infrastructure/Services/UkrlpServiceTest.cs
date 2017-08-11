@@ -12,6 +12,7 @@
     using Ukrlp.SoapApi.Client;
     using Ukrlp.SoapApi.Client.ProviderQueryServiceV4;
     using Ukrlp.SoapApi.Types;
+    using Ukrlp.SoapApi.Client.Exceptions;
 
     [TestFixture]
     public class UkrlpServiceTest
@@ -48,12 +49,11 @@
         public void ShouldThrowApplicationErrorIfUKRLPServiceisDown()
         {
             mockProviderQueryPortTypeClientWrapper.Setup(x => x.ProviderQuery(It.IsAny<SelectionCriteriaStructure>(), "2", 35))
-                .Returns(new ProviderResponse { Providers = null, Warnings = null });
+                 .Throws(new ProviderQueryException("Request timed Out", new SelectionCriteriaStructure { UnitedKingdomProviderReferenceNumberList = new string[] { "1234", "5678" } }, new Exception()));
 
             var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, mockLog.Object);
 
             Assert.Throws<ApplicationException>(() => sut.Handle(new UkrlpProviderRequest { Providers = new List<int> { 1234, 5678 } }));
-
         }
 
         //[Test]

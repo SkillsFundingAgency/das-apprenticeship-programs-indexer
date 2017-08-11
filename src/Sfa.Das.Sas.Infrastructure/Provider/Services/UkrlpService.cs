@@ -11,6 +11,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
     using Ukrlp.SoapApi.Client;
     using Ukrlp.SoapApi.Client.ProviderQueryServiceV4;
+    using Ukrlp.SoapApi.Client.Exceptions;
 
     public class UkrlpService : IRequestHandler<UkrlpProviderRequest, UkrlpProviderResponse>
     {
@@ -54,8 +55,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 
                 return new UkrlpProviderResponse { MatchingProviderRecords = matchingProviderRecords };
             }
-            catch (Exception ex)
+            catch (ProviderQueryException ex)
             {
+                var properties = new Dictionary<string, object>
+                {
+                    { "RequestCtx.Message", ex.Message },
+                    { "RequestCtx.Providers", JsonConvert.SerializeObject(ex.Query.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) }
+                };
+
+                _logger.Error(ex.InnerException, "There was a problem with UKRLP", properties);
+
                 throw new ApplicationException("There was a problem with UKRLP", ex);
             }
         }
