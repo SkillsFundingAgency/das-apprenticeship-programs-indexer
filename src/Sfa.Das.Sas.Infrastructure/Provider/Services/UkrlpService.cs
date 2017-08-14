@@ -64,14 +64,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 
         private void LogResponse(SelectionCriteriaStructure criteria, ProviderQueryResponse response)
         {
+            var providers = response.MatchingProviderRecords?.Select(x => x.UnitedKingdomProviderReferenceNumber) ?? new List<string>();
+
             var properties = new Dictionary<string, object>
             {
-                { "TotalCount", response.MatchingProviderRecords.Length },
-                { "Request", JsonConvert.SerializeObject(criteria.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore}) },
-                { "Body", string.Join(", ", response.MatchingProviderRecords.Select(x => x.UnitedKingdomProviderReferenceNumber)) }
+                { "TotalCount", response.MatchingProviderRecords?.Length },
+                { "Request", JsonConvert.SerializeObject(criteria.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) },
+                { "Body", string.Join(", ", providers) }
             };
 
-            _logger.Debug($"UKRLP response", properties);
+            _logger.Debug("UKRLP response", properties);
         }
 
         private void LogBadResponse(ProviderQueryException ex)
