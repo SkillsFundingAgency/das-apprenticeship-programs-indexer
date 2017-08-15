@@ -137,6 +137,7 @@
     <Compile Include="Shared\MetaData\IGetAssessmentOrgsData.cs" />
     <Compile Include="Shared\MetaData\IGetLarsMetadata.cs" />
     <Compile Include="Shared\Services\FrameworkMetaDataHelper.cs" />
+    <Compile Include="Shared\Services\IMonitoringService.cs" />
     <Compile Include="Shared\Services\StandardsMetaDataHelper.cs" />
     <Compile Include="Shared\Utility\IHttpPost.cs" />
     <Compile Include="Shared\Utility\IRetryWebRequest.cs" />

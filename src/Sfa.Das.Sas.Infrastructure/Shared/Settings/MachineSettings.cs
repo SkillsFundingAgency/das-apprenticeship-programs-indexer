@@ -10,5 +10,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
         {
             return Environment.GetEnvironmentVariable($"DAS_{settingKey.ToUpper(CultureInfo.InvariantCulture)}", EnvironmentVariableTarget.User);
         }
+
+        public string GetNullableSetting(string settingKey)
+        {
+            return GetSetting(settingKey);
+        }
     }
 }

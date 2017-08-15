@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
+
+namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue
 {
     using System;
     using System.Collections.Generic;
@@ -25,6 +27,7 @@
         private Mock<ILog> _mockLogger;
         private Mock<IQueueMessage> _mockMessage;
         private List<IQueueMessage> _messages;
+        private Mock<IMonitoringService> _mockMonitoringService;
 
         [SetUp]
         public void Setup()
@@ -35,6 +38,7 @@
             _mockIndexerService = new Mock<IIndexerService<IMaintainProviderIndex>>();
             _mockLogger = new Mock<ILog>();
             _mockMessage = new Mock<IQueueMessage>();
+            _mockMonitoringService = new Mock<IMonitoringService>();
 
             _messages = new List<IQueueMessage>
             {
@@ -49,7 +53,8 @@
                 _mockServiceSettings.Object,
                 _mockQueueService.Object,
                 _mockIndexerServiceFactory.Object,
-                _mockLogger.Object);
+                _mockLogger.Object,
+                _mockMonitoringService.Object);
         }
 
         [Test]
@@ -65,6 +70,7 @@
 
             _mockQueueService.Verify(x => x.GetQueueMessages(It.IsAny<string>()), Times.Once);
             _mockIndexerService.Verify(x => x.CreateScheduledIndex(insertionTime), Times.Once());
+            _mockMonitoringService.Verify(x => x.SendMonitoringNotification(It.IsAny<string[]>()));
         }
 
         [Test]
@@ -78,6 +84,7 @@
 
             _mockQueueService.Verify(x => x.GetQueueMessages(It.IsAny<string>()), Times.Once);
             _mockIndexerService.Verify(x => x.CreateScheduledIndex(It.IsAny<DateTime>()), Times.Never);
+            _mockMonitoringService.Verify(x => x.SendMonitoringNotification(It.IsAny<string[]>()));
         }
 
         [Test]
@@ -91,6 +98,7 @@
 
             _mockQueueService.Verify(x => x.GetQueueMessages(It.IsAny<string>()), Times.Once);
             _mockIndexerService.Verify(x => x.CreateScheduledIndex(It.IsAny<DateTime>()), Times.Never);
+            _mockMonitoringService.Verify(x => x.SendMonitoringNotification(It.IsAny<string[]>()));
         }
 
         [Test]
@@ -168,6 +176,7 @@
             catch (Exception)
             {
                 _mockLogger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once());
+                _mockMonitoringService.Verify(x => x.SendMonitoringNotification(It.IsAny<string[]>()), Times.Never);
             }
         }
     }

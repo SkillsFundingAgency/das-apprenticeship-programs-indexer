@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Azure;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
@@ -67,8 +68,25 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string QueueName(Type type)
         {
-            var name = $"{type.Name.Replace("IMaintainApprenticeshipIndex", "Apprenticeship").Replace("IMaintainProviderIndex", "Provider").Replace("IMaintainLarsIndex", "Lars").Replace("IMaintainAssessmentOrgsIndex", "AssessmentOrgs")}.QueueName";
+            var name = $"{TypeToName(type)}.QueueName";
             return _settings.GetSetting(name).ToLower();
+        }
+
+        public string[] MonitoringUrl(Type type)
+        {
+            var name = $"{TypeToName(type)}.MonitoringUrl";
+            var value = _settings.GetNullableSetting(name).ToLower();
+            if (string.IsNullOrEmpty(value))
+            {
+                return new string[] { };
+            }
+
+            return value.Split(';');
+        }
+
+        private static string TypeToName(Type type)
+        {
+            return type.Name.Replace("IMaintain", string.Empty).Replace("Index", string.Empty);
         }
     }
 }
