@@ -19,5 +19,8 @@ namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models
         public int MaxEmployerLevyCap { get; set; }
 
         public int ReservedValue1 { get; set; }
+
+        public DateTime? EffectiveFrom { get; set; }
+        public DateTime? EffectiveTo { get; set; }
     }
 }

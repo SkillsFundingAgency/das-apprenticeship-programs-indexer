@@ -21,6 +21,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
                 ApprenticeshipCode = values[1].SafeParseInt(),
                 ProgType = values[2].SafeParseInt(),
                 PwayCode = values[3].SafeParseInt(),
+                EffectiveFrom = values[5].SafeParseDate(),
+                EffectiveTo = values[6].SafeParseDate(),
                 ReservedValue1 = Convert.ToInt32(values[10].SafeParseDouble()),
                 MaxEmployerLevyCap = Convert.ToInt32(values[12].SafeParseDouble())
             };

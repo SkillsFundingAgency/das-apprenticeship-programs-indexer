@@ -197,7 +197,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         private LarsData GetLarsData(Stream zipStream)
         {
             var standards = GetLarsStandards(zipStream);
-            
+
             var frameworks = GetLarsFrameworks(zipStream);
 
             var frameworkAimMetadata = GetLarsFrameworkAimData(zipStream);
@@ -214,7 +214,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
             AddDurationAndFundingToStandards(standards, apprenticeshipFunding);
             AddDurationAndFundingToFrameworks(frameworks, apprenticeshipFunding);
-            
+
             return new LarsData
             {
                 Standards = standards,
@@ -335,7 +335,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             zipStream.Close();
         }
-        
+
         private Stream GetZipStream(string zipFilePath)
         {
             var timer = ExecutionTimer.GetTiming(() => _httpGetFile.GetFile(zipFilePath));
@@ -388,18 +388,21 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                         fwk.ApprenticeshipType == "FWK" &&
                         fwk.ApprenticeshipCode == framework.FworkCode &&
                         fwk.ProgType == framework.ProgType &&
-                        fwk.PwayCode == framework.PwayCode);
+                        fwk.PwayCode == framework.PwayCode &&
+                        fwk.EffectiveFrom.HasValue &&
+                        fwk.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
+                        (!fwk.EffectiveTo.HasValue || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
 
                 if (fw == null)
                 {
                     continue;
                 }
-                
+
                 framework.Duration = fw.ReservedValue1;
                 framework.FundingCap = fw.MaxEmployerLevyCap;
             }
         }
-        
+
         private void AddDurationAndFundingToStandards(ICollection<LarsStandard> standards, LarsMetaData metaData)
         {
             foreach (var std in standards)
@@ -407,7 +410,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 var s =
                     metaData.ApprenticeshipFundings.FirstOrDefault(stdrd =>
                         stdrd.ApprenticeshipType == "STD" &&
-                        stdrd.ApprenticeshipCode == std.Id);
+                        stdrd.ApprenticeshipCode == std.Id && stdrd.EffectiveFrom.HasValue &&
+                        stdrd.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
+                        (!stdrd.EffectiveTo.HasValue || stdrd.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
 
                 if (s == null)
                 {
@@ -428,7 +433,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                         fwk.ApprenticeshipType == "FWK" &&
                         fwk.ApprenticeshipCode == framework.FworkCode &&
                         fwk.ProgType == framework.ProgType &&
-                        fwk.PwayCode == framework.PwayCode);
+                        fwk.PwayCode == framework.PwayCode &&
+                        fwk.EffectiveFrom.HasValue &&
+                        fwk.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
+                        (!fwk.EffectiveTo.HasValue || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
 
                 if (fw == null)
                 {
@@ -447,7 +455,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 var s =
                     metaData.FirstOrDefault(stdrd =>
                         stdrd.ApprenticeshipType == "STD" &&
-                        stdrd.ApprenticeshipCode == std.Id);
+                        stdrd.ApprenticeshipCode == std.Id &&
+                        stdrd.EffectiveFrom.HasValue &&
+                        stdrd.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
+                        (!stdrd.EffectiveTo.HasValue || stdrd.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
 
                 if (s == null)
                 {
