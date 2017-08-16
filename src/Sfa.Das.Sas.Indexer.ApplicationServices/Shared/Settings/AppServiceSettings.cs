@@ -75,7 +75,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         public string[] MonitoringUrl(Type type)
         {
             var name = $"{TypeToName(type)}.MonitoringUrl";
-            var value = _settings.GetNullableSetting(name).ToLower();
+            var value = _settings.GetNullableSetting(name);
             if (string.IsNullOrEmpty(value))
             {
                 return new string[] { };
