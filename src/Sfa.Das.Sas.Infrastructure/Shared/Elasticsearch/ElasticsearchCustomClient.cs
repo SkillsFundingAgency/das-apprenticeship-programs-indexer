@@ -1,4 +1,6 @@
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Web;
 using Elasticsearch.Net;
 using LINQtoCSV;
 using Newtonsoft.Json;
@@ -153,8 +155,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             if (!response.Result.IsValid)
             {
-                _logger.Error(new Exception(), "Something failed trying to insert data into the bulk service");
-                throw new ApplicationException();
+
+                if (response.Exception != null)
+                {
+                    foreach (var ex in response.Exception.InnerExceptions)
+                    {
+                        _logger.Error(ex, ex.Message);
+                    }
+                }
+
+                throw new HttpException(response.Result.ItemsWithErrors.First().Status, "Something failed trying to insert data into the bulk service", response.Exception);
             }
 
             return response;
