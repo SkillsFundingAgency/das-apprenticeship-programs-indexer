@@ -125,7 +125,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
             }
             catch (Exception ex)
             {
-                _log.Error(ex, "Something failed indexing framework providers:" + ex.Message);
+                _log.Error(ex, "Something failed indexing standard providers:" + ex.Message);
                 throw;
             }
         }
