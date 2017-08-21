@@ -78,7 +78,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return
                 standardOrganisationsData.Where(
                     organisationsData =>
-                        organisationsData.EpaOrganisationIdentifier != string.Empty && organisationsData.StandardCode != string.Empty && organisationsData.EffectiveFrom != default(DateTime)).ToList();
+                        organisationsData.EpaOrganisationIdentifier != string.Empty && organisationsData.StandardCode != string.Empty && organisationsData.EffectiveFrom != DateTime.MaxValue).ToList();
         }
     }
 }

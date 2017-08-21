@@ -235,6 +235,7 @@
                 OrganisationType = standardOrganisationsData.OrganisationType,
                 WebsiteLink = standardOrganisationsData.WebsiteLink,
                 StandardCode = standardOrganisationsData.StandardCode,
+                EffectiveTo = standardOrganisationsData.EffectiveTo,
                 EffectiveFrom = standardOrganisationsData.EffectiveFrom,
                 Email = standardOrganisationsData.Email,
                 Phone = standardOrganisationsData.Phone,

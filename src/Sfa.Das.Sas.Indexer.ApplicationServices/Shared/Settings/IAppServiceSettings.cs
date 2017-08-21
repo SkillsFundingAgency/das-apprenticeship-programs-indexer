@@ -53,5 +53,6 @@
         string MetadataApiUri { get; }
 
         string QueueName(Type type);
+        string[] MonitoringUrl(Type type);
     }
 }

@@ -1,4 +1,5 @@
 using System.Configuration;
+using Microsoft.Azure;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
@@ -24,6 +25,18 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
             if (string.IsNullOrEmpty(setting))
             {
                 throw new ConfigurationErrorsException($"Setting with key {settingKey} is missing");
+            }
+
+            return setting;
+        }
+
+        public string GetNullableSetting(string settingKey)
+        {
+            var setting = CloudConfigurationManager.GetSetting(settingKey);
+
+            if (string.IsNullOrEmpty(setting))
+            {
+                setting = _baseSettings.GetNullableSetting(settingKey);
             }
 
             return setting;

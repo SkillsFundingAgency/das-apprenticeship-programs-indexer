@@ -1,6 +1,5 @@
 ﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Reflection;
@@ -14,8 +13,8 @@
     {
         private readonly string _postfix = System.Configuration.ConfigurationManager.AppSettings["LoggingNamePostfix"];
 
-        public NLogService(Type loggerType)
-            : base(loggerType, null, GetProperties())
+        public NLogService()
+            : base(null, null, GetProperties())
         {
             if (typeof(T) == typeof(IMaintainApprenticeshipIndex))
             {

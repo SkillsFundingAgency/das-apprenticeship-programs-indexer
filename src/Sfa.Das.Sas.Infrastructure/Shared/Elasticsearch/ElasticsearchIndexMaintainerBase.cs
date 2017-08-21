@@ -159,7 +159,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 { "ExecutionTime", took },
                 { "ErrorCount", errorCount }
             };
-            Log.Info($"Total of {totalCount - errorCount} / {totalCount} {documentType} documents were indexed successfully", properties);
+
+            if (errorCount != 0)
+            {
+                Log.Error(new Exception(), $"Total of {totalCount - errorCount} / {totalCount} {documentType} documents were indexed successfully", properties);
+            }
+            else
+            {
+                Log.Info($"Total of {totalCount - errorCount} / {totalCount} {documentType} documents were indexed successfully", properties);
+            }
         }
     }
 }

@@ -1,23 +1,23 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using Newtonsoft.Json;
-using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-using Sfa.Das.Sas.Indexer.Core.Shared.Models;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Nest;
+    using Newtonsoft.Json;
     using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
     using Sfa.Das.Sas.Indexer.Core.Extensions;
+    using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
+    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
     using Sfa.Das.Sas.Indexer.Core.Provider.Models;
     using Sfa.Das.Sas.Indexer.Core.Services;
+    using Sfa.Das.Sas.Indexer.Core.Shared.Models;
     using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
@@ -276,6 +276,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             foreach (var roatpProvider in roatpProviderResults)
             {
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == roatpProvider.Ukprn);
+                var courseDirectory = source.CourseDirectoryProviders.Providers.FirstOrDefault(x => x.Ukprn.ToString() == roatpProvider.Ukprn);
 
                 CoreProvider provider;
 
@@ -294,8 +295,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 }
                 else
                 {
-                    _log.Warn("Provider doesn't exist on Course Directory or UKRLP", new Dictionary<string, object> { { "UKPRN", roatProviderUkprn } });
+                    _log.Warn("Provider doesn't exist on UKRLP", new Dictionary<string, object> { { "UKPRN", roatProviderUkprn } });
                     continue;
+                }
+
+                if (courseDirectory != null)
+                {
+                    provider.ContactDetails.Email = provider.ContactDetails.Email ?? courseDirectory.Email;
+                    provider.ContactDetails.Website = provider.ContactDetails.Website ?? courseDirectory.Website;
+                    provider.ContactDetails.Phone = provider.ContactDetails.Phone ?? courseDirectory.Phone;
                 }
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;

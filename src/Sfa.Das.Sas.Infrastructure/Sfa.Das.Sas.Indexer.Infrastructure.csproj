@@ -220,6 +220,7 @@
     <Compile Include="Shared\Models\Git\GitTree.cs" />
     <Compile Include="Shared\Models\Git\Entity.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryClient.cs" />
+    <Compile Include="Shared\Services\MonitoringService.cs" />
     <Compile Include="Shared\Services\NLogService{T}.cs" />
     <Compile Include="Shared\Services\RetryService.cs" />
     <Compile Include="Provider\Services\UkrlpService.cs" />

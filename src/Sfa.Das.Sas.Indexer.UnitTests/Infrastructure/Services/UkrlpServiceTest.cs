@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
+﻿using Ukrlp.SoapApi.Client.Exceptions;
+
+namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services
 {
     using System;
     using System.Collections.Generic;
@@ -45,16 +47,17 @@
         //    mockLog.Verify(x => x.Debug(It.IsAny<string>(), It.IsAny<IDictionary<string, object>>()), Times.Exactly(1));
         //}
 
+       
+
         [Test]
-        public void ShouldThrowApplicationErrorIfUKRLPServiceisDown()
+        public void ShouldThrowAnExceptionIfThereWasAnExceptionFromUkrlp()
         {
-            mockProviderQueryPortTypeClientWrapper.Setup(x => x.ProviderQuery(It.IsAny<SelectionCriteriaStructure>(), "2", 35))
-                .Returns(new ProviderResponse { Providers = null, Warnings = null });
+            mockProviderQueryPortTypeClientWrapper.Setup(x => x.ProviderQuery(It.IsAny<SelectionCriteriaStructure>(), It.IsAny<string>(), It.IsAny<int>()))
+                .Throws(new ProviderQueryException(It.IsAny<string>(), new SelectionCriteriaStructure { UnitedKingdomProviderReferenceNumberList = new[] { "1234", "5678" } }, It.IsAny<Exception>()));
 
             var sut = new UkrlpService(mockInfrastructureSettings.Object, mockProviderQueryPortTypeClientWrapper.Object, mockLog.Object);
 
-            Assert.Throws<ApplicationException>(() => sut.Handle(new UkrlpProviderRequest { Providers = new List<int> { 1234, 5678 } }));
-
+            Assert.Throws<ProviderQueryException>(() => sut.Handle(new UkrlpProviderRequest { Providers = new List<int> { 1234, 5678 } }));
         }
 
         //[Test]

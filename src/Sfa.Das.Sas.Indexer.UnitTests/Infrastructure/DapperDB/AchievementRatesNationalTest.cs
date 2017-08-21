@@ -15,7 +15,7 @@
         [Test]
         [Category("ExternalDependency")]
         [Category("Integration")]
-        [Explicit]
+        [Ignore("explicit tests show up in the VSTS report")]
         public void NationalTest()
         {
             var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());

@@ -14,17 +14,20 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
         private readonly IMessageQueueService _cloudQueueService;
         private readonly IIndexerServiceFactory _indexerServiceFactory;
         private readonly ILog _log;
+        private readonly IMonitoringService _monitor;
 
         public GenericControlQueueConsumer(
             IAppServiceSettings appServiceSettings,
             IMessageQueueService cloudQueueService,
             IIndexerServiceFactory indexerServiceFactory,
-            ILog log)
+            ILog log,
+            IMonitoringService monitor)
         {
             _appServiceSettings = appServiceSettings;
             _cloudQueueService = cloudQueueService;
             _indexerServiceFactory = indexerServiceFactory;
             _log = log;
+            _monitor = monitor;
         }
 
         public async Task CheckMessage<T>()
@@ -76,6 +79,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
                 {
                     indexerService.Log.Fatal(ex, ex.Message);
                 }
+
+                _monitor.SendMonitoringNotification(_appServiceSettings.MonitoringUrl(typeof(T)));
             }
             catch (Exception ex)
             {

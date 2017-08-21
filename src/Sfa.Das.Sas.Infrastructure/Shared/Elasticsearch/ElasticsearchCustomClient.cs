@@ -1,20 +1,20 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Web;
 using Elasticsearch.Net;
-using Sfa.Das.Sas.Indexer.Core.Exceptions;
+using Nest;
+using Polly;
 using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.Core.Exceptions;
+using Sfa.Das.Sas.Indexer.Core.Logging.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Threading.Tasks;
-    using Nest;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-
     public class ElasticsearchCustomClient : IElasticsearchCustomClient
     {
         private readonly ILog _logger;
@@ -139,9 +139,43 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         public virtual Task<IBulkResponse> BulkAsync(IBulkRequest request, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.BulkAsync(request);
+            var policy = Policy
+                .Handle<TooManyRequestsException>()
+                .WaitAndRetry(5, retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt) * 10)
+                );
+
+            var result = policy.Execute(() => BulkData(request));
+
             SendLog(null, null, timer.ElapsedMilliseconds, $"Elasticsearch.BulkAsync.{callerName}");
             return result;
+        }
+
+        private Task<IBulkResponse> BulkData(IBulkRequest request)
+        {
+            var response = _client.BulkAsync(request);
+
+            if (!response.Result.IsValid && response.Result.ItemsWithErrors.First().Status == 429)
+            {
+                _logger.Warn("Received status code 429, retrying");
+                throw new TooManyRequestsException();
+            }
+
+            if (!response.Result.IsValid)
+            {
+
+                if (response.Exception != null)
+                {
+                    foreach (var ex in response.Exception.InnerExceptions)
+                    {
+                        _logger.Error(ex, ex.Message);
+                    }
+                }
+
+                throw new HttpException(response.Result.ItemsWithErrors.First().Status, "Something failed trying to insert data into the bulk service", response.Exception);
+            }
+
+            return response;
         }
 
         private void SendLog(IApiCallDetails apiCallDetails, long? took, double networkTime, string identifier)
@@ -185,5 +219,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 }
             }
         }
+    }
+
+    internal class TooManyRequestsException : Exception
+    {
     }
 }

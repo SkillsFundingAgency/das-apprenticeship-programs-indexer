@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Ukrlp.SoapApi.Client.Exceptions;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 {
@@ -46,7 +47,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 
                 foreach (var warning in response.Warnings)
                 {
-                    _logger.Warn(warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
+                    _logger.Warn("UKRLP: " + warning.Value, new Dictionary<string, object> { { "UKPRN", warning.Key } });
                 }
 
                 var matchingProviderRecords = response.Providers.ToList();
@@ -54,15 +55,35 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Services
 
                 return new UkrlpProviderResponse { MatchingProviderRecords = matchingProviderRecords };
             }
-            catch (Exception ex)
+            catch (ProviderQueryException ex)
             {
-                throw new ApplicationException("There was a problem with UKRLP", ex);
+                LogBadResponse(ex);
+                throw;
             }
         }
 
         private void LogResponse(SelectionCriteriaStructure criteria, ProviderQueryResponse response)
         {
-            _logger.Debug($"UKRLP response {response.MatchingProviderRecords.Length}", new Dictionary<string, object> { { "TotalCount", response.MatchingProviderRecords.Length }, { "Request", JsonConvert.SerializeObject(criteria.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) }, { "Body", string.Join(", ", response.MatchingProviderRecords.Select(x => x.UnitedKingdomProviderReferenceNumber)) } });
+            var providers = response.MatchingProviderRecords?.Select(x => x.UnitedKingdomProviderReferenceNumber) ?? new List<string>();
+
+            var properties = new Dictionary<string, object>
+            {
+                { "TotalCount", response.MatchingProviderRecords?.Length },
+                { "Request", JsonConvert.SerializeObject(criteria.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) },
+                { "Body", string.Join(", ", providers) }
+            };
+
+            _logger.Debug("UKRLP response", properties);
+        }
+
+        private void LogBadResponse(ProviderQueryException ex)
+        {
+            var properties = new Dictionary<string, object>
+            {
+                { "Request", JsonConvert.SerializeObject(ex.Query.UnitedKingdomProviderReferenceNumberList, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) },
+            };
+
+            _logger.Error(ex.InnerException, "[UKRLP] " + ex.Message, properties);
         }
     }
 }

@@ -1,3 +1,6 @@
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
+using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution
 {
     using System.Collections.Generic;
@@ -37,6 +40,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution
             For<IElasticClient>().Use<ElasticClient>();
             For<IElasticsearchCustomClient>().Use<ElasticsearchCustomClient>();
             For<IIndexerServiceFactory>().Use<IndexerServiceFactory>();
+            For<IMonitoringService>().Use<MonitoringService>();
         }
 
         private IDictionary<string, object> GetProperties()
