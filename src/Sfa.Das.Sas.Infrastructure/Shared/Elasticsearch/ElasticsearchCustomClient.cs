@@ -31,7 +31,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             where T : class
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.Search(selector);
+            var policy = Policy
+                .Handle<FailedToPingSpecifiedNodeException>()
+                .WaitAndRetry(5, retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt) * 10)
+                );
+
+            var result = policy.Execute(() => SearchData(selector));
             ValidateResponse(result);
             SendLog(result.ApiCall, result.Took, timer.ElapsedMilliseconds, $"Elasticsearch.Search.{callerName}");
             return result;
@@ -142,8 +148,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var policy = Policy
                 .Handle<TooManyRequestsException>()
                 .WaitAndRetry(5, retryAttempt =>
-                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt) * 10)
-                );
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt) * 10));
 
             var result = policy.Execute(() => BulkData(request));
 
@@ -151,13 +156,38 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return result;
         }
 
+        private ISearchResponse<T> SearchData<T>(Func<SearchDescriptor<T>, ISearchRequest> selector)
+            where T : class
+        {
+            var response = _client.Search(selector);
+
+            if (!response.IsValid && response.ApiCall.OriginalException.InnerException?.InnerException?.Message == "Failed to ping the specified node.")
+            {
+                _logger.Warn("Failedto ping the specified node, retrying");
+                throw new FailedToPingSpecifiedNodeException();
+            }
+
+            if (!response.IsValid)
+            {
+
+                if (response.ApiCall.OriginalException != null)
+                {
+                    _logger.Error(response.ApiCall.OriginalException.InnerException, response.ApiCall.OriginalException.InnerException.Message);
+                }
+
+                throw new HttpException((int) response.ApiCall.HttpStatusCode, "Something failed trying to insert data into the bulk service", response.ApiCall.OriginalException);
+            }
+
+            return response;
+        }
+
         private Task<IBulkResponse> BulkData(IBulkRequest request)
         {
             var response = _client.BulkAsync(request);
 
-            if (!response.Result.IsValid && response.Result.ItemsWithErrors.First().Status == 429)
+            if (!response.Result.IsValid && response.Result.OriginalException.Message.Contains("The underlying connection was closed: A connection that was expected to be kept alive was closed by the server"))
             {
-                _logger.Warn("Received status code 429, retrying");
+                _logger.Warn("Elasticsearch overload, retrying");
                 throw new TooManyRequestsException();
             }
 
@@ -222,6 +252,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
     }
 
     internal class TooManyRequestsException : Exception
+    {
+    }
+
+    internal class FailedToPingSpecifiedNodeException : Exception
     {
     }
 }

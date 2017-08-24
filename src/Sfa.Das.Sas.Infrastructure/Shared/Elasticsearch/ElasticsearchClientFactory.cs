@@ -1,4 +1,5 @@
-﻿using Elasticsearch.Net;
+﻿using System;
+using Elasticsearch.Net;
 using FeatureToggle.Core.Fluent;
 using Nest;
 using Sfa.Das.Sas.Indexer.Infrastructure.Extensions;
@@ -33,6 +34,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             settings.BasicAuthentication(_infrastructureSettings.ElasticsearchUsername, _infrastructureSettings.ElasticsearchPassword);
             settings.DisableDirectStreaming();
+
+            settings.RequestTimeout(TimeSpan.FromMinutes(4));
 
             var client = new ElasticClient(settings);
             return client;

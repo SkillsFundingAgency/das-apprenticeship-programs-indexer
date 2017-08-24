@@ -76,7 +76,7 @@
 
         private static bool HaveReachedBatchLimit(int count)
         {
-            const int BatchSize = 4000;
+            const int BatchSize = 1000;
 
             return count >= BatchSize;
         }
