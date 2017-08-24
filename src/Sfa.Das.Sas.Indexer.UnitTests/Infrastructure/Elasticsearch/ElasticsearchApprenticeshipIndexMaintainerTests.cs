@@ -19,7 +19,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
     public sealed class ElasticsearchApprenticeshipIndexMaintainerTests : BaseElasticIndexMaintainerTests
     {
         [Test]
-        public async Task ShouldBulk2TimeWith4001standards()
+        public async Task ShouldBulk5TimeWith4001standards()
         {
             var response = new StubResponse(400);
             var mockResponse = new Mock<IBulkResponse> { DefaultValue = DefaultValue.Mock };
@@ -36,7 +36,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 
             await indexMaintainer.IndexStandards("testindex", StandardsTestData4001());
 
-            MockElasticClient.Verify(x => x.BulkAsync(It.IsAny<IBulkRequest>(), It.IsAny<string>()), Times.Exactly(2));
+            MockElasticClient.Verify(x => x.BulkAsync(It.IsAny<IBulkRequest>(), It.IsAny<string>()), Times.Exactly(5));
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 
             await indexMaintainer.IndexStandards("testindex", StandardsTestData4001WithOneNull());
 
-            MockElasticClient.Verify(x => x.BulkAsync(It.IsAny<IBulkRequest>(), It.IsAny<string>()), Times.Exactly(1));
+            MockElasticClient.Verify(x => x.BulkAsync(It.IsAny<IBulkRequest>(), It.IsAny<string>()), Times.Exactly(4));
         }
 
         private static List<StandardMetaData> StandardsTestData4001()
