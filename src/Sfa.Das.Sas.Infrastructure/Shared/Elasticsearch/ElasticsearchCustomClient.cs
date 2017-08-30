@@ -142,7 +142,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return result;
         }
 
-        public virtual Task<IBulkResponse> BulkAsync(IBulkRequest request, string callerName = "")
+        public virtual async Task<IBulkResponse> BulkAsync(IBulkRequest request, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
             var policy = Policy
@@ -150,7 +150,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 .WaitAndRetry(5, retryAttempt =>
                     TimeSpan.FromSeconds(Math.Pow(2, retryAttempt) * 10));
 
-            var result = policy.Execute(() => BulkData(request));
+            var result = await policy.Execute(() => BulkData(request));
 
             SendLog(null, null, timer.ElapsedMilliseconds, $"Elasticsearch.BulkAsync.{callerName}");
             return result;
@@ -185,14 +185,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         {
             var response = _client.BulkAsync(request);
 
-            if (!response.Result.IsValid && response.Result.OriginalException.Message.Contains("The underlying connection was closed: A connection that was expected to be kept alive was closed by the server"))
-            {
-                _logger.Warn("Elasticsearch overload, retrying");
-                throw new TooManyRequestsException();
-            }
-
             if (!response.Result.IsValid)
             {
+                if ((response.Result.OriginalException != null && response.Result.OriginalException.Message.Contains("The underlying connection was closed: A connection that was expected to be kept alive was closed by the server"))
+                    || (response.Result.ItemsWithErrors != null && response.Result.ItemsWithErrors.First().Status == 503))
+                {
+                    _logger.Warn("Elasticsearch overload, retrying");
+                    throw new TooManyRequestsException();
+                }
 
                 if (response.Exception != null)
                 {
