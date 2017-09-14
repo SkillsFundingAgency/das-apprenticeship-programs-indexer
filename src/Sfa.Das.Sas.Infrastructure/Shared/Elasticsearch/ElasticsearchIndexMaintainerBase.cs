@@ -75,18 +75,23 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public virtual bool IndexIsCompletedAndContainsDocuments(string indexName, int totalAmountDocuments)
         {
+            Log.Debug($"Amount of documents to index: {totalAmountDocuments}");
             var r1 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
+            Log.Debug($"Amount of documents indexed: {r1}");
             long r2 = 0;
             do
             {
                 System.Threading.Thread.Sleep(15000);
 
                 r2 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
+                Log.Debug($"Amount of documents indexed: {r2}");
 
                 if (r1 == 0 && r2 == 0)
                 {
                     return false;
                 }
+
+                Log.Debug($"Comparing {r1} against {r2}");
 
                 if (r1 < r2)
                 {
@@ -95,6 +100,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 }
 
             } while (r1 != r2);
+
+            Log.Debug($"Total amount of documents indexed: {r1}");
 
             return r1 == totalAmountDocuments;
         }
