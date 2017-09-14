@@ -184,9 +184,14 @@
             Func<DeliveryInformation, bool> _onlyAtEmployer = x => x.DeliveryModes.All(xx => xx == ModesOfDelivery.OneHundredPercentEmployer);
             Func<DeliveryInformation, bool> _anyNotAtEmployer = x => x.DeliveryModes.Any(xx => xx != ModesOfDelivery.OneHundredPercentEmployer);
 
-            var count = providers.Count();
+            var providersAmount = providers.Count;
 
-            count += providersApi.Count();
+            var count = providersAmount;
+            _log.Debug($"{providersAmount} providers to be indexed");
+
+            var providersApiAmount = providersApi.Count;
+            count += providersApiAmount;
+            _log.Debug($"{providersApiAmount} API providers to be indexed");
 
             foreach (var apprenticeshipProvider in apprenticeshipProviders)
             {
@@ -204,13 +209,19 @@
 
                     count += apprenticeshipProviderFramework.DeliveryLocations.Where(_anyNotAtEmployer).Count(location => location.DeliveryLocation.Address.GeoPoint != null);
                 }
+            }
 
+            var frameworkProviders = count - providersAmount - providersApiAmount;
+            _log.Debug($"{frameworkProviders} framework providers to be indexed");
+
+            foreach (var apprenticeshipProvider in apprenticeshipProviders)
+            {
                 foreach (var apprenticeshipProviderStandard in apprenticeshipProvider.Standards)
                 {
                     var deliveryLocationsOnly100 = apprenticeshipProviderStandard.DeliveryLocations
-                            .Where(_onlyAtEmployer)
-                            .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
-                            .ToArray();
+                        .Where(_onlyAtEmployer)
+                        .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
+                        .ToArray();
 
                     if (deliveryLocationsOnly100.Any())
                     {
@@ -220,6 +231,9 @@
                     count += apprenticeshipProviderStandard.DeliveryLocations.Where(_anyNotAtEmployer).Count(location => location.DeliveryLocation.Address.GeoPoint != null);
                 }
             }
+
+            var standardProviders = count - frameworkProviders - providersAmount - providersApiAmount;
+            _log.Debug($"{standardProviders} standard providers to be indexed");
 
             return count;
         }
