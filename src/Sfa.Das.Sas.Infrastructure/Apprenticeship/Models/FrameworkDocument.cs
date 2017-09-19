@@ -44,5 +44,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
         public IEnumerable<string> CombinedQualification { get; set; }
         public DateTime EffectiveFrom { get; set; }
         public DateTime? EffectiveTo { get; set; }
+
+        [Keyword(NullValue = "null")]
+        public string FrameworkIdKeyword => FrameworkId;
     }
 }

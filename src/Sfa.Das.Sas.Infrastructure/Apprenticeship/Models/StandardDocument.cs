@@ -29,5 +29,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
         public string StandardPdf { get; set; }
 
         public string WhatApprenticesWillLearn { get; set; }
+
+        [Keyword(NullValue = "null")]
+        public string StandardIdKeyword => StandardId.ToString();
     }
 }
