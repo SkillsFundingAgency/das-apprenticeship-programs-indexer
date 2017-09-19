@@ -55,8 +55,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     {
                         EpaOrganisationIdentifier = standardOrganisationWorkSheet.Cells[i, 1].Value != null ? standardOrganisationWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
                         StandardCode = standardOrganisationWorkSheet.Cells[i, 3].Value != null ? standardOrganisationWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
-                        EffectiveFrom = standardOrganisationWorkSheet.Cells[i, 5].Value != null ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 5].Value.ToString()) : DateTime.MaxValue,
-                        EffectiveTo = standardOrganisationWorkSheet.Cells[i, 6].Value != null ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 6].Value.ToString()) : (DateTime?)null,
+                        EffectiveFrom = !string.IsNullOrWhiteSpace(standardOrganisationWorkSheet.Cells[i, 5].Value?.ToString()) ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 5].Value.ToString()) : DateTime.MaxValue,
+                        EffectiveTo = !string.IsNullOrWhiteSpace(standardOrganisationWorkSheet.Cells[i, 6].Value?.ToString()) ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 6].Value.ToString()) : (DateTime?)null,
                         Phone = standardOrganisationWorkSheet.Cells[i, 8].Value != null ? standardOrganisationWorkSheet.Cells[i, 8].Value.ToString() : string.Empty,
                         Email = standardOrganisationWorkSheet.Cells[i, 9].Value != null ? standardOrganisationWorkSheet.Cells[i, 9].Value.ToString() : string.Empty
                     };
