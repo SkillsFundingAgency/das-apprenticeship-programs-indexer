@@ -33,11 +33,13 @@
         {
             _log.Debug("Retrieving Assessment Orgs data");
             var assessmentOrgsData = _metaDataHelper.GetAssessmentOrganisationsData();
-
-            _log.Debug("Indexing Assessment Orgs data into index");
-            await IndexOrganisations(indexName, assessmentOrgsData.Organisations).ConfigureAwait(false);
-            await IndexStandardOrganisationsData(indexName, assessmentOrgsData.StandardOrganisationsData).ConfigureAwait(false);
-            _log.Debug("Completed indexing Assessment Orgs data");
+            if (assessmentOrgsData != null)
+            {
+                _log.Debug("Indexing Assessment Orgs data into index");
+                await IndexOrganisations(indexName, assessmentOrgsData.Organisations).ConfigureAwait(false);
+                await IndexStandardOrganisationsData(indexName, assessmentOrgsData.StandardOrganisationsData).ConfigureAwait(false);
+                _log.Debug("Completed indexing Assessment Orgs data");
+            }
         }
 
         private async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
