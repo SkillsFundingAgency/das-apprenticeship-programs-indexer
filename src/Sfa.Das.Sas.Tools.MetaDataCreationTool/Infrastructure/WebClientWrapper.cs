@@ -17,6 +17,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Infrastructure
             client.DownloadFile(address, filePath);
         }
 
+        public byte[] DownloadData(Uri address)
+        {
+            return client.DownloadData(address);
+        }
+
         public void Dispose()
         {
             client?.Dispose();
