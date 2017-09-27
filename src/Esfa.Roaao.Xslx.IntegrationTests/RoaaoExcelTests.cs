@@ -73,5 +73,61 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             }
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
+
+        [TestMethod]
+        public void ShouldNotHaveDuplicateCurrentPeriods()
+        {
+            List<string> errors = new List<string>();
+            foreach (var epaidentifier in results.Organisations.Select(x => x.EpaOrganisationIdentifier).Distinct())
+            {
+                var epaStandards = results.StandardOrganisationsData.Where(x => x.EpaOrganisationIdentifier == epaidentifier);
+
+                //Get list of Standards which has 2 rows
+                var standards = epaStandards.GroupBy(x => x.StandardCode).Where(y => y.Count() > 1).Select(z => z.Key);
+                foreach (var standard in standards)
+                {
+                    //Get list of Standards covered by an EPA which has more than 1 current periods
+                    var currentperiods = epaStandards
+                                         .Where(x => x.StandardCode == standard)
+                                         .OrderBy(y => y.EffectiveFrom)
+                                         .Where(z => (z.EffectiveFrom.Date <= DateTime.Now.Date && (z.EffectiveTo.HasValue == false || z.EffectiveTo.Value.Date >= DateTime.Now.Date)));
+                                  
+                    if (currentperiods.Count() > 1)
+                    {
+                        errors.Add($"{epaidentifier} assessment for Standard {standard} has duplicate current periods.");
+                    }
+                }
+            }
+            Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
+        }
+        [TestMethod]
+        public void ShouldNotHaveInvalidPeriods()
+        {
+            List<string> errors = new List<string>();
+            foreach (var epaidentifier in results.Organisations.Select(x => x.EpaOrganisationIdentifier).Distinct())
+            {
+                var epaStandards = results.StandardOrganisationsData.Where(x => x.EpaOrganisationIdentifier == epaidentifier);
+
+                //Get list of Standards which has 2 rows
+                var standards = epaStandards.GroupBy(x => x.StandardCode).Where(y => y.Count() > 1).Select(z => z.Key);
+                foreach (var standard in standards)
+                {
+                    //Get list of Standards covered by an EPA which has invalid periods
+                    var invalidperiods = epaStandards
+                                         .Where(x => x.StandardCode == standard)
+                                         .OrderBy(y => y.EffectiveFrom)
+                                         .Where(z =>
+                                         (z.EffectiveFrom.Date < DateTime.Now.Date && z.EffectiveTo.HasValue == false) ||
+                                         (z.EffectiveFrom.Date > DateTime.Now.Date && z.EffectiveTo.HasValue == false) ||
+                                         (z.EffectiveFrom.Date > DateTime.Now.Date && z.EffectiveTo.Value.Date > DateTime.Now));
+
+                    if (invalidperiods.Count() > 1)
+                    {
+                        errors.Add($"{epaidentifier} assessment for Standard {standard} has some invalid periods.");
+                    }
+                }
+            }
+            Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
+        }
     }
 }
