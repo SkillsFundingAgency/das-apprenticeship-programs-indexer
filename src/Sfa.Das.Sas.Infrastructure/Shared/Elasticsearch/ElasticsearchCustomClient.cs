@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Elasticsearch.Net;
@@ -12,6 +13,7 @@ using Polly;
 using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -156,7 +158,123 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return result;
         }
 
-        private ISearchResponse<T> SearchData<T>(Func<SearchDescriptor<T>, ISearchRequest> selector)
+		public void BulkAll(List<StandardProvider> elementList, string indexName)
+		{
+			var waitHandle = new CountdownEvent(1);
+
+			var bulkAll = _client.BulkAll(elementList, b => b
+				.Index(indexName)
+				.BackOffRetries(20)
+				.BackOffTime("55s")
+				.RefreshOnCompleted(true)
+				.MaxDegreeOfParallelism(2)
+				.Size(1000));
+
+			bulkAll.Subscribe(observer: new BulkAllObserver(
+				onNext: (b) =>
+				{
+					_logger.Debug("Indexed group of StandardProviderDocument");
+				},
+				onError: (e) =>
+				{
+					_logger.Error(e, e.Message);
+					throw e;
+				},
+				onCompleted: () =>
+				{
+					waitHandle.Signal();
+				}));
+			waitHandle.Wait();
+		}
+
+	    public void BulkAll(List<FrameworkProvider> elementList, string indexName)
+	    {
+		    var waitHandle = new CountdownEvent(1);
+
+		    var bulkAll = _client.BulkAll(elementList, b => b
+			    .Index(indexName)
+			    .BackOffRetries(20)
+			    .BackOffTime("55s")
+			    .RefreshOnCompleted(true)
+			    .MaxDegreeOfParallelism(2)
+			    .Size(2000));
+
+			bulkAll.Subscribe(observer: new BulkAllObserver(
+				onNext: (b) =>
+				{
+					_logger.Debug("Indexed group of FrameworkProviderDocument");
+				},
+				onError: (e) =>
+				{
+					_logger.Error(e, e.Message);
+					throw e;
+				},
+				onCompleted: () =>
+				{
+					waitHandle.Signal();
+				}));
+			waitHandle.Wait();
+	    }
+
+	    public void BulkAll(List<ProviderDocument> elementList, string indexName)
+	    {
+		    var waitHandle = new CountdownEvent(1);
+
+		    var bulkAll = _client.BulkAll(elementList, b => b
+			    .Index(indexName)
+			    .BackOffRetries(5)
+			    .BackOffTime("55s")
+			    .RefreshOnCompleted(true)
+			    .MaxDegreeOfParallelism(4)
+			    .Size(2000));
+
+			bulkAll.Subscribe(observer: new BulkAllObserver(
+				onNext: (b) =>
+				{
+					_logger.Debug("Indexed group of ProviderDocument");
+				},
+				onError: (e) =>
+				{
+					_logger.Error(e, e.Message);
+					throw e;
+				},
+				onCompleted: () =>
+				{
+					waitHandle.Signal();
+				}));
+			waitHandle.Wait();
+	    }
+
+	    public void BulkAll(List<ProviderApiDocument> elementList, string indexName)
+	    {
+		    var waitHandle = new CountdownEvent(1);
+
+		    var bulkAll = _client.BulkAll(elementList, b => b
+			    .Index(indexName)
+			    .BackOffRetries(5)
+			    .BackOffTime("55s")
+			    .RefreshOnCompleted(true)
+			    .MaxDegreeOfParallelism(4)
+			    .Size(2000));
+
+			bulkAll.Subscribe(observer: new BulkAllObserver(
+				onNext: (b) =>
+				{
+					_logger.Debug("Indexed group of ProviderApiDocument");
+				},
+				onError: (e) =>
+				{
+					_logger.Error(e, e.Message);
+					throw e;
+				},
+				onCompleted: () =>
+				{
+					waitHandle.Signal();
+				}));
+			waitHandle.Wait();
+	    }
+
+		private ISearchResponse<T> SearchData<T>(Func<SearchDescriptor<T>, ISearchRequest> selector)
             where T : class
         {
             var response = _client.Search(selector);

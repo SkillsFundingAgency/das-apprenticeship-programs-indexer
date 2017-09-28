@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Threading;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 {
@@ -49,28 +50,24 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 
         public async Task IndexProviders(string indexName, ICollection<Provider> entries)
         {
-            var smallLists = SplitAndReturn(entries.ToList(), 10000);
+            var providerList = entries.Select(provider => ElasticsearchMapper.CreateProviderDocument(provider)).ToList();
 
-            foreach (var smallList in smallLists)
-            {
-                await IndexEntries(indexName, smallList, ElasticsearchMapper.CreateProviderDocument).ConfigureAwait(true);
-            }
+            Client.BulkAll(providerList, indexName);
         }
 
         public async Task IndexApiProviders(string indexName, ICollection<Provider> entries)
         {
-            var smallLists = SplitAndReturn(entries.ToList(), 10000);
+            var apiProviderList = entries.Select(provider => ElasticsearchMapper.CreateProviderApiDocument(provider)).ToList();
 
-            foreach (var smallList in smallLists)
-            {
-                await IndexEntries(indexName, smallList, ElasticsearchMapper.CreateProviderApiDocument).ConfigureAwait(true);
-            }
+            Client.BulkAll(apiProviderList, indexName);
         }
 
         public async Task IndexStandards(string indexName, ICollection<Provider> indexEntries)
         {
             var bulkProviderLocation = new BulkProviderClient(indexName, Client);
             var bulkTasks = new List<Task<IBulkResponse>>();
+
+            var standardProviderList = new List<StandardProvider>();
 
             try
             {
@@ -90,8 +87,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
                             foreach (var deliveryInformation in deliveryLocationsOnly100)
                             {
                                 var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryInformation);
-                                bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
-                                count++;
+								standardProviderList.Add(standardProvider);
+								//bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
+                                //count++;
                             }
                         }
 
@@ -100,28 +98,48 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
                             if (location.DeliveryLocation.Address.GeoPoint != null)
                             {
                                 var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, location);
-                                bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
-                                count++;
+								standardProviderList.Add(standardProvider);
+								//bulkProviderLocation.Index<StandardProvider>(c => c.Document(standardProvider));
+                                //count++;
                             }
                         }
                     }
 
-                    if (count >= 10000)
-                    {
-                        count = 0;
-                        bulkTasks = new List<Task<IBulkResponse>>();
-                        bulkTasks.AddRange(bulkProviderLocation.GetTasks());
-                        LogResponse(await Task.WhenAll(bulkTasks), typeof(FrameworkProvider).Name.ToLower(CultureInfo.CurrentCulture));
-                        bulkProviderLocation = new BulkProviderClient(indexName, Client);
-                    }
+                    //if (count >= 10000)
+                    //{
+                    //    count = 0;
+                    //    bulkTasks = new List<Task<IBulkResponse>>();
+                    //    bulkTasks.AddRange(bulkProviderLocation.GetTasks());
+                    //    var elementIndexResult = new List<IBulkResponse>();
+
+                    //    foreach (var bulkTask in bulkTasks)
+                    //    {
+                    //        var bulkTaskResponse = await bulkTask;
+                    //        elementIndexResult.Add(bulkTaskResponse);
+                    //        System.Threading.Thread.Sleep(1000);
+                    //    }
+
+                    //    LogResponse(elementIndexResult.ToArray(), typeof(StandardProvider).Name.ToLower(CultureInfo.CurrentCulture));
+                    //    bulkProviderLocation = new BulkProviderClient(indexName, Client);
+                    //}
                 }
 
-                if (count != 0)
-                {
-                    bulkTasks = new List<Task<IBulkResponse>>();
-                    bulkTasks.AddRange(bulkProviderLocation.GetTasks());
-                    LogResponse(await Task.WhenAll(bulkTasks), typeof(FrameworkProvider).Name.ToLower(CultureInfo.CurrentCulture));
-                }
+				//if (count != 0)
+				//{
+				//    bulkTasks = new List<Task<IBulkResponse>>();
+				//    bulkTasks.AddRange(bulkProviderLocation.GetTasks()); var elementIndexResult = new List<IBulkResponse>();
+
+				//    foreach (var bulkTask in bulkTasks)
+				//    {
+				//        var bulkTaskResponse = await bulkTask;
+				//        elementIndexResult.Add(bulkTaskResponse);
+				//        System.Threading.Thread.Sleep(1000);
+				//    }
+
+				//    LogResponse(elementIndexResult.ToArray(), typeof(StandardProvider).Name.ToLower(CultureInfo.CurrentCulture));
+				//}
+
+                Client.BulkAll(standardProviderList, indexName);
             }
             catch (Exception ex)
             {
@@ -135,7 +153,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
             var bulkProviderLocation = new BulkProviderClient(indexName, Client);
             var bulkTasks = new List<Task<IBulkResponse>>();
 
-            try
+	        var frameworkProviderList = new List<FrameworkProvider>();
+
+			try
             {
                 var count = 0;
                 foreach (var provider in indexEntries)
@@ -152,9 +172,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
                             foreach (var deliveryInformation in deliveryLocationsOnly100)
                             {
                                 var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryInformation);
-                                bulkProviderLocation.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
-                                count++;
-                            }
+								frameworkProviderList.Add(frameworkProvider);
+								//bulkProviderLocation.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
+								//count++;
+							}
                         }
 
                         foreach (var location in framework.DeliveryLocations.Where(_anyNotAtEmployer))
@@ -162,32 +183,52 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
                             if (location.DeliveryLocation.Address.GeoPoint != null)
                             {
                                 var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, location);
-                                bulkProviderLocation.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
-                                count++;
-                            }
-                        }
+								frameworkProviderList.Add(frameworkProvider);
+	                            //bulkProviderLocation.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
+	                            //count++;
+							}
+						}
                     }
 
-                    if (count >= 10000)
-                    {
-                        count = 0;
-                        bulkTasks = new List<Task<IBulkResponse>>();
-                        bulkTasks.AddRange(bulkProviderLocation.GetTasks());
-                        LogResponse(await Task.WhenAll(bulkTasks), typeof(FrameworkProvider).Name.ToLower(CultureInfo.CurrentCulture));
-                        bulkProviderLocation = new BulkProviderClient(indexName, Client);
-                    }
+                    //if (count >= 10000)
+                    //{
+                    //    count = 0;
+                    //    bulkTasks = new List<Task<IBulkResponse>>();
+                    //    bulkTasks.AddRange(bulkProviderLocation.GetTasks());
+                    //    var elementIndexResult = new List<IBulkResponse>();
+
+                    //    foreach (var bulkTask in bulkTasks)
+                    //    {
+                    //        var bulkTaskResponse = await bulkTask;
+                    //        elementIndexResult.Add(bulkTaskResponse);
+                    //        System.Threading.Thread.Sleep(1000);
+                    //    }
+
+                    //    LogResponse(elementIndexResult.ToArray(), typeof(FrameworkProvider).Name.ToLower(CultureInfo.CurrentCulture));
+                    //    bulkProviderLocation = new BulkProviderClient(indexName, Client);
+                    //}
                 }
 
-                if (count != 0)
-                {
-                    bulkTasks = new List<Task<IBulkResponse>>();
-                    bulkTasks.AddRange(bulkProviderLocation.GetTasks());
-                    LogResponse(await Task.WhenAll(bulkTasks), typeof(FrameworkProvider).Name.ToLower(CultureInfo.CurrentCulture));
-                }
-            }
+                //if (count != 0)
+                //{
+                //    bulkTasks = new List<Task<IBulkResponse>>();
+                //    bulkTasks.AddRange(bulkProviderLocation.GetTasks()); var elementIndexResult = new List<IBulkResponse>();
+
+                //    foreach (var bulkTask in bulkTasks)
+                //    {
+                //        var bulkTaskResponse = await bulkTask;
+                //        elementIndexResult.Add(bulkTaskResponse);
+                //        System.Threading.Thread.Sleep(1000);
+                //    }
+
+                //    LogResponse(elementIndexResult.ToArray(), typeof(FrameworkProvider).Name.ToLower(CultureInfo.CurrentCulture));
+                //}
+
+	            Client.BulkAll(frameworkProviderList, indexName);
+			}
             catch (Exception ex)
             {
-                _log.Error(ex, "Something failed indexing standard providers:" + ex.Message);
+                _log.Error(ex, "Something failed indexing framework providers:" + ex.Message);
                 throw;
             }
         }
