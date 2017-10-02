@@ -133,12 +133,10 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             var errors = new List<string>();
             foreach (var epa in results.Organisations.Select(x => new string[] { x.EpaOrganisationIdentifier, x.WebsiteLink }))
             {
-                if (!string.IsNullOrEmpty(epa[1]))
+                var website = epa[1];
+                if (!string.IsNullOrEmpty(website) && !CheckWebsiteLink(website))
                 {
-                    if (CheckWebsiteLink(epa[1]) == false)
-                    {
-                        errors.Add($"{epa[0]} EPA Org has a broken website link {epa[1]}");
-                    }
+                   errors.Add($"{epa[0]} EPA Org has a broken website link {epa[1]}");
                 }
             }
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
