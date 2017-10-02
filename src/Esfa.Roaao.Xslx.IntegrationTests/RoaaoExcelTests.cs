@@ -128,7 +128,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
         }
 
         [TestMethod]
-        public void ShouldhaveNotBrokenWebsiteLink()
+        public void ShouldNotHaveBrokenWebsiteLink()
         {
             var errors = new List<string>();
             foreach (var epa in results.Organisations.Select(x => new string[] { x.EpaOrganisationIdentifier, x.WebsiteLink }))
