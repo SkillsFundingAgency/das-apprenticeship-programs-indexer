@@ -5,6 +5,8 @@ using Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 using System.Collections.Generic;
 using System;
+using System.Net.Http;
+using System.Net;
 
 namespace Esfa.Roaao.Xslx.IntegrationTests
 {
@@ -123,6 +125,52 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                 }
             }
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
+        }
+
+        [TestMethod]
+        public void ShouldhaveNotBrokenWebsiteLink()
+        {
+            var errors = new List<string>();
+            foreach (var epa in results.Organisations.Select(x => new string[] { x.EpaOrganisationIdentifier, x.WebsiteLink }))
+            {
+                if (!string.IsNullOrEmpty(epa[1]))
+                {
+                    if (CheckWebsiteLink(epa[1]) == false)
+                    {
+                        errors.Add($"{epa[0]} EPA Org has a broken website link {epa[1]}");
+                    }
+                }
+            }
+            Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
+        }
+
+        private bool CheckWebsiteLink(string website)
+        {
+            var absolutePath = website.StartsWith("http") ? website : $"http://{website}";
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var request = new HttpRequestMessage(HttpMethod.Head, new Uri(absolutePath));
+                    request.Headers.Add("Accept", "text/html");
+                    request.Headers.Add("Cache-Control", "no-cache");
+                    request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0");
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                    using (var response = httpClient.SendAsync(request))
+                    {
+                        var result = response.Result;
+                        if (result.StatusCode == HttpStatusCode.OK)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+            }
+            catch(Exception)
+            {
+                return false;
+            }
         }
     }
 }
