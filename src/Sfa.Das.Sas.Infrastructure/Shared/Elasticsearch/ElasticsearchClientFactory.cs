@@ -34,7 +34,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             settings.BasicAuthentication(_infrastructureSettings.ElasticsearchUsername, _infrastructureSettings.ElasticsearchPassword);
             settings.DisableDirectStreaming();
-
+            settings.MaximumRetries(5);
             settings.RequestTimeout(TimeSpan.FromMinutes(4));
 
             var client = new ElasticClient(settings);

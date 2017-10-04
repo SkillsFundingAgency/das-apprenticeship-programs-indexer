@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
+using System.IO;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 {
@@ -37,15 +39,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 
         public override void CreateIndex(string indexName)
         {
-            Client.CreateIndex(
+            var a = Client.CreateIndex(
                 indexName,
                 i => i
                     .Settings(settings => settings
                         .NumberOfShards(_elasticsearchConfiguration.ProviderIndexShards())
-                        .NumberOfReplicas(_elasticsearchConfiguration.ProviderIndexReplicas()))
-                    .Mappings(ms => ms
-                        .Map<StandardProvider>(m => m.AutoMap())
-                        .Map<FrameworkProvider>(m => m.AutoMap())));
+                        .NumberOfReplicas(_elasticsearchConfiguration.ProviderIndexReplicas())));
         }
 
         public async Task IndexProviders(string indexName, ICollection<Provider> entries)
@@ -209,22 +208,22 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
                     //}
                 }
 
-                //if (count != 0)
-                //{
-                //    bulkTasks = new List<Task<IBulkResponse>>();
-                //    bulkTasks.AddRange(bulkProviderLocation.GetTasks()); var elementIndexResult = new List<IBulkResponse>();
+				//if (count != 0)
+				//{
+				//    bulkTasks = new List<Task<IBulkResponse>>();
+				//    bulkTasks.AddRange(bulkProviderLocation.GetTasks()); var elementIndexResult = new List<IBulkResponse>();
 
-                //    foreach (var bulkTask in bulkTasks)
-                //    {
-                //        var bulkTaskResponse = await bulkTask;
-                //        elementIndexResult.Add(bulkTaskResponse);
-                //        System.Threading.Thread.Sleep(1000);
-                //    }
+				//    foreach (var bulkTask in bulkTasks)
+				//    {
+				//        var bulkTaskResponse = await bulkTask;
+				//        elementIndexResult.Add(bulkTaskResponse);
+				//        System.Threading.Thread.Sleep(1000);
+				//    }
 
-                //    LogResponse(elementIndexResult.ToArray(), typeof(FrameworkProvider).Name.ToLower(CultureInfo.CurrentCulture));
-                //}
+				//    LogResponse(elementIndexResult.ToArray(), typeof(FrameworkProvider).Name.ToLower(CultureInfo.CurrentCulture));
+				//}
 
-	            Client.BulkAll(frameworkProviderList, indexName);
+				Client.BulkAll(frameworkProviderList.AsEnumerable(), indexName);
 			}
             catch (Exception ex)
             {

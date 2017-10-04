@@ -187,22 +187,23 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 			waitHandle.Wait();
 		}
 
-	    public void BulkAll(List<FrameworkProvider> elementList, string indexName)
+	    public void BulkAll(IEnumerable<FrameworkProvider> elementList, string indexName)
 	    {
 		    var waitHandle = new CountdownEvent(1);
 
 		    var bulkAll = _client.BulkAll(elementList, b => b
 			    .Index(indexName)
-			    .BackOffRetries(20)
-			    .BackOffTime("55s")
-			    .RefreshOnCompleted(true)
-			    .MaxDegreeOfParallelism(2)
-			    .Size(2000));
+			    .BackOffRetries(4)
+			    .BackOffTime(TimeSpan.FromSeconds(55))
+			    .RefreshOnCompleted()
+			    .MaxDegreeOfParallelism(4)
+			    .Size(1000));
 
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>
 				{
 					_logger.Debug("Indexed group of FrameworkProviderDocument");
+					Thread.Sleep(TimeSpan.FromSeconds(2));
 				},
 				onError: (e) =>
 				{
@@ -220,13 +221,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 	    {
 		    var waitHandle = new CountdownEvent(1);
 
-		    var bulkAll = _client.BulkAll(elementList, b => b
+            var bulkAll = _client.BulkAll(elementList, b => b
 			    .Index(indexName)
 			    .BackOffRetries(5)
-			    .BackOffTime("55s")
+			    .BackOffTime(TimeSpan.FromSeconds(55))
 			    .RefreshOnCompleted(true)
-			    .MaxDegreeOfParallelism(4)
-			    .Size(2000));
+			    .MaxDegreeOfParallelism(2)
+			    .Size(1000));
 
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>
@@ -254,8 +255,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 			    .BackOffRetries(5)
 			    .BackOffTime("55s")
 			    .RefreshOnCompleted(true)
-			    .MaxDegreeOfParallelism(4)
-			    .Size(2000));
+			    .MaxDegreeOfParallelism(2)
+			    .Size(1000));
 
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>
