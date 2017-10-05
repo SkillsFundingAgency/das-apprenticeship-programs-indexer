@@ -1,12 +1,11 @@
-﻿using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
+﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services
 {
     using System;
     using System.Collections.Generic;
     using FluentAssertions;
     using Moq;
     using NUnit.Framework;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
 
     [TestFixture]

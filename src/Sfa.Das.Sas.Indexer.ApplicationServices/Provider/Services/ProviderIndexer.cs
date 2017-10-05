@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Nest;
     using Newtonsoft.Json;
     using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
@@ -12,8 +11,6 @@
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
     using Sfa.Das.Sas.Indexer.Core.Extensions;
     using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
     using Sfa.Das.Sas.Indexer.Core.Models.Provider;
     using Sfa.Das.Sas.Indexer.Core.Provider.Models;
     using Sfa.Das.Sas.Indexer.Core.Services;

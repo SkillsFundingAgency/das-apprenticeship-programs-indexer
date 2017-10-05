@@ -34,6 +34,7 @@
             var stopwatch = Stopwatch.StartNew();
 
             var newIndexName = IndexerHelper.GetIndexNameAndDateExtension(scheduledRefreshDateTime, _indexSettings.IndexesAlias);
+
             var indexProperlyCreated = _indexerHelper.CreateIndex(newIndexName);
 
             if (!indexProperlyCreated)
