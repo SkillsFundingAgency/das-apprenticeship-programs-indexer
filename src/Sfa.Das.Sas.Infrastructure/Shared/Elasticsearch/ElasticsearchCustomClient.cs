@@ -174,7 +174,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 				onNext: (b) =>
 				{
 					_logger.Debug("Indexed group of StandardProviderDocument");
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
+                    Thread.Sleep(TimeSpan.FromSeconds(3));
 				},
 				onError: (e) =>
 				{
@@ -204,7 +204,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 				onNext: (b) =>
 				{
 					_logger.Debug("Indexed group of FrameworkProviderDocument");
-					Thread.Sleep(TimeSpan.FromSeconds(2));
+					Thread.Sleep(TimeSpan.FromSeconds(3));
 				},
 				onError: (e) =>
 				{
