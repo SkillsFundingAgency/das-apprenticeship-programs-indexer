@@ -37,6 +37,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         Task<IBulkResponse> BulkAsync(IBulkRequest request, [CallerMemberName] string callerName = "");
 
+        void BulkAllGeneric<T>(List<T> elementList, string indexName)
+            where T : class;
         void BulkAll(List<StandardProvider> elementList, string indexName);
         void BulkAll(IEnumerable<FrameworkProvider> elementList, string indexName);
         void BulkAll(List<ProviderDocument> elementList, string indexName);

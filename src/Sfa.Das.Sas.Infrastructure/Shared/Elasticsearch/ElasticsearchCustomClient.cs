@@ -158,7 +158,37 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return result;
         }
 
-		public void BulkAll(List<StandardProvider> elementList, string indexName)
+        public void BulkAllGeneric<T>(List<T> elementList, string indexName)
+            where T : class
+        {
+            var waitHandle = new CountdownEvent(1);
+
+            var bulkAll = _client.BulkAll(elementList, b => b
+                .Index(indexName)
+                .BackOffRetries(5)
+                .BackOffTime("55s")
+                .RefreshOnCompleted(true)
+                .MaxDegreeOfParallelism(2)
+                .Size(1000));
+
+            bulkAll.Subscribe(observer: new BulkAllObserver(
+                onNext: (b) =>
+                {
+                    _logger.Debug($"Indexed group of {typeof(T)}");
+                },
+                onError: (e) =>
+                {
+                    _logger.Error(e, e.Message);
+                    throw e;
+                },
+                onCompleted: () =>
+                {
+                    waitHandle.Signal();
+                }));
+            waitHandle.Wait();
+        }
+
+        public void BulkAll(List<StandardProvider> elementList, string indexName)
 		{
 			var waitHandle = new CountdownEvent(1);
 
