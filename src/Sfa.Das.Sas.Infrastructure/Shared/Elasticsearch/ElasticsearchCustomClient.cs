@@ -194,17 +194,17 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
 		    var bulkAll = _client.BulkAll(elementList, b => b
 			    .Index(indexName)
-			    .BackOffRetries(4)
+			    .BackOffRetries(5)
 			    .BackOffTime(TimeSpan.FromSeconds(55))
 			    .RefreshOnCompleted()
 			    .MaxDegreeOfParallelism(4)
-			    .Size(1000));
+			    .Size(1500));
 
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>
 				{
 					_logger.Debug("Indexed group of FrameworkProviderDocument");
-					Thread.Sleep(TimeSpan.FromSeconds(3));
+					Thread.Sleep(TimeSpan.FromSeconds(5));
 				},
 				onError: (e) =>
 				{
@@ -228,7 +228,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 			    .BackOffTime(TimeSpan.FromSeconds(55))
 			    .RefreshOnCompleted(true)
 			    .MaxDegreeOfParallelism(2)
-			    .Size(1000));
+			    .Size(100));
 
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>

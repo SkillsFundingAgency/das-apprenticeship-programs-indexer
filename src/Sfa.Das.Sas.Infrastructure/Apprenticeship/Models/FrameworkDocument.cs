@@ -9,6 +9,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
     public sealed class FrameworkDocument : ApprenticeshipDocument, IIndexEntry
     {
+        [Keyword(NullValue = "null")]
         public string FrameworkId { get; set; }
 
         public bool Published { get; set; }

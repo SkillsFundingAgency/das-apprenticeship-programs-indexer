@@ -102,21 +102,21 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var providersApi = CreateApiProviders(source).ToList();
             await IndexApiProviders(indexName, providersApi);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Thread.Sleep(TimeSpan.FromSeconds(15));
 
             // Providers (pre-ROATP)
             // TODO remove these after the API has been updated
             var providers = CreateProviders(source).ToList();
             await IndexProviders(indexName, providers);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Thread.Sleep(TimeSpan.FromSeconds(15));
             
             // Provider Sites
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
             await IndexStandards(indexName, apprenticeshipProviders);
-            Thread.Sleep(TimeSpan.FromSeconds(15));
+            Thread.Sleep(TimeSpan.FromSeconds(25));
             await IndexFrameworks(indexName, apprenticeshipProviders);
-
+            Thread.Sleep(TimeSpan.FromSeconds(25));
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providers, providersApi, apprenticeshipProviders);
             Task.WaitAll();
 
