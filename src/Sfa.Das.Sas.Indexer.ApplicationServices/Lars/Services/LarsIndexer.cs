@@ -1,19 +1,18 @@
-﻿using Sfa.Das.Sas.Indexer.Core.Shared.Models;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Core.Apprenticeship.Models.Standard;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Core.Services;
+    using Sfa.Das.Sas.Indexer.Core.Shared.Models;
 
     public sealed class LarsIndexer : IGenericIndexerHelper<IMaintainLarsIndex>
     {
@@ -42,14 +41,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(larsData);
 
             _log.Debug("Indexing Lars data into index");
-            await IndexStandards(indexName, larsData.Standards).ConfigureAwait(true);
-            await IndexFrameworks(indexName, larsData.Frameworks).ConfigureAwait(true);
-            await IndexFundingMetadata(indexName, larsData.FundingMetaData).ConfigureAwait(true);
-            await IndexFrameworkAimMetaData(indexName, larsData.FrameworkAimMetaData).ConfigureAwait(true);
-            await IndexLearningDeliveryMetaData(indexName, larsData.LearningDeliveryMetaData).ConfigureAwait(true);
-            await IndexApprenticeshipComponentTypeMetaData(indexName, larsData.ApprenticeshipComponentTypeMetaData).ConfigureAwait(true);
-            await IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding).ConfigureAwait(true);
-            Task.WaitAll();
+            IndexStandards(indexName, larsData.Standards);
+            IndexFrameworks(indexName, larsData.Frameworks);
+            IndexFundingMetadata(indexName, larsData.FundingMetaData);
+            IndexFrameworkAimMetaData(indexName, larsData.FrameworkAimMetaData);
+            IndexLearningDeliveryMetaData(indexName, larsData.LearningDeliveryMetaData);
+            IndexApprenticeshipComponentTypeMetaData(indexName, larsData.ApprenticeshipComponentTypeMetaData);
+            IndexApprenticeshipFundingDetails(indexName, larsData.ApprenticeshipFunding);
             _log.Debug("Completed indexing Lars data");
 
             return new IndexerResult
@@ -114,13 +112,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
                 x.StartsWith(_settings.IndexesAlias, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        private async Task IndexStandards(string indexName, IEnumerable<LarsStandard> standards)
+        private void IndexStandards(string indexName, IEnumerable<LarsStandard> standards)
         {
             try
             {
                 _log.Debug("Indexing " + standards.Count() + " standards into Lars index");
 
-                await _searchIndexMaintainer.IndexStandards(indexName, standards).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexStandards(indexName, standards);
             }
             catch (Exception ex)
             {
@@ -128,13 +126,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             }
         }
 
-        private async Task IndexFrameworks(string indexName, IEnumerable<FrameworkMetaData> frameworks)
+        private void IndexFrameworks(string indexName, IEnumerable<FrameworkMetaData> frameworks)
         {
             try
             {
                 _log.Debug("Indexing " + frameworks.Count() + " frameworks into Lars index");
 
-                await _searchIndexMaintainer.IndexFrameworks(indexName, frameworks).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexFrameworks(indexName, frameworks);
             }
             catch (Exception ex)
             {
@@ -142,13 +140,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             }
         }
 
-        private async Task IndexFundingMetadata(string indexName, IEnumerable<FundingMetaData> fundingMetaData)
+        private void IndexFundingMetadata(string indexName, IEnumerable<FundingMetaData> fundingMetaData)
         {
             try
             {
                 _log.Debug("Indexing " + fundingMetaData.Count() + " fundingMetaData details into Lars index");
 
-                await _searchIndexMaintainer.IndexFundingMetadata(indexName, fundingMetaData).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexFundingMetadata(indexName, fundingMetaData);
             }
             catch (Exception ex)
             {
@@ -156,13 +154,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             }
         }
 
-        private async Task IndexFrameworkAimMetaData(string indexName, IEnumerable<FrameworkAimMetaData> larsDataFrameworkAimMetaData)
+        private void IndexFrameworkAimMetaData(string indexName, IEnumerable<FrameworkAimMetaData> larsDataFrameworkAimMetaData)
         {
             try
             {
                 _log.Debug("Indexing " + larsDataFrameworkAimMetaData.Count() + " frameworkaim details into Lars index");
 
-                await _searchIndexMaintainer.IndexFrameworkAimMetaData(indexName, larsDataFrameworkAimMetaData).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexFrameworkAimMetaData(indexName, larsDataFrameworkAimMetaData);
             }
             catch (Exception ex)
             {
@@ -170,13 +168,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             }
         }
 
-        private async Task IndexApprenticeshipComponentTypeMetaData(string indexName, IEnumerable<ApprenticeshipComponentTypeMetaData> apprenticeshipComponentTypeMetaData)
+        private void IndexApprenticeshipComponentTypeMetaData(string indexName, IEnumerable<ApprenticeshipComponentTypeMetaData> apprenticeshipComponentTypeMetaData)
         {
             try
             {
                 _log.Debug("Indexing " + apprenticeshipComponentTypeMetaData.Count() + " apprenticeship component type details into Lars index");
 
-                await _searchIndexMaintainer.IndexApprenticeshipComponentTypeMetaData(indexName, apprenticeshipComponentTypeMetaData).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexApprenticeshipComponentTypeMetaData(indexName, apprenticeshipComponentTypeMetaData);
             }
             catch (Exception ex)
             {
@@ -184,13 +182,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             }
         }
 
-        private async Task IndexLearningDeliveryMetaData(string indexName, IEnumerable<LearningDeliveryMetaData> learningDeliveryMetaData)
+        private void IndexLearningDeliveryMetaData(string indexName, IEnumerable<LearningDeliveryMetaData> learningDeliveryMetaData)
         {
             try
             {
                 _log.Debug("Indexing " + learningDeliveryMetaData.Count() + " learning delivery metadata details into Lars index");
 
-                await _searchIndexMaintainer.IndexLearningDeliveryMetaData(indexName, learningDeliveryMetaData).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexLearningDeliveryMetaData(indexName, learningDeliveryMetaData);
             }
             catch (Exception ex)
             {
@@ -198,18 +196,29 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             }
         }
 
-        private async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFundingMetaData> larsDataApprenticeshipFunding)
+        private void IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFundingMetaData> larsDataApprenticeshipFunding)
         {
             try
             {
                 _log.Debug("Indexing " + larsDataApprenticeshipFunding.Count() + " apprenticeship funding metadata details");
 
-                await _searchIndexMaintainer.IndexApprenticeshipFundingDetails(indexName, larsDataApprenticeshipFunding).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexApprenticeshipFundingDetails(indexName, larsDataApprenticeshipFunding);
             }
             catch (Exception ex)
             {
                 _log.Error(ex, "Error indexing LARS ApprenticeshipFundingDetails");
             }
+        }
+
+        private int GetTotalAmountDocumentsToBeIndexed(LarsData larsData)
+        {
+            return larsData.Standards.Count() +
+                   larsData.Frameworks.Count() +
+                   larsData.FundingMetaData.Count() +
+                   larsData.FrameworkAimMetaData.Count() +
+                   larsData.LearningDeliveryMetaData.Count() +
+                   larsData.ApprenticeshipComponentTypeMetaData.Count() +
+                   larsData.ApprenticeshipFunding.Count();
         }
     }
 }

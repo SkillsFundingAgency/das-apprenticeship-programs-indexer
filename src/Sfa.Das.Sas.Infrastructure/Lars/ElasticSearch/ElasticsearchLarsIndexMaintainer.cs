@@ -2,16 +2,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.ElasticSearch
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
-    using System.Net;
-    using System.Threading.Tasks;
-    using Nest;
     using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-    using Sfa.Das.Sas.Indexer.Core.Exceptions;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
@@ -47,116 +42,48 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.ElasticSearch
                     .Map<ApprenticeshipComponentTypeDocument>(m => m.AutoMap())));
         }
 
-        public async Task IndexStandards(string indexName, IEnumerable<LarsStandard> entries)
+        public void IndexStandards(string indexName, IEnumerable<LarsStandard> entries)
         {
-            var smallLists = SplitAndReturn(entries.ToList(), 10000);
-
-            foreach (var smallList in smallLists)
-            {
-                await IndexEntries(indexName, smallList, ElasticsearchMapper.CreateLarsStandardDocument).ConfigureAwait(true);
-            }
+            IndexEntries(indexName, entries, ElasticsearchMapper.CreateLarsStandardDocument);
         }
 
-        public async Task IndexFrameworks(string indexName, IEnumerable<FrameworkMetaData> entries)
+        public void IndexFrameworks(string indexName, IEnumerable<FrameworkMetaData> entries)
         {
-            var smallLists = SplitAndReturn(entries.ToList(), 10000);
-
-            foreach (var smallList in smallLists)
-            {
-                await IndexEntries(indexName, smallList, ElasticsearchMapper.CreateLarsFrameworkDocument).ConfigureAwait(true);
-            }
+            IndexEntries(indexName, entries, ElasticsearchMapper.CreateLarsFrameworkDocument);
         }
 
-        public async Task IndexFundingMetadata(string indexName, IEnumerable<FundingMetaData> entries)
+        public void IndexFundingMetadata(string indexName, IEnumerable<FundingMetaData> entries)
         {
-            var smallLists = SplitAndReturn(entries.ToList(), 10000);
-
-            foreach (var smallList in smallLists)
-            {
-                await IndexEntries(indexName, smallList, ElasticsearchMapper.CreateFundingMetaDataDocument).ConfigureAwait(true);
-            }
+            IndexEntries(indexName, entries, ElasticsearchMapper.CreateFundingMetaDataDocument);
         }
 
-        public async Task IndexFrameworkAimMetaData(string indexName, IEnumerable<FrameworkAimMetaData> entries)
+        public void IndexFrameworkAimMetaData(string indexName, IEnumerable<FrameworkAimMetaData> entries)
         {
-            var smallLists = SplitAndReturn(entries.ToList(), 10000);
-
-            foreach (var smallList in smallLists)
-            {
-                await IndexEntries(indexName, smallList, ElasticsearchMapper.CreateFrameworkAimMetaDataDocument).ConfigureAwait(true);
-            }
+            IndexEntries(indexName, entries, ElasticsearchMapper.CreateFrameworkAimMetaDataDocument);
         }
 
-        public async Task IndexApprenticeshipComponentTypeMetaData(string indexName, IEnumerable<ApprenticeshipComponentTypeMetaData> entries)
+        public void IndexApprenticeshipComponentTypeMetaData(string indexName, IEnumerable<ApprenticeshipComponentTypeMetaData> entries)
         {
-            var smallLists = SplitAndReturn(entries.ToList(), 10000);
-
-            foreach (var smallList in smallLists)
-            {
-                await IndexEntries(indexName, smallList, ElasticsearchMapper.CreateApprenticeshipComponentTypeMetaDataDocument).ConfigureAwait(true);
-            }
+            IndexEntries(indexName, entries, ElasticsearchMapper.CreateApprenticeshipComponentTypeMetaDataDocument);
         }
 
-        public async Task IndexLearningDeliveryMetaData(string indexName, IEnumerable<LearningDeliveryMetaData> entries)
+        public void IndexLearningDeliveryMetaData(string indexName, IEnumerable<LearningDeliveryMetaData> entries)
         {
-            var smallLists = SplitAndReturn(entries.ToList(), 10000);
-
-            foreach (var smallList in smallLists)
-            {
-                await IndexEntries(indexName, smallList, ElasticsearchMapper.CreateLearningDeliveryMetaDataDocument).ConfigureAwait(true);
-            }
+            IndexEntries(indexName, entries, ElasticsearchMapper.CreateLearningDeliveryMetaDataDocument);
         }
 
-        public async Task IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFundingMetaData> entries)
+        public void IndexApprenticeshipFundingDetails(string indexName, IEnumerable<ApprenticeshipFundingMetaData> entries)
         {
-            var smallLists = SplitAndReturn(entries.ToList(), 10000);
-
-            foreach (var smallList in smallLists)
-            {
-                await IndexEntries(indexName, smallList, ElasticsearchMapper.CreateApprenticeshipFundingDocument).ConfigureAwait(true);
-            }
+            IndexEntries(indexName, entries, ElasticsearchMapper.CreateApprenticeshipFundingDocument);
         }
 
-        private async Task IndexEntries<T1, T2>(string indexName, IEnumerable<T1> entries, Func<T1, T2> method)
+        private void IndexEntries<T1, T2>(string indexName, IEnumerable<T1> entries, Func<T1, T2> method)
             where T1 : class
             where T2 : class
         {
-            try
-            {
-                var bulkLarsClient = new BulkProviderClient(indexName, Client);
+            var entriesList = entries.Select(method).ToList();
 
-                foreach (var entry in entries)
-                {
-                    try
-                    {
-                        var doc = method(entry);
-
-                        bulkLarsClient.Index<T2>(c => c.Document(doc));
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error(ex, $"Error indexing {typeof(T1)}");
-                    }
-                }
-
-                var bulkTasks = new List<Task<IBulkResponse>>();
-                bulkTasks.AddRange(bulkLarsClient.GetTasks());
-                LogResponse(await Task.WhenAll(bulkTasks), typeof(T1).Name.ToLower(CultureInfo.CurrentCulture));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-        private IEnumerable<List<T>> SplitAndReturn<T>(List<T> entries, int size)
-        {
-            for (int i = 0; i < entries.Count; i = i + size)
-            {
-                var actualSize = Math.Min(size, entries.Count - i);
-                yield return entries.GetRange(i, actualSize);
-            }
+            Client.BulkAllGeneric(entriesList, indexName);
         }
     }
 }
