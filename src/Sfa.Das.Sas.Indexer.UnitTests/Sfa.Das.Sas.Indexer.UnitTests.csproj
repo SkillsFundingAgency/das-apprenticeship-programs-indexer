@@ -148,7 +148,6 @@
     <Compile Include="Infrastructure\DapperDB\AchievementRateProviderTest.cs" />
     <Compile Include="Infrastructure\Elasticsearch\BaseElasticIndexMaintainerTests.cs" />
     <Compile Include="Infrastructure\Elasticsearch\BulkProviderClientTests.cs" />
-    <Compile Include="Infrastructure\Elasticsearch\ElasticsearchApprenticeshipIndexMaintainerTests.cs" />
     <Compile Include="Infrastructure\Elasticsearch\ElasticsearchMapperTest.cs" />
     <Compile Include="Infrastructure\Services\CsvServiceTests.cs" />
     <Compile Include="Infrastructure\Services\CsvTestModel.cs" />

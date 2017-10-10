@@ -25,7 +25,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
             IIndexSettings<IMaintainApprenticeshipIndex> settings,
             IMediator mediator,
             IMaintainApprenticeshipIndex searchIndexMaintainer,
-            IMetaDataHelper metaDataHelper,
             ILog log)
         {
             _settings = settings;
@@ -41,8 +40,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(standardMetadata, frameworkMetaDataResults);
 
-            await IndexStandards(indexName, standardMetadata).ConfigureAwait(false);
-            await IndexFrameworks(indexName, frameworkMetaDataResults).ConfigureAwait(false);
+            IndexStandards(indexName, standardMetadata);
+            IndexFrameworks(indexName, frameworkMetaDataResults);
 
             return new IndexerResult
             {
@@ -100,25 +99,18 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
                 x.StartsWith(_settings.IndexesAlias, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        private async Task IndexStandards(string indexName, ICollection<StandardMetaData> entries)
+        private void IndexStandards(string indexName, ICollection<StandardMetaData> entries)
         {
             _log.Debug("Indexing " + entries.Count + " standards");
 
-            await _searchIndexMaintainer.IndexStandards(indexName, entries).ConfigureAwait(false);
+            _searchIndexMaintainer.IndexStandards(indexName, entries);
         }
 
-        private async Task IndexFrameworks(string indexName, FrameworkMetaDataResult entries)
+        private void IndexFrameworks(string indexName, FrameworkMetaDataResult entries)
         {
-            try
-            {
-                _log.Debug("Indexing " + entries.Frameworks.Count() + " frameworks");
+            _log.Debug("Indexing " + entries.Frameworks.Count() + " frameworks");
 
-                await _searchIndexMaintainer.IndexFrameworks(indexName, entries.Frameworks).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Error indexing Frameworks");
-            }
+            _searchIndexMaintainer.IndexFrameworks(indexName, entries.Frameworks);
         }
 
         private Task<ICollection<StandardMetaData>> LoadStandardMetaData()
