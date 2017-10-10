@@ -39,8 +39,8 @@ using Sfa.Das.Sas.Indexer.Core.Shared.Models;
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(assessmentOrgsData);
 
             _log.Debug("Indexing Assessment Orgs data into index");
-            await IndexOrganisations(indexName, assessmentOrgsData.Organisations).ConfigureAwait(false);
-            await IndexStandardOrganisationsData(indexName, assessmentOrgsData.StandardOrganisationsData).ConfigureAwait(false);
+            IndexOrganisations(indexName, assessmentOrgsData.Organisations);
+            IndexStandardOrganisationsData(indexName, assessmentOrgsData.StandardOrganisationsData);
             _log.Debug("Completed indexing Assessment Orgs data");
 
             return new IndexerResult
@@ -48,39 +48,6 @@ using Sfa.Das.Sas.Indexer.Core.Shared.Models;
                 IsSuccessful = IsIndexCorrectlyCreated(indexName, totalAmountDocuments),
                 TotalCount = totalAmountDocuments
             };
-        }
-
-        private int GetTotalAmountDocumentsToBeIndexed(AssessmentOrganisationsDTO assessmentOrgsData)
-        {
-            return assessmentOrgsData.StandardOrganisationsData.Count + assessmentOrgsData.Organisations.Count;
-        }
-
-        private async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
-        {
-            try
-            {
-                _log.Debug("Indexing " + standardOrganisationsData.Count + " standard organisations data into Assessment Organisations index");
-
-                await _assessmentOrgsIndexMaintainer.IndexStandardOrganisationsData(indexName, standardOrganisationsData).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Error indexing Standard Organisations data");
-            }
-        }
-
-        private async Task IndexOrganisations(string indexName, List<Organisation> organisations)
-        {
-            try
-            {
-                _log.Debug("Indexing " + organisations.Count + " organisations into Assessment Organisations index");
-
-                await _assessmentOrgsIndexMaintainer.IndexOrganisations(indexName, organisations).ConfigureAwait(true);
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Error indexing Assessment Organisations");
-            }
         }
 
         public bool CreateIndex(string indexName)
@@ -125,6 +92,39 @@ using Sfa.Das.Sas.Indexer.Core.Shared.Models;
                 !(x.StartsWith(today, StringComparison.InvariantCultureIgnoreCase) ||
                   x.StartsWith(oneDayAgo, StringComparison.InvariantCultureIgnoreCase)) &&
                 x.StartsWith(_settings.IndexesAlias, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private int GetTotalAmountDocumentsToBeIndexed(AssessmentOrganisationsDTO assessmentOrgsData)
+        {
+            return assessmentOrgsData.StandardOrganisationsData.Count + assessmentOrgsData.Organisations.Count;
+        }
+
+        private void IndexOrganisations(string indexName, List<Organisation> organisations)
+        {
+            try
+            {
+                _log.Debug("Indexing " + organisations.Count + " organisations into Assessment Organisations index");
+
+                _assessmentOrgsIndexMaintainer.IndexOrganisations(indexName, organisations);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing Assessment Organisations");
+            }
+        }
+
+        private void IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
+        {
+            try
+            {
+                _log.Debug("Indexing " + standardOrganisationsData.Count + " standard organisations data into Assessment Organisations index");
+
+                _assessmentOrgsIndexMaintainer.IndexStandardOrganisationsData(indexName, standardOrganisationsData);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing Standard Organisations data");
+            }
         }
     }
 }
