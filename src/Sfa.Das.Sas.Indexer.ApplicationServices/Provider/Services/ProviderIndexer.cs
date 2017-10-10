@@ -100,25 +100,26 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             // Providers
             var providersApi = CreateApiProviders(source).ToList();
-            await IndexApiProviders(indexName, providersApi);
+            IndexApiProviders(indexName, providersApi);
 
             Thread.Sleep(TimeSpan.FromSeconds(15));
 
             // Providers (pre-ROATP)
             // TODO remove these after the API has been updated
             var providers = CreateProviders(source).ToList();
-            await IndexProviders(indexName, providers);
+            IndexProviders(indexName, providers);
 
             Thread.Sleep(TimeSpan.FromSeconds(15));
             
             // Provider Sites
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
-            await IndexStandards(indexName, apprenticeshipProviders);
+            IndexStandards(indexName, apprenticeshipProviders);
             Thread.Sleep(TimeSpan.FromSeconds(25));
-            await IndexFrameworks(indexName, apprenticeshipProviders);
+            IndexFrameworks(indexName, apprenticeshipProviders);
+
             Thread.Sleep(TimeSpan.FromSeconds(25));
+
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providers, providersApi, apprenticeshipProviders);
-            Task.WaitAll();
 
             return new IndexerResult
             {
@@ -127,13 +128,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             };
         }
 
-        private async Task IndexProviders(string indexName, ICollection<CoreProvider> providers)
+        private void IndexProviders(string indexName, ICollection<CoreProvider> providers)
         {
             try
             {
                 _log.Debug($"Indexing {providers.Count} providers into Providers index");
 
-                await _searchIndexMaintainer.IndexProviders(indexName, providers).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexProviders(indexName, providers);
             }
             catch (Exception ex)
             {
@@ -141,13 +142,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
         }
 
-        private async Task IndexApiProviders(string indexName, ICollection<CoreProvider> providers)
+        private void IndexApiProviders(string indexName, ICollection<CoreProvider> providers)
         {
             try
             {
                 _log.Debug($"Indexing {providers.Count} API providers into Providers index");
 
-                await _searchIndexMaintainer.IndexApiProviders(indexName, providers).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexApiProviders(indexName, providers);
             }
             catch (Exception ex)
             {
@@ -155,13 +156,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
         }
 
-        private async Task IndexStandards(string indexName, ICollection<CoreProvider> apprenticeshipProviders)
+        private void IndexStandards(string indexName, ICollection<CoreProvider> apprenticeshipProviders)
         {
             try
             {
                 _log.Debug($"Indexing {apprenticeshipProviders.Count} standard providers into Providers index");
 
-                await _searchIndexMaintainer.IndexStandards(indexName, apprenticeshipProviders).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexStandards(indexName, apprenticeshipProviders);
             }
             catch (Exception ex)
             {
@@ -169,13 +170,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
         }
 
-        private async Task IndexFrameworks(string indexName, ICollection<CoreProvider> apprenticeshipProviders)
+        private void IndexFrameworks(string indexName, ICollection<CoreProvider> apprenticeshipProviders)
         {
             try
             {
                 _log.Debug($"Indexing {apprenticeshipProviders.Count} framework providers into Providers index");
 
-                await _searchIndexMaintainer.IndexFrameworks(indexName, apprenticeshipProviders).ConfigureAwait(false);
+                _searchIndexMaintainer.IndexFrameworks(indexName, apprenticeshipProviders);
             }
             catch (Exception ex)
             {
