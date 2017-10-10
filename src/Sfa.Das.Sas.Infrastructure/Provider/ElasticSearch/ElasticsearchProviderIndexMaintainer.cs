@@ -1,19 +1,10 @@
-﻿using System.Globalization;
-using System.IO;
-using System.Threading;
-using Newtonsoft.Json;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
-    using System.Threading.Tasks;
-    using Nest;
     using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-    using Sfa.Das.Sas.Indexer.Core.Exceptions;
     using Sfa.Das.Sas.Indexer.Core.Models.Provider;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
