@@ -57,17 +57,6 @@
             };
         }
 
-        private int GetTotalAmountDocumentsToBeIndexed(LarsData larsData)
-        {
-            return larsData.Standards.Count() +
-                larsData.Frameworks.Count() +
-                larsData.FundingMetaData.Count() +
-                larsData.FrameworkAimMetaData.Count() +
-                larsData.LearningDeliveryMetaData.Count() +
-                larsData.ApprenticeshipComponentTypeMetaData.Count() +
-                larsData.ApprenticeshipFunding.Count();
-        }
-
         public bool CreateIndex(string indexName)
         {
             // If it already exists and is empty, let's delete it.
