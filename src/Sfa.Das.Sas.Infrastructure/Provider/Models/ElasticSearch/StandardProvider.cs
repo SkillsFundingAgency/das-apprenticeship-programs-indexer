@@ -42,7 +42,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
         public string[] DeliveryModes { get; set; }
 
-        [Keyword(NullValue = "null")]
         public string Website { get; set; }
 
         [Nested]
