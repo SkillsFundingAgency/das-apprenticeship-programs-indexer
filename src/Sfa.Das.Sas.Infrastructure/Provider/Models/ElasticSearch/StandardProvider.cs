@@ -22,7 +22,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
         public string ApprenticeshipMarketingInfo { get; set; }
 
-        [Keyword(NullValue = "null")]
         public string Phone { get; set; }
 
         [Keyword(NullValue = "null")]
