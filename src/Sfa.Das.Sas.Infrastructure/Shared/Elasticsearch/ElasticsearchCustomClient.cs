@@ -203,7 +203,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>
 				{
-					_logger.Debug("Indexed group of StandardProviderDocument");
+					//_logger.Debug("Indexed group of StandardProviderDocument");
                     Thread.Sleep(TimeSpan.FromSeconds(3));
 				},
 				onError: (e) =>
@@ -233,7 +233,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>
 				{
-					_logger.Debug("Indexed group of FrameworkProviderDocument");
+					//_logger.Debug("Indexed group of FrameworkProviderDocument");
 					Thread.Sleep(TimeSpan.FromSeconds(5));
 				},
 				onError: (e) =>
