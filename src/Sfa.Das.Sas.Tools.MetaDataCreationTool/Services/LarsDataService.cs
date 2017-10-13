@@ -308,7 +308,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                                                                       x.ProgType.Equals(framework.ProgType) &&
                                                                       x.PwayCode.Equals(framework.PwayCode)).ToList();
 
-                frameworkAims = frameworkAims.Where(x => x.EffectiveTo >= DateTime.Now || x.EffectiveTo == null).ToList();
+                frameworkAims = frameworkAims.Where(x => x.EffectiveTo >= DateTime.Now || x.EffectiveTo == null || IsSpecialFramework($"{x.FworkCode}-{x.ProgType}-{x.PwayCode}")).ToList();
 
                 var qualifications =
                     (from aim in frameworkAims
@@ -356,7 +356,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                                                                       x.ProgType.Equals(framework.ProgType) &&
                                                                       x.PwayCode.Equals(framework.PwayCode)).ToList();
 
-                frameworkAims = frameworkAims.Where(x => x.EffectiveTo >= DateTime.Now || x.EffectiveTo == null).ToList();
+                frameworkAims = frameworkAims.Where(x => x.EffectiveTo >= DateTime.Now || x.EffectiveTo == null || IsSpecialFramework($"{x.FworkCode}-{x.ProgType}-{x.PwayCode}")).ToList();
 
                 var qualifications =
                     (from aim in frameworkAims
