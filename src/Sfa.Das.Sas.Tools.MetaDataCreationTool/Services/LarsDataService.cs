@@ -441,7 +441,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                         fwk.PwayCode == framework.PwayCode &&
                         fwk.EffectiveFrom.HasValue &&
                         fwk.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
-                        (!fwk.EffectiveTo.HasValue || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
+                        (!fwk.EffectiveTo.HasValue || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date || IsSpecialFramework($"{fwk.ApprenticeshipCode}-{fwk.ProgType}-{fwk.PwayCode}")));
 
                 if (fw == null)
                 {
