@@ -173,16 +173,21 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return qualificationSet;
         }
 
-        private static ICollection<FrameworkMetaData> FilterFrameworks(IEnumerable<FrameworkMetaData> frameworks)
+        private ICollection<FrameworkMetaData> FilterFrameworks(IEnumerable<FrameworkMetaData> frameworks)
         {
             var progTypeList = new[] { 2, 3, 20, 21, 22, 23 };
 
             return frameworks.Where(s => s.FworkCode > 399)
                 .Where(s => s.PwayCode > 0)
                 .Where(s => !s.EffectiveFrom.Equals(DateTime.MinValue))
-                .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.Today)
+                .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.Today || IsSpecialFramework($"{s.FworkCode}-{s.ProgType}-{s.PwayCode}"))
                 .Where(s => progTypeList.Contains(s.ProgType))
                 .ToList();
+        }
+
+        private bool IsSpecialFramework(string frameworkId)
+        {
+            return _appServiceSettings.FrameworksExpiredRequired.Any(specialFrameworkId => specialFrameworkId == frameworkId);
         }
 
         private LarsData GetZipFileData(Stream zipStream)
