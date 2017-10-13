@@ -17,6 +17,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
     public sealed class LarsDataService : ILarsDataService
     {
+        private const int MinimumValidFrameworkCode = 400;
+
         private readonly IReadMetaDataFromCsv _csvService;
         private readonly IUnzipStream _fileExtractor;
         private readonly IAngleSharpService _angleSharpService;
@@ -173,16 +175,21 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return qualificationSet;
         }
 
-        private static ICollection<FrameworkMetaData> FilterFrameworks(IEnumerable<FrameworkMetaData> frameworks)
+        private ICollection<FrameworkMetaData> FilterFrameworks(IEnumerable<FrameworkMetaData> frameworks)
         {
             var progTypeList = new[] { 2, 3, 20, 21, 22, 23 };
 
-            return frameworks.Where(s => s.FworkCode > 399)
+            return frameworks.Where(s => s.FworkCode >= MinimumValidFrameworkCode)
                 .Where(s => s.PwayCode > 0)
                 .Where(s => !s.EffectiveFrom.Equals(DateTime.MinValue))
-                .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.Today)
+                .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.Today || IsSpecialFramework($"{s.FworkCode}-{s.ProgType}-{s.PwayCode}"))
                 .Where(s => progTypeList.Contains(s.ProgType))
                 .ToList();
+        }
+
+        private bool IsSpecialFramework(string frameworkId)
+        {
+            return _appServiceSettings.FrameworksExpiredRequired.Any(specialFrameworkId => specialFrameworkId == frameworkId);
         }
 
         private LarsData GetZipFileData(Stream zipStream)
@@ -303,7 +310,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                                                                       x.ProgType.Equals(framework.ProgType) &&
                                                                       x.PwayCode.Equals(framework.PwayCode)).ToList();
 
-                frameworkAims = frameworkAims.Where(x => x.EffectiveTo >= DateTime.Now || x.EffectiveTo == null).ToList();
+                frameworkAims = frameworkAims.Where(x => x.EffectiveTo >= DateTime.Now || x.EffectiveTo == null || IsSpecialFramework($"{x.FworkCode}-{x.ProgType}-{x.PwayCode}")).ToList();
 
                 var qualifications =
                     (from aim in frameworkAims
@@ -351,7 +358,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                                                                       x.ProgType.Equals(framework.ProgType) &&
                                                                       x.PwayCode.Equals(framework.PwayCode)).ToList();
 
-                frameworkAims = frameworkAims.Where(x => x.EffectiveTo >= DateTime.Now || x.EffectiveTo == null).ToList();
+                frameworkAims = frameworkAims.Where(x => x.EffectiveTo >= DateTime.Now || x.EffectiveTo == null || IsSpecialFramework($"{x.FworkCode}-{x.ProgType}-{x.PwayCode}")).ToList();
 
                 var qualifications =
                     (from aim in frameworkAims
@@ -429,14 +436,16 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             foreach (var framework in frameworks)
             {
                 var fw =
-                    metaData.FirstOrDefault(fwk =>
+                    metaData.Where(fwk =>
                         fwk.ApprenticeshipType == "FWK" &&
                         fwk.ApprenticeshipCode == framework.FworkCode &&
                         fwk.ProgType == framework.ProgType &&
                         fwk.PwayCode == framework.PwayCode &&
                         fwk.EffectiveFrom.HasValue &&
                         fwk.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
-                        (!fwk.EffectiveTo.HasValue || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
+                        (!fwk.EffectiveTo.HasValue || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date || IsSpecialFramework($"{fwk.ApprenticeshipCode}-{fwk.ProgType}-{fwk.PwayCode}")))
+                        .OrderByDescending(x => x.EffectiveFrom)
+                        .FirstOrDefault();
 
                 if (fw == null)
                 {
