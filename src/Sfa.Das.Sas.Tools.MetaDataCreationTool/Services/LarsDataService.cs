@@ -17,6 +17,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
     public sealed class LarsDataService : ILarsDataService
     {
+        private const int MinimumValidFrameworkCode = 400;
+
         private readonly IReadMetaDataFromCsv _csvService;
         private readonly IUnzipStream _fileExtractor;
         private readonly IAngleSharpService _angleSharpService;
@@ -177,7 +179,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             var progTypeList = new[] { 2, 3, 20, 21, 22, 23 };
 
-            return frameworks.Where(s => s.FworkCode > 399)
+            return frameworks.Where(s => s.FworkCode >= MinimumValidFrameworkCode)
                 .Where(s => s.PwayCode > 0)
                 .Where(s => !s.EffectiveFrom.Equals(DateTime.MinValue))
                 .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.Today || IsSpecialFramework($"{s.FworkCode}-{s.ProgType}-{s.PwayCode}"))
