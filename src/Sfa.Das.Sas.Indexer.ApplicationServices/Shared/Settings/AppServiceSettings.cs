@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Azure;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.Core.Services;
@@ -63,6 +65,15 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         public string MetadataApiUri => CloudConfigurationManager.GetSetting("MetadataApiUri");
 
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
+
+        public List<string> FrameworksExpiredRequired => GetFrameworksList(_settings.GetSetting("FrameworksExpiredRequired"));
+
+        private List<string> GetFrameworksList(string frameworkIdList)
+        {
+            var frameworkIds = frameworkIdList.Split(',');
+
+            return frameworkIds.ToList();
+        }
 
         private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");
 
