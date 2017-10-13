@@ -436,14 +436,16 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             foreach (var framework in frameworks)
             {
                 var fw =
-                    metaData.FirstOrDefault(fwk =>
+                    metaData.Where(fwk =>
                         fwk.ApprenticeshipType == "FWK" &&
                         fwk.ApprenticeshipCode == framework.FworkCode &&
                         fwk.ProgType == framework.ProgType &&
                         fwk.PwayCode == framework.PwayCode &&
                         fwk.EffectiveFrom.HasValue &&
                         fwk.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
-                        (!fwk.EffectiveTo.HasValue || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date || IsSpecialFramework($"{fwk.ApprenticeshipCode}-{fwk.ProgType}-{fwk.PwayCode}")));
+                        (!fwk.EffectiveTo.HasValue || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date || IsSpecialFramework($"{fwk.ApprenticeshipCode}-{fwk.ProgType}-{fwk.PwayCode}")))
+                        .OrderByDescending(x => x.EffectiveFrom)
+                        .FirstOrDefault();
 
                 if (fw == null)
                 {
