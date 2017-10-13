@@ -70,9 +70,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         private List<string> GetFrameworksList(string frameworkIdList)
         {
-            var frameworkIds = frameworkIdList.Split(',');
-
-            return frameworkIds.ToList();
+            return frameworkIdList.Split(',').Select(frameworkId => frameworkId.Trim()).ToList();
         }
 
         private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");
