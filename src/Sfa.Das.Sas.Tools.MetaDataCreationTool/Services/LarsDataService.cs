@@ -179,12 +179,16 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             var progTypeList = new[] { 2, 3, 20, 21, 22, 23 };
 
-            return frameworks.Where(s => s.FworkCode >= MinimumValidFrameworkCode)
+            var list = frameworks.Where(s => s.FworkCode >= MinimumValidFrameworkCode)
                 .Where(s => s.PwayCode > 0)
                 .Where(s => !s.EffectiveFrom.Equals(DateTime.MinValue))
                 .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.Today || IsSpecialFramework($"{s.FworkCode}-{s.ProgType}-{s.PwayCode}"))
                 .Where(s => progTypeList.Contains(s.ProgType))
                 .ToList();
+
+                _logger.Warn($"Adding expired frameworks {string.Join(", ", list.Where(s => IsSpecialFramework($"{s.FworkCode}-{s.ProgType}-{s.PwayCode}")).Select(s => $"{s.FworkCode}-{s.ProgType}-{s.PwayCode}"))}");
+
+            return list;
         }
 
         private bool IsSpecialFramework(string frameworkId)
