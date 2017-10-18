@@ -228,13 +228,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 			    .BackOffTime(TimeSpan.FromSeconds(55))
 			    .RefreshOnCompleted()
 			    .MaxDegreeOfParallelism(4)
-			    .Size(1500));
+			    .Size(1000));
 
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>
 				{
 					//_logger.Debug("Indexed group of FrameworkProviderDocument");
-					Thread.Sleep(TimeSpan.FromSeconds(5));
+					Thread.Sleep(TimeSpan.FromSeconds(3));
 				},
 				onError: (e) =>
 				{
@@ -306,7 +306,35 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 			waitHandle.Wait();
 	    }
 
-		private ISearchResponse<T> SearchData<T>(Func<SearchDescriptor<T>, ISearchRequest> selector)
+	    public void IndexMany<T>(List<T> entries, string indexName)
+		    where T : class
+	    {
+		    var smallLists = SplitAndReturn(entries, 1000);
+
+		    foreach (var smallList in smallLists)
+		    {
+			    var result = _client.IndexMany(smallList, indexName);
+
+			    if (!result.IsValid)
+			    {
+				    foreach (var item in result.ItemsWithErrors)
+				    {
+					    _logger.Warn($"Failed to index document {item.Id}: {item.Error}");
+				    }
+			    }
+		    }
+	    }
+
+		private IEnumerable<List<T>> SplitAndReturn<T>(List<T> entries, int size)
+	    {
+			for (var i = 0; i < entries.Count; i = i + size)
+			{
+				var actualSize = Math.Min(size, entries.Count - i);
+				yield return entries.GetRange(i, actualSize);
+			}
+		}
+
+	    private ISearchResponse<T> SearchData<T>(Func<SearchDescriptor<T>, ISearchRequest> selector)
             where T : class
         {
             var response = _client.Search(selector);

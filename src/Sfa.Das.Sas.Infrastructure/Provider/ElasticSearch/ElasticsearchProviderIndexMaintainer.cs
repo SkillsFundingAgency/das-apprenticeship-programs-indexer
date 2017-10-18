@@ -81,7 +81,7 @@
                     }
                 }
 
-                Client.BulkAll(standardProviderList, indexName);
+                Client.IndexMany(standardProviderList, indexName);
             }
             catch (Exception ex)
             {
@@ -114,7 +114,7 @@
                     }
                 }
 
-                Client.BulkAll(frameworkProviderList.AsEnumerable(), indexName);
+                Client.IndexMany(frameworkProviderList, indexName);
             }
             catch (Exception ex)
             {
