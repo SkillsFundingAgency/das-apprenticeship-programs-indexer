@@ -311,8 +311,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 	    {
 		    var smallLists = SplitAndReturn(entries, 1000);
 
+		    var smallListsAmount = smallLists.Count();
+		    var count = 1;
+
 		    foreach (var smallList in smallLists)
 		    {
+				_logger.Debug($"Indexing group {count} of {smallListsAmount}");
 			    var result = _client.IndexMany(smallList, indexName);
 
 			    if (!result.IsValid)
@@ -322,6 +326,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 					    _logger.Warn($"Failed to index document {item.Id}: {item.Error}");
 				    }
 			    }
+
+			    count++;
+				Thread.Sleep(TimeSpan.FromSeconds(2));
 		    }
 	    }
 
