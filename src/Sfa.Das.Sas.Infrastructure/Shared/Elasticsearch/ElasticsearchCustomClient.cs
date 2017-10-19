@@ -314,12 +314,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 		    var smallListsAmount = smallLists.Count();
 		    var count = 1;
 
+		    var indexedDocuments = 0;
+
 		    foreach (var smallList in smallLists)
 		    {
 				_logger.Debug($"Indexing group {count} of {smallListsAmount}");
 			    var result = _client.IndexMany(smallList, indexName);
+			    indexedDocuments = indexedDocuments + smallList.Count;
+			    _logger.Debug($"Indexed {indexedDocuments} documents");
 
-			    if (!result.IsValid)
+				if (!result.IsValid)
 			    {
 				    foreach (var item in result.ItemsWithErrors)
 				    {
