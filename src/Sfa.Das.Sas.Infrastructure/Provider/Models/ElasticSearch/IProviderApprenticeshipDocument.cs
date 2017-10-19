@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Nest;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
     public interface IProviderApprenticeshipDocument
     {
+        Guid Id { get; set; }
         int Ukprn { get; set; }
         bool IsHigherEducationInstitute { get; set; }
         string ProviderName { get; set; }

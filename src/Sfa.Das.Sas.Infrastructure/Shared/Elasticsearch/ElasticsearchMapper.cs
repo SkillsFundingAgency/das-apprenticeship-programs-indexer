@@ -365,6 +365,7 @@
             var locations = GetTrainingLocations(deliveryLocations);
             var firstLoc = deliveryLocations.FirstOrDefault();
 
+            documentToPopulate.Id = Guid.NewGuid();
             documentToPopulate.Ukprn = provider.Ukprn;
             documentToPopulate.IsHigherEducationInstitute = provider.IsHigherEducationInstitute;
             documentToPopulate.HasNonLevyContract = provider.HasNonLevyContract;
