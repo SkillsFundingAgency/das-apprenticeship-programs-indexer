@@ -6,7 +6,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
     public interface IProviderApprenticeshipDocument
     {
-        Guid Id { get; set; }
+        Guid Id { get; }
         int Ukprn { get; set; }
         bool IsHigherEducationInstitute { get; set; }
         string ProviderName { get; set; }

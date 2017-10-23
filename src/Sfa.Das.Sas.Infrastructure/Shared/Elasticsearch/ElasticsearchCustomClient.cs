@@ -165,7 +165,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             var bulkAll = _client.BulkAll(elementList, b => b
                 .Index(indexName)
-                .BackOffRetries(15)
+                .BackOffRetries(40)
                 .BackOffTime("55s")
                 .RefreshOnCompleted(true)
                 .MaxDegreeOfParallelism(2)
@@ -194,7 +194,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
 			var bulkAll = _client.BulkAll(elementList, b => b
 				.Index(indexName)
-				.BackOffRetries(20)
+				.BackOffRetries(40)
 				.BackOffTime("55s")
 				.RefreshOnCompleted(true)
 				.MaxDegreeOfParallelism(2)
@@ -224,7 +224,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
 		    var bulkAll = _client.BulkAll(elementList, b => b
 			    .Index(indexName)
-			    .BackOffRetries(15)
+			    .BackOffRetries(40)
 			    .BackOffTime(TimeSpan.FromSeconds(55))
 			    .RefreshOnCompleted()
 			    .MaxDegreeOfParallelism(4)

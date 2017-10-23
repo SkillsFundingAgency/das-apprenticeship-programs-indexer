@@ -9,8 +9,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
     {
         public int StandardCode { get; set; }
 
-        public Guid Id { get; set; }
-        public int Ukprn { get; set; }
+        public Guid Id => Guid.NewGuid();
+		public int Ukprn { get; set; }
 
         public bool IsHigherEducationInstitute { get; set; }
 
