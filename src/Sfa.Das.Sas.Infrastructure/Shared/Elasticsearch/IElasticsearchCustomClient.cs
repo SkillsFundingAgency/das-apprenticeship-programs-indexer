@@ -39,10 +39,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         void BulkAllGeneric<T>(List<T> elementList, string indexName)
             where T : class;
-        void BulkAll(List<StandardProvider> elementList, string indexName);
-        void BulkAll(IEnumerable<FrameworkProvider> elementList, string indexName);
-        void BulkAll(List<ProviderDocument> elementList, string indexName);
-        void BulkAll(List<ProviderApiDocument> elementList, string indexName);
 		void IndexMany<T>(List<T> entries, string indexName)
 			where T : class;
 

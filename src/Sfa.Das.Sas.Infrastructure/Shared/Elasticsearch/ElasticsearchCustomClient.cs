@@ -161,20 +161,31 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         public void BulkAllGeneric<T>(List<T> elementList, string indexName)
             where T : class
         {
-            var waitHandle = new CountdownEvent(1);
+	        var elementCount = elementList.Count();
+
+	        var count = 0;
+
+			var waitHandle = new CountdownEvent(1);
 
             var bulkAll = _client.BulkAll(elementList, b => b
                 .Index(indexName)
                 .BackOffRetries(15)
                 .BackOffTime(TimeSpan.FromSeconds(30))
                 .RefreshOnCompleted(true)
-                .MaxDegreeOfParallelism(2)
+                .MaxDegreeOfParallelism(4)
                 .Size(1000));
 
             bulkAll.Subscribe(observer: new BulkAllObserver(
                 onNext: (b) =>
                 {
-                    _logger.Debug($"Indexed group of {typeof(T)}");
+	                count = count + 1000;
+
+	                if (count > elementCount)
+	                {
+		                count = elementCount;
+	                }
+
+					_logger.Debug($"Indexed group of {typeof(T)}: {count} of {elementCount}");
                 },
                 onError: (e) =>
                 {
@@ -187,146 +198,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 }));
             waitHandle.Wait();
         }
-
-        public void BulkAll(List<StandardProvider> elementList, string indexName)
-		{
-			var elementCount = elementList.Count();
-
-			var count = 0;
-
-			var waitHandle = new CountdownEvent(1);
-
-			var bulkAll = _client.BulkAll(elementList, b => b
-				.Index(indexName)
-				.BackOffRetries(15)
-				.BackOffTime(TimeSpan.FromSeconds(30))
-				.RefreshOnCompleted(true)
-				.MaxDegreeOfParallelism(2)
-				.Size(1000));
-
-			bulkAll.Subscribe(observer: new BulkAllObserver(
-				onNext: (b) =>
-				{
-					count = count + 1000;
-
-					if (count > elementCount)
-					{
-						count = elementCount;
-					}
-
-					_logger.Debug($"Indexed group of StandardProviderDocument: {count} of {elementCount}");
-					//Thread.Sleep(TimeSpan.FromSeconds(3));
-				},
-				onError: (e) =>
-				{
-					_logger.Error(e, e.Message);
-					throw e;
-				},
-				onCompleted: () =>
-				{
-					waitHandle.Signal();
-				}));
-			waitHandle.Wait();
-		}
-
-	    public void BulkAll(IEnumerable<FrameworkProvider> elementList, string indexName)
-	    {
-			var elementCount = elementList.Count();
-
-		    var count = 0;
-
-		    var waitHandle = new CountdownEvent(1);
-
-		    var bulkAll = _client.BulkAll(elementList, b => b
-			    .Index(indexName)
-			    .BackOffRetries(15)
-			    .BackOffTime(TimeSpan.FromSeconds(30))
-			    .RefreshOnCompleted()
-			    .MaxDegreeOfParallelism(4)
-			    .Size(1000));
-
-			bulkAll.Subscribe(observer: new BulkAllObserver(
-				onNext: (b) =>
-				{
-					count = count + 1000;
-
-					if (count > elementCount)
-					{
-						count = elementCount;
-					}
-
-					_logger.Debug($"Indexed group of FrameworkProviderDocument: {count} of {elementCount}");
-					//Thread.Sleep(TimeSpan.FromSeconds(3));
-				},
-				onError: (e) =>
-				{
-					_logger.Error(e, e.Message);
-					throw e;
-				},
-				onCompleted: () =>
-				{
-					waitHandle.Signal();
-				}));
-			waitHandle.Wait();
-	    }
-
-	    public void BulkAll(List<ProviderDocument> elementList, string indexName)
-	    {
-		    var waitHandle = new CountdownEvent(1);
-
-            var bulkAll = _client.BulkAll(elementList, b => b
-			    .Index(indexName)
-			    .BackOffRetries(15)
-			    .BackOffTime(TimeSpan.FromSeconds(55))
-			    .RefreshOnCompleted(true)
-			    .MaxDegreeOfParallelism(2)
-			    .Size(100));
-
-			bulkAll.Subscribe(observer: new BulkAllObserver(
-				onNext: (b) =>
-				{
-					_logger.Debug("Indexed group of ProviderDocument");
-				},
-				onError: (e) =>
-				{
-					_logger.Error(e, e.Message);
-					throw e;
-				},
-				onCompleted: () =>
-				{
-					waitHandle.Signal();
-				}));
-			waitHandle.Wait();
-	    }
-
-	    public void BulkAll(List<ProviderApiDocument> elementList, string indexName)
-	    {
-		    var waitHandle = new CountdownEvent(1);
-
-		    var bulkAll = _client.BulkAll(elementList, b => b
-			    .Index(indexName)
-			    .BackOffRetries(15)
-			    .BackOffTime("55s")
-			    .RefreshOnCompleted(true)
-			    .MaxDegreeOfParallelism(2)
-			    .Size(1000));
-
-			bulkAll.Subscribe(observer: new BulkAllObserver(
-				onNext: (b) =>
-				{
-					_logger.Debug("Indexed group of ProviderApiDocument");
-				},
-				onError: (e) =>
-				{
-					_logger.Error(e, e.Message);
-					throw e;
-				},
-				onCompleted: () =>
-				{
-					waitHandle.Signal();
-				}));
-			waitHandle.Wait();
-	    }
 
 	    public void IndexMany<T>(List<T> entries, string indexName)
 		    where T : class

@@ -47,14 +47,14 @@
         {
             var providerList = entries.Select(provider => ElasticsearchMapper.CreateProviderDocument(provider)).ToList();
 
-            Client.BulkAll(providerList, indexName);
+            Client.BulkAllGeneric(providerList, indexName);
         }
 
         public void IndexApiProviders(string indexName, ICollection<Provider> entries)
         {
             var apiProviderList = entries.Select(provider => ElasticsearchMapper.CreateProviderApiDocument(provider)).ToList();
 
-            Client.BulkAll(apiProviderList, indexName);
+            Client.BulkAllGeneric(apiProviderList, indexName);
         }
 
         public void IndexStandards(string indexName, ICollection<Provider> indexEntries)
@@ -81,7 +81,7 @@
                     }
                 }
 
-                Client.BulkAll(standardProviderList, indexName);
+                Client.BulkAllGeneric(standardProviderList, indexName);
             }
             catch (Exception ex)
             {
@@ -114,7 +114,7 @@
                     }
                 }
 
-                Client.BulkAll(frameworkProviderList, indexName);
+                Client.BulkAllGeneric(frameworkProviderList, indexName);
             }
             catch (Exception ex)
             {
