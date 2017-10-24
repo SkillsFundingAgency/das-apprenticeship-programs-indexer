@@ -190,12 +190,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public void BulkAll(List<StandardProvider> elementList, string indexName)
 		{
+			var elementCount = elementList.Count();
+
+			var count = 0;
+
 			var waitHandle = new CountdownEvent(1);
 
 			var bulkAll = _client.BulkAll(elementList, b => b
 				.Index(indexName)
 				.BackOffRetries(15)
-				.BackOffTime(TimeSpan.FromSeconds(70))
+				.BackOffTime(TimeSpan.FromSeconds(30))
 				.RefreshOnCompleted(true)
 				.MaxDegreeOfParallelism(2)
 				.Size(1000));
@@ -203,8 +207,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>
 				{
-					//_logger.Debug("Indexed group of StandardProviderDocument");
-                    Thread.Sleep(TimeSpan.FromSeconds(3));
+					count = count + 1000;
+
+					if (count > elementCount)
+					{
+						count = elementCount;
+					}
+
+					_logger.Debug($"Indexed group of StandardProviderDocument: {count} of {elementCount}");
+					//Thread.Sleep(TimeSpan.FromSeconds(3));
 				},
 				onError: (e) =>
 				{
@@ -220,12 +231,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
 	    public void BulkAll(IEnumerable<FrameworkProvider> elementList, string indexName)
 	    {
+			var elementCount = elementList.Count();
+
+		    var count = 0;
+
 		    var waitHandle = new CountdownEvent(1);
 
 		    var bulkAll = _client.BulkAll(elementList, b => b
 			    .Index(indexName)
 			    .BackOffRetries(15)
-			    .BackOffTime(TimeSpan.FromSeconds(55))
+			    .BackOffTime(TimeSpan.FromSeconds(30))
 			    .RefreshOnCompleted()
 			    .MaxDegreeOfParallelism(4)
 			    .Size(1000));
@@ -233,8 +248,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 			bulkAll.Subscribe(observer: new BulkAllObserver(
 				onNext: (b) =>
 				{
-					//_logger.Debug("Indexed group of FrameworkProviderDocument");
-					Thread.Sleep(TimeSpan.FromSeconds(3));
+					count = count + 1000;
+
+					if (count > elementCount)
+					{
+						count = elementCount;
+					}
+
+					_logger.Debug($"Indexed group of FrameworkProviderDocument: {count} of {elementCount}");
+					//Thread.Sleep(TimeSpan.FromSeconds(3));
 				},
 				onError: (e) =>
 				{
