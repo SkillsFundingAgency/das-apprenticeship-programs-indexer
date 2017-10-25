@@ -316,9 +316,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             if (response?.ApiCall == null || status == null)
             {
 				SendLog(response?.ApiCall, null, 0, "Invalid response checking index");
-	            var reason = (response?.ApiCall?.OriginalException.InnerException?.Message).Aggregate(string.Empty, (current, message) => $"{current}, {message}");
+	            var reason = string.Empty;
 
-	            throw new ConnectionException($"The response from elastic search was not 200 : {response?.ApiCall?.OriginalException.Message} -> {reason}, {response?.ApiCall?.DebugInformation}", response?.ApiCall?.OriginalException);
+	            foreach (var message in response?.ApiCall?.OriginalException.InnerException?.Data)
+	            {
+		            reason = $"{reason}, {message}";
+	            }
+
+                throw new ConnectionException($"The response from elastic search was not 200 : {response?.ApiCall?.OriginalException.Message} -> {response?.ApiCall?.DebugInformation}", response?.ApiCall?.OriginalException);
             }
 
             if (!response.ApiCall.Success)
