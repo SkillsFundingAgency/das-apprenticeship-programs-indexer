@@ -323,7 +323,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 		            reason = $"{reason}, {message}";
 	            }
 
-                throw new ConnectionException($"The response from elastic search was not 200 : {response?.ApiCall?.OriginalException.Message} -> {response?.ApiCall?.DebugInformation}", response?.ApiCall?.OriginalException);
+                throw new ConnectionException($"The response from elastic search was not 200 : {response?.ApiCall?.OriginalException.Message} -> {reason}, {response?.ApiCall?.DebugInformation}", response?.ApiCall?.OriginalException);
             }
 
             if (!response.ApiCall.Success)
