@@ -318,7 +318,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 				SendLog(response?.ApiCall, null, 0, "Invalid response checking index");
 	            var reason = string.Empty;
 
-	            foreach (var message in response?.ApiCall?.OriginalException.InnerException?.Data)
+	            foreach (var message in response?.ApiCall?.OriginalException.InnerException?.Data.Values)
 	            {
 		            reason = $"{reason}, {message}";
 	            }
