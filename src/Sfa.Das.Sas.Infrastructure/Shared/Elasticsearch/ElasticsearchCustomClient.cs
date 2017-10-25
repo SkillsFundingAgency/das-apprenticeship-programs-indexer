@@ -315,7 +315,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var status = response?.ApiCall?.HttpStatusCode;
             if (response?.ApiCall == null || status == null)
             {
-                throw new ConnectionException($"The response from elastic search was not 200 : {response?.ApiCall?.OriginalException.Message} -> {status}, {response?.ApiCall.OriginalException.InnerException.Message}", response?.ApiCall?.OriginalException);
+                throw new ConnectionException($"The response from elastic search was not 200 : {response?.ApiCall?.OriginalException.Message} -> {status}, {response?.ApiCall?.OriginalException.InnerException?.Message}", response?.ApiCall?.OriginalException);
             }
 
             if (!response.ApiCall.Success)
