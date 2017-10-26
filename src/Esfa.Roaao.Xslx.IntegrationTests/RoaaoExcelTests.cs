@@ -154,15 +154,18 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                     request.Headers.Add("Cache-Control", "no-cache");
                     request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0");
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-                    using (var response = httpClient.SendAsync(request))
+                    for (var i=0; i<=2; i++)
                     {
-                        var result = response.Result;
-                        if (result.StatusCode == HttpStatusCode.OK)
+                        using (var response = httpClient.SendAsync(request))
                         {
-                            return true;
+                            var result = response.Result;
+                            if (result.StatusCode == HttpStatusCode.OK)
+                            {
+                                return true;
+                            }
                         }
-                        return false;
                     }
+                    return false;
                 }
             }
             catch(Exception)
