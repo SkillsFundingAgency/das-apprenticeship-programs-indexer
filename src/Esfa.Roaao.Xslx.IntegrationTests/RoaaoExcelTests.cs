@@ -27,7 +27,6 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
 
             // Act
             results = sut.GetAssessmentOrganisationsData();
-            var vstsAssementOrgUrl = container.GetInstance<IAppServiceSettings>().VstsAssessmentOrgsUrl;
             using (var prodContainer = container.GetNestedContainer())
             {
                 prodContainer.Configure(_ => { _.For<IAppServiceSettings>().Use<ProdAppSettings>(); });
