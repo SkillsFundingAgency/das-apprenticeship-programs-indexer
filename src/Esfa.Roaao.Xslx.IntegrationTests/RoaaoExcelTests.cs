@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using System.Net.Http;
 using System.Net;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 
 namespace Esfa.Roaao.Xslx.IntegrationTests
 {
@@ -14,6 +15,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
     public class RoaaoExcelTests
     {
         private AssessmentOrganisationsDTO results;
+
+        private IGetAssessmentOrgsData prodsut;
 
         [TestInitialize]
         public void Init()
@@ -24,19 +27,71 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
 
             // Act
             results = sut.GetAssessmentOrganisationsData();
-        }
-
-
-        [TestMethod]
-        public void EpaShouldExist()
-        {
-            foreach (var standardOrganisationsData in results.StandardOrganisationsData)
+            var vstsAssementOrgUrl = container.GetInstance<IAppServiceSettings>().VstsAssessmentOrgsUrl;
+            using (var prodContainer = container.GetNestedContainer())
             {
-                Assert.IsTrue(results.Organisations.Any(x => x.EpaOrganisationIdentifier == standardOrganisationsData.EpaOrganisationIdentifier), $"Couldn't find the Assessment Org for {standardOrganisationsData.EpaOrganisationIdentifier}");
+                prodContainer.Configure(_ => { _.For<IAppServiceSettings>().Use<ProdAppSettings>(); });
+                prodsut = prodContainer.GetInstance<IGetAssessmentOrgsData>();
             }
         }
 
         [TestMethod]
+        [TestCategory("RoAAo Excel Tests")]
+        public void ShouldNotDeleteExistingOrganisationStandardAssociation()
+        {
+            List<string> errors = new List<string>();
+            var prodresults = prodsut.GetAssessmentOrganisationsData();
+            var prodAssesmentOrgs = prodresults.StandardOrganisationsData.Select(x => new List<string> { x.EpaOrganisationIdentifier,x.StandardCode }).ToList();
+            var localAssesmentOrgs = results.StandardOrganisationsData.Select(x => new List<string> { x.EpaOrganisationIdentifier, x.StandardCode }).ToList();
+
+            var removedOrganisationsAssociationWithStandards = prodAssesmentOrgs.Select(x=>$"{x[0]}-{x[1]}").ToList()
+                                                               .Except(localAssesmentOrgs.Select(y => $"{y[0]}-{y[1]}").ToList())
+                                                               .Select(x => new List<string> { x.Split('-')[0], x.Split('-')[1] })
+                                                               .ToList();
+
+            foreach(var removed in removedOrganisationsAssociationWithStandards)
+            {
+                var effectiveFrom = prodresults.StandardOrganisationsData.Single(x => x.EpaOrganisationIdentifier == removed[0] && x.StandardCode == removed[1]).EffectiveFrom;
+                var epaorganisation = results.Organisations.SingleOrDefault(x => x.EpaOrganisationIdentifier == removed[0]);
+                if (epaorganisation != null && effectiveFrom <= DateTime.Now)
+                {
+                    errors.Add($"'{epaorganisation.EpaOrganisation}({removed[0]})' - Standard Code {removed[1]} since {effectiveFrom.ToString("dd/MM/yyyy")}");
+                }
+            }
+
+            Assert.AreEqual(0, errors.Count, $"Following details are removed from 'Register - Standards' worksheet {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
+        }
+
+
+        [TestMethod]
+        [TestCategory("RoAAo Excel Tests")]
+        public void ShouldNotDeleteExistingOrganisation()
+        {
+            var prodAssesmentOrgs = prodsut.GetAssessmentOrganisationsData().Organisations.Select(x=>x.EpaOrganisationIdentifier).ToList();
+            var localAssesmentOrgs = results.Organisations.Select(x => x.EpaOrganisationIdentifier).ToList();
+            
+            var removedOrganisations = prodAssesmentOrgs.Except(localAssesmentOrgs);
+
+            Assert.AreEqual(0, removedOrganisations.Count(), $"Following details are removed from 'Register - Organisations' worksheet  {Environment.NewLine}{string.Join(Environment.NewLine, removedOrganisations)}");
+        }
+
+        [TestMethod]
+        [TestCategory("RoAAo Excel Tests")]
+        public void EpaShouldExist()
+        {
+            List<string> errors = new List<string>();
+            foreach (var standardOrganisationsData in results.StandardOrganisationsData)
+            {
+                if (results.Organisations.Any(x => x.EpaOrganisationIdentifier == standardOrganisationsData.EpaOrganisationIdentifier) == false)
+                {
+                    errors.Add(standardOrganisationsData.EpaOrganisationIdentifier);
+                }
+            }
+            Assert.AreEqual(0, errors.Count, $"Couldn't find the Assessment Org for {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
+        }
+
+        [TestMethod]
+        [TestCategory("RoAAo Excel Tests")]
         public void ShouldHaveAValidEffectiveFromDateForStandardPeriods()
         {
             List<string> errors = new List<string>();
