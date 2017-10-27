@@ -23,8 +23,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
                 PwayCode = values[3].SafeParseInt(),
                 EffectiveFrom = values[5].SafeParseDate(),
                 EffectiveTo = values[6].SafeParseDate(),
-                ReservedValue1 = Convert.ToInt32(values[10].SafeParseDouble()),
-                MaxEmployerLevyCap = Convert.ToInt32(values[12].SafeParseDouble())
+                ReservedValue1 = Convert.ToInt32(values[13].SafeParseDouble()),
+                MaxEmployerLevyCap = Convert.ToInt32(values[16].SafeParseDouble())
             };
         }
     }
