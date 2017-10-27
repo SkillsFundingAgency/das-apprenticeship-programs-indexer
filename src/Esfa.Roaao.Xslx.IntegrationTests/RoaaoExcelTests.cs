@@ -51,6 +51,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
         }
 
         [TestMethod]
+        [TestCategory("RoAAo Excel Tests")]
         public void ShouldNotHaveOverlappingPeriods()
         {
             List<string> errors = new List<string>();
@@ -77,6 +78,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
         }
 
         [TestMethod]
+        [TestCategory("RoAAo Excel Tests")]
         public void ShouldNotHaveDuplicateCurrentPeriods()
         {
             var errors = new List<string>();
@@ -101,7 +103,9 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             }
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
+
         [TestMethod]
+        [TestCategory("RoAAo Excel Tests")]
         public void ShouldNotHaveInvalidPeriods()
         {
             var errors = new List<string>();
@@ -173,7 +177,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                     return new KeyValuePair<bool, int>(false, noofattempts);
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return new KeyValuePair<bool, int>(false, noofattempts);
             }
