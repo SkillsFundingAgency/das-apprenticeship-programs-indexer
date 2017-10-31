@@ -135,7 +135,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var value = excelRange.Value?.ToString();
             if (!string.IsNullOrEmpty(value))
             {
-                if (value.Contains("/"))
+                if (value.Contains("/") || value.Contains("-"))
                 {
                     return DateTime.Parse(value);
                 }
