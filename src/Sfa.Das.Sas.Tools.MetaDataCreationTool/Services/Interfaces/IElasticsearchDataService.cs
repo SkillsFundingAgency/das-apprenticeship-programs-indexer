@@ -8,6 +8,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces
     {
         IEnumerable<LarsStandard> GetListOfStandards();
 
-        IEnumerable<FrameworkMetaData> GetListOfCurrentFrameworks();
+        IEnumerable<FrameworkMetaData> GetListOfFrameworks();
     }
 }

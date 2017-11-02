@@ -82,7 +82,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
         public IEnumerable<FrameworkMetaData> GetAllFrameworks()
         {
-            var frameworks = _elasticsearchLarsDataService.GetListOfCurrentFrameworks().ToList();
+            var frameworks = _elasticsearchLarsDataService.GetListOfFrameworks().ToList();
             _logger.Debug($"Retrieved {frameworks.Count} frameworks from LARS index", new Dictionary<string, object> { { "TotalCount", frameworks.Count } });
             UpdateFrameworkInformationFromVSTS(frameworks);
             return frameworks;
