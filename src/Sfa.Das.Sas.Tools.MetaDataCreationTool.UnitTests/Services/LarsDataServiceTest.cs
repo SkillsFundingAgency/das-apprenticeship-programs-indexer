@@ -370,61 +370,6 @@
             qualification.Should().Be(expectedTitle);
         }
 
-        [Test]
-        public void ShouldNotProcessFrameworkThatIsOutOfDate()
-        {
-            _frameworkList.Add(new FrameworkMetaData
-            {
-                EffectiveFrom = DateTime.Parse("2015-01-01"),
-                EffectiveTo = DateTime.Parse("2015-01-02"), // Date in the past
-                FworkCode = 500,
-                PwayCode = 1,
-                ProgType = 22,
-            });
-
-            // Act
-            var frameworks = _sut.GetListOfCurrentFrameworks();
-
-            // Assert
-            frameworks.Count().Should().Be(1);
-            frameworks.First().FworkCode.Should().Be(_framework.FworkCode);
-        }
-
-        [Test]
-        public void ShouldProcessFrameworkOutOfDateButIntoSpecialList()
-        {
-            _frameworkList.Add(new FrameworkMetaData
-            {
-                EffectiveFrom = DateTime.Parse("2015-01-01"),
-                EffectiveTo = DateTime.Parse("2015-01-02"), // Date in the past
-                FworkCode = 500,
-                PwayCode = 1,
-                ProgType = 22,
-            });
-
-            _frameworkList.Add(new FrameworkMetaData
-            {
-                EffectiveFrom = DateTime.Parse("2015-01-01"),
-                EffectiveTo = DateTime.Parse("2015-01-02"), // Date in the past
-                FworkCode = 405, // Special framework
-                PwayCode = 1,
-                ProgType = 22,
-            });
-
-            var specialFrameworksList = new List<string>
-            {
-                "405-22-1"
-            };
-
-            _mockAppServiceSettings.Setup(x => x.FrameworksExpiredRequired).Returns(specialFrameworksList);
-
-            // Act
-            var frameworks = _sut.GetListOfCurrentFrameworks();
-
-            // Assert
-            frameworks.Count().Should().Be(2);
-        }
-
         [TestCase(399)]
         public void ShouldNotProcessFrameworkThatHasCodeThatIsOutOfBounds(int value)
         {
