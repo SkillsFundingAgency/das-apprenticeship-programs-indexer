@@ -164,7 +164,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private IEnumerable<StandardMetaData> UpdateStandardsInformationFromLarsAndResolveUrls(IEnumerable<StandardMetaData> standards)
         {
             int updated = 0;
-            var currentStandards = _elasticsearchLarsDataService.GetListOfCurrentStandards();
+            var currentStandards = _elasticsearchLarsDataService.GetListOfStandards();
 
             foreach (var standard in standards)
             {

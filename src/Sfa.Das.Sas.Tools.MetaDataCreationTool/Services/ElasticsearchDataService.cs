@@ -25,7 +25,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             _larsSettings = larsSettings;
         }
 
-        public IEnumerable<LarsStandard> GetListOfCurrentStandards()
+        public IEnumerable<LarsStandard> GetListOfStandards()
         {
             var size = GetLarsStandardsSize();
 
@@ -37,7 +37,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     .From(0)
                     .Size(size));
 
-            return standards.Documents.Where(x => x.IsValidDate(DateTime.UtcNow));
+            return standards.Documents;
         }
 
         private int GetLarsStandardsSize()
