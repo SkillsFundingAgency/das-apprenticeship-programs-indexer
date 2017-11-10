@@ -3,17 +3,18 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Indexer.Core.Exceptions;
+    using Indexer.Core.Models;
+    using Indexer.Infrastructure.Apprenticeship.ElasticSearch;
+    using Indexer.Infrastructure.Elasticsearch;
+    using Indexer.Infrastructure.Elasticsearch.Configuration;
+    using Indexer.Infrastructure.Settings;
+    using Indexer.Infrastructure.Shared.Elasticsearch;
+    using Indexer.Infrastructure.Shared.Services;
     using Moq;
     using Nest;
     using NUnit.Framework;
     using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.Core.Exceptions;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch;
 
     [TestFixture]
     public sealed class ElasticsearchApprenticeshipIndexMaintainerTests : BaseElasticIndexMaintainerTests
@@ -29,7 +30,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         }
 
         [Test]
-        public async Task ShouldBulk2TimeWith4001standards()
+        public async Task ShouldBulk2TimeWith4001Standards()
         {
             var response = new StubResponse(400);
             var mockResponse = new Mock<IBulkResponse> { DefaultValue = DefaultValue.Mock };
@@ -40,7 +41,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 
             var indexMaintainer = new ElasticsearchApprenticeshipIndexMaintainer(
                 MockElasticClient.Object,
-                new ElasticsearchMapper(mockSettings.Object),
+                new ElasticsearchMapper(mockSettings.Object, Mock.Of<IOrganisationTypeProcessor>()),
                 Mock.Of<ILog>(),
                 Mock.Of<IElasticsearchConfiguration>());
 
@@ -61,7 +62,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 
             var indexMaintainer = new ElasticsearchApprenticeshipIndexMaintainer(
                 MockElasticClient.Object,
-                new ElasticsearchMapper(mockSettings.Object),
+                new ElasticsearchMapper(mockSettings.Object, Mock.Of<IOrganisationTypeProcessor>()),
                 Mock.Of<ILog>(),
                 Mock.Of<IElasticsearchConfiguration>());
 
