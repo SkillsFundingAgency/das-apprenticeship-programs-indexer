@@ -91,6 +91,17 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
 
         [TestMethod]
         [TestCategory("RoAAo Excel Tests")]
+        public void ShouldNotHaveSpaceInOrganisationType()
+        {
+            List<string> errors = new List<string>();
+
+            errors.AddRange(results.Organisations.Where(x => string.Equals(x.OrganisationType.Trim(), x.OrganisationType) == false).Select(y => $"{y.EpaOrganisationIdentifier} - '{y.OrganisationType}'"));
+                
+            Assert.AreEqual(0, errors.Count, $"Following assessment Org has space in organisation type {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
+        }
+
+        [TestMethod]
+        [TestCategory("RoAAo Excel Tests")]
         public void ShouldHaveAValidEffectiveFromDateForStandardPeriods()
         {
             List<string> errors = new List<string>();
