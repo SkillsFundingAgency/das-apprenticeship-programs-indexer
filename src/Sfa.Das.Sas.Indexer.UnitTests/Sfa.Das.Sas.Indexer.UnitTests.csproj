@@ -164,6 +164,7 @@
     <Compile Include="Infrastructure\Elasticsearch\ElasticsearchMapperTest.cs" />
     <Compile Include="Infrastructure\Services\CsvServiceTests.cs" />
     <Compile Include="Infrastructure\Services\CsvTestModel.cs" />
+    <Compile Include="Infrastructure\Services\ProcessOrganisationTypeTests.cs" />
     <Compile Include="Infrastructure\Services\UkrlpServiceTest.cs" />
     <Compile Include="Infrastructure\Services\VstsClientTests.cs" />
     <Compile Include="Infrastructure\Services\ZipFileExtractorTest.cs" />

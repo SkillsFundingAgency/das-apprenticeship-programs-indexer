@@ -1,35 +1,39 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
+﻿using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using ApplicationServices.Provider.Utility;
+    using Apprenticeship.Models;
+    using AssessmentOrgs.Models;
+    using Core.Apprenticeship.Models;
+    using Core.Apprenticeship.Models.Standard;
+    using Core.AssessmentOrgs.Models;
+    using Core.Exceptions;
+    using Core.Extensions;
+    using Core.Models;
+    using Core.Models.Framework;
+    using Core.Models.Provider;
+    using Infrastructure.Elasticsearch;
+    using Lars.Models;
     using Nest;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-    using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-    using Sfa.Das.Sas.Indexer.Core.Exceptions;
-    using Sfa.Das.Sas.Indexer.Core.Extensions;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
-    using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-    using Address = Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models.Address;
-    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
-    using JobRoleItem = Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models.JobRoleItem;
+    using Provider.Models.ElasticSearch;
+    using Settings;
+    using Address = Core.AssessmentOrgs.Models.Address;
+    using CoreProvider = Core.Models.Provider.Provider;
+    using JobRoleItem = Apprenticeship.Models.JobRoleItem;
 
     public class ElasticsearchMapper : IElasticsearchMapper
     {
         private readonly IInfrastructureSettings _settings;
+        private readonly IOrganisationTypeProcessor _organisationTypeProcessor;
 
-        public ElasticsearchMapper(IInfrastructureSettings settings)
+        public ElasticsearchMapper(IInfrastructureSettings settings, IOrganisationTypeProcessor organisationTypeProcessor)
         {
             _settings = settings;
+            _organisationTypeProcessor = organisationTypeProcessor;
         }
 
         public StandardDocument CreateStandardDocument(StandardMetaData standard)
@@ -212,7 +216,7 @@
             return new OrganisationDocument
             {
                 EpaOrganisationIdentifier = organisation.EpaOrganisationIdentifier,
-                OrganisationType = organisation.OrganisationType,
+                OrganisationType = _organisationTypeProcessor.ProcessOrganisationType(organisation.OrganisationType),
                 Email = organisation.Email,
                 Phone = organisation.Phone,
                 Address = new Address
@@ -234,7 +238,7 @@
             {
                 EpaOrganisationIdentifier = standardOrganisationsData.EpaOrganisationIdentifier,
                 EpaOrganisation = standardOrganisationsData.EpaOrganisation,
-                OrganisationType = standardOrganisationsData.OrganisationType,
+                OrganisationType = _organisationTypeProcessor.ProcessOrganisationType(standardOrganisationsData.OrganisationType),
                 WebsiteLink = standardOrganisationsData.WebsiteLink,
                 StandardCode = standardOrganisationsData.StandardCode,
                 EffectiveTo = standardOrganisationsData.EffectiveTo,

@@ -40,6 +40,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution
             For<IElasticsearchCustomClient>().Use<ElasticsearchCustomClient>();
             For<IIndexerServiceFactory>().Use<IndexerServiceFactory>();
             For<IMonitoringService>().Use<MonitoringService>();
+            For<IOrganisationTypeProcessor>().Use<OrganisationTypeProcessor>();
         }
 
         private IDictionary<string, object> GetProperties()

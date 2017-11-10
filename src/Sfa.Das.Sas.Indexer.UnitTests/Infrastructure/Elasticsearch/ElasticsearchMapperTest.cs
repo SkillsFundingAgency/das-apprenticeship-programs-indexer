@@ -4,12 +4,15 @@ using System.Linq;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch;
+using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
+using Address = Sfa.Das.Sas.Indexer.Core.Models.Provider.Address;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
 {
@@ -18,12 +21,15 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
     {
         private Mock<IInfrastructureSettings> _settings;
         private string _frameworkIdFormat = "{0}{1}{2}";
+        private Mock<IOrganisationTypeProcessor> _organisationTypeProcessor;
 
         [OneTimeSetUp]
         public void SetupFixture()
         {
             _settings = new Mock<IInfrastructureSettings>();
             _settings.SetupGet(x => x.FrameworkIdFormat).Returns(_frameworkIdFormat);
+            _organisationTypeProcessor = new Mock<IOrganisationTypeProcessor>();
+            _organisationTypeProcessor.Setup(x => x.ProcessOrganisationType(It.IsAny<string>())).Returns<string>(x => x);
         }
 
         [Test]
@@ -42,12 +48,12 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                     {
                         new JobRoleItem { Title = "Title 1", Description = "Description 1" }
                     },
-                Keywords = new string[] { "keyword1", "keyword2" },
+                Keywords = new[] { "keyword1", "keyword2" },
                 TypicalLength = new TypicalLength { From = 12, To = 24, Unit = "m" },
                 Duration = 12
             };
 
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
@@ -59,6 +65,108 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
             framework.TypicalLength.From.ShouldBeEquivalentTo(12);
             framework.TypicalLength.To.ShouldBeEquivalentTo(24);
             framework.Duration.Should().Be(12);
+        }
+
+        [Test]
+        public void WhenCreatingOrganisationDocument()
+        {
+            const string epaOrganisationIdentifier = "OrgIdentifier";
+            const string organisationType = "Awarding Organisation";
+            const string email = "test@testemail.com";
+            const string phone = "555-5555";
+            const string epaOrganisation = "EpaOrg";
+            const string websiteLink = "http://testemail.com";
+            var address = new Indexer.Core.AssessmentOrgs.Models.Address
+            {
+                Primary = "primary address",
+                Secondary = "secondary address",
+                Street = "address street",
+                Town = "address town",
+                Postcode = "PO1 1OP"
+            };
+
+            var organisation = new Organisation
+            {
+                EpaOrganisationIdentifier = epaOrganisationIdentifier,
+                OrganisationType = organisationType,
+                Email = email,
+                Phone = phone,
+                Address = address,
+                EpaOrganisation = epaOrganisation,
+                WebsiteLink = websiteLink
+            };
+
+            var mapper = new ElasticsearchMapper(_settings.Object, _organisationTypeProcessor.Object);
+
+            var organisationDocument = mapper.CreateOrganisationDocument(organisation);
+
+            organisationDocument.EpaOrganisationIdentifier.Should().Be(epaOrganisationIdentifier);
+            organisationDocument.OrganisationType.Should().Be(organisationType);
+            organisationDocument.Email.Should().Be(email);
+            organisationDocument.Phone.Should().Be(phone);
+            organisationDocument.EpaOrganisation.Should().Be(epaOrganisation);
+            organisationDocument.WebsiteLink.Should().Be(websiteLink);
+            organisationDocument.Address.Primary.Should().Be(address.Primary);
+            organisationDocument.Address.Secondary.Should().Be(address.Secondary);
+            organisationDocument.Address.Street.Should().Be(address.Street);
+            organisationDocument.Address.Town.Should().Be(address.Town);
+            organisationDocument.Address.Postcode.Should().Be(address.Postcode);
+        }
+
+        [Test]
+        public void WhenCreatingStandardOrganisationDocument()
+        {
+            const string epaOrganisationIdentifier = "OrgIdentifier";
+            const string organisationType = "Awarding Organisation";
+            const string email = "test@testemail.com";
+            const string phone = "555-5555";
+            const string epaOrganisation = "EpaOrg";
+            const string websiteLink = "http://testemail.com";
+            const string standardCode = "standard_code";
+            var effectiveFrom = DateTime.Today.AddDays(-7);
+            var effectiveTo = DateTime.Today.AddDays(7);
+
+            var address = new Indexer.Core.AssessmentOrgs.Models.Address
+            {
+                Primary = "primary address",
+                Secondary = "secondary address",
+                Street = "address street",
+                Town = "address town",
+                Postcode = "PO1 1OP"
+            };
+
+            var standardOrganisationsData = new StandardOrganisationsData
+            {
+                EpaOrganisationIdentifier = epaOrganisationIdentifier,
+                OrganisationType = organisationType,
+                Email = email,
+                Phone = phone,
+                Address = address,
+                EpaOrganisation = epaOrganisation,
+                WebsiteLink = websiteLink,
+                StandardCode = standardCode,
+                EffectiveFrom = effectiveFrom,
+                EffectiveTo = effectiveTo
+            };
+
+            var mapper = new ElasticsearchMapper(_settings.Object, _organisationTypeProcessor.Object);
+
+            var standardOrganisationDocument = mapper.CreateStandardOrganisationDocument(standardOrganisationsData);
+
+            standardOrganisationDocument.EpaOrganisationIdentifier.Should().Be(epaOrganisationIdentifier);
+            standardOrganisationDocument.OrganisationType.Should().Be(organisationType);
+            standardOrganisationDocument.Email.Should().Be(email);
+            standardOrganisationDocument.Phone.Should().Be(phone);
+            standardOrganisationDocument.EpaOrganisation.Should().Be(epaOrganisation);
+            standardOrganisationDocument.WebsiteLink.Should().Be(websiteLink);
+            standardOrganisationDocument.Address.Primary.Should().Be(address.Primary);
+            standardOrganisationDocument.Address.Secondary.Should().Be(address.Secondary);
+            standardOrganisationDocument.Address.Street.Should().Be(address.Street);
+            standardOrganisationDocument.Address.Town.Should().Be(address.Town);
+            standardOrganisationDocument.Address.Postcode.Should().Be(address.Postcode);
+            standardOrganisationDocument.StandardCode.Should().Be(standardCode);
+            standardOrganisationDocument.EffectiveFrom.Should().Be(effectiveFrom);
+            standardOrganisationDocument.EffectiveTo.Should().Be(effectiveTo);
         }
 
         [Test]
@@ -75,7 +183,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 ProgType = 3
             };
 
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
@@ -98,7 +206,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 ProgType = 3
             };
 
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
@@ -110,7 +218,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldThrowMappingExceptionOnMappingErrorForFrameworkProviderMapping()
         {
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
             var testProvider = GenerateTestProvider();
 
             // Remove Delivery modes
@@ -126,7 +234,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldThrowMappingExceptionOnMappingErrorForStandardProviderMapping()
         {
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
             var testProvider = GenerateTestProvider();
 
             // Remove Delivery modes
@@ -142,7 +250,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateFrameworkProviderDocumentWithListOfProviderLocations()
         {
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateFrameworkProviderDocument(testProvider, testProvider.Frameworks.First(), testProvider.Frameworks.First().DeliveryLocations);
@@ -153,7 +261,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateFrameworkProviderDocumentWithListOfLocationPoints()
         {
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateFrameworkProviderDocument(testProvider, testProvider.Frameworks.First(), testProvider.Frameworks.First().DeliveryLocations);
@@ -164,7 +272,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateValidFrameworkProviderDocument()
         {
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateFrameworkProviderDocument(testProvider, testProvider.Frameworks.First(), testProvider.Frameworks.First().DeliveryLocations.First());
@@ -204,7 +312,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateStandardProviderDocumentWithListOfProviderLocations()
         {
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateStandardProviderDocument(testProvider, testProvider.Standards.First(), testProvider.Frameworks.First().DeliveryLocations);
@@ -215,7 +323,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateStandardProviderDocumentWithListLocationPoints()
         {
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateStandardProviderDocument(testProvider, testProvider.Standards.First(), testProvider.Frameworks.First().DeliveryLocations);
@@ -226,7 +334,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
         [Test]
         public void ShouldCreateValidStandardProviderDocument()
         {
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
             var testProvider = GenerateTestProvider();
 
             var document = mapper.CreateStandardProviderDocument(testProvider, testProvider.Standards.First(), testProvider.Standards.First().DeliveryLocations.First());
@@ -273,7 +381,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 ProgType = 3
             };
 
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
@@ -294,7 +402,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 ProgType = 3
             };
 
-            var mapper = new ElasticsearchMapper(_settings.Object);
+            var mapper = new ElasticsearchMapper(_settings.Object, Mock.Of<IOrganisationTypeProcessor>());
 
             var framework = mapper.CreateFrameworkDocument(frameworkMetaData);
 
