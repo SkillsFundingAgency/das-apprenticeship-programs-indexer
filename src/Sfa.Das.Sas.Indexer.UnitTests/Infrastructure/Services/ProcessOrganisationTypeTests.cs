@@ -9,9 +9,9 @@
     public class ProcessOrganisationTypeTests
     {
         [TestCase("Assessment Organisation", "Assessment Organisation", false)]
-        [TestCase(" Assessment Organisation", "Assessment Organisation", false)]
-        [TestCase("Assessment Organisation ", "Assessment Organisation", false)]
-        [TestCase("assessment organisation ", "Assessment Organisation", false)]
+        [TestCase(" Assessment Organisation", "Other", true)]
+        [TestCase("Assessment Organisation ", "Other", true)]
+        [TestCase("assessment organisation", "Other", true)]
         [TestCase("Awarding Organisation", "Awarding Organisation", false)]
         [TestCase("Employer or trade body", "Employer or trade body", false)]
         [TestCase("Higher Education Institution", "Higher Education Institution", false)]
