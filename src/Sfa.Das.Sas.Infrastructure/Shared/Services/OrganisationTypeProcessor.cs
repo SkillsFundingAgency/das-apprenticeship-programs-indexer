@@ -1,4 +1,3 @@
-using System;
 using System.Configuration;
 using SFA.DAS.NLog.Logger;
 

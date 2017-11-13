@@ -398,7 +398,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             documentToPopulate.IsLevyPayerOnly = provider.IsLevyPayerOnly;
         }
 
-        private double? GetRoundedValue(double? value)
+        private static double? GetRoundedValue(double? value)
         {
             if (value != null)
             {
@@ -459,19 +459,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             return locations;
         }
 
-        private string[] GenerateListOfDeliveryModes(IEnumerable<ModesOfDelivery> deliveryModes)
+        private static string[] GenerateListOfDeliveryModes(IEnumerable<ModesOfDelivery> deliveryModes)
         {
             return deliveryModes.Select(x => x.GetDescription()).ToArray();
         }
 
-        private string EscapeSpecialCharacters(string marketingInfo)
+        private static string EscapeSpecialCharacters(string marketingInfo)
         {
-            if (marketingInfo == null)
-            {
-                return null;
-            }
-
-            return marketingInfo.Replace(Environment.NewLine, "\\r\\n").Replace("\n", "\\n").Replace("\"", "\\\"");
+            return marketingInfo?.Replace(Environment.NewLine, "\\r\\n").Replace("\n", "\\n").Replace("\"", "\\\"");
         }
 
         private string CreateFrameworkTitle(string framworkname, string pathwayName)
