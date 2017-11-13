@@ -18,7 +18,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
             var validOrganisationTypes = ConfigurationManager.AppSettings["ValidOrganisationTypes"].Split('|');
             foreach (var orgType in validOrganisationTypes)
             {
-                if (string.Equals(organisationType.Trim(), orgType.Trim(), StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(organisationType, orgType.Trim()))
                 {
                     return orgType;
                 }
