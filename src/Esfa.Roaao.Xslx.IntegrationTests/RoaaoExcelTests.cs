@@ -91,7 +91,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
 
         [TestMethod]
         [TestCategory("RoAAo Excel Tests")]
-        public void ShouldNotHaveSpaceInOrganisationType()
+        public void ShouldNotHaveTrailingOrLeadingSpaceInOrganisationType()
         {
             List<string> errors = new List<string>();
 
