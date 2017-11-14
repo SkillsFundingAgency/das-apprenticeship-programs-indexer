@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
@@ -51,7 +52,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
 
                 var messages = _cloudQueueService.GetQueueMessages(queueName)?.ToArray();
 
-                if (messages != null && messages.Any())
+                if (Debugger.IsAttached || (messages != null && messages.Any()))
                 {
                     var latestMessage = messages?.FirstOrDefault();
 

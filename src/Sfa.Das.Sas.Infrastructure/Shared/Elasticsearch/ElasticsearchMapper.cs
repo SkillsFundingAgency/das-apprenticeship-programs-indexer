@@ -57,7 +57,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Qualifications = standard.Qualifications,
                 ProfessionalRegistration = standard.ProfessionalRegistration,
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
-                SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2
+                SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
+                EffectiveFrom = standard.EffectiveFrom,
+                EffectiveTo = standard.EffectiveTo
             };
         }
 
