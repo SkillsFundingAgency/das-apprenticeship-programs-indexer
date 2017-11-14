@@ -33,7 +33,7 @@
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
-            mockElasticsearchDataService.Setup(m => m.GetListOfCurrentFrameworks())
+            mockElasticsearchDataService.Setup(m => m.GetListOfFrameworks())
                 .Returns(
                     new List<FrameworkMetaData> { new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 2 } });
 
@@ -52,7 +52,7 @@
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
-            mockElasticsearchDataService.Setup(m => m.GetListOfCurrentFrameworks())
+            mockElasticsearchDataService.Setup(m => m.GetListOfFrameworks())
                 .Returns(
                     new List<FrameworkMetaData> { new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 2 } });
 
@@ -71,7 +71,7 @@
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
-            mockElasticsearchDataService.Setup(m => m.GetListOfCurrentFrameworks())
+            mockElasticsearchDataService.Setup(m => m.GetListOfFrameworks())
                 .Returns(
                     new List<FrameworkMetaData>
                     {
@@ -98,7 +98,7 @@
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
-            mockElasticsearchDataService.Setup(m => m.GetListOfCurrentFrameworks())
+            mockElasticsearchDataService.Setup(m => m.GetListOfFrameworks())
                 .Returns(
                     new List<FrameworkMetaData>
                     {
@@ -129,7 +129,7 @@
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
-            mockElasticsearchDataService.Setup(m => m.GetListOfCurrentFrameworks())
+            mockElasticsearchDataService.Setup(m => m.GetListOfFrameworks())
                 .Returns(
                     new List<FrameworkMetaData>
                     {

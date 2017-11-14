@@ -368,26 +368,6 @@
             qualification.Should().Be(expectedTitle);
         }
 
-        [Test]
-        public void ShouldNotProcessFrameworkThatIsOutOfDate()
-        {
-            _frameworkList.Add(new FrameworkMetaData
-            {
-                EffectiveFrom = DateTime.Parse("2015-01-01"),
-                EffectiveTo = DateTime.Parse("2015-01-02"), // Date in the past
-                FworkCode = 500,
-                PwayCode = 1,
-                ProgType = 22,
-            });
-
-            // Act
-            var frameworks = _sut.GetListOfCurrentFrameworks();
-
-            // Assert
-            frameworks.Count().Should().Be(1);
-            frameworks.First().FworkCode.Should().Be(_framework.FworkCode);
-        }
-
         [TestCase(399)]
         public void ShouldNotProcessFrameworkThatHasCodeThatIsOutOfBounds(int value)
         {

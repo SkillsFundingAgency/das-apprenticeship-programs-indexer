@@ -180,7 +180,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return frameworks.Where(s => s.FworkCode > 399)
                 .Where(s => s.PwayCode > 0)
                 .Where(s => !s.EffectiveFrom.Equals(DateTime.MinValue))
-                .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.Today)
+                .Where(s => !s.EffectiveTo.HasValue || s.EffectiveTo >= DateTime.MinValue)
                 .Where(s => progTypeList.Contains(s.ProgType))
                 .ToList();
         }

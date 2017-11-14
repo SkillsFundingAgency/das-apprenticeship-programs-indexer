@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Sfa.Das.Sas.Indexer.Core.Models
 {
@@ -39,5 +40,9 @@ namespace Sfa.Das.Sas.Indexer.Core.Models
         public double SectorSubjectAreaTier1 { get; set; }
 
         public double SectorSubjectAreaTier2 { get; set; }
+
+        public DateTime? EffectiveFrom { get; set; }
+
+        public DateTime? EffectiveTo { get; set; }
     }
 }

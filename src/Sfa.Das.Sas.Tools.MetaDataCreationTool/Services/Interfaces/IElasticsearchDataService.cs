@@ -6,8 +6,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces
 {
     public interface IElasticsearchLarsDataService
     {
-        IEnumerable<LarsStandard> GetListOfCurrentStandards();
+        IEnumerable<LarsStandard> GetListOfStandards();
 
-        IEnumerable<FrameworkMetaData> GetListOfCurrentFrameworks();
+        IEnumerable<FrameworkMetaData> GetListOfFrameworks();
     }
 }

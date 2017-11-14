@@ -25,7 +25,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             _larsSettings = larsSettings;
         }
 
-        public IEnumerable<LarsStandard> GetListOfCurrentStandards()
+        public IEnumerable<LarsStandard> GetListOfStandards()
         {
             var size = GetLarsStandardsSize();
 
@@ -56,7 +56,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return (int)response.HitsMetaData.Total;
         }
 
-        public IEnumerable<FrameworkMetaData> GetListOfCurrentFrameworks()
+        public IEnumerable<FrameworkMetaData> GetListOfFrameworks()
         {
             var size = GetLarsFrameworksSize();
 
