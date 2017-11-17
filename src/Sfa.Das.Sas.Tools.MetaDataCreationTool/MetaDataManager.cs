@@ -82,7 +82,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
         public IEnumerable<FrameworkMetaData> GetAllFrameworks()
         {
-            var frameworks = _elasticsearchLarsDataService.GetListOfCurrentFrameworks().ToList();
+            var frameworks = _elasticsearchLarsDataService.GetListOfFrameworks().ToList();
             _logger.Debug($"Retrieved {frameworks.Count} frameworks from LARS index", new Dictionary<string, object> { { "TotalCount", frameworks.Count } });
             UpdateFrameworkInformationFromVSTS(frameworks);
             return frameworks;
@@ -164,7 +164,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         private IEnumerable<StandardMetaData> UpdateStandardsInformationFromLarsAndResolveUrls(IEnumerable<StandardMetaData> standards)
         {
             int updated = 0;
-            var currentStandards = _elasticsearchLarsDataService.GetListOfCurrentStandards();
+            var currentStandards = _elasticsearchLarsDataService.GetListOfStandards();
 
             foreach (var standard in standards)
             {
@@ -182,6 +182,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 standard.SectorSubjectAreaTier2 = standardFromLars.SectorSubjectAreaTier2;
                 standard.Duration = standardFromLars.Duration;
                 standard.FundingCap = standardFromLars.FundingCap;
+                standard.EffectiveFrom = standardFromLars.EffectiveFrom;
+                standard.EffectiveTo = standardFromLars.EffectiveTo;
                 updated++;
             }
 

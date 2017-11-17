@@ -80,7 +80,7 @@
 
             // Add link
             var larsStandards = new List<LarsStandard> { new LarsStandard { Id = 2, Title = "Title1", NotionalEndLevel = 4 } };
-            mockElasticsearchDataService.Setup(m => m.GetListOfCurrentStandards()).Returns(larsStandards);
+            mockElasticsearchDataService.Setup(m => m.GetListOfStandards()).Returns(larsStandards);
 
             mockAngleSharpService.Setup(m => m.GetLinks("StandardUrl", ".attachment-details h2 a", "Apprenticeship")).Returns(new List<string> { "/link/to/ApprenticeshipPDF" });
             mockAngleSharpService.Setup(m => m.GetLinks("StandardUrl", ".attachment-details h2 a", "Assessment")).Returns(new List<string> { "/link/to/AssessmentPDF" });
@@ -114,7 +114,7 @@
 
             // Add link
             var larsStandards = new List<LarsStandard> { new LarsStandard { Id = 2, Title = "Title1", NotionalEndLevel = 4, StandardUrl = "StandardUrl" } };
-            mockElasticsearchDataService.Setup(m => m.GetListOfCurrentStandards()).Returns(larsStandards);
+            mockElasticsearchDataService.Setup(m => m.GetListOfStandards()).Returns(larsStandards);
 
             mockAngleSharpService.Setup(m => m.GetLinks("StandardUrl", ".attachment-details h2 a", "Apprenticeship")).Returns(new List<string> { "/link/to/ApprenticeshipPDF" });
             mockAngleSharpService.Setup(m => m.GetLinks("StandardUrl", ".attachment-details h2 a", "Assessment")).Returns(new List<string> { "/link/to/AssessmentPDF" });
@@ -146,7 +146,7 @@
 
             // Add link
             var larsStandards = new List<LarsStandard> { new LarsStandard { Id = 2, Title = "Title1", NotionalEndLevel = 4 } };
-            mockElasticsearchDataService.Setup(m => m.GetListOfCurrentStandards()).Returns(larsStandards);
+            mockElasticsearchDataService.Setup(m => m.GetListOfStandards()).Returns(larsStandards);
 
             mockAngleSharpService.Setup(m => m.GetLinks("StandardUrl", ".attachment-details h2 a", "Apprenticeship")).Returns(new List<string> { "/link/to/ApprenticeshipPDF" });
             mockAngleSharpService.Setup(m => m.GetLinks("StandardUrl", ".attachment-details h2 a", "Assessment")).Returns(new List<string> { "/link/to/AssessmentPDF" });

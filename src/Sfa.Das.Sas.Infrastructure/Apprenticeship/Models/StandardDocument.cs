@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Nest;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
@@ -29,5 +30,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
         public string StandardPdf { get; set; }
 
         public string WhatApprenticesWillLearn { get; set; }
+        public DateTime? EffectiveFrom { get; set; }
+        public DateTime? EffectiveTo { get; set; }
     }
 }
