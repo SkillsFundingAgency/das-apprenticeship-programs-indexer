@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 
 namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 {
@@ -36,6 +37,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public double? LearnerSatisfaction { get; set; }
 
         public IEnumerable<FrameworkInformation> Frameworks { get; set; }
+        public IEnumerable<FrameworkMetaData> MatchedFrameworks { get; set; }
 
         public IEnumerable<Location> Locations { get; set; }
 

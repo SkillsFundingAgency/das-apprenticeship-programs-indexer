@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 {
@@ -27,5 +28,9 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public double? NationalOverallAchievementRate { get; set; }
 
         public string OverallCohort { get; set; }
+
+        public DateTime EffectiveFrom { get; set; }
+
+        public DateTime? EffectiveTo { get; set; }
     }
 }

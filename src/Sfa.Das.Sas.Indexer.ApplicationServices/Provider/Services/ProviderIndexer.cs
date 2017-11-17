@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
 using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
@@ -217,6 +218,21 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     provider.ContactDetails.Email = provider.ContactDetails.Email ?? courseDirectory.Email;
                     provider.ContactDetails.Website = provider.ContactDetails.Website ?? courseDirectory.Website;
                     provider.ContactDetails.Phone = provider.ContactDetails.Phone ?? courseDirectory.Phone;
+
+                    var foundFrameworks = new List<FrameworkMetaData>();
+                    foreach (var framework in courseDirectory.Frameworks)
+                    {
+                        var frameworks = source.Frameworks.Frameworks.Where(x => x.FworkCode == framework.FrameworkCode 
+                                                        && x.PwayCode == framework.PathwayCode && x.ProgType == framework.ProgType);
+                        foundFrameworks.AddRange(frameworks);
+                    }
+
+                    provider.MatchedFrameworks = foundFrameworks.Distinct();
+
+                    //foreach (var standard in courseDirectory.Standards)
+                    //{
+                    //    var standards = source.Standards.Standards.Where(x => x.Id == standard.StandardCode);
+                    //}
                 }
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;

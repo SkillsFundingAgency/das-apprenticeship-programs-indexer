@@ -308,7 +308,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Phone = provider.ContactDetails?.Phone,
                 Email = provider.ContactDetails?.Email,
                 EmployerSatisfaction = provider.EmployerSatisfaction,
-                LearnerSatisfaction = provider.LearnerSatisfaction
+                LearnerSatisfaction = provider.LearnerSatisfaction,
+                Frameworks = provider.MatchedFrameworks
             };
 
             return providerDocument;
