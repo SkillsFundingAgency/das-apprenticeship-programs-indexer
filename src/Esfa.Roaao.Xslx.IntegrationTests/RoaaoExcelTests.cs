@@ -5,6 +5,7 @@ using Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 using System.Collections.Generic;
 using System;
+using System.Configuration;
 using System.Net.Http;
 using System.Net;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
@@ -91,13 +92,14 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
 
         [TestMethod]
         [TestCategory("RoAAo Excel Tests")]
-        public void ShouldNotHaveTrailingOrLeadingSpaceInOrganisationType()
+        public void ShouldMatchExpectedOrganisationType()
         {
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            errors.AddRange(results.Organisations.Where(x => string.Equals(x.OrganisationType.Trim(), x.OrganisationType) == false).Select(y => $"{y.EpaOrganisationIdentifier} - '{y.OrganisationType}'"));
+            var validOrganisationTypes = ConfigurationManager.AppSettings["ValidOrganisationTypes"].Split('|');
+            errors.AddRange(results.Organisations.Where(x => validOrganisationTypes.Contains(x.OrganisationType) == false).Select(y => $"{y.EpaOrganisationIdentifier} - Invalid Organisation Type:'{y.OrganisationType}'"));
                 
-            Assert.AreEqual(0, errors.Count, $"Following assessment Org has space in organisation type {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
+            Assert.AreEqual(0, errors.Count, $"Following assessment Org has an unmatched organisation type {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
         }
 
         [TestMethod]
