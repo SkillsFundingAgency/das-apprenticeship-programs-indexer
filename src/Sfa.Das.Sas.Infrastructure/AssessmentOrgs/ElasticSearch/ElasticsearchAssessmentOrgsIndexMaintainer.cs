@@ -2,6 +2,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Globalization;
     using System.Net;
     using System.Threading.Tasks;
