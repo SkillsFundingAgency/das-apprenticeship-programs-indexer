@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
+using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
@@ -35,6 +37,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
         public double? LearnerSatisfaction { get; set; }
 
-        public IEnumerable<FrameworkMetaData> Frameworks { get; set; }
+        public IEnumerable<ProviderFramework> Frameworks { get; set; }
+
+        public IEnumerable<ProviderStandard> Standards { get; set; }
     }
 }

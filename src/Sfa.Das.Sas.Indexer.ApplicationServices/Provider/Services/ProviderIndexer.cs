@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
 using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
@@ -30,6 +32,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly ICourseDirectoryProviderMapper _courseDirectoryProviderMapper;
         private readonly IUkrlpProviderMapper _ukrlpProviderMapper;
         private readonly ILog _log;
+
 
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
@@ -227,12 +230,16 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                         foundFrameworks.AddRange(frameworks);
                     }
 
-                    provider.MatchedFrameworks = foundFrameworks.Distinct();
+                    provider.ProviderFrameworks = CreateProviderFrameworks(foundFrameworks.Distinct());
 
-                    //foreach (var standard in courseDirectory.Standards)
-                    //{
-                    //    var standards = source.Standards.Standards.Where(x => x.Id == standard.StandardCode);
-                    //}
+                    var foundStandards = new List<StandardMetaData>();
+                    foreach (var std in courseDirectory.Standards)
+                    {
+                        var standards = source.Standards.Standards.Where(x => x.Id == std.StandardCode);
+                        foundStandards.AddRange(standards);
+                    }
+
+                    provider.ProviderStandards = CreateProviderStandards(foundStandards.Distinct());
                 }
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
@@ -258,6 +265,34 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             {
                 _log.Warn("Invalid API Providers were found", new Dictionary<string, object> { { "TotalCount", invalid } });
             }
+        }
+
+        private IEnumerable<ProviderStandard> CreateProviderStandards(IEnumerable<StandardMetaData> standards)
+        {
+            return standards.Select(standard => new ProviderStandard
+                {
+                    EffectiveFrom = standard.EffectiveFrom,
+                    EffectiveTo = standard.EffectiveTo,
+                    Title = standard.Title,
+                    StandardId = standard.Id,
+                    Level = standard.NotionalEndLevel
+                })
+                .ToList();
+        }
+
+        private IEnumerable<ProviderFramework> CreateProviderFrameworks(IEnumerable<FrameworkMetaData> frameworks)
+        {
+            return frameworks.Select(framework => new ProviderFramework
+                {
+                    EffectiveFrom = framework.EffectiveFrom,
+                    EffectiveTo = framework.EffectiveTo,
+                    FworkCode = framework.FworkCode,
+                    ProgType = framework.ProgType,
+                    PwayCode = framework.PwayCode,
+                    PathwayName = framework.PathwayName,
+                    FrameworkId = string.Format(_settings.FrameworkIdFormat, framework.FworkCode, framework.ProgType, framework.PwayCode),
+                })
+                .ToList();
         }
 
         private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)

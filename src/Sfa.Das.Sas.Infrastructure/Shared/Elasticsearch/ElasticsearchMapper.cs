@@ -117,6 +117,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             };
         }
 
+
+       
+
         public FrameworkLars CreateLarsFrameworkDocument(FrameworkMetaData frameworkMetaData)
         {
             // Trim off any whitespaces in the title or the Pathway Name
@@ -311,7 +314,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Email = provider.ContactDetails?.Email,
                 EmployerSatisfaction = provider.EmployerSatisfaction,
                 LearnerSatisfaction = provider.LearnerSatisfaction,
-                Frameworks = provider.MatchedFrameworks
+                Frameworks = provider.ProviderFrameworks,
+                Standards = provider.ProviderStandards
+
             };
 
             return providerDocument;
