@@ -28,9 +28,5 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public double? NationalOverallAchievementRate { get; set; }
 
         public string OverallCohort { get; set; }
-
-        public DateTime EffectiveFrom { get; set; }
-
-        public DateTime? EffectiveTo { get; set; }
     }
 }

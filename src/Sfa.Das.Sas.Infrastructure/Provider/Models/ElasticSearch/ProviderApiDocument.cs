@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
-using Sfa.Das.Sas.Indexer.Core.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
 

@@ -3,7 +3,6 @@ using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
 using Sfa.Das.Sas.Indexer.Core.Logging.Models;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
@@ -14,13 +13,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
     using System.Threading.Tasks;
     using Nest;
     using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.Core.Extensions;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-    using Sfa.Das.Sas.Indexer.Core.Services;
-    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
+    using Models;
+    using Shared;
+    using Shared.Settings;
+    using Core.Extensions;
+    using Core.Provider.Models;
+    using Core.Services;
+    using CoreProvider = Core.Models.Provider.Provider;
 
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
     {
@@ -202,13 +201,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 if (ukrlpProvider != null)
                 {
                     provider = _ukrlpProviderMapper.Map(ukrlpProvider);
-                    if (!string.IsNullOrEmpty(ukrlpProvider?.ProviderName))
+                    if (!string.IsNullOrEmpty(ukrlpProvider.ProviderName))
                     {
                         provider.Name = ukrlpProvider.ProviderName;
                     }
 
-                    provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
-                    provider.Aliases = ukrlpProvider?.ProviderAliases;
+                    provider.Addresses = ukrlpProvider.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
+                    provider.Aliases = ukrlpProvider.ProviderAliases;
                 }
                 else
                 {
@@ -307,8 +306,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             foreach (var courseDirectoryProvider in source.CourseDirectoryProviders.Providers)
             {
-                CoreProvider provider;
-
                 if (!source.ActiveProviders.Providers.Contains(courseDirectoryProvider.Ukprn))
                 {
                     continue;
@@ -316,7 +313,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
 
-                provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
+                var provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
 
                 provider.LegalName = ukrlpProvider?.ProviderName;
 
