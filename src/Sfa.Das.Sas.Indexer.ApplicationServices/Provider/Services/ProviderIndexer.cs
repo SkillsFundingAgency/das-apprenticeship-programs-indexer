@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
 using Sfa.Das.Sas.Indexer.Core.Logging.Models;
 using Sfa.Das.Sas.Indexer.Core.Models;
@@ -289,6 +290,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     ProgType = framework.ProgType,
                     PwayCode = framework.PwayCode,
                     PathwayName = framework.PathwayName,
+                    Level = ApprenticeshipLevelMapper.MapToLevel(framework.ProgType),
                     FrameworkId = string.Format(_settings.FrameworkIdFormat, framework.FworkCode, framework.ProgType, framework.PwayCode),
                 })
                 .ToList();
