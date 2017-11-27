@@ -1,8 +1,8 @@
 ﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Settings
 {
     using System.Configuration;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using AssessmentOrgs.Services;
+    using Shared.Settings;
 
     public class AssessmentOrgsIndexSettings : IIndexSettings<IMaintainAssessmentOrgsIndex>
     {
@@ -13,5 +13,7 @@
         public string StandardProviderDocumentType => ConfigurationManager.AppSettings["StandardProviderDocumentType"];
 
         public string FrameworkProviderDocumentType => ConfigurationManager.AppSettings["FrameworkProviderDocumentType"];
+        public string FrameworkIdFormat => ConfigurationManager.AppSettings["FrameworkIdFormat"];
+
     }
 }

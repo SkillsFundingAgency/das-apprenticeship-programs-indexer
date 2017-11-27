@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 
-namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
+namespace Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider
 {
     public sealed class FrameworkInformation : IApprenticeshipInformation
     {

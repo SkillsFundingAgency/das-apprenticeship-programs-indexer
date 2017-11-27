@@ -1,4 +1,5 @@
-﻿using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
+﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
+using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 {
@@ -22,7 +23,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
     using Provider.Models.ElasticSearch;
     using Settings;
     using Address = Core.AssessmentOrgs.Models.Address;
-    using CoreProvider = Core.Models.Provider.Provider;
+    using CoreProvider = Core.Provider.Models.Provider.Provider;
     using JobRoleItem = Apprenticeship.Models.JobRoleItem;
 
     public class ElasticsearchMapper : IElasticsearchMapper
@@ -116,6 +117,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 EffectiveTo = frameworkMetaData.EffectiveTo
             };
         }
+
+
+       
 
         public FrameworkLars CreateLarsFrameworkDocument(FrameworkMetaData frameworkMetaData)
         {
@@ -310,7 +314,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Phone = provider.ContactDetails?.Phone,
                 Email = provider.ContactDetails?.Email,
                 EmployerSatisfaction = provider.EmployerSatisfaction,
-                LearnerSatisfaction = provider.LearnerSatisfaction
+                LearnerSatisfaction = provider.LearnerSatisfaction,
+                Frameworks = provider.ProviderFrameworks,
+                Standards = provider.ProviderStandards
+
             };
 
             return providerDocument;
@@ -435,7 +442,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                         LocationId = loc.DeliveryLocation.Id,
                         LocationName = loc.DeliveryLocation.Name,
                         Address =
-                                new Infrastructure.Provider.Models.ElasticSearch.Address()
+                                new Provider.Models.ElasticSearch.Address()
                                 {
                                     Address1 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address1),
                                     Address2 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address2),

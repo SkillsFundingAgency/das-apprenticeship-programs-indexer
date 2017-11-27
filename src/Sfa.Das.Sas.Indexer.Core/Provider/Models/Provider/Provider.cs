@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 
-namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
+namespace Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider
 {
     public sealed class Provider : IIndexEntry
     {
@@ -36,6 +37,9 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
         public double? LearnerSatisfaction { get; set; }
 
         public IEnumerable<FrameworkInformation> Frameworks { get; set; }
+
+        public IEnumerable<ProviderFramework> ProviderFrameworks { get; set; }
+        public IEnumerable<ProviderStandard> ProviderStandards { get; set; }
 
         public IEnumerable<Location> Locations { get; set; }
 

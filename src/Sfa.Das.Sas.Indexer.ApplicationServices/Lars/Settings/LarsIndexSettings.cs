@@ -1,9 +1,8 @@
 ﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Settings
 {
     using System.Configuration;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using Lars.Services;
+    using Shared.Settings;
 
     public class LarsIndexSettings : IIndexSettings<IMaintainLarsIndex>
     {
@@ -14,5 +13,6 @@
         public string StandardProviderDocumentType => ConfigurationManager.AppSettings["StandardProviderDocumentType"];
 
         public string FrameworkProviderDocumentType => ConfigurationManager.AppSettings["FrameworkProviderDocumentType"];
+        public string FrameworkIdFormat => ConfigurationManager.AppSettings["FrameworkIdFormat"];
     }
 }

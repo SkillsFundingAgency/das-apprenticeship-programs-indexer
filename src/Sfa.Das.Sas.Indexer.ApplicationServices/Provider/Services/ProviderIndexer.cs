@@ -1,7 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
 using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
 using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
@@ -11,13 +14,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
     using System.Threading.Tasks;
     using Nest;
     using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.Core.Extensions;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-    using Sfa.Das.Sas.Indexer.Core.Services;
-    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
+    using Models;
+    using Shared;
+    using Shared.Settings;
+    using Core.Extensions;
+    using Core.Provider.Models;
+    using Core.Services;
+    using CoreProvider = Core.Provider.Models.Provider.Provider;
 
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
     {
@@ -29,6 +32,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly ICourseDirectoryProviderMapper _courseDirectoryProviderMapper;
         private readonly IUkrlpProviderMapper _ukrlpProviderMapper;
         private readonly ILog _log;
+
 
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
@@ -198,13 +202,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 if (ukrlpProvider != null)
                 {
                     provider = _ukrlpProviderMapper.Map(ukrlpProvider);
-                    if (!string.IsNullOrEmpty(ukrlpProvider?.ProviderName))
+                    if (!string.IsNullOrEmpty(ukrlpProvider.ProviderName))
                     {
                         provider.Name = ukrlpProvider.ProviderName;
                     }
 
-                    provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
-                    provider.Aliases = ukrlpProvider?.ProviderAliases;
+                    provider.Addresses = ukrlpProvider.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
+                    provider.Aliases = ukrlpProvider.ProviderAliases;
                 }
                 else
                 {
@@ -217,6 +221,25 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     provider.ContactDetails.Email = provider.ContactDetails.Email ?? courseDirectory.Email;
                     provider.ContactDetails.Website = provider.ContactDetails.Website ?? courseDirectory.Website;
                     provider.ContactDetails.Phone = provider.ContactDetails.Phone ?? courseDirectory.Phone;
+
+                    var foundFrameworks = new List<FrameworkMetaData>();
+                    foreach (var framework in courseDirectory.Frameworks)
+                    {
+                        var frameworks = source.Frameworks.Frameworks.Where(x => x.FworkCode == framework.FrameworkCode 
+                                                        && x.PwayCode == framework.PathwayCode && x.ProgType == framework.ProgType);
+                        foundFrameworks.AddRange(frameworks);
+                    }
+
+                    provider.ProviderFrameworks = CreateProviderFrameworks(foundFrameworks.Distinct());
+
+                    var foundStandards = new List<StandardMetaData>();
+                    foreach (var std in courseDirectory.Standards)
+                    {
+                        var standards = source.Standards.Standards.Where(x => x.Id == std.StandardCode);
+                        foundStandards.AddRange(standards);
+                    }
+
+                    provider.ProviderStandards = CreateProviderStandards(foundStandards.Distinct());
                 }
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
@@ -244,6 +267,35 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
         }
 
+        private IEnumerable<ProviderStandard> CreateProviderStandards(IEnumerable<StandardMetaData> standards)
+        {
+            return standards.Select(standard => new ProviderStandard
+                {
+                    EffectiveFrom = standard.EffectiveFrom,
+                    EffectiveTo = standard.EffectiveTo,
+                    Title = standard.Title,
+                    StandardId = standard.Id,
+                    Level = standard.NotionalEndLevel
+                })
+                .ToList();
+        }
+
+        private IEnumerable<ProviderFramework> CreateProviderFrameworks(IEnumerable<FrameworkMetaData> frameworks)
+        {
+            return frameworks.Select(framework => new ProviderFramework
+                {
+                    EffectiveFrom = framework.EffectiveFrom,
+                    EffectiveTo = framework.EffectiveTo,
+                    FworkCode = framework.FworkCode,
+                    ProgType = framework.ProgType,
+                    PwayCode = framework.PwayCode,
+                    PathwayName = framework.PathwayName,
+                    Level = ApprenticeshipLevelMapper.MapToLevel(framework.ProgType),
+                    FrameworkId = string.Format(_settings.FrameworkIdFormat, framework.FworkCode, framework.ProgType, framework.PwayCode),
+                })
+                .ToList();
+        }
+
         private IEnumerable<CoreProvider> CreateApprenticeshipProviders(ProviderSourceDto source)
         {
             var apprenticeshipProviders = CreateApprenticeshipProvidersFcs(source).ToList();
@@ -256,8 +308,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             foreach (var courseDirectoryProvider in source.CourseDirectoryProviders.Providers)
             {
-                CoreProvider provider;
-
                 if (!source.ActiveProviders.Providers.Contains(courseDirectoryProvider.Ukprn))
                 {
                     continue;
@@ -265,7 +315,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
 
-                provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
+                var provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
 
                 provider.LegalName = ukrlpProvider?.ProviderName;
 

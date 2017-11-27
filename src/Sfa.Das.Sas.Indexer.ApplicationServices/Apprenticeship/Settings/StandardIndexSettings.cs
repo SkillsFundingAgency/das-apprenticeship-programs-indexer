@@ -13,5 +13,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Settings
         public string StandardProviderDocumentType => ConfigurationManager.AppSettings["StandardProviderDocumentType"];
 
         public string FrameworkProviderDocumentType => ConfigurationManager.AppSettings["FrameworkProviderDocumentType"];
+        public string FrameworkIdFormat => ConfigurationManager.AppSettings["FrameworkIdFormat"];
     }
 }

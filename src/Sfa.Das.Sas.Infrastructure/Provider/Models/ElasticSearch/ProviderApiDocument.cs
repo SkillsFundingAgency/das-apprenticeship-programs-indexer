@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
@@ -32,5 +33,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
         public double? EmployerSatisfaction { get; set; }
 
         public double? LearnerSatisfaction { get; set; }
+
+        public IEnumerable<ProviderFramework> Frameworks { get; set; }
+
+        public IEnumerable<ProviderStandard> Standards { get; set; }
     }
 }

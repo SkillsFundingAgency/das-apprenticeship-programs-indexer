@@ -5,14 +5,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
     using System.Globalization;
     using System.Net;
     using System.Threading.Tasks;
+    using ApplicationServices.AssessmentOrgs.Services;
+    using Core.AssessmentOrgs.Models;
+    using Core.Exceptions;
+    using Elasticsearch;
+    using Elasticsearch.Configuration;
+    using Models;
     using Nest;
     using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
-    using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-    using Sfa.Das.Sas.Indexer.Core.Exceptions;
-    using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 
     public sealed class ElasticsearchAssessmentOrgsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainAssessmentOrgsIndex
     {
@@ -43,6 +43,18 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
                 throw new ConnectionException($"Received non-200 response when trying to create the Assessment Organisations Index, Status Code:{response.ApiCall.HttpStatusCode}, Message: {response.OriginalException.Message}");
             }
         }
+        
+        public async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
+        {
+            Log.Debug($"Indexing {standardOrganisationsData.Count} StandardOrganisationsData documents");
+            await IndexEntries(indexName, standardOrganisationsData, ElasticsearchMapper.CreateStandardOrganisationDocument).ConfigureAwait(true);
+        }
+
+        public async Task IndexOrganisations(string indexName, List<Organisation> organisations)
+        {
+            Log.Debug($"Indexing {organisations.Count} OrganisationsDocument");
+            await IndexEntries(indexName, organisations, ElasticsearchMapper.CreateOrganisationDocument).ConfigureAwait(true);
+        }
 
         private async Task IndexEntries<T1, T2>(string indexName, IEnumerable<T1> entries, Func<T1, T2> method)
             where T1 : class
@@ -67,27 +79,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
             var bulkTasks = new List<Task<IBulkResponse>>();
             bulkTasks.AddRange(bulkClient.GetTasks());
             LogResponse(await Task.WhenAll(bulkTasks), typeof(T1).Name.ToLower(CultureInfo.CurrentCulture));
-        }
-
-        private IEnumerable<List<T>> SplitAndReturn<T>(List<T> entries, int size)
-        {
-            for (int i = 0; i < entries.Count; i = i + size)
-            {
-                var actualSize = Math.Min(size, entries.Count - i);
-                yield return entries.GetRange(i, actualSize);
-            }
-        }
-
-        public async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
-        {
-            Log.Debug($"Indexing {standardOrganisationsData.Count} StandardOrganisationsData documents");
-            await IndexEntries(indexName, standardOrganisationsData, ElasticsearchMapper.CreateStandardOrganisationDocument).ConfigureAwait(true);
-        }
-
-        public async Task IndexOrganisations(string indexName, List<Organisation> organisations)
-        {
-            Log.Debug($"Indexing {organisations.Count} OrganisationsDocument");
-            await IndexEntries(indexName, organisations, ElasticsearchMapper.CreateOrganisationDocument).ConfigureAwait(true);
         }
     }
 }

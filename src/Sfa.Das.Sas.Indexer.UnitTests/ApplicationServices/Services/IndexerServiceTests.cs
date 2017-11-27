@@ -12,19 +12,19 @@
     [TestFixture]
     public class IndexerServiceTests
     {
-        private Mock<IGenericIndexerHelper<Indexer.Core.Models.Provider.Provider>> _mockHelper;
-        private IIndexSettings<Indexer.Core.Models.Provider.Provider> _mockSettings;
-        private IndexerService<Indexer.Core.Models.Provider.Provider> _sut;
+        private Mock<IGenericIndexerHelper<Indexer.Core.Provider.Models.Provider.Provider>> _mockHelper;
+        private IIndexSettings<Indexer.Core.Provider.Models.Provider.Provider> _mockSettings;
+        private IndexerService<Indexer.Core.Provider.Models.Provider.Provider> _sut;
 
         [SetUp]
         public void Setup()
         {
-            _mockHelper = new Mock<IGenericIndexerHelper<Indexer.Core.Models.Provider.Provider>>();
+            _mockHelper = new Mock<IGenericIndexerHelper<Indexer.Core.Provider.Models.Provider.Provider>>();
             _mockSettings =
-                Mock.Of<IIndexSettings<Indexer.Core.Models.Provider.Provider>>(
+                Mock.Of<IIndexSettings<Indexer.Core.Provider.Models.Provider.Provider>>(
                     x => x.PauseTime == "10" && x.IndexesAlias == "testproviderindexesalias");
 
-            _sut = new IndexerService<Indexer.Core.Models.Provider.Provider>(_mockSettings, _mockHelper.Object, Mock.Of<ILog>());
+            _sut = new IndexerService<Indexer.Core.Provider.Models.Provider.Provider>(_mockSettings, _mockHelper.Object, Mock.Of<ILog>());
         }
 
         [Test]

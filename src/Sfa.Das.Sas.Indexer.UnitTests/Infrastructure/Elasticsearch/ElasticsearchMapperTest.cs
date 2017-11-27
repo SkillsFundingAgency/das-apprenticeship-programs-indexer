@@ -9,6 +9,7 @@ using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Framework;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;

@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     using System;
     using System.Collections.Generic;
@@ -25,7 +27,7 @@
             _mediator = mediator;
         }
 
-        public void SetLearnerSatisfactionRate(LearnerSatisfactionRateResult satisfactionRates, Core.Models.Provider.Provider provider)
+        public void SetLearnerSatisfactionRate(LearnerSatisfactionRateResult satisfactionRates, Core.Provider.Models.Provider.Provider provider)
         {
             var learnerSatisfaction = satisfactionRates.Rates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
@@ -34,7 +36,7 @@
                 : null;
         }
 
-        public void SetEmployerSatisfactionRate(EmployerSatisfactionRateResult satisfactionRates, Core.Models.Provider.Provider provider)
+        public void SetEmployerSatisfactionRate(EmployerSatisfactionRateResult satisfactionRates, Core.Provider.Models.Provider.Provider provider)
         {
             var employerSatisfaction = satisfactionRates.Rates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
