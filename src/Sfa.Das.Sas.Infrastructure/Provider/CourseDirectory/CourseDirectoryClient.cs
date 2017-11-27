@@ -1,14 +1,14 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
-{
-    using System;
-    using System.Diagnostics;
-    using System.Threading.Tasks;
-    using MediatR;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using MediatR;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
+namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
+{
     public sealed class CourseDirectoryClient : IAsyncRequestHandler<CourseDirectoryRequest, CourseDirectoryResult>
     {
         private readonly IInfrastructureSettings _settings;

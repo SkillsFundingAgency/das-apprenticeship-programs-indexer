@@ -1,14 +1,13 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.Core.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.Core.Services;
 
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared
+{
     public class IndexerService<T> : IIndexerService<T>
     {
         private readonly IGenericIndexerHelper<T> _indexerHelper;
@@ -29,8 +28,9 @@
 
         public async Task CreateScheduledIndex(DateTime scheduledRefreshDateTime)
         {
-            Log.Info($"Creating new scheduled {_name}");
+            NlogCorrelationId.SetJobCorrelationId(_name, true);
 
+            Log.Info($"Creating new scheduled {_name}");
             var stopwatch = Stopwatch.StartNew();
 
             var newIndexName = IndexerHelper.GetIndexNameAndDateExtension(scheduledRefreshDateTime, _indexSettings.IndexesAlias);
@@ -64,7 +64,6 @@
                 { "TotalCount", result.TotalCount }
             };
             Log.Debug($"Created {_name}", properties);
-            Log.Info($"[SUCCESS] {_name}ing complete.", properties);
         }
     }
 }

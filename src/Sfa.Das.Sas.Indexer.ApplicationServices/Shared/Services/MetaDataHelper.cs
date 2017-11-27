@@ -1,11 +1,12 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-    using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
 
     public class MetaDataHelper : IMetaDataHelper
     {

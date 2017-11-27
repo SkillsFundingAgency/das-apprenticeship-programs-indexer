@@ -1,10 +1,11 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 {
     using MediatR;
     using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
     using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
     public class FrameworkMetaDataHelper : IRequestHandler<FrameworkMetaDataRequest, FrameworkMetaDataResult>

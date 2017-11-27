@@ -1,20 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
-
     public sealed class LarsDataService : ILarsDataService
     {
         private readonly IReadMetaDataFromCsv _csvService;
