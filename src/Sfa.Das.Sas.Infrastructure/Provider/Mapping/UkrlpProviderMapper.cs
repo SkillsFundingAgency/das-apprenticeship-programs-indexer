@@ -7,7 +7,7 @@ using Ukrlp.SoapApi.Types;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Mapping
 {
-    using Provider = Core.Models.Provider.Provider;
+    using Provider = Core.Provider.Models.Provider.Provider;
 
     public class UkrlpProviderMapper : IUkrlpProviderMapper
     {

@@ -1,5 +1,6 @@
 using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
 using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
@@ -39,16 +40,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         int MapToLevelFromProgType(int level);
 
-        StandardProvider CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
+        StandardProvider CreateStandardProviderDocument(Core.Provider.Models.Provider.Provider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
 
-        StandardProvider CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation);
+        StandardProvider CreateStandardProviderDocument(Core.Provider.Models.Provider.Provider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation);
 
-        FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
+        FrameworkProvider CreateFrameworkProviderDocument(Core.Provider.Models.Provider.Provider provider, FrameworkInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
 
-        FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, DeliveryInformation deliveryInformation);
+        FrameworkProvider CreateFrameworkProviderDocument(Core.Provider.Models.Provider.Provider provider, FrameworkInformation standardInformation, DeliveryInformation deliveryInformation);
 
-        ProviderDocument CreateProviderDocument(Provider provider);
+        ProviderDocument CreateProviderDocument(Core.Provider.Models.Provider.Provider provider);
 
-        ProviderApiDocument CreateProviderApiDocument(Provider provider);
+        ProviderApiDocument CreateProviderApiDocument(Core.Provider.Models.Provider.Provider provider);
     }
 }

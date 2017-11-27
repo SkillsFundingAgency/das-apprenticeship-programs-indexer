@@ -20,7 +20,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
     using Core.Extensions;
     using Core.Provider.Models;
     using Core.Services;
-    using CoreProvider = Core.Models.Provider.Provider;
+    using CoreProvider = Core.Provider.Models.Provider.Provider;
 
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
     {

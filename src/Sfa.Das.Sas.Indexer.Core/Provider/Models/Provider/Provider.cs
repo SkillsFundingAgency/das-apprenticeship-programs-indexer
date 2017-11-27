@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 
-namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
+namespace Sfa.Das.Sas.Indexer.Core.Provider.Models.Provider
 {
     public sealed class Provider : IIndexEntry
     {

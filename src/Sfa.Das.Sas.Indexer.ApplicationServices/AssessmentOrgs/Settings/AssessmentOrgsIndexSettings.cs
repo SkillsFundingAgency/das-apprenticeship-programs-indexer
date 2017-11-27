@@ -1,8 +1,8 @@
 ﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Settings
 {
     using System.Configuration;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+    using AssessmentOrgs.Services;
+    using Shared.Settings;
 
     public class AssessmentOrgsIndexSettings : IIndexSettings<IMaintainAssessmentOrgsIndex>
     {
