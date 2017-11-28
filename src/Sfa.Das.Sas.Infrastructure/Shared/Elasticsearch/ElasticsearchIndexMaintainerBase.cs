@@ -75,9 +75,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public virtual bool IndexContainsDocuments(string indexName)
         {
-            var a = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().From(0).Size(10).MatchAll()).Documents;
-
-            return a.Any();
+            return Client.Search<dynamic>(s => s.Index(indexName).AllTypes().From(0).Size(10).MatchAll()).Documents.Any();
         }
 
         public virtual bool IndexExists(string indexName)
