@@ -1,15 +1,14 @@
-﻿using SFA.DAS.NLog.Logger;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AngleSharp.Parser.Html;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using AngleSharp.Parser.Html;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
-
     public class AngleSharpService : IAngleSharpService
     {
         private readonly IHttpGet _httpGet;

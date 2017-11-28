@@ -10,10 +10,10 @@ using System.Web;
 using Elasticsearch.Net;
 using Nest;
 using Polly;
+
 using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
-using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {

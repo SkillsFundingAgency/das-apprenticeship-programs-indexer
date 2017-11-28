@@ -1,23 +1,22 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.Core.Extensions;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using Sfa.Das.Sas.Indexer.Core.Services;
+using Sfa.Das.Sas.Indexer.Core.Shared.Models;
+using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Newtonsoft.Json;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.Core.Extensions;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-    using Sfa.Das.Sas.Indexer.Core.Services;
-    using Sfa.Das.Sas.Indexer.Core.Shared.Models;
-    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
     {
@@ -106,12 +105,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             // TODO remove these after the API has been updated
             var providers = CreateProviders(source).ToList();
             IndexProviders(indexName, providers);
-            
-			// Provider Sites
+
+            // Provider Sites
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
             IndexStandards(indexName, apprenticeshipProviders);
             IndexFrameworks(indexName, apprenticeshipProviders);
-			
+
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providers, providersApi, apprenticeshipProviders);
 
             return new IndexerResult

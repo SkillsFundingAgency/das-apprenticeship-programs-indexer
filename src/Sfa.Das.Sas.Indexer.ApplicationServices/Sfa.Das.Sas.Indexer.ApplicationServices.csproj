@@ -68,8 +68,13 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SFA.DAS.NLog.Logger">
-      <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.26805\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.4\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SFA.DAS.NLog.Logger, Version=1.0.0.47445, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.47445\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=4.2.0.402, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.4.2.0.402\lib\net40\StructureMap.dll</HintPath>
@@ -82,6 +87,14 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -134,6 +147,11 @@
     <Compile Include="Provider\Services\ProviderSourceDto.cs" />
     <Compile Include="Shared\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Shared\IndexerNameLookup.cs" />
+    <Compile Include="Shared\Logging\Models\DependencyLogEntry.cs" />
+    <Compile Include="Shared\Logging\Metrics\ExecutionTimer.cs" />
+    <Compile Include="Shared\Logging\Metrics\ExecutionTimerResult.cs" />
+    <Compile Include="Shared\Logging\Models\ElasticSearchLogEntry.cs" />
+    <Compile Include="Shared\Logging\Models\TimingLogEntry.cs" />
     <Compile Include="Shared\MetaData\IGetRoatpProviders.cs" />
     <Compile Include="Shared\MetaData\IGetAssessmentOrgsData.cs" />
     <Compile Include="Shared\MetaData\IGetLarsMetadata.cs" />
@@ -191,6 +209,7 @@
     <Compile Include="Apprenticeship\Settings\StandardIndexSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Sfa.Das.Sas.Indexer.ApplicationServices.ruleset" />
   </ItemGroup>

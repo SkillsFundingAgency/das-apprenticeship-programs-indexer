@@ -1,14 +1,13 @@
+using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-
     public class GenericControlQueueConsumer : IGenericControlQueueConsumer
     {
         private readonly IAppServiceSettings _appServiceSettings;
@@ -58,7 +57,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
                         var latestMessage = messages?.FirstOrDefault();
 
                         var extraMessages = messages?.Where(m => m != latestMessage).ToList();
-
                         // Delete all the messages except the first as they are not needed
                         _cloudQueueService.DeleteQueueMessages(queueName, extraMessages);
 
