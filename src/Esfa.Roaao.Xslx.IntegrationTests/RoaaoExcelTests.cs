@@ -33,6 +33,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                 prodContainer.Configure(_ => { _.For<IAppServiceSettings>().Use<ProdAppSettings>(); });
                 prodsut = prodContainer.GetInstance<IGetAssessmentOrgsData>();
             }
+            Assert.IsNotNull(results, "GetAssessmentOrganisationsData returned null may be vsts internal server error or an unauthorized error");
         }
 
         [TestMethod]
