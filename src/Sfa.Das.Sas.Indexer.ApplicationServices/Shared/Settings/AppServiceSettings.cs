@@ -66,7 +66,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
 
-        public List<string> FrameworksExpiredRequired => GetFrameworksList(_settings.GetSetting("FrameworksExpiredRequired"));
+        public List<string> FrameworksExpiredRequired => GetFrameworksList(_settings.GetNullableSetting("FrameworksExpiredRequired"));
 
         private List<string> GetFrameworksList(string frameworkIdList)
         {
