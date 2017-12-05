@@ -50,6 +50,19 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
             }
         }
 
+        public override bool IndexContainsDocuments(string indexName)
+        {
+            var providerDocuments = Client.Search<ProviderDocument>(s => s.Index(indexName).Size(0).MatchAll());
+            var providerApiDocuments = Client.Search<ProviderApiDocument>(s => s.Index(indexName).Size(0).MatchAll());
+            var standardProviderDocuments = Client.Search<StandardProvider>(s => s.Index(indexName).Size(0).MatchAll());
+            var frameworkProviderDocuments = Client.Search<FrameworkProvider>(s => s.Index(indexName).Size(0).MatchAll());
+
+            return providerDocuments.HitsMetaData.Total > 0
+                   && providerApiDocuments.HitsMetaData.Total > 0
+                   && standardProviderDocuments.HitsMetaData.Total > 10000
+                   && frameworkProviderDocuments.HitsMetaData.Total > 100000;
+        }
+
         public async Task IndexEntries(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries)
         {
             var bulkStandardTasks = new List<Task<IBulkResponse>>();
