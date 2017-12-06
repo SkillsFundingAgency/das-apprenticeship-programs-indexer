@@ -32,5 +32,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
         public double? EmployerSatisfaction { get; set; }
 
         public double? LearnerSatisfaction { get; set; }
+        public string MarketingInfo { get; set; }
     }
 }
