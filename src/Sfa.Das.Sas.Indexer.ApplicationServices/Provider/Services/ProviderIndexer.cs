@@ -315,6 +315,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     provider.ContactDetails.Email = provider.ContactDetails.Email ?? courseDirectory.Email;
                     provider.ContactDetails.Website = provider.ContactDetails.Website ?? courseDirectory.Website;
                     provider.ContactDetails.Phone = provider.ContactDetails.Phone ?? courseDirectory.Phone;
+                    provider.MarketingInfo = courseDirectory.MarketingInfo;
                 }
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
