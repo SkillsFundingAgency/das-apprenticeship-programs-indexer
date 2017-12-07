@@ -37,17 +37,9 @@
                         .NumberOfShards(_elasticsearchConfiguration.ProviderIndexShards())
                         .NumberOfReplicas(_elasticsearchConfiguration.ProviderIndexReplicas()))
                     .Mappings(ms => ms
-                        .Map<ProviderDocument>(m => m.AutoMap())
                         .Map<ProviderApiDocument>(m => m.AutoMap())
                         .Map<StandardProvider>(m => m.AutoMap())
                         .Map<FrameworkProvider>(m => m.AutoMap())));
-        }
-
-        public void IndexProviders(string indexName, ICollection<Provider> entries)
-        {
-            var providerList = entries.Select(provider => ElasticsearchMapper.CreateProviderDocument(provider)).ToList();
-
-            Client.BulkAllGeneric(providerList, indexName);
         }
 
         public void IndexApiProviders(string indexName, ICollection<Provider> entries)
