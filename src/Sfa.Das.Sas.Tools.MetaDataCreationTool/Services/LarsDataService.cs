@@ -384,7 +384,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             {
                 var fw =
                     metaData.ApprenticeshipFundings.FirstOrDefault(fwk =>
-                        fwk.ApprenticeshipType == "FWK" &&
+                        fwk.ApprenticeshipType.ToLower() == "fwk" &&
                         fwk.ApprenticeshipCode == framework.FworkCode &&
                         fwk.ProgType == framework.ProgType &&
                         fwk.PwayCode == framework.PwayCode &&
@@ -408,7 +408,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             {
                 var s =
                     metaData.ApprenticeshipFundings.FirstOrDefault(stdrd =>
-                        stdrd.ApprenticeshipType == "STD" &&
+                        stdrd.ApprenticeshipType.ToLower() == "std" &&
                         stdrd.ApprenticeshipCode == std.Id && stdrd.EffectiveFrom.HasValue &&
                         stdrd.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
                         (!stdrd.EffectiveTo.HasValue || stdrd.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
@@ -429,7 +429,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             {
                 var fw =
                     metaData.FirstOrDefault(fwk =>
-                        fwk.ApprenticeshipType == "FWK" &&
+                        fwk.ApprenticeshipType.ToLower() == "fwk" &&
                         fwk.ApprenticeshipCode == framework.FworkCode &&
                         fwk.ProgType == framework.ProgType &&
                         fwk.PwayCode == framework.PwayCode &&
@@ -453,7 +453,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             {
                 var s =
                     metaData.FirstOrDefault(stdrd =>
-                        stdrd.ApprenticeshipType == "STD" &&
+                        stdrd.ApprenticeshipType.ToLower() == "std" &&
                         stdrd.ApprenticeshipCode == std.Id &&
                         stdrd.EffectiveFrom.HasValue &&
                         stdrd.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
