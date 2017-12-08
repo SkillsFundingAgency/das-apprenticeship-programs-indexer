@@ -36,6 +36,16 @@ using Sfa.Das.Sas.Indexer.Core.Shared.Models;
             _log.Debug("Retrieving Assessment Orgs data");
             var assessmentOrgsData = _metaDataHelper.GetAssessmentOrganisationsData();
 
+            if (assessmentOrgsData == null)
+            {
+                _log.Warn("Assessment Orgs were null");
+                return new IndexerResult
+                {
+                    IsSuccessful = false,
+                    TotalCount = 0
+                };
+            }
+
             var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(assessmentOrgsData);
 
             _log.Debug("Indexing Assessment Orgs data into index");
