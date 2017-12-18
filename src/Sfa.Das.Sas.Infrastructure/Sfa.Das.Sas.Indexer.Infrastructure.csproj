@@ -40,6 +40,10 @@
       <HintPath>..\packages\Dapper.1.50.1\lib\net451\Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Dfe.Edubase2.SoapApi.Client, Version=0.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DFE.Edubase2.SoapAPI.Client.0.0.9\lib\net45\Dfe.Edubase2.SoapApi.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Elasticsearch.Net, Version=5.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
       <HintPath>..\packages\Elasticsearch.Net.5.5.0\lib\net45\Elasticsearch.Net.dll</HintPath>
       <Private>True</Private>
@@ -190,7 +194,7 @@
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataServiceExtensions.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderMapper.cs" />
     <Compile Include="Provider\CourseDirectory\ICourseDirectoryProviderDataService.cs" />
-    <Compile Include="Provider\CourseDirectory\HeiProviderVstsClient.cs" />
+    <Compile Include="Provider\Handlers\HeiProviderHandler.cs" />
     <Compile Include="Provider\DapperBD\SatisfactionRatesProvider.cs" />
     <Compile Include="Provider\DapperBD\AchievementRatesProvider.cs" />
     <Compile Include="Provider\DapperBD\DatabaseProvider.cs" />

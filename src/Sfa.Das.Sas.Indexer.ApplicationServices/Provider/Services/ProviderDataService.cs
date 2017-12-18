@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     using System;
     using System.Collections.Generic;
@@ -128,7 +130,7 @@
                 LearnerSatisfactionRates = _mediator.Send(new LearnerSatisfactionRateRequest()),
                 EmployerSatisfactionRates = _mediator.Send(new EmployerSatisfactionRateRequest()),
                 EmployerProviders = _mediator.Send(new EmployerProviderRequest()),
-                HeiProviders = _mediator.Send(new HeiProvidersRequest())
+                HeiProviders = await _mediator.SendAsync(new HeiProvidersRequest())
             };
         }
 
