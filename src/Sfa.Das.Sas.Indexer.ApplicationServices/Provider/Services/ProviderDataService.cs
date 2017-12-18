@@ -101,7 +101,6 @@
         public async Task<ProviderSourceDto> LoadDatasetsAsync()
         {
             var roatpProviders = await _mediator.SendAsync(new RoatpProviderRequest());
-
             var courseDirectoryProviders = await _mediator.SendAsync(new CourseDirectoryRequest());
             var activeProviders = await _mediator.SendAsync(new FcsProviderRequest());
 

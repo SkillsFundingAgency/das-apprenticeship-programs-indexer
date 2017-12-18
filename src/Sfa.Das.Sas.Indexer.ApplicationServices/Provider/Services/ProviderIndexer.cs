@@ -101,37 +101,18 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var providersApi = CreateApiProviders(source).ToList();
             IndexApiProviders(indexName, providersApi);
 
-            // Providers (pre-ROATP)
-            // TODO remove these after the API has been updated
-            var providers = CreateProviders(source).ToList();
-            IndexProviders(indexName, providers);
-
             // Provider Sites
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
             IndexStandards(indexName, apprenticeshipProviders);
             IndexFrameworks(indexName, apprenticeshipProviders);
 
-            var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providers, providersApi, apprenticeshipProviders);
+            var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providersApi, apprenticeshipProviders);
 
             return new IndexerResult
             {
                 IsSuccessful = IsIndexCorrectlyCreated(indexName, totalAmountDocuments),
                 TotalCount = totalAmountDocuments
             };
-        }
-
-        private void IndexProviders(string indexName, ICollection<CoreProvider> providers)
-        {
-            try
-            {
-                _log.Debug($"Indexing {providers.Count} providers into Providers index");
-
-                _searchIndexMaintainer.IndexProviders(indexName, providers);
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Error indexing Providers");
-            }
         }
 
         private void IndexApiProviders(string indexName, ICollection<CoreProvider> providers)
@@ -176,18 +157,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
         }
 
-        private int GetTotalAmountDocumentsToBeIndexed(List<CoreProvider> providers, List<CoreProvider> providersApi, List<CoreProvider> apprenticeshipProviders)
+        private int GetTotalAmountDocumentsToBeIndexed(List<CoreProvider> providersApi, List<CoreProvider> apprenticeshipProviders)
         {
             Func<DeliveryInformation, bool> _onlyAtEmployer = x => x.DeliveryModes.All(xx => xx == ModesOfDelivery.OneHundredPercentEmployer);
             Func<DeliveryInformation, bool> _anyNotAtEmployer = x => x.DeliveryModes.Any(xx => xx != ModesOfDelivery.OneHundredPercentEmployer);
 
-            var providersAmount = providers.Count;
-
-            var count = providersAmount;
-            _log.Debug($"{providersAmount} providers to be indexed");
-
             var providersApiAmount = providersApi.Count;
-            count += providersApiAmount;
+            var count = providersApiAmount;
             _log.Debug($"{providersApiAmount} API providers to be indexed");
 
             foreach (var apprenticeshipProvider in apprenticeshipProviders)
@@ -208,7 +184,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 }
             }
 
-            var frameworkProviders = count - providersAmount - providersApiAmount;
+            var frameworkProviders = count - providersApiAmount;
             _log.Debug($"{frameworkProviders} framework providers to be indexed");
 
             foreach (var apprenticeshipProvider in apprenticeshipProviders)
@@ -229,47 +205,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 }
             }
 
-            var standardProviders = count - frameworkProviders - providersAmount - providersApiAmount;
+            var standardProviders = count - frameworkProviders - providersApiAmount;
             _log.Debug($"{standardProviders} standard providers to be indexed");
 
             return count;
-        }
-
-        private IEnumerable<CoreProvider> CreateProviders(ProviderSourceDto source)
-        {
-            foreach (var ukprn in source.ActiveProviders.Providers)
-            {
-                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString());
-
-                CoreProvider provider;
-
-                if (source.CourseDirectoryUkPrns.Contains(ukprn))
-                {
-                    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == ukprn);
-                    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
-                }
-                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString()))
-                {
-                    provider = _ukrlpProviderMapper.Map(ukrlpProvider);
-                }
-                else
-                {
-                    // skip this provider if they don't exist in Course Directory or UKRLP
-                    continue;
-                }
-
-                provider.Name = ukrlpProvider?.ProviderName;
-                provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
-                provider.Aliases = ukrlpProvider?.ProviderAliases;
-
-                provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
-                provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
-
-                _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
-                _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
-
-                yield return provider;
-            }
         }
 
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)

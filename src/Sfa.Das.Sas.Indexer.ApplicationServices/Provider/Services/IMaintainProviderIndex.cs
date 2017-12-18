@@ -6,8 +6,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
     public interface IMaintainProviderIndex : IMaintainSearchIndexes
     {
-        void IndexProviders(string indexName, ICollection<Core.Models.Provider.Provider> entries);
-
         void IndexApiProviders(string indexName, ICollection<Core.Models.Provider.Provider> entries);
 
         void IndexStandards(string indexName, ICollection<Core.Models.Provider.Provider> entries);
