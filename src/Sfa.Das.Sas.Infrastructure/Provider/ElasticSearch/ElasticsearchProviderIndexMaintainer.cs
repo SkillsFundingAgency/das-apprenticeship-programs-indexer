@@ -4,13 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Nest;
+using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
-using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 {
@@ -52,30 +52,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 
         public override bool IndexContainsDocuments(string indexName)
         {
-            var providerDocuments = Client.Search<ProviderDocument>(s => s.Index(indexName).Size(0).MatchAll());
             var providerApiDocuments = Client.Search<ProviderApiDocument>(s => s.Index(indexName).Size(0).MatchAll());
             var standardProviderDocuments = Client.Search<StandardProvider>(s => s.Index(indexName).Size(0).MatchAll());
             var frameworkProviderDocuments = Client.Search<FrameworkProvider>(s => s.Index(indexName).Size(0).MatchAll());
 
-            return providerDocuments.HitsMetaData.Total > 0
-                   && providerApiDocuments.HitsMetaData.Total > 0
+            return    providerApiDocuments.HitsMetaData.Total > 0
                    && standardProviderDocuments.HitsMetaData.Total > 10000
                    && frameworkProviderDocuments.HitsMetaData.Total > 100000;
-        }
-
-        public async Task IndexEntries(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries)
-        {
-            var bulkStandardTasks = new List<Task<IBulkResponse>>();
-            var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
-            var bulkProviderTasks = new List<Task<IBulkResponse>>();
-
-            bulkStandardTasks.AddRange(IndexStandards(indexName, indexEntries));
-            bulkFrameworkTasks.AddRange(IndexFrameworks(indexName, indexEntries));
-            bulkProviderTasks.AddRange(IndexProviders(indexName, indexEntries));
-
-            LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
-            LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
-            LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
         }
 
         public List<Task<IBulkResponse>> IndexFrameworks(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries)
@@ -116,26 +99,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
             catch (Exception ex)
             {
                 _log.Error(ex, "Something failed indexing framework providers:" + ex.Message);
-                throw;
-            }
-
-            return bulkProviderLocation.GetTasks();
-        }
-
-        public List<Task<IBulkResponse>> IndexProviders(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries)
-        {
-            var bulkProviderLocation = new BulkProviderClient(indexName, Client);
-            try
-            {
-                foreach (var provider in indexEntries)
-                {
-                    var mappedProvider = ElasticsearchMapper.CreateProviderDocument(provider);
-                    bulkProviderLocation.Create<ProviderDocument>(c => c.Document(mappedProvider));
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Something failed indexing provider documents:" + ex.Message);
                 throw;
             }
 

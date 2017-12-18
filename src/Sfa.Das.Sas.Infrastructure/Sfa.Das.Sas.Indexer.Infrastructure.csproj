@@ -199,7 +199,6 @@
     <Compile Include="Apprenticeship\Models\JobRoleItem.cs" />
     <Compile Include="Provider\Models\ElasticSearch\StandardProvider.cs" />
     <Compile Include="Provider\Models\ElasticSearch\TrainingLocation.cs" />
-    <Compile Include="Provider\Models\ElasticSearch\ProviderDocument.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Provider\Mapping\UkrlpProviderMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

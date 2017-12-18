@@ -276,25 +276,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             return CreateFrameworkProviderDocument(provider, frameworkInformation, new List<DeliveryInformation> { deliveryInformation });
         }
 
-        public ProviderDocument CreateProviderDocument(CoreProvider provider)
-        {
-            return new ProviderDocument
-            {
-                Ukprn = provider.Ukprn,
-                IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
-                NationalProvider = provider.NationalProvider,
-                ProviderName = provider.Name,
-                Aliases = provider.Aliases,
-                Addresses = provider.Addresses,
-                IsEmployerProvider = provider.IsEmployerProvider,
-                Website = provider.ContactDetails?.Website,
-                Phone = provider.ContactDetails?.Phone,
-                Email = provider.ContactDetails?.Email,
-                EmployerSatisfaction = provider.EmployerSatisfaction,
-                LearnerSatisfaction = provider.LearnerSatisfaction
-            };
-        }
-
         public ProviderApiDocument CreateProviderApiDocument(CoreProvider provider)
         {
             var providerDocument = new ProviderApiDocument

@@ -1,24 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Nest;
+using Newtonsoft.Json;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.Core.Extensions;
 using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
 using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using Sfa.Das.Sas.Indexer.Core.Services;
+using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Nest;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.Core.Extensions;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-    using Sfa.Das.Sas.Indexer.Core.Services;
-    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
-
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
     {
         private readonly IMaintainProviderIndex _searchIndexMaintainer;
@@ -95,7 +93,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             var bulkStandardTasks = new List<Task<IBulkResponse>>();
             var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
-            var bulkProviderTasks = new List<Task<IBulkResponse>>();
             var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
 
             // Load data
@@ -110,13 +107,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _log.Debug("Indexing " + providersApi.Count + " API providers", new Dictionary<string, object> { { "TotalCount", providersApi.Count } });
             bulkApiProviderTasks.AddRange(_searchIndexMaintainer.IndexApiProviders(indexName, providersApi));
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkApiProviderTasks), "ProviderApiDocument");
-
-            // Providers (pre-ROATP)
-            // TODO remove these after the API has been updated
-            var providers = CreateProviders(source).ToList();
-            _log.Debug("Indexing " + providers.Count + " (pre-ROATP) providers", new Dictionary<string, object> { { "TotalCount", providers.Count } });
-            bulkProviderTasks.AddRange(_searchIndexMaintainer.IndexProviders(indexName, providers));
-            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkProviderTasks), "ProviderDocument");
 
             // Provider Sites
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
@@ -135,43 +125,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
             _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
-        }
-
-        private IEnumerable<CoreProvider> CreateProviders(ProviderSourceDto source)
-        {
-            foreach (var ukprn in source.ActiveProviders.Providers)
-            {
-                var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString());
-
-                CoreProvider provider;
-
-                if (source.CourseDirectoryUkPrns.Contains(ukprn))
-                {
-                    var courseDirectoryProvider = source.CourseDirectoryProviders.Providers.First(x => x.Ukprn == ukprn);
-                    provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
-                }
-                else if (source.UkrlpProviders.MatchingProviderRecords.Any(x => x.UnitedKingdomProviderReferenceNumber == ukprn.ToString()))
-                {
-                    provider = _ukrlpProviderMapper.Map(ukrlpProvider);
-                }
-                else
-                {
-                    // skip this provider if they don't exist in Course Directory or UKRLP
-                    continue;
-                }
-
-                provider.Name = ukrlpProvider?.ProviderName;
-                provider.Addresses = ukrlpProvider?.ProviderContact.Select(_ukrlpProviderMapper.MapAddress);
-                provider.Aliases = ukrlpProvider?.ProviderAliases;
-
-                provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
-                provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
-
-                _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
-                _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
-
-                yield return provider;
-            }
         }
 
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
