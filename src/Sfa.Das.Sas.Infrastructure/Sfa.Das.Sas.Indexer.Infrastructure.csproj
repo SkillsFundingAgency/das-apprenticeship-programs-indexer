@@ -194,7 +194,7 @@
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataServiceExtensions.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderMapper.cs" />
     <Compile Include="Provider\CourseDirectory\ICourseDirectoryProviderDataService.cs" />
-    <Compile Include="Provider\CourseDirectory\HeiProviderVstsClient.cs" />
+    <Compile Include="Provider\Handlers\HeiProviderVstsHandler.cs" />
     <Compile Include="Provider\DapperBD\SatisfactionRatesProvider.cs" />
     <Compile Include="Provider\DapperBD\AchievementRatesProvider.cs" />
     <Compile Include="Provider\DapperBD\DatabaseProvider.cs" />
