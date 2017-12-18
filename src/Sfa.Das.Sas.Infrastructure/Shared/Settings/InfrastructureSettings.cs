@@ -38,6 +38,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public double HttpClientTimeout => Convert.ToDouble(ConfigurationManager.AppSettings["HttpClient.Timeout"]);
 
+        public string EstablishmentUsername => _settingsProvider.GetNullableSetting("EdubaseUsername");
+
+        public string EstablishmentPassword => _settingsProvider.GetNullableSetting("EdubasePassword");
+
         public string AchievementRateDataBaseConnectionString => _settingsProvider.GetSetting("AchievementRateDataBaseConnectionString");
 
         public IEnumerable<Uri> ElasticServerUrls => GetElasticIPs("ElasticServerUrls");
