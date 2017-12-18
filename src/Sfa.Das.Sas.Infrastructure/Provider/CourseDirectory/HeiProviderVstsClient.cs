@@ -1,41 +1,41 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Dfe.Edubase2.SoapApi.Client;
+using Dfe.Edubase2.SoapApi.Client.EdubaseService;
 using MediatR;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Hei;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
-namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.CourseDirectory
 {
     public sealed class HeiProviderVstsClient : IRequestHandler<HeiProvidersRequest, HeiProvidersResult>
     {
-        private readonly IConvertFromCsv _convertFromCsv;
-        private readonly IVstsClient _vstsClient;
-        private readonly IAppServiceSettings _appServiceSettings;
+        private readonly ILog _logger;
+
+        private readonly IEstablishmentClient _client;
 
         public HeiProviderVstsClient(
-            IConvertFromCsv convertFromCsv,
-            IVstsClient vstsClient,
-            IAppServiceSettings appServiceSettings)
+            ILog logger,
+            IEstablishmentClient client)
         {
-            _convertFromCsv = convertFromCsv;
-            _vstsClient = vstsClient;
-            _appServiceSettings = appServiceSettings;
+            _logger = logger;
+            _client = client;
         }
 
         public HeiProvidersResult Handle(HeiProvidersRequest message)
         {
-            var records = _convertFromCsv.CsvTo<HeiProviderCsvRecord>(LoadHeiProvidersFromVsts());
+            var apiProviders = GetHeiUkprns()
+                .ToList();
 
-            var providers = (from heiProviderCsvRecord in records where heiProviderCsvRecord.UkPrn != null && heiProviderCsvRecord.OrgType == "Higher Education Organisation" select heiProviderCsvRecord.UkPrn).Distinct().ToList();
-            return new HeiProvidersResult { Providers = providers };
+            _logger.Info($"Found ${apiProviders.Count} provider with establishment type of Higher Education");
+
+            return new HeiProvidersResult { Providers = apiProviders };
         }
 
-
-        private string LoadHeiProvidersFromVsts()
+        private IEnumerable<string> GetHeiUkprns()
         {
-            return _vstsClient.GetFileContent($"hei/{_appServiceSettings.EnvironmentName}/hei.csv");
+            var page0 = _client.FindEstablishments(new EstablishmentFilter { Page = 0, TypeOfEstablishment = "29", Fields = new StringList { "UKPRN" } });
+            return page0.Select(m => m.UKPRN).Where(m => m != null).Distinct().Select(m => m.ToString());
         }
     }
 }

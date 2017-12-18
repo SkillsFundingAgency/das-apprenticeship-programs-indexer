@@ -24,5 +24,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
         string UkrlpServiceEndpointUrl { get; }
 
         double HttpClientTimeout { get; }
+
+        string EstablishmentUsername { get; }
+
+        string EstablishmentPassword { get; }
     }
 }
