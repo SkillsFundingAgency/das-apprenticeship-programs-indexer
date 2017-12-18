@@ -11,13 +11,13 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Handlers
 {
-    public sealed class HeiProviderVstsHandler : IAsyncRequestHandler<HeiProvidersRequest, HeiProvidersResult>
+    public sealed class HeiProviderHandler : IAsyncRequestHandler<HeiProvidersRequest, HeiProvidersResult>
     {
         private readonly ILog _logger;
 
         private readonly IEstablishmentClient _client;
 
-        public HeiProviderVstsHandler(
+        public HeiProviderHandler(
             ILog logger,
             IEstablishmentClient client)
         {
