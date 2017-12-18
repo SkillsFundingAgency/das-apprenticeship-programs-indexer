@@ -19,7 +19,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Handlers
         public async Task ShouldQueryForHeiProviders()
         {
             var client = new Mock<IEstablishmentClient>();
-            var handler = new HeiProviderVstsHandler(Mock.Of<ILog>(), client.Object);
+            var handler = new HeiProviderHandler(Mock.Of<ILog>(), client.Object);
 
             EstablishmentFilter filter = null;
             client.Setup(m => m.FindEstablishmentsAsync(It.IsAny<EstablishmentFilter>()))
