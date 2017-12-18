@@ -56,7 +56,6 @@
     <Compile Include="AssessmentOrgs\Models\AssessmentOrganisationsDTO.cs" />
     <Compile Include="AssessmentOrgs\Models\Organisation.cs" />
     <Compile Include="AssessmentOrgs\Models\StandardOrganisationsData.cs" />
-    <Compile Include="Provider\Models\HeiProvidersResult.cs" />
     <Compile Include="Shared\Exceptions\ConnectionException.cs" />
     <Compile Include="Shared\Exceptions\MappingException.cs" />
     <Compile Include="Shared\Extensions\EnumExtensions.cs" />

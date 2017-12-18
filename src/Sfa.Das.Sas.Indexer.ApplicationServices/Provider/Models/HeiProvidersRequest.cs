@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace Sfa.Das.Sas.Indexer.Core.Provider.Models
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models
 {
-    public class HeiProvidersRequest : IRequest<HeiProvidersResult>
+    public class HeiProvidersRequest : IAsyncRequest<HeiProvidersResult>
     {
     }
 }

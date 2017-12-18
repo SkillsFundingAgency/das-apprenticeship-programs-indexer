@@ -114,6 +114,7 @@
     <Compile Include="Provider\Models\CourseDirectoryResult.cs" />
     <Compile Include="Provider\Models\EmployerSatisfactionRateRequest.cs" />
     <Compile Include="Provider\Models\EmployerSatisfactionRateResult.cs" />
+    <Compile Include="Provider\Models\HeiProvidersResult.cs" />
     <Compile Include="Provider\Models\ProviderType.cs" />
     <Compile Include="Provider\Models\RoatpProviderRequest.cs" />
     <Compile Include="Provider\Models\FcsProviderRequest.cs" />
