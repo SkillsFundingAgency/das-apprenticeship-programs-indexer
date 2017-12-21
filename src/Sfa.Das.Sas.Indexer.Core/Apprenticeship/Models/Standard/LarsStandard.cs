@@ -21,6 +21,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard
         public int FundingCap { get; set; }
         public DateTime? EffectiveTo { get; set; }
         public DateTime? EffectiveFrom { get; set; }
+        public int StandardSectorCode { get; set; }
 
         public bool IsValidDate(DateTime currentDate)
         {
