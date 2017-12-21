@@ -3,6 +3,7 @@
     public static class StandardCsvCols
     {
         public const int Title = 2;
+        public const int StandardSectorCode = 3;
         public const int NotionalEndLevel = 4;
         public const int EffectiveFrom = 5;
         public const int EffectiveTo = 7;

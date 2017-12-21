@@ -12,6 +12,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
         public string Title { get; set; }
 
         [Keyword(NullValue = "null")]
+        public int StandardSectorCode { get; set; }
+
+        [Keyword(NullValue = "null")]
         public int NotionalEndLevel { get; set; }
 
         [Keyword(NullValue = "null")]

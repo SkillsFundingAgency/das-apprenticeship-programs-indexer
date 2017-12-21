@@ -32,6 +32,7 @@
             {
                 Id = standardid,
                 Title = values[StandardCsvCols.Title].RemoveQuotationMark(),
+                StandardSectorCode = values[StandardCsvCols.StandardSectorCode].RemoveQuotationMark().SafeParseInt(),
                 NotionalEndLevel = values[StandardCsvCols.NotionalEndLevel].RemoveQuotationMark().SafeParseInt(),
                 StandardUrl = values[StandardCsvCols.UrlLink],
                 SectorSubjectAreaTier1 = values[StandardCsvCols.SectorSubjectAreaTier1].RemoveQuotationMark().SafeParseDouble(),
