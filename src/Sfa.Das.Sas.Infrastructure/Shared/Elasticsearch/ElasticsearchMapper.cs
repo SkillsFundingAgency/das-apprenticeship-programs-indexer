@@ -56,6 +56,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 WhatApprenticesWillLearn = standard.WhatApprenticesWillLearn,
                 Qualifications = standard.Qualifications,
                 ProfessionalRegistration = standard.ProfessionalRegistration,
+                StandardSectorCode = standard.SectorCode,
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 EffectiveFrom = standard.EffectiveFrom,

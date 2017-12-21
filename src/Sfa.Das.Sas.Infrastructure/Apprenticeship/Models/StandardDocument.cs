@@ -32,5 +32,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
         public string WhatApprenticesWillLearn { get; set; }
         public DateTime? EffectiveFrom { get; set; }
         public DateTime? EffectiveTo { get; set; }
+        public int StandardSectorCode { get; set; }
     }
 }
