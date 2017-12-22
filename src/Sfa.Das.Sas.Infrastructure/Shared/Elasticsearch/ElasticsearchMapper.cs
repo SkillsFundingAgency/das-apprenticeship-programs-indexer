@@ -56,6 +56,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 WhatApprenticesWillLearn = standard.WhatApprenticesWillLearn,
                 Qualifications = standard.Qualifications,
                 ProfessionalRegistration = standard.ProfessionalRegistration,
+                StandardSectorCode = standard.SectorCode,
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 EffectiveFrom = standard.EffectiveFrom,
@@ -69,6 +70,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             {
                 Id = standard.Id,
                 Title = standard.Title,
+                StandardSectorCode = standard.StandardSectorCode,
                 NotionalEndLevel = standard.NotionalEndLevel,
                 StandardUrl = standard.StandardUrl,
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
@@ -97,7 +99,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 PathwayName = frameworkMetaData.PathwayName,
                 ProgType = frameworkMetaData.ProgType,
                 Level = MapToLevelFromProgType(frameworkMetaData.ProgType),
-                JobRoleItems = frameworkMetaData.JobRoleItems?.Select(m => new JobRoleItem { Title = m.Title, Description = m.Description }),
+                JobRoleItems = frameworkMetaData.JobRoleItems?.Select(m => new JobRoleItem {Title = m.Title, Description = m.Description}),
                 Keywords = frameworkMetaData.Keywords,
                 FundingCap = frameworkMetaData.FundingCap,
                 Duration = frameworkMetaData.Duration,
@@ -208,7 +210,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 ApprenticeshipComponentType = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentType,
                 ApprenticeshipComponentTypeDesc = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc,
                 ApprenticeshipComponentTypeDesc2 = apprenticeshipComponentTypeMetaData.ApprenticeshipComponentTypeDesc2
-           };
+            };
         }
 
         public OrganisationDocument CreateOrganisationDocument(Organisation organisation)
@@ -263,7 +265,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 
         public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation)
         {
-            return CreateStandardProviderDocument(provider, standardInformation, new List<DeliveryInformation> { deliveryInformation });
+            return CreateStandardProviderDocument(provider, standardInformation, new List<DeliveryInformation> {deliveryInformation});
         }
 
         public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation)
@@ -273,7 +275,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 
         public FrameworkProvider CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, DeliveryInformation deliveryInformation)
         {
-            return CreateFrameworkProviderDocument(provider, frameworkInformation, new List<DeliveryInformation> { deliveryInformation });
+            return CreateFrameworkProviderDocument(provider, frameworkInformation, new List<DeliveryInformation> {deliveryInformation});
         }
 
         public ProviderApiDocument CreateProviderApiDocument(CoreProvider provider)
@@ -293,7 +295,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 EmployerSatisfaction = provider.EmployerSatisfaction,
                 LearnerSatisfaction = provider.LearnerSatisfaction,
                 MarketingInfo = provider.MarketingInfo
-
             };
 
             return providerDocument;
@@ -387,7 +388,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
         {
             if (value != null)
             {
-                return Math.Round((double)value);
+                return Math.Round((double) value);
             }
 
             return null;
@@ -400,8 +401,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             foreach (var location in deliveryLocations)
             {
                 points.Add(new GeoCoordinate(
-                                            location.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
-                                            location.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0));
+                    location.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
+                    location.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0));
             }
 
             return points;
@@ -418,26 +419,26 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                         LocationId = loc.DeliveryLocation.Id,
                         LocationName = loc.DeliveryLocation.Name,
                         Address =
-                                new Infrastructure.Provider.Models.ElasticSearch.Address()
-                                {
-                                    Address1 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address1),
-                                    Address2 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address2),
-                                    Town = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Town),
-                                    County = EscapeSpecialCharacters(loc.DeliveryLocation.Address.County),
-                                    PostCode = loc.DeliveryLocation.Address.Postcode,
-                                },
+                            new Infrastructure.Provider.Models.ElasticSearch.Address()
+                            {
+                                Address1 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address1),
+                                Address2 = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Address2),
+                                Town = EscapeSpecialCharacters(loc.DeliveryLocation.Address.Town),
+                                County = EscapeSpecialCharacters(loc.DeliveryLocation.Address.County),
+                                PostCode = loc.DeliveryLocation.Address.Postcode,
+                            },
                         Location =
-                                new CircleGeoShape
-                                {
-                                    Coordinates =
-                                            new GeoCoordinate(
-                                            loc.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
-                                            loc.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0),
-                                    Radius = $"{loc.Radius}mi"
-                                },
+                            new CircleGeoShape
+                            {
+                                Coordinates =
+                                    new GeoCoordinate(
+                                        loc.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
+                                        loc.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0),
+                                Radius = $"{loc.Radius}mi"
+                            },
                         LocationPoint = new GeoCoordinate(
-                                            loc.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
-                                            loc.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0)
+                            loc.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
+                            loc.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0)
                     });
             }
 

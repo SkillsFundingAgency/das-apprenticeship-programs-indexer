@@ -175,6 +175,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                     continue;
                 }
 
+                standard.SectorCode = standardFromLars.StandardSectorCode;
                 standard.NotionalEndLevel = standardFromLars.NotionalEndLevel;
                 standard.StandardPdfUrl = GetLinkUri(standardFromLars.StandardUrl, "Apprenticeship");
                 standard.AssessmentPlanPdfUrl = GetLinkUri(standardFromLars.StandardUrl, "Assessment");

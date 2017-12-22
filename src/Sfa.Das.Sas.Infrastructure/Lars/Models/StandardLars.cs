@@ -8,6 +8,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
         public string Title { get; set; }
 
+        public int StandardSectorCode { get; set; }
+
         public int NotionalEndLevel { get; set; }
 
         public string StandardUrl { get; set; }
@@ -19,7 +21,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
         public int Duration { get; set; }
 
         public int FundingCap { get; set; }
+
         public DateTime? EffectiveFrom { get; set; }
+
         public DateTime? EffectiveTo { get; set; }
     }
 }
