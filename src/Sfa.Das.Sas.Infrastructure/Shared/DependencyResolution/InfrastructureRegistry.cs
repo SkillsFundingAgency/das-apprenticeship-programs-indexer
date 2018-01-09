@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Reflection;
 using Nest;
 using SFA.DAS.NLog.Logger;
@@ -41,6 +42,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution
             For<IIndexerServiceFactory>().Use<IndexerServiceFactory>();
             For<IMonitoringService>().Use<MonitoringService>();
             For<IOrganisationTypeProcessor>().Use<OrganisationTypeProcessor>();
+
+            if (Debugger.IsAttached)
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+            }
         }
 
         private IDictionary<string, object> GetProperties()

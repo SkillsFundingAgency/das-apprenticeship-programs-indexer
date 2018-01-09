@@ -166,11 +166,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 	        var count = 0;
 
 			var waitHandle = new CountdownEvent(1);
-
+            
             var bulkAll = _client.BulkAll(elementList, b => b
                 .Index(indexName)
                 .BackOffRetries(15)
-                .BackOffTime(TimeSpan.FromSeconds(30))
+                .BackOffTime(TimeSpan.FromSeconds(15))
                 .RefreshOnCompleted(true)
                 .MaxDegreeOfParallelism(4)
                 .Size(1000));
@@ -190,7 +190,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 onError: (e) =>
                 {
                     _logger.Error(e, e.Message);
-                    throw e;
+                    waitHandle.Signal();
                 },
                 onCompleted: () =>
                 {
