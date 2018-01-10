@@ -169,7 +169,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             
             var bulkAll = _client.BulkAll(elementList, b => b
                 .Index(indexName)
-                .BackOffRetries(15)
+                .BackOffRetries(5)
                 .BackOffTime(TimeSpan.FromSeconds(15))
                 .RefreshOnCompleted(true)
                 .MaxDegreeOfParallelism(4)
