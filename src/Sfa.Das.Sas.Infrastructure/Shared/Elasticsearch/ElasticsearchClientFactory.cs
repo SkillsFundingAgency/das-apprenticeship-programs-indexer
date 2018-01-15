@@ -6,16 +6,19 @@ using Nest;
 using Sfa.Das.Sas.Indexer.Infrastructure.Extensions;
 using Sfa.Das.Sas.Indexer.Infrastructure.FeatureToggles;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
     public class ElasticsearchClientFactory : IElasticsearchClientFactory
     {
         private readonly IInfrastructureSettings _infrastructureSettings;
+        private readonly ILog _logger;
 
-        public ElasticsearchClientFactory(IInfrastructureSettings infrastructureSettings)
+        public ElasticsearchClientFactory(IInfrastructureSettings infrastructureSettings, ILog logger)
         {
             _infrastructureSettings = infrastructureSettings;
+            _logger = logger;
         }
 
         public IElasticClient GetElasticClient()
@@ -34,6 +37,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             }
 
             settings.BasicAuthentication(_infrastructureSettings.ElasticsearchUsername, _infrastructureSettings.ElasticsearchPassword);
+
+            settings.OnRequestCompleted(r =>
+            {
+                _logger.Debug(r.DebugInformation);
+            });
 
             var client = new ElasticClient(settings);
             return client;
