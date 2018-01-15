@@ -28,5 +28,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
         string EstablishmentUsername { get; }
 
         string EstablishmentPassword { get; }
+
+        string EmployerSatisfactionRatesTableName { get; }
+
+        string LearnerSatisfactionRatesTableName { get; }
     }
 }
