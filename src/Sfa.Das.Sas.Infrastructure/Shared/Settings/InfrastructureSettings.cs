@@ -42,6 +42,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string EstablishmentPassword => _settingsProvider.GetNullableSetting("EdubasePassword");
 
+        public string EmployerSatisfactionRatesTableName => _settingsProvider.GetSetting("EmployerSatisfactionRatesTableName");
+
+        public string LearnerSatisfactionRatesTableName => _settingsProvider.GetSetting("LearnerSatisfactionRatesTableName");
+
         public string AchievementRateDataBaseConnectionString => _settingsProvider.GetSetting("AchievementRateDataBaseConnectionString");
 
         public IEnumerable<Uri> ElasticServerUrls => GetElasticIPs("ElasticServerUrls");
