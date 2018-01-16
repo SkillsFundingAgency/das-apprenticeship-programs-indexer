@@ -42,6 +42,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public IEnumerable<Uri> ElasticServerUrls => GetElasticIPs("ElasticServerUrls");
 
+        public string EmployerSatisfactionRatesTableName => _settingsProvider.GetSetting("EmployerSatisfactionRatesTableName");
+
+        public string LearnerSatisfactionRatesTableName => _settingsProvider.GetSetting("LearnerSatisfactionRatesTableName");
+
         public IEnumerable<Uri> GetElasticIPs(string appSetting)
         {
             var urlsString = _settingsProvider.GetSetting(appSetting).Split(',');
