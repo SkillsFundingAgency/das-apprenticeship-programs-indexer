@@ -280,7 +280,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 
         public ProviderApiDocument CreateProviderApiDocument(CoreProvider provider)
         {
-            var providerDocument = new ProviderApiDocument
+          var providerDocument = new ProviderApiDocument
             {
                 Ukprn = provider.Ukprn,
                 IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
@@ -294,7 +294,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Email = provider.ContactDetails?.Email,
                 EmployerSatisfaction = provider.EmployerSatisfaction,
                 LearnerSatisfaction = provider.LearnerSatisfaction,
-                MarketingInfo = provider.MarketingInfo
+                MarketingInfo = provider.MarketingInfo,
+                IsLevyPayerOnly = provider.IsLevyPayerOnly,
+                IsNew = provider.IsNew,
+                HasParentCompanyGuarantee = provider.HasParentCompanyGuarantee
             };
 
             return providerDocument;
