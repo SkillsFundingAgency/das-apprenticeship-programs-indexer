@@ -255,10 +255,14 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     provider.ContactDetails.Website = provider.ContactDetails.Website ?? courseDirectory.Website;
                     provider.ContactDetails.Phone = provider.ContactDetails.Phone ?? courseDirectory.Phone;
                     provider.MarketingInfo = courseDirectory.MarketingInfo;
-                }
+                    provider.IsLevyPayerOnly = !source.ActiveProviders.Providers.Contains(courseDirectory.Ukprn);
+            }
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
                 provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
+
+                provider.HasParentCompanyGuarantee = roatpProvider.ParentCompanyGuarantee;
+                provider.IsNew = roatpProvider.NewOrganisationWithoutFinancialTrackRecord;
 
                 _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
                 _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
