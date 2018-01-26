@@ -1,0 +1,688 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\FAT\indexer\src\Sfa.Das.Sas.Indexer.UnitTests\bin\Debug\Sfa.Das.Sas.Indexer.UnitTests.dll" total="180" errors="0" failures="0" not-run="5" inconclusive="0" ignored="5" skipped="0" invalid="0" date="2018-01-26" time="11:42:51">
+  <environment nunit-version="3.5.0.0" clr-version="4.0.30319.42000" os-version="Microsoft Windows NT 10.0.16299.0" platform="Win32NT" cwd="C:\FAT\indexer\src" machine-name="VTUK102" user="Christofer_Froberg" user-domain="UK" />
+  <culture-info current-culture="en-GB" current-uiculture="en-GB" />
+  <test-suite type="Assembly" name="C:\FAT\indexer\src\Sfa.Das.Sas.Indexer.UnitTests\bin\Debug\Sfa.Das.Sas.Indexer.UnitTests.dll" executed="False" result="Ignored">
+    <properties>
+      <property name="_PID" value="16680" />
+      <property name="_APPDOMAIN" value="test-domain-Sfa.Das.Sas.Indexer.UnitTests.dll" />
+    </properties>
+    <reason>
+      <message><![CDATA[One or more child tests were ignored]]></message>
+    </reason>
+    <results>
+      <test-suite type="TestSuite" name="Sfa" executed="False" result="Ignored">
+        <reason>
+          <message><![CDATA[One or more child tests were ignored]]></message>
+        </reason>
+        <results>
+          <test-suite type="TestSuite" name="Das" executed="False" result="Ignored">
+            <reason>
+              <message><![CDATA[One or more child tests were ignored]]></message>
+            </reason>
+            <results>
+              <test-suite type="TestSuite" name="Sas" executed="False" result="Ignored">
+                <reason>
+                  <message><![CDATA[One or more child tests were ignored]]></message>
+                </reason>
+                <results>
+                  <test-suite type="TestSuite" name="Indexer" executed="False" result="Ignored">
+                    <reason>
+                      <message><![CDATA[One or more child tests were ignored]]></message>
+                    </reason>
+                    <results>
+                      <test-suite type="TestSuite" name="UnitTests" executed="False" result="Ignored">
+                        <reason>
+                          <message><![CDATA[One or more child tests were ignored]]></message>
+                        </reason>
+                        <results>
+                          <test-suite type="TestSuite" name="ApplicationInterface" executed="False" result="Ignored">
+                            <reason>
+                              <message><![CDATA[One or more child tests were ignored]]></message>
+                            </reason>
+                            <results>
+                              <test-suite type="TestFixture" name="IndexerJobTests" executed="False" result="Ignored">
+                                <reason>
+                                  <message><![CDATA[One or more child tests were ignored]]></message>
+                                </reason>
+                                <results>
+                                  <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationInterface.IndexerJobTests.ShouldCheckForProvidersAndStandardsToIndex" executed="False" result="Ignored">
+                                    <properties>
+                                      <property name="_SKIPREASON" value="too slow" />
+                                    </properties>
+                                    <reason>
+                                      <message><![CDATA[too slow]]></message>
+                                    </reason>
+                                  </test-case>
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestSuite" name="ApplicationServices" executed="True" result="Success" success="True" time="1.601" asserts="18">
+                            <results>
+                              <test-suite type="TestSuite" name="Helpers" executed="True" result="Success" success="True" time="0.929" asserts="2">
+                                <results>
+                                  <test-suite type="TestFixture" name="MetaDataHelperTests" executed="True" result="Success" success="True" time="0.865" asserts="2">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers.MetaDataHelperTests.GetAllFrameworks" executed="True" result="Success" success="True" time="0.546" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers.MetaDataHelperTests.GetFrameworkWithAllValidData" executed="True" result="Success" success="True" time="0.003" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers.MetaDataHelperTests.ShouldMapJobRoles" executed="True" result="Success" success="True" time="0.091" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers.MetaDataHelperTests.ShouldMapKeywords" executed="True" result="Success" success="True" time="0.012" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Helpers.MetaDataHelperTests.ShouldMapTypicalLength" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Provider" executed="True" result="Success" success="True" time="1.173" asserts="10">
+                                <results>
+                                  <test-suite type="TestFixture" name="FcsActiveProvidersClientTest" executed="True" result="Success" success="True" time="0.063" asserts="0">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.FcsActiveProvidersClientTest.ShouldGetFcsActiveProviders" executed="True" result="Success" success="True" time="0.060" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestSuite" name="Services" executed="True" result="Success" success="True" time="1.169" asserts="10">
+                                    <results>
+                                      <test-suite type="TestFixture" name="ProviderIndexerTests" executed="True" result="Success" success="True" time="0.171" asserts="10">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.CreatIndexShouldDeleteAnyExistingIndexWithTheSameName" executed="True" result="Success" success="True" time="0.059" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.DeleteIndexesShouldDeleteIndexesOfLastTwoDays" executed="True" result="Success" success="True" time="0.014" asserts="5" />
+                                          <test-suite type="ParameterizedTest" name="ShouldCheckIfTheDateIsValid" executed="True" result="Success" success="True" time="0.030" asserts="5">
+                                            <results>
+                                              <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.ShouldCheckIfTheDateIsValid(0,null,True)" executed="True" result="Success" success="True" time="0.007" asserts="1" />
+                                              <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.ShouldCheckIfTheDateIsValid(3,null,False)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                              <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.ShouldCheckIfTheDateIsValid(null,null,False)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                              <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.ShouldCheckIfTheDateIsValid(0,3,True)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                              <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.ShouldCheckIfTheDateIsValid(-2,-1,False)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                            </results>
+                                          </test-suite>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.ShouldCreateIndexIfOneDoesNotAlreadyExist" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.ShouldCreateIndexWithTheCorrectName" executed="True" result="Success" success="True" time="0.026" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.SwapIndexesShouldCreateAliasIfItDoesNotExist" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services.ProviderIndexerTests.SwapIndexesShouldSwapTheIndexUsedToTheProvidedOne" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Queue" executed="True" result="Success" success="True" time="1.332" asserts="0">
+                                <results>
+                                  <test-suite type="TestFixture" name="GenericControlQueueConsumerTest" executed="True" result="Success" success="True" time="0.159" asserts="0">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue.GenericControlQueueConsumerTest.ShouldDeleteAnyExtraMessagesAfterTheLatest" executed="True" result="Success" success="True" time="0.082" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue.GenericControlQueueConsumerTest.ShouldDoNothingIfIndexerServiceIsNull" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue.GenericControlQueueConsumerTest.ShouldLogErrorWhenSomethingFails" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue.GenericControlQueueConsumerTest.ShouldNotGetMessagesIfQueueNameHasNotBeenFound" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue.GenericControlQueueConsumerTest.ShouldNotRunIndexerIfNoMessagesArePresent" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue.GenericControlQueueConsumerTest.ShouldNotRunIndexerIfReturnedMessagesAreNull" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue.GenericControlQueueConsumerTest.ShouldRunIndexerIfMessagesArePresent" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Queue.GenericControlQueueConsumerTest.ShouldUseCorrectQueueNameFromSettings" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Services" executed="True" result="Success" success="True" time="1.564" asserts="6">
+                                <results>
+                                  <test-suite type="TestFixture" name="ApprenticeshipIndexerTests" executed="True" result="Success" success="True" time="0.076" asserts="5">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.ApprenticeshipIndexerTests.CreatIndexShouldDeleteAnyExistingIndexWithTheSameName" executed="True" result="Success" success="True" time="0.032" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.ApprenticeshipIndexerTests.DeleteIndexesShouldDeleteIndexesOfLastTwoDays" executed="True" result="Success" success="True" time="0.006" asserts="5" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.ApprenticeshipIndexerTests.ShouldCreateIndexIfOneDoesNotAlreadyExist" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.ApprenticeshipIndexerTests.ShouldCreateIndexWithTheCorrectName" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.ApprenticeshipIndexerTests.SwapIndexesShouldCreateAliasIfItDoesNotExist" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.ApprenticeshipIndexerTests.SwapIndexesShouldSwapTheIndexUsedToTheProvidedOne" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="IndexerServiceTests" executed="True" result="Success" success="True" time="0.147" asserts="1">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.IndexerServiceTests.ShouldIndexProvidersIfThatIndexHasBeenCreatedProperly" executed="True" result="Success" success="True" time="0.068" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.IndexerServiceTests.ShouldNotIndexProvidersIfThatIndexHasNotBeenCreatedProperly" executed="True" result="Success" success="True" time="0.022" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.IndexerServiceTests.ShouldNotSwapIdexesIfNewOneHasNotBeenCreatedProperly" executed="True" result="Success" success="True" time="0.021" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services.IndexerServiceTests.ShouldSwapIdexesIfNewOneHasBeenCreatedProperly" executed="True" result="Success" success="True" time="0.023" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Settings" executed="True" result="Success" success="True" time="1.586" asserts="0">
+                                <results>
+                                  <test-suite type="TestFixture" name="AppServiceSettingsTests" executed="True" result="Success" success="True" time="0.018" asserts="0">
+                                    <results>
+                                      <test-suite type="ParameterizedTest" name="CreateQueueNameFromType" executed="True" result="Success" success="True" time="0.014" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Settings.AppServiceSettingsTests.CreateQueueNameFromType(Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services.IMaintainApprenticeshipIndex,&quot;Apprenticeship.QueueName&quot;)" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Settings.AppServiceSettingsTests.CreateQueueNameFromType(Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services.IMaintainProviderIndex,&quot;Provider.QueueName&quot;)" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestSuite" name="Core" executed="True" result="Success" success="True" time="1.659" asserts="11">
+                            <results>
+                              <test-suite type="TestSuite" name="Extensions" executed="True" result="Success" success="True" time="1.603" asserts="2">
+                                <results>
+                                  <test-suite type="TestFixture" name="EnumExtensionsTests" executed="True" result="Success" success="True" time="0.005" asserts="1">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Extensions.EnumExtensionsTests.ShouldFindTheEnumValueDescriptionFromTheAttrbute" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="StringExtensionsTests" executed="True" result="Success" success="True" time="0.004" asserts="1">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Extensions.StringExtensionsTests.ShouldConvertAStringToAStream" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Models" executed="True" result="Success" success="True" time="1.652" asserts="9">
+                                <results>
+                                  <test-suite type="TestFixture" name="LarsStandardTests" executed="True" result="Success" success="True" time="0.033" asserts="7">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Models.LarsStandardTests.ShouldBeInvalidIfItHasNoStartDate" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Models.LarsStandardTests.ShouldBeInvalidIfTheEndDateIsInThePast" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Models.LarsStandardTests.ShouldBeInvalidIfTheStartDateIsInTheFuture" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Models.LarsStandardTests.ShouldBeValidIfItHasNoEndDate" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Models.LarsStandardTests.ShouldBeValidIfTheStartDateisTodayAndEndDateIsInFuture" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                      <test-suite type="ParameterizedTest" name="Testcase" executed="True" result="Success" success="True" time="0.008" asserts="2">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Models.LarsStandardTests.ShouldBeValidIfTheStartDateisTodayAndEndDateIsInFuture" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Models.LarsStandardTests.ShouldBeValidIfTheStartDateinPastAndEndDateIsToday" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                        </results>
+                                      </test-suite>
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="ProviderTests" executed="True" result="Success" success="True" time="0.008" asserts="2">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Models.ProviderTests.ShouldBeInvalidIfMissingAName" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Core.Models.ProviderTests.ShouldBeInvalidIfUkprnIsShort" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestSuite" name="Infrastructure" executed="False" result="Ignored">
+                            <reason>
+                              <message><![CDATA[One or more child tests were ignored]]></message>
+                            </reason>
+                            <results>
+                              <test-suite type="TestSuite" name="DapperDB" executed="False" result="Ignored">
+                                <reason>
+                                  <message><![CDATA[One or more child tests were ignored]]></message>
+                                </reason>
+                                <results>
+                                  <test-suite type="TestFixture" name="AchievementRateProviderTest" executed="False" result="Ignored">
+                                    <reason>
+                                      <message><![CDATA[One or more child tests were ignored]]></message>
+                                    </reason>
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB.AchievementRateProviderTest.ProviderTest" executed="False" result="Ignored">
+                                        <categories>
+                                          <category name="ExternalDependency" />
+                                          <category name="Integration" />
+                                        </categories>
+                                        <properties>
+                                          <property name="_SKIPREASON" value="explicit tests show up in the VSTS report" />
+                                        </properties>
+                                        <reason>
+                                          <message><![CDATA[explicit tests show up in the VSTS report]]></message>
+                                        </reason>
+                                      </test-case>
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="AchievementRatesNationalTest" executed="False" result="Ignored">
+                                    <reason>
+                                      <message><![CDATA[One or more child tests were ignored]]></message>
+                                    </reason>
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB.AchievementRatesNationalTest.NationalTest" executed="False" result="Ignored">
+                                        <categories>
+                                          <category name="ExternalDependency" />
+                                          <category name="Integration" />
+                                        </categories>
+                                        <properties>
+                                          <property name="_SKIPREASON" value="explicit tests show up in the VSTS report" />
+                                        </properties>
+                                        <reason>
+                                          <message><![CDATA[explicit tests show up in the VSTS report]]></message>
+                                        </reason>
+                                      </test-case>
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="SatisfactionRateProviderTest" executed="False" result="Ignored">
+                                    <reason>
+                                      <message><![CDATA[One or more child tests were ignored]]></message>
+                                    </reason>
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.DapperDB.SatisfactionRateProviderTest.ProviderTest" executed="False" result="Ignored">
+                                        <categories>
+                                          <category name="ExternalDependency" />
+                                          <category name="Integration" />
+                                        </categories>
+                                        <properties>
+                                          <property name="_SKIPREASON" value="explicit tests show up in the VSTS report" />
+                                        </properties>
+                                        <reason>
+                                          <message><![CDATA[explicit tests show up in the VSTS report]]></message>
+                                        </reason>
+                                      </test-case>
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Elasticsearch" executed="True" result="Success" success="True" time="2.227" asserts="4">
+                                <results>
+                                  <test-suite type="TestFixture" name="BulkProviderClientTests" executed="True" result="Success" success="True" time="0.192" asserts="0">
+                                    <results>
+                                      <test-suite type="ParameterizedTest" name="BatchSizeTest" executed="True" result="Success" success="True" time="0.086" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.BatchSizeTest(3999,1)" executed="True" result="Success" success="True" time="0.050" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.BatchSizeTest(0,0)" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.BatchSizeTest(4000,1)" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.BatchSizeTest(4001,2)" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.BatchSizeTest(16000,4)" executed="True" result="Success" success="True" time="0.013" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                      <test-suite type="ParameterizedTest" name="ShouldCallClient" executed="True" result="Success" success="True" time="0.098" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.ShouldCallClient(3999,1)" executed="True" result="Success" success="True" time="0.056" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.ShouldCallClient(0,0)" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.ShouldCallClient(4000,1)" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.ShouldCallClient(4001,2)" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.BulkProviderClientTests.ShouldCallClient(16000,4)" executed="True" result="Success" success="True" time="0.015" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="ElasticsearchApprenticeshipIndexMaintainerTests" executed="True" result="Success" success="True" time="0.160" asserts="1">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchApprenticeshipIndexMaintainerTests.ShouldBulk2TimeWith4001Standards" executed="True" result="Success" success="True" time="0.113" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchApprenticeshipIndexMaintainerTests.ShouldFilterOutStandardsThatAreNotValid" executed="True" result="Success" success="True" time="0.012" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchApprenticeshipIndexMaintainerTests.ShouldThrowAnExceptionIfCantCreateAnIndex" executed="True" result="Success" success="True" time="0.025" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="ElasticsearchMapperTest" executed="True" result="Success" success="True" time="0.172" asserts="2">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.ShouldCreateFrameworkProviderDocumentWithListOfLocationPoints" executed="True" result="Success" success="True" time="0.026" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.ShouldCreateFrameworkProviderDocumentWithListOfProviderLocations" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.ShouldCreateStandardProviderDocumentWithListLocationPoints" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.ShouldCreateStandardProviderDocumentWithListOfProviderLocations" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.ShouldCreateValidFrameworkProviderDocument" executed="True" result="Success" success="True" time="0.012" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.ShouldCreateValidStandardProviderDocument" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.ShouldThrowMappingExceptionOnMappingErrorForFrameworkProviderMapping" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.ShouldThrowMappingExceptionOnMappingErrorForStandardProviderMapping" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.WhenCreatingFrameworkDocument" executed="True" result="Success" success="True" time="0.044" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.WhenCreatingFrameworkDocumentAndPathwaySameAsTitleButWithTrailingSpace" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.WhenCreatingFrameworkDocumentAndTitleIsPathway" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.WhenCreatingFrameworkDocumentShouldTrimPathwayWhiteSpaces" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.WhenCreatingFrameworkDocumentShouldTrimTitleWhiteSpaces" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.WhenCreatingOrganisationDocument" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchMapperTest.WhenCreatingStandardOrganisationDocument" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="ElasticsearchProviderIndexMaintainerTests" executed="True" result="Success" success="True" time="0.010" asserts="1">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch.ElasticsearchProviderIndexMaintainerTests.ShouldThrowAnExceptionIfCantCreateAnIndex" executed="True" result="Success" success="True" time="0.007" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Handlers" executed="True" result="Success" success="True" time="2.317" asserts="0">
+                                <results>
+                                  <test-suite type="TestFixture" name="HeiHandlerTests" executed="True" result="Success" success="True" time="0.086" asserts="0">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Handlers.HeiHandlerTests.ShouldQueryForHeiProviders" executed="True" result="Success" success="True" time="0.083" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Services" executed="True" result="Success" success="True" time="2.888" asserts="16">
+                                <results>
+                                  <test-suite type="TestFixture" name="CsvServiceTests" executed="True" result="Success" success="True" time="0.092" asserts="3">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.CsvServiceTests.ShouldFindTheValueOfACellInACSV" executed="True" result="Success" success="True" time="0.082" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.CsvServiceTests.ShouldReturnElementCountFromCsv" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.CsvServiceTests.ShouldReturnEmptyEnumerableIfCsvDoesntContainAnything" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="ProcessOrganisationTypeTests" executed="True" result="Success" success="True" time="0.102" asserts="12">
+                                    <results>
+                                      <test-suite type="ParameterizedTest" name="RunTests" executed="True" result="Success" success="True" time="0.098" asserts="12">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Assessment Organisation&quot;,&quot;Assessment Organisation&quot;,False)" executed="True" result="Success" success="True" time="0.040" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot; Assessment Organisation&quot;,&quot;Other&quot;,True)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Assessment Organisation &quot;,&quot;Other&quot;,True)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;assessment organisation&quot;,&quot;Other&quot;,True)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Awarding Organisation&quot;,&quot;Awarding Organisation&quot;,False)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Employer or trade body&quot;,&quot;Employer or trade body&quot;,False)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Higher Education Institution&quot;,&quot;Higher Education Institution&quot;,False)" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Other&quot;,&quot;Other&quot;,False)" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Professional body&quot;,&quot;Professional body&quot;,False)" executed="True" result="Success" success="True" time="0.003" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Sector Skills Council&quot;,&quot;Sector Skills Council&quot;,False)" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Training Provider&quot;,&quot;Training Provider&quot;,False)" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ProcessOrganisationTypeTests.RunTests(&quot;Unmatched Item&quot;,&quot;Other&quot;,True)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                        </results>
+                                      </test-suite>
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="UkrlpServiceTest" executed="True" result="Success" success="True" time="0.192" asserts="1">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.UkrlpServiceTest.ShouldThrowAnExceptionIfThereWasAnExceptionFromUkrlp" executed="True" result="Success" success="True" time="0.188" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="VstsClientTests" executed="True" result="Success" success="True" time="0.034" asserts="0">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.VstsClientTests.ShouldDownloadAString" executed="True" result="Success" success="True" time="0.030" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="ZipFileExtractorTest" executed="True" result="Success" success="True" time="0.133" asserts="0">
+                                    <results>
+                                      <test-suite type="ParameterizedTest" name="ShouldFailToUnzipStream" executed="True" result="Success" success="True" time="0.104" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ZipFileExtractorTest.ShouldFailToUnzipStream(&quot;CSV/frameworks.csv&quot;,&quot;CSV/standards.csv&quot;,&quot;Bar!&quot;)" executed="True" result="Success" success="True" time="0.097" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ZipFileExtractorTest.ShouldFailToUnzipStream(&quot;CSVNOT/frameworks.csv&quot;,&quot;CSV/frameworks.csv&quot;,&quot;Bar!&quot;)" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                      <test-suite type="ParameterizedTest" name="ShouldUnzipStream" executed="True" result="Success" success="True" time="0.021" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ZipFileExtractorTest.ShouldUnzipStream(&quot;CSV/frameworks.csv&quot;,&quot;CSV/frameworks.csv&quot;,&quot;Bar!&quot;,&quot;Bar!&quot;)" executed="True" result="Success" success="True" time="0.013" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Services.ZipFileExtractorTest.ShouldUnzipStream(&quot;CSVNOT/frameworks.csv&quot;,&quot;CSV/frameworks.csv&quot;,&quot;Bar!&quot;,null)" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Settings" executed="True" result="Success" success="True" time="4.191" asserts="11">
+                                <results>
+                                  <test-suite type="TestFixture" name="AppConfigSettingsProviderTests" executed="True" result="Success" success="True" time="0.034" asserts="4">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Settings.AppConfigSettingsProviderTests.GettingSetting" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Settings.AppConfigSettingsProviderTests.ShouldTryBaseSettingsProviderIfNoSettingExistsInConfig" executed="True" result="Success" success="True" time="0.006" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Settings.AppConfigSettingsProviderTests.ShouldTryBaseSettingsProviderIfSettingIsEmptyInConfig" executed="True" result="Success" success="True" time="0.005" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Settings.AppConfigSettingsProviderTests.TryGetMissingSetting" executed="True" result="Success" success="True" time="0.008" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="InfrastructureSettingsTests" executed="True" result="Success" success="True" time="0.061" asserts="3">
+                                    <results>
+                                      <test-suite type="ParameterizedTest" name="GetElasticIPsTest" executed="True" result="Success" success="True" time="0.057" asserts="3">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Settings.InfrastructureSettingsTests.GetElasticIPsTest(&quot;http://40.2.2.20:9200,http://world.com&quot;,2,&quot;http://40.2.2.20:9200/&quot;)" executed="True" result="Success" success="True" time="0.053" asserts="3" />
+                                        </results>
+                                      </test-suite>
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="LarsSettingsTests" executed="True" result="Success" success="True" time="0.012" asserts="3">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Settings.LarsSettingsTests.ShouldGetDataSetNameSetting" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Settings.LarsSettingsTests.ShouldGetSearchEndpointNameSetting" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Settings.LarsSettingsTests.ShouldGetStandardDescriptorNameSetting" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="MachineSettingsTests" executed="True" result="Success" success="True" time="1.180" asserts="1">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Settings.MachineSettingsTests.ShouldGetSettingFromEnvironmentVariable" executed="True" result="Success" success="True" time="0.632" asserts="1">
+                                        <categories>
+                                          <category name="Problematic" />
+                                        </categories>
+                                      </test-case>
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestSuite" name="MetaDataCreationTool" executed="True" result="Success" success="True" time="4.419" asserts="0">
+                            <results>
+                              <test-suite type="TestSuite" name="Services" executed="True" result="Success" success="True" time="4.415" asserts="0">
+                                <results>
+                                  <test-suite type="TestFixture" name="AssessmentOrgsXlsxServiceTests" executed="True" result="Success" success="True" time="0.220" asserts="0">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Indexer.UnitTests.MetaDataCreationTool.Services.AssessmentOrgsXlsxServiceTests.ShouldFilterOrganisationsIfInvalidDataOrDuplicates" executed="True" result="Success" success="True" time="0.214" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+  <test-suite type="Assembly" name="C:\FAT\indexer\src\Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests\bin\Debug\Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.dll" executed="False" result="Ignored">
+    <properties>
+      <property name="_PID" value="4456" />
+      <property name="_APPDOMAIN" value="test-domain-Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.dll" />
+    </properties>
+    <reason>
+      <message><![CDATA[One or more child tests were ignored]]></message>
+    </reason>
+    <results>
+      <test-suite type="TestSuite" name="Sfa" executed="False" result="Ignored">
+        <reason>
+          <message><![CDATA[One or more child tests were ignored]]></message>
+        </reason>
+        <results>
+          <test-suite type="TestSuite" name="Das" executed="False" result="Ignored">
+            <reason>
+              <message><![CDATA[One or more child tests were ignored]]></message>
+            </reason>
+            <results>
+              <test-suite type="TestSuite" name="Sas" executed="False" result="Ignored">
+                <reason>
+                  <message><![CDATA[One or more child tests were ignored]]></message>
+                </reason>
+                <results>
+                  <test-suite type="TestSuite" name="Tools" executed="False" result="Ignored">
+                    <reason>
+                      <message><![CDATA[One or more child tests were ignored]]></message>
+                    </reason>
+                    <results>
+                      <test-suite type="TestSuite" name="MetaDataCreationTool" executed="False" result="Ignored">
+                        <reason>
+                          <message><![CDATA[One or more child tests were ignored]]></message>
+                        </reason>
+                        <results>
+                          <test-suite type="TestSuite" name="UnitTests" executed="False" result="Ignored">
+                            <reason>
+                              <message><![CDATA[One or more child tests were ignored]]></message>
+                            </reason>
+                            <results>
+                              <test-suite type="TestSuite" name="Factories" executed="True" result="Success" success="True" time="0.848" asserts="1">
+                                <results>
+                                  <test-suite type="TestFixture" name="LarsMetaDataFactoryTest" executed="True" result="Success" success="True" time="0.746" asserts="1">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.LarsMetaDataFactoryTest.ShouldReturnMetaData" executed="True" result="Success" success="True" time="0.708" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.LarsMetaDataFactoryTest.ShouldReturnNullIfEmptyParameterIsPassed" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.LarsMetaDataFactoryTest.ShouldReturnNullIfNullParameterIsPassed" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.LarsMetaDataFactoryTest.ShouldThrowExceptionIfCreatingUpsupportedType" executed="True" result="Success" success="True" time="0.011" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestSuite" name="MetaData" executed="True" result="Success" success="True" time="0.843" asserts="0">
+                                    <results>
+                                      <test-suite type="TestFixture" name="ApprenticeshipComponentTypeMetaDataFactoryTest" executed="True" result="Success" success="True" time="0.019" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.ApprenticeshipComponentTypeMetaDataFactoryTest.ShouldCreateFrameworkContentTypeMetaData" executed="True" result="Success" success="True" time="0.011" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.ApprenticeshipComponentTypeMetaDataFactoryTest.ShouldReturnObjectOfCorrectType" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                      <test-suite type="TestFixture" name="FrameworkAimMetaDataFactoryTest" executed="True" result="Success" success="True" time="0.010" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.FrameworkAimMetaDataFactoryTest.ShouldCreateFrameworkAimMetaData" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.FrameworkAimMetaDataFactoryTest.ShouldReturnObjectOfCorrectType" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                      <test-suite type="TestFixture" name="FrameworkMetaDataFactoryTest" executed="True" result="Success" success="True" time="0.012" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.FrameworkMetaDataFactoryTest.ShouldCreateFrameworkMetaData" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.FrameworkMetaDataFactoryTest.ShouldReturnObjectOfCorrectType" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                      <test-suite type="TestFixture" name="LearningDeliveryMetaDataFactoryTest" executed="True" result="Success" success="True" time="0.010" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.LearningDeliveryMetaDataFactoryTest.ShouldCreateLearningDeliveryMetaData" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.LearningDeliveryMetaDataFactoryTest.ShouldReturnObjectOfCorrectType" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                      <test-suite type="TestFixture" name="StandardMetaDataFactoryTest" executed="True" result="Success" success="True" time="0.018" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.StandardMetaDataFactoryTest.ShouldCreateFrameworkAimMetaData" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData.StandardMetaDataFactoryTest.ShouldReturnObjectOfCorrectType" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestFixture" name="MetaDataManagerTests" executed="True" result="Success" success="True" time="0.486" asserts="3">
+                                <results>
+                                  <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.MetaDataManagerTests.GenerateStandardMetadataFilesTestShouldPushOnlyMissingStandardsToGit" executed="True" result="Success" success="True" time="0.389" asserts="1" />
+                                  <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.MetaDataManagerTests.GetAllAsJsonShouldReturnDictionary" executed="True" result="Success" success="True" time="0.008" asserts="1" />
+                                  <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.MetaDataManagerTests.ShouldCreatePdfLinks" executed="True" result="Success" success="True" time="0.057" asserts="0" />
+                                  <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.MetaDataManagerTests.ShouldNotCreatePdfLinksIfNoUriToStandard" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                                  <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.MetaDataManagerTests.ShouldUpdateMetadataFromLars" executed="True" result="Success" success="True" time="0.005" asserts="1" />
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestFixture" name="MetaDataTest" executed="False" result="Ignored">
+                                <reason>
+                                  <message><![CDATA[One or more child tests were ignored]]></message>
+                                </reason>
+                                <results>
+                                  <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.MetaDataTest.TestGenerationOfFiles" executed="False" result="Ignored">
+                                    <categories>
+                                      <category name="ExternalDependency" />
+                                      <category name="Integration" />
+                                    </categories>
+                                    <properties>
+                                      <property name="_SKIPREASON" value="explicit tests show up in the VSTS report" />
+                                    </properties>
+                                    <reason>
+                                      <message><![CDATA[explicit tests show up in the VSTS report]]></message>
+                                    </reason>
+                                  </test-case>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestSuite" name="Services" executed="True" result="Success" success="True" time="2.421" asserts="26">
+                                <results>
+                                  <test-suite type="TestFixture" name="AngleSharpServiceTests" executed="True" result="Success" success="True" time="0.495" asserts="3">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.AngleSharpServiceTests.WhenGettingLinks" executed="True" result="Success" success="True" time="0.485" asserts="2" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.AngleSharpServiceTests.WhenUrlIsEmpty" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="CsvServiceTest" executed="True" result="Success" success="True" time="0.019" asserts="10">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.CsvServiceTest.CreateFrameworksFromCsv" executed="True" result="Success" success="True" time="0.004" asserts="4" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.CsvServiceTest.CreateFrameworksFromCsvWithComma" executed="True" result="Success" success="True" time="0.008" asserts="6" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="GitTest" executed="True" result="Success" success="True" time="0.030" asserts="2">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.GitTest.GeneratePush2NewJson" executed="True" result="Success" success="True" time="0.022" asserts="1" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.GitTest.GeneratePushJson" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="JsonMetaDataConvertTest" executed="True" result="Success" success="True" time="0.118" asserts="0">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.JsonMetaDataConvertTest.WhenConvertingJsons" executed="True" result="Success" success="True" time="0.103" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.JsonMetaDataConvertTest.WhenOneRecordHaveFormatingError" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="LarsDataServiceTest" executed="True" result="Success" success="True" time="0.275" asserts="0">
+                                    <results>
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldAddQualificationWithNoEffectiveToDateButWeightedFundingToFramework" executed="True" result="Success" success="True" time="0.112" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldNotAddQualificationWithExpiredFundingToFramework" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldNotAddQualificationWithUnweightedFundingToFramework" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldNotHaveSameQualificationInCombinedAndOtherComponentType" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldNotPopulateFrameworkWithQualificationsThatHaveExpired" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldNotProcessFrameworkThatHasANotValidEffectiveFromDate" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldNotProcessFrameworkThatHasAPathwayOfZero" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldNotProcessFrameworkThatHasAUnsupportedPrgType" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                      <test-suite type="ParameterizedTest" name="ShouldNotProcessFrameworkThatHasCodeThatIsOutOfBounds" executed="True" result="Success" success="True" time="0.010" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldNotProcessFrameworkThatHasCodeThatIsOutOfBounds(399)" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldPopulateFrameworkWithCombinedQualifications" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldPopulateFrameworkWithCompetenceQualifications" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldPopulateFrameworkWithKnowledgeQualifications" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldRemoveOldQcfLabelFromQualificationTitle" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldReturnUniqueQualifications" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                                      <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.LarsDataServiceTest.ShouldReturnUniqueQualificationsEvenIfCaseIsDifferent" executed="True" result="Success" success="True" time="0.013" asserts="0" />
+                                    </results>
+                                  </test-suite>
+                                  <test-suite type="TestFixture" name="RoatpProvidersXlsxServiceTests" executed="True" result="Success" success="True" time="0.116" asserts="11">
+                                    <results>
+                                      <test-suite type="ParameterizedTest" name="ShouldLogUnknownProvider" executed="True" result="Success" success="True" time="0.035" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldLogUnknownProvider(&quot;Mian provider&quot;)" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldLogUnknownProvider(&quot;MainProvider&quot;)" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldLogUnknownProvider(&quot; &quot;)" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldLogUnknownProvider(&quot;&quot;)" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldLogUnknownProvider(null)" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldLogUnknownProvider(&quot;MainProvider&quot;)" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                      <test-suite type="ParameterizedTest" name="ShouldMatchTheProviderType" executed="True" result="Success" success="True" time="0.044" asserts="11">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot;main provider&quot;,MainProvider)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot;Main Provider&quot;,MainProvider)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot;Mian provider&quot;,Unknown)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot;MainProvider&quot;,Unknown)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot; &quot;,Unknown)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot;&quot;,Unknown)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(null,Unknown)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot;Supporting Provider&quot;,SupportingProvider)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot;Employer Provider&quot;,EmployerProvider)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot; Employer Provider&quot;,EmployerProvider)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldMatchTheProviderType(&quot;Employer Provider &quot;,EmployerProvider)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                                        </results>
+                                      </test-suite>
+                                      <test-suite type="ParameterizedTest" name="ShouldNotLogknownProvider" executed="True" result="Success" success="True" time="0.024" asserts="0">
+                                        <results>
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldNotLogknownProvider(&quot;main provider&quot;)" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldNotLogknownProvider(&quot;Main Provider&quot;)" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldNotLogknownProvider(&quot; Employer Provider&quot;)" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                                          <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Services.RoatpProvidersXlsxServiceTests.ShouldNotLogknownProvider(&quot;Employer Provider &quot;)" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                                        </results>
+                                      </test-suite>
+                                    </results>
+                                  </test-suite>
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestFixture" name="VstsTest" executed="True" result="Success" success="True" time="0.061" asserts="5">
+                                <results>
+                                  <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.VstsTest.GeStandards" executed="True" result="Success" success="True" time="0.040" asserts="1">
+                                    <categories>
+                                      <category name="ExternalDependency" />
+                                    </categories>
+                                  </test-case>
+                                  <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.VstsTest.GetIds" executed="True" result="Success" success="True" time="0.007" asserts="3" />
+                                  <test-case name="Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.VstsTest.ShouldReturnNewDictionaryIfBlobsAreNull" executed="True" result="Success" success="True" time="0.005" asserts="1" />
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
