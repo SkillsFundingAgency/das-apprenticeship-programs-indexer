@@ -25,6 +25,16 @@
 
         public IEnumerable<T> Query<T>(string query, object param = null)
         {
+            return ExecuteQuery<T>(query, param);
+        }
+
+        public IEnumerable<T> QueryStoredProc<T>(string query, object param = null)
+        {
+            return ExecuteQuery<T>(query, param, CommandType.StoredProcedure);
+        }
+
+        private IEnumerable<T> ExecuteQuery<T>(string query, object param = null, CommandType commandType = CommandType.Text)
+        {
             if (string.IsNullOrEmpty(_infrastructureSettings.AchievementRateDataBaseConnectionString))
             {
                 _logger.Error(new NullReferenceException(ErrorMsg), ErrorMsg);
@@ -34,27 +44,9 @@
             using (IDbConnection dataConnection = new SqlConnection(_infrastructureSettings.AchievementRateDataBaseConnectionString))
             {
                 var timer = Stopwatch.StartNew();
-                var data = dataConnection.Query<T>(query, param);
+                var data = dataConnection.Query<T>(query, param, commandType: commandType);
                 LogDependency(timer.Elapsed.TotalMilliseconds);
 
-                return data;
-            }
-        }
-
-        public T ExecuteScalar<T>(string query)
-        {
-            if (string.IsNullOrEmpty(_infrastructureSettings.AchievementRateDataBaseConnectionString))
-            {
-                var errorMsg = "Missing connectionstring for achievementrates database";
-                _logger.Error(new NullReferenceException(errorMsg), errorMsg);
-                return default(T);
-            }
-
-            using (IDbConnection dataConnection = new SqlConnection(_infrastructureSettings.AchievementRateDataBaseConnectionString))
-            {
-                var timer = Stopwatch.StartNew();
-                var data = dataConnection.ExecuteScalar<T>(query);
-                LogDependency(timer.Elapsed.TotalMilliseconds);
                 return data;
             }
         }

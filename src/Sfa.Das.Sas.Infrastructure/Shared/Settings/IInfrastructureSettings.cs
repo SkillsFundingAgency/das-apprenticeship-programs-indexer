@@ -32,5 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
         string EmployerSatisfactionRatesTableName { get; }
 
         string LearnerSatisfactionRatesTableName { get; }
+
+        bool UseStoredProc { get; }
     }
 }

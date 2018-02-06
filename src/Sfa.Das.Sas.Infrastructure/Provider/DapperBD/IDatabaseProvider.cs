@@ -6,6 +6,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
     {
         IEnumerable<T> Query<T>(string query, object param = null);
 
-        T ExecuteScalar<T>(string query);
+        IEnumerable<T> QueryStoredProc<T>(string query, object param = null);
     }
 }

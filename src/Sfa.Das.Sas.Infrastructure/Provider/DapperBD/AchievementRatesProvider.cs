@@ -1,23 +1,45 @@
+using System.Collections.Generic;
+using System.Linq;
+using MediatR;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
-    using System.Linq;
-    using MediatR;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-
     public class AchievementRatesProvider : IRequestHandler<AchievementRateProviderRequest, AchievementRateProviderResult>
     {
         private readonly IDatabaseProvider _databaseProvider;
         private readonly ILog _logger;
+        private readonly IInfrastructureSettings _settings;
 
-        public AchievementRatesProvider(IDatabaseProvider databaseProvider, ILog logger)
+        public AchievementRatesProvider(
+            IDatabaseProvider databaseProvider,
+            ILog logger,
+            IInfrastructureSettings settings)
         {
             _databaseProvider = databaseProvider;
             _logger = logger;
+            _settings = settings;
         }
 
         public AchievementRateProviderResult Handle(AchievementRateProviderRequest message)
+        {
+            var results = _settings.UseStoredProc
+                ? GetDataWithStoredProc()
+                : GetData();
+
+            _logger.Debug($"Retreived {results.Count} Provider rates");
+            return new AchievementRateProviderResult { Rates = results };
+        }
+
+        private IList<AchievementRateProvider> GetDataWithStoredProc()
+        {
+            return _databaseProvider.QueryStoredProc<AchievementRateProvider>("[dbo].[GetAchievementRatesProvider]").ToList();
+        }
+
+        private IList<AchievementRateProvider> GetData()
         {
             var query = @"SELECT 
                     [UKPRN], 
@@ -33,9 +55,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
                     AND [Apprenticeship Level] <> 'All'
                     AND [Hybrid End Year] = (SELECT MAX([Hybrid End Year]) FROM ar_by_provider)
                     ";
-            var achievementRateProviders = _databaseProvider.Query<AchievementRateProvider>(query).ToList();
-            _logger.Debug($"Retreived {achievementRateProviders.Count} Provider rates");
-            return new AchievementRateProviderResult { Rates = achievementRateProviders };
+            return _databaseProvider.Query<AchievementRateProvider>(query).ToList();
         }
     }
 }

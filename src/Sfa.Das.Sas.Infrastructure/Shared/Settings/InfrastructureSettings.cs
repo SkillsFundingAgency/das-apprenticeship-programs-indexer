@@ -46,6 +46,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string LearnerSatisfactionRatesTableName => _settingsProvider.GetSetting("LearnerSatisfactionRatesTableName");
 
+        public bool UseStoredProc => Convert.ToBoolean(_settingsProvider.GetSetting("FEChoicesUseStoredProc"));
+
         public IEnumerable<Uri> GetElasticIPs(string appSetting)
         {
             var urlsString = _settingsProvider.GetSetting(appSetting).Split(',');
