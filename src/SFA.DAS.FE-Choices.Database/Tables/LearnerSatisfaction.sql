@@ -7,5 +7,6 @@ CREATE TABLE [dbo].[LearnerSatisfaction]
 	[MSRCDescription] NVARCHAR(100) NULL,
 	[Learners] INT NOT NULL default(0),
 	[Responses] INT NOT NULL default(0),
+	[HybridYear] NVARCHAR(10) NOT NULL default(''),
 	[Year] NVARCHAR(10) NOT NULL
 )

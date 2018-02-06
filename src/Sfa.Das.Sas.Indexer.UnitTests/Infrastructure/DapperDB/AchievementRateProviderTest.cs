@@ -19,7 +19,7 @@
         public void ProviderTest()
         {
             var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());
-            var sut = new AchievementRatesProvider(databaseProvider, Mock.Of<ILog>());
+            var sut = new AchievementRatesProvider(databaseProvider, Mock.Of<ILog>(), Mock.Of<IInfrastructureSettings>());
 
             var result = sut.Handle(null).Rates.ToArray();
 

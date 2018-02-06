@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using MediatR;
 using SFA.DAS.NLog.Logger;
@@ -26,6 +27,21 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 
         public EmployerSatisfactionRateResult Handle(EmployerSatisfactionRateRequest message)
         {
+            var results = _settings.UseStoredProc
+                ? GetDataWithStoredProc()
+                : GetData();
+
+            _log.Debug($"Retrieved {results.Count} employer satisfaction rates");
+            return new EmployerSatisfactionRateResult { Rates = results };
+        }
+
+        private IList<SatisfactionRateProvider> GetDataWithStoredProc()
+        {
+            return _databaseProvider.QueryStoredProc<SatisfactionRateProvider>("[dbo].[GetLatestEmployerSatisfaction]").ToList();
+        }
+
+        private IList<SatisfactionRateProvider> GetData()
+        {
             var query = $@"
                     SELECT  [UKPRN]
                     ,       [Final_Score] AS FinalScore
@@ -34,9 +50,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
                     FROM    {_settings.EmployerSatisfactionRatesTableName}
                     ";
 
-            var results = _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
-            _log.Debug($"Retrieved {results.Count} employer satisfaction rates");
-            return new EmployerSatisfactionRateResult { Rates = results };
+            return _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
         }
     }
 }

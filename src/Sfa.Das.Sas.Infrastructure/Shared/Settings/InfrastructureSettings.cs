@@ -50,6 +50,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public IEnumerable<Uri> ElasticServerUrls => GetElasticIPs("ElasticServerUrls");
 
+        public bool UseStoredProc => Convert.ToBoolean(_settingsProvider.GetSetting("FEChoicesUseStoredProc"));
+
         public IEnumerable<Uri> GetElasticIPs(string appSetting)
         {
             var urlsString = _settingsProvider.GetSetting(appSetting).Split(',');

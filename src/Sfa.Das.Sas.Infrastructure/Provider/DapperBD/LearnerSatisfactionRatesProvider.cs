@@ -27,6 +27,21 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 
         public LearnerSatisfactionRateResult Handle(LearnerSatisfactionRateRequest message)
         {
+            var results = _settings.UseStoredProc
+                ? GetDataWithStoredProc()
+                : GetData();
+
+            _log.Debug("Retrieved learner satisfaction rates from DB", new Dictionary<string, object> { { "TotalCount", results.Count } });
+            return new LearnerSatisfactionRateResult { Rates = results };
+        }
+
+        private IList<SatisfactionRateProvider> GetDataWithStoredProc()
+        {
+            return _databaseProvider.QueryStoredProc<SatisfactionRateProvider>("[dbo].[GetLatestLearnerSatisfaction]").ToList();
+        }
+
+        private IList<SatisfactionRateProvider> GetData()
+        {
             var query = $@"
                     SELECT  [UKPRN]
                     ,       [Final_Score] AS FinalScore
@@ -35,9 +50,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
                     FROM    {_settings.LearnerSatisfactionRatesTableName}
                     ";
 
-            var results = _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
-            _log.Debug("Retrieved learner satisfaction rates from DB", new Dictionary<string, object> { { "TotalCount", results.Count } });
-            return new LearnerSatisfactionRateResult { Rates = results };
+            return _databaseProvider.Query<SatisfactionRateProvider>(query).ToList();
         }
     }
 }
