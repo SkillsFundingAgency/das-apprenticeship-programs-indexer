@@ -19,7 +19,7 @@
         public void NationalTest()
         {
             var databaseProvider = new DatabaseProvider(new InfrastructureSettings(new MachineSettings()), Mock.Of<ILog>());
-            var sut = new AchievementRatesNational(databaseProvider, Mock.Of<ILog>());
+            var sut = new AchievementRatesNational(databaseProvider, Mock.Of<ILog>(), Mock.Of<IInfrastructureSettings>());
 
             var result = sut.Handle(null).Rates.ToArray();
 

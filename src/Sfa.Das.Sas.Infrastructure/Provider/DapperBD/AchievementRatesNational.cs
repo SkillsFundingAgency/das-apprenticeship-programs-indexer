@@ -1,23 +1,45 @@
+using System.Collections.Generic;
+using System.Linq;
+using MediatR;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
-    using System.Linq;
-    using MediatR;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-
     public sealed class AchievementRatesNational : IRequestHandler<AchievementRateNationalRequest, AchievementRateNationalResult>
     {
         private readonly IDatabaseProvider _databaseProvider;
         private readonly ILog _logger;
+        private readonly IInfrastructureSettings _settings;
 
-        public AchievementRatesNational(IDatabaseProvider databaseProvider, ILog logger)
+        public AchievementRatesNational(
+            IDatabaseProvider databaseProvider,
+            ILog logger,
+            IInfrastructureSettings settings)
         {
             _databaseProvider = databaseProvider;
             _logger = logger;
+            _settings = settings;
         }
 
         public AchievementRateNationalResult Handle(AchievementRateNationalRequest message)
+        {
+            var results = _settings.UseStoredProc
+                ? GetDataWithStoredProc()
+                : GetData();
+
+            _logger.Debug($"Retreived {results.Count} national provider rates");
+            return new AchievementRateNationalResult { Rates = results };
+        }
+
+        private IList<AchievementRateNational> GetDataWithStoredProc()
+        {
+            return _databaseProvider.QueryStoredProc<AchievementRateNational>("[dbo].[GetAchievementRatesNational]").ToList();
+        }
+
+        private IList<AchievementRateNational> GetData()
         {
             var query = @"
                     SELECT 
@@ -37,9 +59,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
                     AND [Hybrid End Year] = (SELECT MAX([Hybrid End Year]) FROM ar_national)
                     ";
 
-            var results = _databaseProvider.Query<AchievementRateNational>(query).ToList();
-            _logger.Debug($"Retreived {results.Count} national provider rates");
-            return new AchievementRateNationalResult { Rates = results };
+            return _databaseProvider.Query<AchievementRateNational>(query).ToList();
         }
     }
 }
