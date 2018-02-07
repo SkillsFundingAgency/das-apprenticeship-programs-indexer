@@ -1,6 +1,11 @@
 CREATE PROCEDURE [dbo].[GetAchievementRatesNational]
 AS
-	
+
+SET NOCOUNT ON;
+Declare @hybridYear varchar(10)
+
+set @hybridYear  = (SELECT MAX([HybridYear]) FROM [dbo].[AchievementRatesNational])
+
 SELECT 
 	[Institution Type] as InstitutionType,
 	[HybridYear] as HybridEndYear,
@@ -15,4 +20,4 @@ SELECT
 	AND [Age] = 'All Age'
 	AND [Sector Subject Area Tier 2] <> 'All SSA T2'
 	AND [Apprenticeship Level] <> 'All'
-	AND [HybridYear] = (SELECT MAX([HybridYear]) FROM [dbo].[AchievementRatesNational])
+	AND [HybridYear] = @hybridYear
