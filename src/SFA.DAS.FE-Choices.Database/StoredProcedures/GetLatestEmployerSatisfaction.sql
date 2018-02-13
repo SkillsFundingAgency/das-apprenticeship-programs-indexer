@@ -6,6 +6,6 @@ Declare @hybridYear varchar(10)
 
 set @hybridYear  = (SELECT MAX([HybridYear]) FROM [dbo].[EmployerSatisfaction])
 
-SELECT  [UKPRN] FinalScore, [Employers] AS TotalCount, [Responses] AS ResponseCount
+SELECT  [UKPRN], FinalScore, [Employers] AS TotalCount, [Responses] AS ResponseCount
 FROM [dbo].[EmployerSatisfaction]
 WHERE [HybridYear] = @hybridYear
