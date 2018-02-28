@@ -14,5 +14,6 @@
         public string StandardProviderDocumentType => ConfigurationManager.AppSettings["StandardProviderDocumentType"];
 
         public string FrameworkProviderDocumentType => ConfigurationManager.AppSettings["FrameworkProviderDocumentType"];
+        public string ProviderExclusionList => ConfigurationManager.AppSettings["ProviderExclusionList"];
     }
 }

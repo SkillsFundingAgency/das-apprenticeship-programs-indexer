@@ -19,7 +19,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
         private Mock<IMaintainProviderIndex> _mockIndexMaintainer;
         private Mock<ICourseDirectoryProviderMapper> _mockCourseDirectoryProviderMapper;
         private Mock<IUkrlpProviderMapper> _mockUkrlpProviderMapper;
-
+ 
         [SetUp]
         public void Setup()
         {
@@ -34,7 +34,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
                 _mockUkrlpProviderMapper.Object,
                 _mockIndexMaintainer.Object,
                 Mock.Of<IProviderDataService>(),
-                Mock.Of<ILog>());
+                Mock.Of<ILog>(),
+                Mock.Of<IProviderExclusionService>());
         }
 
         [Test]

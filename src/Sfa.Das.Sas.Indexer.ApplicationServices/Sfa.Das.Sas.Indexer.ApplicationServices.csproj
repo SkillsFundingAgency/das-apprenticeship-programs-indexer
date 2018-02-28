@@ -128,6 +128,8 @@
     <Compile Include="Provider\Models\StandardMetaDataRequest.cs" />
     <Compile Include="Provider\Models\StandardMetaDataResult.cs" />
     <Compile Include="Provider\Models\UkRlp\UkrlpProviderRequest.cs" />
+    <Compile Include="Provider\Services\IProviderExclusionService.cs" />
+    <Compile Include="Provider\Services\ProviderExclusionService.cs" />
     <Compile Include="Provider\Services\RoatpProvidersClient.cs" />
     <Compile Include="Shared\DependencyResolution\SharedApplicationServicesRegistry.cs" />
     <Compile Include="Provider\Models\UkRlp\UkrlpProviderResponse.cs" />

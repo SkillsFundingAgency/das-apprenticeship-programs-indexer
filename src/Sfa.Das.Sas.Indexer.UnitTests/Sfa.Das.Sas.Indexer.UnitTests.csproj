@@ -145,6 +145,7 @@
     <Compile Include="ApplicationInterface\IndexerJobTests.cs" />
     <Compile Include="ApplicationServices\Helpers\MetaDataHelperTests.cs" />
     <Compile Include="ApplicationServices\Provider\FcsActiveProvidersClientTest.cs" />
+    <Compile Include="ApplicationServices\Services\ProviderExclusionServiceTests.cs" />
     <Compile Include="ApplicationServices\Shared\Queue\GenericControlQueueConsumerTest.cs" />
     <Compile Include="ApplicationServices\Apprenticeships\ApprenticeshipIndexerTests.cs" />
     <Compile Include="ApplicationServices\Services\IndexerServiceTests.cs" />

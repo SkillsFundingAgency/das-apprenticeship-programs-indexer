@@ -9,5 +9,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         string StandardProviderDocumentType { get; }
 
         string FrameworkProviderDocumentType { get; }
+
+
+        string ProviderExclusionList { get; }
     }
 }

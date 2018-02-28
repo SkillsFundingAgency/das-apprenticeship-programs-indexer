@@ -27,6 +27,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly ICourseDirectoryProviderMapper _courseDirectoryProviderMapper;
         private readonly IUkrlpProviderMapper _ukrlpProviderMapper;
         private readonly ILog _log;
+        private readonly IProviderExclusionService _providerExclusionService;
 
         public ProviderIndexer(
             IIndexSettings<IMaintainProviderIndex> settings,
@@ -34,7 +35,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             IUkrlpProviderMapper ukrlpProviderMapper,
             IMaintainProviderIndex searchIndexMaintainer,
             IProviderDataService providerDataService,
-            ILog log)
+            ILog log, 
+            IProviderExclusionService providerExclusionService)
         {
             _settings = settings;
             _providerDataService = providerDataService;
@@ -42,6 +44,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             _ukrlpProviderMapper = ukrlpProviderMapper;
             _searchIndexMaintainer = searchIndexMaintainer;
             _log = log;
+            _providerExclusionService = providerExclusionService;
         }
 
         public bool CreateIndex(string indexName)
@@ -212,14 +215,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         private IEnumerable<CoreProvider> CreateApprenticeshipProvidersFcs(ProviderSourceDto source)
         {
-            foreach (var courseDirectoryProvider in source.CourseDirectoryProviders.Providers)
+         foreach (var courseDirectoryProvider in source.CourseDirectoryProviders.Providers)
             {
-                CoreProvider provider;
+                if (_providerExclusionService.IsProviderInExclusionList(courseDirectoryProvider.Ukprn)) { continue; }
 
-                if (!source.ActiveProviders.Providers.Contains(courseDirectoryProvider.Ukprn))
-                {
-                    continue;
-                }
+                CoreProvider provider;
 
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
 
@@ -250,6 +250,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             foreach (var courseDirectoryProvider in source.CourseDirectoryProviders.Providers)
             {
+                if (_providerExclusionService.IsProviderInExclusionList(courseDirectoryProvider.Ukprn)) { continue; }
+
                 CoreProvider provider;
                 var roatpProvider = new RoatpProviderResult();
 

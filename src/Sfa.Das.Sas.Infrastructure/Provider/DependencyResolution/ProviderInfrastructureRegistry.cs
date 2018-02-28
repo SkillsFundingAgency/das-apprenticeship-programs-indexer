@@ -22,8 +22,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DependencyResolution
             For<IDatabaseProvider>().Use<DatabaseProvider>();
             For<IProviderQueryApiClient>().Use(x => new ProviderQueryApiClient(x.GetInstance<IInfrastructureSettings>().UkrlpServiceEndpointUrl));
             For<IUkrlpProviderMapper>().Use<UkrlpProviderMapper>();
-
             For<IEstablishmentClient>().Use(x => new EstablishmentClient(x.GetInstance<IInfrastructureSettings>().EstablishmentUsername, x.GetInstance<IInfrastructureSettings>().EstablishmentPassword));
+            For<IProviderExclusionService>().Use<ProviderExclusionService>();
         }
     }
 }
