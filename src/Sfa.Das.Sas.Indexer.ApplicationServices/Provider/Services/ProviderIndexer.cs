@@ -219,6 +219,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             {
                 if (_providerExclusionService.IsProviderInExclusionList(courseDirectoryProvider.Ukprn)) { continue; }
 
+                if (!source.ActiveProviders.Providers.Contains(courseDirectoryProvider.Ukprn))
+                {
+                    continue;
+                }
+
                 CoreProvider provider;
 
                 var ukrlpProvider = source.UkrlpProviders.MatchingProviderRecords.FirstOrDefault(x => x.UnitedKingdomProviderReferenceNumber == courseDirectoryProvider.Ukprn.ToString());
