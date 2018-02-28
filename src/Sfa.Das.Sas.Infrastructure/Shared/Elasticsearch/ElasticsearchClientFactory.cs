@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Elasticsearch.Net;
 using FeatureToggle.Core.Fluent;
 using Nest;
+using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.Infrastructure.Extensions;
 using Sfa.Das.Sas.Indexer.Infrastructure.FeatureToggles;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
-using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {

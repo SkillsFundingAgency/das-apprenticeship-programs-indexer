@@ -125,7 +125,6 @@
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Indexers\ProviderDataServiceTest.cs" />
-    <Compile Include="Indexers\ApprenticeshipIndexerServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\StubCourseDirectoryData.cs" />
   </ItemGroup>

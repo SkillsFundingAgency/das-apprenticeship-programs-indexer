@@ -120,5 +120,4 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Core.Models
             }
         }
     }
-
 }

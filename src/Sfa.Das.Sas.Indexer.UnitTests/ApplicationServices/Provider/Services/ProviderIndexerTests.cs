@@ -52,8 +52,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
         [TestCase(-2, -1, false)]
         public void ShouldCheckIfTheDateIsValid(int? start, int? end, bool expected)
         {
-            DateTime? startDate = convertDate(start);
-            DateTime? endDate = convertDate(end);
+            DateTime? startDate = ConvertDate(start);
+            DateTime? endDate = ConvertDate(end);
             RoatpProviderResult roatpProvider = new RoatpProviderResult
             {
                 StartDate = startDate,
@@ -61,16 +61,6 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             };
 
             Assert.AreEqual(expected, roatpProvider.IsDateValid());
-        }
-
-        private DateTime? convertDate(int? date)
-        {
-            if (!date.HasValue)
-            {
-                return null;
-            }
-
-            return DateTime.Now.AddDays(date.Value).Date;
         }
 
         [Test]
@@ -137,6 +127,16 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             Assert.That(match3, Is.True);
             Assert.That(match4, Is.True);
             Assert.That(match5, Is.False);
+        }
+
+        private DateTime? ConvertDate(int? date)
+        {
+            if (!date.HasValue)
+            {
+                return null;
+            }
+
+            return DateTime.Now.AddDays(date.Value).Date;
         }
     }
 }

@@ -36,10 +36,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
         [Keyword(NullValue = "null")]
         public string ApprenticeshipInfoUrl { get; set; }
 
-        //[JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public double? LearnerSatisfaction { get; set; }
 
-        //[JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public double? EmployerSatisfaction { get; set; }
 
         public string[] DeliveryModes { get; set; }

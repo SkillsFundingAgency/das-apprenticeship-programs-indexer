@@ -36,8 +36,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var policy = Policy
                 .Handle<FailedToPingSpecifiedNodeException>()
                 .WaitAndRetry(5, retryAttempt =>
-                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt) * 10)
-                );
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt) * 10));
 
             var result = policy.Execute(() => SearchData(selector));
             ValidateResponse(result);
@@ -161,11 +160,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         public void BulkAllGeneric<T>(List<T> elementList, string indexName)
             where T : class
         {
-	        var elementCount = elementList.Count();
+            var elementCount = elementList.Count();
 
-	        var count = 0;
+            var count = 0;
 
-			var waitHandle = new CountdownEvent(1);
+            var waitHandle = new CountdownEvent(1);
             
             var bulkAll = _client.BulkAll(elementList, b => b
                 .Index(indexName)
@@ -178,14 +177,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             bulkAll.Subscribe(observer: new BulkAllObserver(
                 onNext: (b) =>
                 {
-	                count = count + 1000;
+                    count = count + 1000;
 
-	                if (count > elementCount)
-	                {
-		                count = elementCount;
-	                }
+                    if (count > elementCount)
+                    {
+                        count = elementCount;
+                    }
 
-					_logger.Debug($"Indexed group of {typeof(T)}: {count} of {elementCount}");
+                    _logger.Debug($"Indexed group of {typeof(T)}: {count} of {elementCount}");
                 },
                 onError: (e) =>
                 {
@@ -199,46 +198,46 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             waitHandle.Wait();
         }
 
-	    public void IndexMany<T>(List<T> entries, string indexName)
-		    where T : class
-	    {
-		    var smallLists = SplitAndReturn(entries, 1000);
+        public void IndexMany<T>(List<T> entries, string indexName)
+            where T : class
+        {
+            var smallLists = SplitAndReturn(entries, 1000);
 
-		    var smallListsAmount = smallLists.Count();
-		    var count = 1;
+            var smallListsAmount = smallLists.Count();
+            var count = 1;
 
-		    var indexedDocuments = 0;
+            var indexedDocuments = 0;
 
-		    foreach (var smallList in smallLists)
-		    {
-				_logger.Debug($"Indexing group {count} of {smallListsAmount}");
-			    var result = _client.IndexMany(smallList, indexName);
-			    indexedDocuments = indexedDocuments + smallList.Count;
-			    _logger.Debug($"Indexed {indexedDocuments} documents");
+            foreach (var smallList in smallLists)
+            {
+                _logger.Debug($"Indexing group {count} of {smallListsAmount}");
+                var result = _client.IndexMany(smallList, indexName);
+                indexedDocuments = indexedDocuments + smallList.Count;
+                _logger.Debug($"Indexed {indexedDocuments} documents");
 
-				if (!result.IsValid)
-			    {
-				    foreach (var item in result.ItemsWithErrors)
-				    {
-					    _logger.Warn($"Failed to index document {item.Id}: {item.Error}");
-				    }
-			    }
+                if (!result.IsValid)
+                {
+                    foreach (var item in result.ItemsWithErrors)
+                    {
+                        _logger.Warn($"Failed to index document {item.Id}: {item.Error}");
+                    }
+                }
 
-			    count++;
-				Thread.Sleep(TimeSpan.FromSeconds(2));
-		    }
-	    }
+                count++;
+                Thread.Sleep(TimeSpan.FromSeconds(2));
+            }
+        }
 
-		private IEnumerable<List<T>> SplitAndReturn<T>(List<T> entries, int size)
-	    {
-			for (var i = 0; i < entries.Count; i = i + size)
-			{
-				var actualSize = Math.Min(size, entries.Count - i);
-				yield return entries.GetRange(i, actualSize);
-			}
-		}
+        private IEnumerable<List<T>> SplitAndReturn<T>(List<T> entries, int size)
+        {
+            for (var i = 0; i < entries.Count; i = i + size)
+            {
+                var actualSize = Math.Min(size, entries.Count - i);
+                yield return entries.GetRange(i, actualSize);
+            }
+        }
 
-	    private ISearchResponse<T> SearchData<T>(Func<SearchDescriptor<T>, ISearchRequest> selector)
+        private ISearchResponse<T> SearchData<T>(Func<SearchDescriptor<T>, ISearchRequest> selector)
             where T : class
         {
             var response = _client.Search(selector);
@@ -315,13 +314,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var status = response?.ApiCall?.HttpStatusCode;
             if (response?.ApiCall == null || status == null)
             {
-				SendLog(response?.ApiCall, null, 0, "Invalid response checking index");
-	            var reason = string.Empty;
+                SendLog(response?.ApiCall, null, 0, "Invalid response checking index");
+                var reason = string.Empty;
 
-	            foreach (var message in response?.ApiCall?.OriginalException.InnerException?.Data.Values)
-	            {
-		            reason = $"{reason}, {message}";
-	            }
+                foreach (var message in response?.ApiCall?.OriginalException.InnerException?.Data.Values)
+                {
+                    reason = $"{reason}, {message}";
+                }
 
                 throw new ConnectionException($"The response from elastic search was not 200 : {response?.ApiCall?.OriginalException.Message} -> {reason}, {response?.ApiCall?.DebugInformation}", response?.ApiCall?.OriginalException);
             }
