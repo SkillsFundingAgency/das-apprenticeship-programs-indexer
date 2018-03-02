@@ -13,7 +13,7 @@
       <Setting name="LarsIndexAlias" value="__LarsIndexAlias__" />
       <Setting name="AssessmentOrgsIndexAlias" value="__AssessmentOrgsIndexAlias__" />
       <Setting name="Apprenticeship.QueueName" value="__Apprenticeship_QueueName__" />
-      <Setting name="Provider.QueueName" value="__Provide_QueueName__" />
+      <Setting name="Provider.QueueName" value="__Provider_QueueName__" />
       <Setting name="Lars.QueueName" value="__Lars_QueueName__" />
       <Setting name="AssessmentOrgs.QueueName" value="__AssessmentOrgs_QueueName__" />
       <Setting name="Apprenticeship.MonitoringUrl" value="__Apprenticeship_MonitoringUrl__" />
