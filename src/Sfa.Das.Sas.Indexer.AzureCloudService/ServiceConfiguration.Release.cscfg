@@ -16,10 +16,6 @@
       <Setting name="Provider.QueueName" value="__Provider_QueueName__" />
       <Setting name="Lars.QueueName" value="__Lars_QueueName__" />
       <Setting name="AssessmentOrgs.QueueName" value="__AssessmentOrgs_QueueName__" />
-      <Setting name="Apprenticeship.MonitoringUrl" value="__Apprenticeship_MonitoringUrl__" />
-      <Setting name="Provider.MonitoringUrl" value="__Provider_MonitoringUrl__" />
-      <Setting name="Lars.MonitoringUrl" value="__Lars_MonitoringUrl__" />
-      <Setting name="AssessmentOrgs.MonitoringUrl" value="__AssessmentOrgs_MonitoringUrl__" />
       <Setting name="StorageConnectionString" value="__StorageConnectionString__" />
       <Setting name="EnvironmentName" value="__EnvironmentName__" />
       <Setting name="ElasticServerUrls" value="__ElasticServerUrls__" />
@@ -35,7 +31,6 @@
       <Setting name="VstsRoatpUrl" value="__VstsRoatpUrl__" />
       <Setting name="EmployerSatisfactionRatesTableName" value="__EmployerSatisfactionRatesTableName__" />
       <Setting name="LearnerSatisfactionRatesTableName" value="__LearnerSatisfactionRatesTableName__" />
-      <Setting name="FEChoicesUseStoredProc" value="__FEChoicesUseStoredProc__" />
       <Setting name="LoggingRedisConnectionString" value="__LoggingRedisConnectionString__" />
       <Setting name="LoggingRedisKey" value="__LoggingRedisKey__" />
     </ConfigurationSettings>
