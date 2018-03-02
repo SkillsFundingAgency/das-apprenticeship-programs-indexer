@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="Sfa.Das.Sas.Indexer.AzureAzureCloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="5" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="Sfa.Das.Sas.Indexer.AzureWorkerRole">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="__StorageConnectionString__" />
+      <Setting name="ElasticsearchUsername" value="__ElasticsearchUsername__"/>
+      <Setting name="ElasticsearchPassword" value="__ElasticsearchPassword__" />
+      <Setting name="EdubaseUsername" value="__EdubaseUsername__" />
+      <Setting name="EdubasePassword" value="__EdubasePassword__" />
+      <Setting name="ApprenticeshipIndexAlias" value="__ApprenticeshipIndexAlias__" />
+      <Setting name="ProviderIndexAlias" value="__ProviderIndexAlias__" />
+      <Setting name="LarsIndexAlias" value="__LarsIndexAlias__" />
+      <Setting name="AssessmentOrgsIndexAlias" value="__AssessmentOrgsIndexAlias__" />
+      <Setting name="Apprenticeship.QueueName" value="__Apprenticeship_QueueName__" />
+      <Setting name="Provider.QueueName" value="__Provide_QueueName__" />
+      <Setting name="Lars.QueueName" value="__Lars_QueueName__" />
+      <Setting name="AssessmentOrgs.QueueName" value="__AssessmentOrgs_QueueName__" />
+      <Setting name="Apprenticeship.MonitoringUrl" value="__Apprenticeship_MonitoringUrl__" />
+      <Setting name="Provider.MonitoringUrl" value="__Provider_MonitoringUrl__" />
+      <Setting name="Lars.MonitoringUrl" value="__Lars_MonitoringUrl__" />
+      <Setting name="AssessmentOrgs.MonitoringUrl" value="__AssessmentOrgs_MonitoringUrl__" />
+      <Setting name="StorageConnectionString" value="__StorageConnectionString__" />
+      <Setting name="EnvironmentName" value="__EnvironmentName__" />
+      <Setting name="ElasticServerUrls" value="__ElasticServerUrls__" />
+      <Setting name="MetadataApiUri" value="__MetadataApiUri__" />
+      <Setting name="ApprenticeshipIndexShards" value="__ApprenticeshipIndexShards__" />
+      <Setting name="ApprenticeshipIndexReplicas" value="__ApprenticeshipIndexReplicas__" />
+      <Setting name="ProviderIndexShards" value="__ProviderIndexShards__" />
+      <Setting name="ProviderIndexReplicas" value="__ProviderIndexReplicas__" />
+      <Setting name="LarsIndexShards" value="__LarsIndexShards__" />
+      <Setting name="LarsIndexReplicas" value="__LarsIndexReplicas__" />
+      <Setting name="CourseDirectoryUri" value="__CourseDirectoryUri__" />
+      <Setting name="VstsAssessmentOrgsUrl" value="__VstsAssessmentOrgsUrl__" />
+      <Setting name="VstsRoatpUrl" value="__VstsRoatpUrl__" />
+      <Setting name="EmployerSatisfactionRatesTableName" value="__EmployerSatisfactionRatesTableName__" />
+      <Setting name="LearnerSatisfactionRatesTableName" value="__LearnerSatisfactionRatesTableName__" />
+      <Setting name="FEChoicesUseStoredProc" value="__FEChoicesUseStoredProc__" />
+      <Setting name="LoggingRedisConnectionString" value="__LoggingRedisConnectionString__" />
+      <Setting name="LoggingRedisKey" value="__LoggingRedisKey__" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>
