@@ -3,7 +3,36 @@
   <Role name="Sfa.Das.Sas.Indexer.AzureWorkerRole">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="__StorageConnectionString__" />
+      <Setting name="ElasticsearchUsername" value=""/>
+      <Setting name="ElasticsearchPassword" value="" />
+      <Setting name="EdubaseUsername" value="" />
+      <Setting name="EdubasePassword" value="" />
+      <Setting name="ApprenticeshipIndexAlias" value="localapprenticeshipindexalias" />
+      <Setting name="ProviderIndexAlias" value="localproviderindexalias" />
+      <Setting name="LarsIndexAlias" value="locallarsindexalias" />
+      <Setting name="AssessmentOrgsIndexAlias" value="localassessmentorgsindexalias" />
+      <Setting name="Apprenticeship.QueueName" value="daslocalapprenticeshipqueue" />
+      <Setting name="Provider.QueueName" value="daslocalproviderqueue" />
+      <Setting name="Lars.QueueName" value="daslocallarsqueue" />
+      <Setting name="AssessmentOrgs.QueueName" value="daslocalassessmentorgsqueue" />
+      <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true;" />
+      <Setting name="EnvironmentName" value="local" />
+      <Setting name="ElasticServerUrls" value="http://127.0.0.1:9200,http://192.168.99.100:9200" />
+      <Setting name="MetadataApiUri" value="" />
+      <Setting name="ApprenticeshipIndexShards" value="1" />
+      <Setting name="ApprenticeshipIndexReplicas" value="0" />
+      <Setting name="ProviderIndexShards" value="1" />
+      <Setting name="ProviderIndexReplicas" value="0" />
+      <Setting name="LarsIndexShards" value="1" />
+      <Setting name="LarsIndexReplicas" value="0" />
+      <Setting name="CourseDirectoryUri" value="https://dasapidev.coursedirectoryproviderportal.org.uk/dasapi" />
+      <Setting name="VstsAssessmentOrgsUrl" value="https://sfa-gov-uk.visualstudio.com/DefaultCollection/c39e0c0b-7aff-4606-b160-3566f3bbce23/_api/_versioncontrol/itemContent?repositoryId=9b4f676e-ce9a-4f10-a043-0ec9e5bf053c&amp;path=%2FassessmentOrgs%2Flocal%2FassessmentOrgs.xlsx&amp;version=GBmaster&amp;contentOnly=false&amp;__v=5" />
+      <Setting name="VstsRoatpUrl" value="https://sfa-gov-uk.visualstudio.com/DefaultCollection/c39e0c0b-7aff-4606-b160-3566f3bbce23/_api/_versioncontrol/itemContent?repositoryId=9b4f676e-ce9a-4f10-a043-0ec9e5bf053c&amp;path=%2Froatp%2FCI%2Froatp.xlsx&amp;version=GBmaster&amp;contentOnly=false&amp;__v=5" />
+      <Setting name="EmployerSatisfactionRatesTableName" value="[dbo].[EmployerSatisf_2016_2017]" />
+      <Setting name="LearnerSatisfactionRatesTableName" value="[dbo].[LearnerSatisf_2016_2017]" />
+      <Setting name="LoggingRedisConnectionString" value="" />
+      <Setting name="LoggingRedisKey" value="" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

@@ -28,11 +28,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string UkrlpServiceEndpointUrl => _settingsProvider.GetSetting("UKRLP_EndpointUri");
 
-        public string CourseDirectoryUri => ConfigurationManager.AppSettings["CourseDirectoryUri"];
+        public string CourseDirectoryUri => CloudConfigurationManager.GetSetting("CourseDirectoryUri");
 
         public string UkrlpEndpointName => CloudConfigurationManager.GetSetting("UkrlpEndpointName");
 
-        public string EnvironmentName => ConfigurationManager.AppSettings["EnvironmentName"];
+        public string EnvironmentName => CloudConfigurationManager.GetSetting("EnvironmentName");
 
         public string ApplicationName => ConfigurationManager.AppSettings["ApplicationName"];
 
