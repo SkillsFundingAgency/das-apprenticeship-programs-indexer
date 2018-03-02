@@ -15,10 +15,6 @@
       <Setting name="Provider.QueueName" />
       <Setting name="Lars.QueueName" />
       <Setting name="AssessmentOrgs.QueueName" />
-      <Setting name="Apprenticeship.MonitoringUrl" />
-      <Setting name="Provider.MonitoringUrl" />
-      <Setting name="Lars.MonitoringUrl" />
-      <Setting name="AssessmentOrgs.MonitoringUrl" />
       <Setting name="StorageConnectionString" />
       <Setting name="EnvironmentName" />
       <Setting name="ElasticServerUrls" />
@@ -34,7 +30,6 @@
       <Setting name="VstsRoatpUrl" />
       <Setting name="EmployerSatisfactionRatesTableName" />
       <Setting name="LearnerSatisfactionRatesTableName" />
-      <Setting name="FEChoicesUseStoredProc" />
       <Setting name="LoggingRedisConnectionString" />
       <Setting name="LoggingRedisKey" />
     </ConfigurationSettings>
