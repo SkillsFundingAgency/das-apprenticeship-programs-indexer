@@ -35,6 +35,7 @@
       <Setting name="GitUsername" value="__GitUsername__" />
       <Setting name="GitPassword" value="__GitPassword__" />
       <Setting name="AchievementRateDataBaseConnectionString" value="__AchievementRateDataBaseConnectionString__" />
+      <Setting name="UKRLP_EndpointUri" value="__UKRLP_EndpointUri__" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
