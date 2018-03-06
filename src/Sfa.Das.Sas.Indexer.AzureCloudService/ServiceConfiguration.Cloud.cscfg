@@ -3,8 +3,7 @@
   <Role name="Sfa.Das.Sas.Indexer.AzureWorkerRole">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="__StorageConnectionString__" />
-      <Setting name="ElasticsearchUsername" value="__ElasticsearchUsername__"/>
+      <Setting name="ElasticsearchUsername" value="__ElasticsearchUsername__" />
       <Setting name="ElasticsearchPassword" value="__ElasticsearchPassword__" />
       <Setting name="EdubaseUsername" value="__EdubaseUsername__" />
       <Setting name="EdubasePassword" value="__EdubasePassword__" />

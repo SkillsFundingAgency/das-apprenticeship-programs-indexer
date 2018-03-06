@@ -38,8 +38,8 @@
     <None Include="Configuration\ServiceDefinition.Release.csdef" />
     <ServiceConfiguration Include="ServiceConfiguration.Local.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
-    <ServiceConfiguration Include="ServiceConfiguration.PreProd.cscfg" />
-    <ServiceConfiguration Include="ServiceConfiguration.Prod.cscfg" />
+    <None Include="ServiceConfiguration.PreProd.cscfg" />
+    <None Include="ServiceConfiguration.Prod.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.Release.cscfg" />
   </ItemGroup>
   <ItemGroup>

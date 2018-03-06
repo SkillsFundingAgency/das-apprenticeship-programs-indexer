@@ -2,7 +2,6 @@
 <ServiceDefinition name="Sfa.Das.Sas.Indexer.AzureAzureCloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2015-04.2.6">
   <WorkerRole name="Sfa.Das.Sas.Indexer.AzureWorkerRole" vmsize="Small">
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
       <Setting name="ElasticsearchUsername" />
       <Setting name="ElasticsearchPassword" />
       <Setting name="EdubaseUsername" />
