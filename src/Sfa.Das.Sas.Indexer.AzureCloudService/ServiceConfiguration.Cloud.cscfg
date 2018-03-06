@@ -33,6 +33,8 @@
       <Setting name="LearnerSatisfactionRatesTableName" value="__LearnerSatisfactionRatesTableName__" />
       <Setting name="LoggingRedisConnectionString" value="__LoggingRedisConnectionString__" />
       <Setting name="LoggingRedisKey" value="__LoggingRedisKey__" />
+      <Setting name="GitUsername" value="__GitUsername__" />
+      <Setting name="GitPassword" value="__GitPassword__" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

@@ -33,6 +33,8 @@
       <Setting name="LearnerSatisfactionRatesTableName" value="[dbo].[LearnerSatisf_2016_2017]" />
       <Setting name="LoggingRedisConnectionString" value="" />
       <Setting name="LoggingRedisKey" value="" />
+      <Setting name="GitUsername" value="" />
+      <Setting name="GitPassword" value="" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
