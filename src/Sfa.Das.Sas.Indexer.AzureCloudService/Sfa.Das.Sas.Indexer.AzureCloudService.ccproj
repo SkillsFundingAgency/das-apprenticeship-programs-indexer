@@ -39,6 +39,7 @@
     <ServiceConfiguration Include="ServiceConfiguration.Local.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.PreProd.cscfg" />
+    <ServiceConfiguration Include="ServiceConfiguration.Prod.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.Release.cscfg" />
   </ItemGroup>
   <ItemGroup>

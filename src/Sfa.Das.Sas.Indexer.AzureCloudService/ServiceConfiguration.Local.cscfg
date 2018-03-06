@@ -35,6 +35,7 @@
       <Setting name="LoggingRedisKey" value="" />
       <Setting name="GitUsername" value="" />
       <Setting name="GitPassword" value="" />
+      <Setting name="AchievementRateDataBaseConnectionString" value="" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
