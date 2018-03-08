@@ -50,7 +50,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         public LarsData GetLarsData()
         {
             var larsData = _larsDataService.GetDataFromLars();
-            UpdateVstsStandards(larsData.Standards);
+            UpdateRepositoryStandards(larsData.Standards);
             return larsData;
         }
 
@@ -66,7 +66,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
             standards.ForEach(m => m.Published = false);
 
-            PushStandardsToGit(standards.Select(MapToFileContent).ToList());
+            PushStandardsToBlobStorage(standards.ToList());
         }
 
         public IEnumerable<StandardMetaData> GetStandardsMetaData()
@@ -84,7 +84,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         {
             var frameworks = _elasticsearchLarsDataService.GetListOfFrameworks().ToList();
             _logger.Debug($"Retrieved {frameworks.Count} frameworks from LARS index", new Dictionary<string, object> { { "TotalCount", frameworks.Count } });
-            UpdateFrameworkInformationFromVSTS(frameworks);
+            UpdateFrameworkInformation(frameworks);
             return frameworks;
         }
 
@@ -108,7 +108,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             return standardRepositoryData;
         }
 
-        private void UpdateVstsStandards(IEnumerable<LarsStandard> larsDataStandards)
+        private void UpdateRepositoryStandards(IEnumerable<LarsStandard> larsDataStandards)
         {
             var currentMetaDataIds = _vstsService.GetExistingStandardIds().ToArray();
 
@@ -119,18 +119,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
             standards.ForEach(m => m.Published = false);
 
-            PushStandardsToGit(standards.Select(MapToFileContent).ToList());
+            PushStandardsToBlobStorage(standards.ToList());
         }
 
-        private FileContents MapToFileContent(StandardRepositoryData standardRepositoryData)
-        {
-            var json = JsonConvert.SerializeObject(standardRepositoryData, Formatting.Indented);
-            var standardTitle = Path.GetInvalidFileNameChars().Aggregate(standardRepositoryData.Title, (current, c) => current.Replace(c, '_')).Replace(" ", string.Empty);
-            var gitFilePath = $"{_appServiceSettings.VstsGitStandardsFolderPath}/{standardRepositoryData.Id}-{standardTitle}.json";
-            return new FileContents(gitFilePath, json);
-        }
-
-        private void UpdateFrameworkInformationFromVSTS(IEnumerable<FrameworkMetaData> frameworks)
+        private void UpdateFrameworkInformation(IEnumerable<FrameworkMetaData> frameworks)
         {
             int updated = 0;
             var repositoryFrameworks = _vstsService.GetFrameworks();
@@ -206,15 +198,15 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             return uri != null ? new Uri(new Uri(_appServiceSettings.GovWebsiteUrl), uri).ToString() : string.Empty;
         }
 
-        private void PushStandardsToGit(List<FileContents> standards)
+        private void PushStandardsToBlobStorage(List<StandardRepositoryData> standards)
         {
             if (!standards.Any())
             {
                 return;
             }
 
-            _vstsService.PushCommit(standards);
-            _logger.Info($"Pushed {standards.Count} new meta files to Git Repository.");
+            _vstsService.PushStandards(standards);
+            _logger.Info($"Pushed {standards.Count} new meta files to Blob Storage.");
         }
     }
 }

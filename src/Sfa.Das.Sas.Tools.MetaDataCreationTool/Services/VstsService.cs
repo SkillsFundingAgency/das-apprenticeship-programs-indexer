@@ -1,3 +1,8 @@
+using System.IO;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
+
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     using System;
@@ -20,6 +25,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         private readonly IJsonMetaDataConvert _jsonMetaDataConvert;
 
         private readonly IVstsClient _vstsClient;
+        private readonly IBlobStorageHelper _blobStorageHelper;
 
         private readonly ILog _logger;
 
@@ -28,20 +34,23 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             IGitDynamicModelGenerator gitDynamicModelGenerator,
             IJsonMetaDataConvert jsonMetaDataConvert,
             IVstsClient vstsClient,
+            IBlobStorageHelper blobStorageHelper,
             ILog logger)
         {
             _appServiceSettings = appServiceSettings;
             _gitDynamicModelGenerator = gitDynamicModelGenerator;
             _jsonMetaDataConvert = jsonMetaDataConvert;
             _vstsClient = vstsClient;
+            _blobStorageHelper = blobStorageHelper;
             _logger = logger;
         }
 
         public IEnumerable<string> GetExistingStandardIds()
         {
-            var blobs = GetAllBlobs(_appServiceSettings.VstsGitGetFilesUrl);
+            var container = _blobStorageHelper.GetStandardsBlobContainer();
+            var blobs = GetAllBlobs(container);
 
-            var result = blobs?.Select(m => GetIdFromPath(m.Path)) ?? new List<string>();
+            var result = blobs?.Select(GetIdFromPath) ?? new List<string>();
             _logger.Info($"Got {result.Count()} current meta data files Git Repository.");
 
             return result;
@@ -49,58 +58,78 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         public IEnumerable<StandardMetaData> GetStandards()
         {
-            var standardsDictionary = GetAllFileContents(_appServiceSettings.VstsGitGetFilesUrl);
-            return _jsonMetaDataConvert.DeserializeObject<StandardMetaData>(standardsDictionary);
-        }
-
-        public IEnumerable<VstsFrameworkMetaData> GetFrameworks()
-        {
             try
             {
-                var frameworksDir = GetAllFileContents(_appServiceSettings.VstsGitGetFrameworkFilesUrl);
-                return _jsonMetaDataConvert.DeserializeObject<VstsFrameworkMetaData>(frameworksDir);
+                var container = _blobStorageHelper.GetStandardsBlobContainer();
+                var standardsDictionary = GetAllFileContents(container);
+                return _jsonMetaDataConvert.DeserializeObject<StandardMetaData>(standardsDictionary);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "Error getting framework meta data");
             }
 
-            return new List<VstsFrameworkMetaData>();
+            return new List<StandardMetaData>();
         }
 
-        public void PushCommit(List<FileContents> items)
+        public IEnumerable<FrameworkRepositoryMetaData> GetFrameworks()
         {
-            var body = _gitDynamicModelGenerator.GenerateCommitBody(_appServiceSettings.GitBranch, _vstsClient.GetLatesCommit(), items);
-            _vstsClient.Post(_appServiceSettings.VstsGitPushUrl, _appServiceSettings.GitUsername, _appServiceSettings.GitPassword, body);
-        }
-
-        public IDictionary<string, string> GetAllFileContents(string vstsBlobUrl)
-        {
-            var blobs = GetAllBlobs(vstsBlobUrl);
-
-            if (blobs == null)
+            try
             {
-                return new Dictionary<string, string>(0);
+                var container = _blobStorageHelper.GetFrameworksBlobContainer();
+                var frameworkDictionary = GetAllFileContents(container);
+                return _jsonMetaDataConvert.DeserializeObject<FrameworkRepositoryMetaData>(frameworkDictionary);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error getting framework meta data");
             }
 
-            var standardsAsJson = new Dictionary<string, string>();
+            return new List<FrameworkRepositoryMetaData>();
+        }
 
-            foreach (var blob in blobs)
+        public void PushStandards(List<StandardRepositoryData> items)
+        {
+            foreach (var standardRepositoryData in items)
             {
-                var str = _vstsClient.Get(blob.Url);
-                standardsAsJson.Add(blob.Path, str);
+                var container = _blobStorageHelper.GetStandardsBlobContainer();
+
+                var blockBlob = container.GetBlockBlobReference($"{standardRepositoryData.Id}-{standardRepositoryData.Title.Replace("/", "_").Replace(" ", string.Empty)}.json");
+
+                blockBlob.UploadText(JsonConvert.SerializeObject(standardRepositoryData));
+            }
+        }
+
+        public IDictionary<string, string> GetAllFileContents(CloudBlobContainer container)
+        {
+            var blobs = GetAllBlockBlobs(container);
+
+            var standardsAsJson = new Dictionary<string, string>();
+            foreach (var cloudBlockBlob in blobs)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    cloudBlockBlob.DownloadToStream(memoryStream);
+                    standardsAsJson.Add(cloudBlockBlob.Uri.ToString(), System.Text.Encoding.UTF8.GetString(memoryStream.ToArray()));
+                }
             }
 
             return standardsAsJson;
         }
 
         // Helpers
-        private IEnumerable<Entity> GetAllBlobs(string vstsUrl)
+        private IEnumerable<string> GetAllBlobs(CloudBlobContainer cloudBlobContainer)
         {
-            var folderTreeStr = _vstsClient.Get(vstsUrl);
-            var tree = JsonConvert.DeserializeObject<GitTree>(folderTreeStr);
+            var blobs = cloudBlobContainer.ListBlobs();
 
-            return tree?.Value.Where(x => x.IsBlob);
+            return (from listBlobItem in blobs where listBlobItem.GetType() == typeof(CloudBlockBlob) select listBlobItem.Uri.ToString()).ToList();
+        }
+
+        private IEnumerable<CloudBlockBlob> GetAllBlockBlobs(CloudBlobContainer cloudBlobContainer)
+        {
+            var blobs = cloudBlobContainer.ListBlobs();
+
+            return (from listBlobItem in blobs where listBlobItem.GetType() == typeof(CloudBlockBlob) select listBlobItem as CloudBlockBlob).ToList();
         }
 
         private string GetIdFromPath(string path)

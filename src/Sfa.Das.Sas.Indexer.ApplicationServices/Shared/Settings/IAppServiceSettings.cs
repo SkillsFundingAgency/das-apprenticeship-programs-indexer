@@ -52,6 +52,14 @@
 
         string MetadataApiUri { get; }
 
+        string StandardBlobContainerReference { get; }
+
+        string FrameworkBlobContainerReference { get; }
+
+        string RoatpBlobContainerReference { get; }
+
+        string AssessmentOrgsBlobContainerReference { get; }
+
         string QueueName(Type type);
         string[] MonitoringUrl(Type type);
     }

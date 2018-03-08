@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
+﻿using Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers;
+
+namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -34,11 +36,12 @@
         public void GeStandards()
         {
             var httpHelperMock = new Mock<IVstsClient>();
+            var blobStorageHelperMock = new Mock<IBlobStorageHelper>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
 
             httpHelperMock.Setup(m => m.Get(It.IsAny<string>())).Returns(AllIdsResponse);
 
-            var vsts = new VstsService(_appServiceSettings, new GitDynamicModelGenerator(), new JsonMetaDataConvert(null), httpHelperMock.Object, mockLogger.Object);
+            var vsts = new VstsService(_appServiceSettings, new GitDynamicModelGenerator(), new JsonMetaDataConvert(null), httpHelperMock.Object, blobStorageHelperMock.Object, mockLogger.Object);
             var standards = vsts.GetStandards();
             Assert.AreEqual(5, standards.Count());
         }
@@ -47,10 +50,11 @@
         public void GetIds()
         {
             var httpHelperMock = new Mock<IVstsClient>();
+            var blobStorageHelperMock = new Mock<IBlobStorageHelper>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
 
             httpHelperMock.Setup(m => m.Get(It.IsAny<string>())).Returns(AllIdsResponse);
-            var vsts = new VstsService(_appServiceSettings, new GitDynamicModelGenerator(), null, httpHelperMock.Object, mockLogger.Object);
+            var vsts = new VstsService(_appServiceSettings, new GitDynamicModelGenerator(), null, httpHelperMock.Object, blobStorageHelperMock.Object, mockLogger.Object);
             var ids = vsts.GetExistingStandardIds();
 
             Debug.Assert(ids != null, "ids != null");
@@ -58,21 +62,6 @@
             Assert.AreEqual(5, ids.Count());
             Assert.IsTrue(ids.Contains("13"));
             Assert.IsFalse(ids.Contains("14"));
-        }
-
-        [Test]
-        public void ShouldReturnNewDictionaryIfBlobsAreNull()
-        {
-            var httpHelperMock = new Mock<IVstsClient>();
-            var mockLogger = new Mock<ILog>(MockBehavior.Loose);
-
-            httpHelperMock.Setup(m => m.Get(It.IsAny<string>())).Returns(AllIdsResponse);
-            var vsts = new VstsService(_appServiceSettings, new GitDynamicModelGenerator(), null, httpHelperMock.Object, mockLogger.Object);
-
-            httpHelperMock.Setup(m => m.Get(It.IsAny<string>())).Returns(string.Empty);
-            var ids = vsts.GetAllFileContents(_appServiceSettings.VstsGitGetFilesUrl);
-
-            Assert.AreEqual(ids, new Dictionary<string, string>());
         }
     }
 }

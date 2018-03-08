@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
+﻿using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
+
+namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -37,7 +39,7 @@
 
             mockLarsDataService.Setup(x => x.GetListOfCurrentStandards()).Returns(currentStandards);
             mockVstsService.Setup(x => x.GetExistingStandardIds()).Returns(existingMetaDataIds);
-            mockVstsService.Setup(x => x.PushCommit(It.IsAny<List<FileContents>>())).Callback<List<FileContents>>(x => { standardsToAdd = x; });
+            mockVstsService.Setup(x => x.PushStandards(It.IsAny<List<StandardRepositoryData>>())).Callback<List<FileContents>>(x => { standardsToAdd = x; });
 
             var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockSettings.Object, null, mockLogger.Object);
 

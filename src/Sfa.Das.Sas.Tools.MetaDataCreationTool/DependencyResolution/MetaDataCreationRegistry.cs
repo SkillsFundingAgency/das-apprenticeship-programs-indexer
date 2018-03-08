@@ -2,6 +2,7 @@
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Infrastructure;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
@@ -17,6 +18,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<IReadMetaDataFromCsv>().Use<CsvService>();
             For<IAngleSharpService>().Use<AngleSharpService>();
             For<IVstsService>().Use<VstsService>();
+            For<IBlobStorageHelper>().Use<BlobStorageHelper>();
             For<IGitDynamicModelGenerator>().Use<GitDynamicModelGenerator>();
             For<IGetStandardMetaData>().Use<MetaDataManager>();
             For<IGenerateStandardMetaData>().Use<MetaDataManager>();

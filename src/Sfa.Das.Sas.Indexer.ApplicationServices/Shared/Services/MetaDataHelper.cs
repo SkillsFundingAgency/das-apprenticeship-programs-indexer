@@ -10,7 +10,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
     public class MetaDataHelper : IMetaDataHelper
     {
-        private readonly IGenerateStandardMetaData _metaDataWriter;
 
         private readonly IGetLarsMetadata _larsApprenticeshipReader;
         private readonly IGetAssessmentOrgsData _assessmentOrgsData;
@@ -18,22 +17,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         private readonly ILog _log;
 
         public MetaDataHelper(
-            IGenerateStandardMetaData metaDataGenerator,
             IGetLarsMetadata getLarsMetadata,
             IGetAssessmentOrgsData assessmentOrgsData,
             ILog log)
         {
-            _metaDataWriter = metaDataGenerator;
             _log = log;
             _larsApprenticeshipReader = getLarsMetadata;
             _assessmentOrgsData = assessmentOrgsData;
-        }
-
-        public void UpdateMetadataRepository()
-        {
-            var timing = ExecutionTimer.GetTiming(() => _metaDataWriter.GenerateStandardMetadataFiles());
-
-            _log.Debug("MetaDataHelper.UpdateMetadataRepository", new TimingLogEntry { ElaspedMilliseconds = timing.TotalMilliseconds });
         }
 
         public LarsData GetAllApprenticeshipLarsMetaData()

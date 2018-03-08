@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces
 {
@@ -11,8 +12,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces
 
         IEnumerable<StandardMetaData> GetStandards();
 
-        IEnumerable<VstsFrameworkMetaData> GetFrameworks();
+        IEnumerable<FrameworkRepositoryMetaData> GetFrameworks();
 
-        void PushCommit(List<FileContents> items);
+        void PushStandards(List<StandardRepositoryData> items);
     }
 }

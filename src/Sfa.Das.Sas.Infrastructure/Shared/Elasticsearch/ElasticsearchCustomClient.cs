@@ -184,7 +184,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                         count = elementCount;
                     }
 
-                    _logger.Debug($"Indexed group of {typeof(T)}: {count} of {elementCount}");
+                    _logger.Info($"Indexed group of {typeof(T)}: {count} of {elementCount}");
                 },
                 onError: (e) =>
                 {

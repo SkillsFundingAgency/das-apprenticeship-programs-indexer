@@ -6,8 +6,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
     public interface IMetaDataHelper
     {
-        void UpdateMetadataRepository();
-
         LarsData GetAllApprenticeshipLarsMetaData();
 
         AssessmentOrganisationsDTO GetAssessmentOrganisationsData();

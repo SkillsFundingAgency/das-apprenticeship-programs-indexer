@@ -143,11 +143,11 @@
             framework.Keywords.Should().Contain(new string[] { "keyword1", "keyword2" });
         }
 
-        private IEnumerable<VstsFrameworkMetaData> GetVstsMetaData()
+        private IEnumerable<FrameworkRepositoryMetaData> GetVstsMetaData()
         {
-            return new List<VstsFrameworkMetaData>
+            return new List<FrameworkRepositoryMetaData>
             {
-                new VstsFrameworkMetaData
+                new FrameworkRepositoryMetaData
                 {
                     FrameworkCode = 500,
                     PathwayCode = 1,
@@ -156,7 +156,7 @@
                     TypicalLength = new TypicalLength { From = 18, To = 18, Unit = "m" },
                     Keywords = new string[] { "keyword1", "keyword2" }
                 },
-                new VstsFrameworkMetaData
+                new FrameworkRepositoryMetaData
                 {
                     FrameworkCode = 500,
                     PathwayCode = 1,

@@ -35,6 +35,11 @@
       <Setting name="GitPassword" />
       <Setting name="AchievementRateDataBaseConnectionString" />
       <Setting name="UKRLP_EndpointUri" />
+      <Setting name="BlobStorageConnectionString" />
+      <Setting name="StandardBlobContainerReference" />
+      <Setting name="FrameworkBlobContainerReference" />
+      <Setting name="RoatpBlobContainerReference" />
+      <Setting name="AssessmentOrgsBlobContainerReference" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>
