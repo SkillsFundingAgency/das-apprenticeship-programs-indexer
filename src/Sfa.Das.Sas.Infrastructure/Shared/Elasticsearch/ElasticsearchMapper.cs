@@ -231,6 +231,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 },
                 EpaOrganisation = organisation.EpaOrganisation,
                 WebsiteLink = organisation.WebsiteLink,
+                Ukprn = organisation.Ukprn
             };
         }
 

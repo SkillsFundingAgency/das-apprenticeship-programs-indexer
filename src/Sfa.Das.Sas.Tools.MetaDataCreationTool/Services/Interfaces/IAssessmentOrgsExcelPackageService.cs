@@ -9,5 +9,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         IEnumerable<Organisation> GetAssessmentOrganisations(ExcelPackage package);
         ExcelPackage GetExcelPackageFromFilePath(string filePath);
         IEnumerable<StandardOrganisationsData> GetStandardOrganisationsData(ExcelPackage package);
+
+        int? CheckForValidUkprn(string ukprn);
     }
 }
