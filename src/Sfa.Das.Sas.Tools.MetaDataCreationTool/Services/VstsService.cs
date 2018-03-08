@@ -96,7 +96,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
                 var blockBlob = container.GetBlockBlobReference($"{standardRepositoryData.Id}-{standardRepositoryData.Title.Replace("/", "_").Replace(" ", string.Empty)}.json");
 
-                blockBlob.UploadText(JsonConvert.SerializeObject(standardRepositoryData));
+                _blobStorageHelper.UploadToContainer(blockBlob, standardRepositoryData);
             }
         }
 
