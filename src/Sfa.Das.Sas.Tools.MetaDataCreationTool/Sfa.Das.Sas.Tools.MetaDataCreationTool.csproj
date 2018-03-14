@@ -146,8 +146,6 @@
     <Compile Include="Factories\MetaData\StandardMetaDataFactory.cs" />
     <Compile Include="Helpers\BlobStorageHelper.cs" />
     <Compile Include="Helpers\IBlobStorageHelper.cs" />
-    <Compile Include="Infrastructure\IWebClient.cs" />
-    <Compile Include="Infrastructure\WebClientWrapper.cs" />
     <Compile Include="Models\Git\FileContents.cs" />
     <Compile Include="Models\Git\FrameworkRepositoryMetaData.cs" />
     <Compile Include="Models\GovLearn\GovLearnResource.cs" />

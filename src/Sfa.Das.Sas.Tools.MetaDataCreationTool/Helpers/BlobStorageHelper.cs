@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
@@ -28,6 +30,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers
             return CreateBlobContainer(_appServiceSettings.FrameworkBlobContainerReference);
         }
 
+        public CloudBlobContainer GetAssessmentOrgsBlobContainer()
+        {
+            return CreateBlobContainer(_appServiceSettings.AssessmentOrgsBlobContainerReference);
+        }
+
         public void UploadToContainer(CloudBlockBlob blockBlob, StandardRepositoryData standardRepositoryData)
         {
             SetBlobProperties(blockBlob);
@@ -37,6 +44,20 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers
                 LoadStreamWithJson(ms, standardRepositoryData);
                 blockBlob.UploadFromStream(ms);
             }
+        }
+
+        public IEnumerable<string> GetAllBlobs(CloudBlobContainer cloudBlobContainer)
+        {
+            var blobs = cloudBlobContainer.ListBlobs();
+
+            return (from listBlobItem in blobs where listBlobItem.GetType() == typeof(CloudBlockBlob) select listBlobItem.Uri.ToString()).ToList();
+        }
+
+        public IEnumerable<CloudBlockBlob> GetAllBlockBlobs(CloudBlobContainer cloudBlobContainer)
+        {
+            var blobs = cloudBlobContainer.ListBlobs();
+
+            return (from listBlobItem in blobs where listBlobItem.GetType() == typeof(CloudBlockBlob) select listBlobItem as CloudBlockBlob).ToList();
         }
 
         private void LoadStreamWithJson(MemoryStream ms, StandardRepositoryData standardRepositoryData)

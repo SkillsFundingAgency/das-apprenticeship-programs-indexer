@@ -48,7 +48,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         public IEnumerable<string> GetExistingStandardIds()
         {
             var container = _blobStorageHelper.GetStandardsBlobContainer();
-            var blobs = GetAllBlobs(container);
+            var blobs = _blobStorageHelper.GetAllBlobs(container);
 
             var result = blobs?.Select(GetIdFromPath) ?? new List<string>();
             _logger.Info($"Got {result.Count()} current meta data files Git Repository.");
@@ -102,7 +102,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         public IDictionary<string, string> GetAllFileContents(CloudBlobContainer container)
         {
-            var blobs = GetAllBlockBlobs(container);
+            var blobs = _blobStorageHelper.GetAllBlockBlobs(container);
 
             var standardsAsJson = new Dictionary<string, string>();
             foreach (var cloudBlockBlob in blobs)
@@ -118,20 +118,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         }
 
         // Helpers
-        private IEnumerable<string> GetAllBlobs(CloudBlobContainer cloudBlobContainer)
-        {
-            var blobs = cloudBlobContainer.ListBlobs();
-
-            return (from listBlobItem in blobs where listBlobItem.GetType() == typeof(CloudBlockBlob) select listBlobItem.Uri.ToString()).ToList();
-        }
-
-        private IEnumerable<CloudBlockBlob> GetAllBlockBlobs(CloudBlobContainer cloudBlobContainer)
-        {
-            var blobs = cloudBlobContainer.ListBlobs();
-
-            return (from listBlobItem in blobs where listBlobItem.GetType() == typeof(CloudBlockBlob) select listBlobItem as CloudBlockBlob).ToList();
-        }
-
         private string GetIdFromPath(string path)
         {
             if (string.IsNullOrEmpty(path))

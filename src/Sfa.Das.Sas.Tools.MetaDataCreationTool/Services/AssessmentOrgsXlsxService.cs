@@ -4,67 +4,68 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using Microsoft.WindowsAzure.Storage.Blob;
 using OfficeOpenXml;
 using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Extensions;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Infrastructure;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     public class AssessmentOrgsXlsxService : IGetAssessmentOrgsData
     {
         private readonly IAssessmentOrgsExcelPackageService _assessmentOrgsExcelPackageService;
-        private readonly IWebClient _webClient;
-        private readonly IAppServiceSettings _appServiceSettings;
+        private readonly IBlobStorageHelper _blobStorageHelper;
         private readonly ILog _log;
 
-        public AssessmentOrgsXlsxService(IAssessmentOrgsExcelPackageService assessmentOrgsExcelPackageService, IWebClient webClient, IAppServiceSettings appServiceSettings, ILog log)
+        public AssessmentOrgsXlsxService(
+            IAssessmentOrgsExcelPackageService assessmentOrgsExcelPackageService,
+            IBlobStorageHelper blobStorageHelper,
+            ILog log)
         {
             _assessmentOrgsExcelPackageService = assessmentOrgsExcelPackageService;
-            _webClient = webClient;
-            _appServiceSettings = appServiceSettings;
+            _blobStorageHelper = blobStorageHelper;
             _log = log;
         }
 
         public AssessmentOrganisationsDTO GetAssessmentOrganisationsData()
         {
-            IDictionary<string, object> extras = new Dictionary<string, object>();
-            extras.Add("DependencyLogEntry.Url", _appServiceSettings.VstsAssessmentOrgsUrl);
+            var container = _blobStorageHelper.GetAssessmentOrgsBlobContainer();
+            var blockBlobs = _blobStorageHelper.GetAllBlockBlobs(container);
 
-            if (!string.IsNullOrEmpty(_appServiceSettings.GitUsername))
-            {
-                var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_appServiceSettings.GitUsername}:{_appServiceSettings.GitPassword}"));
-                _webClient.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
-            }
+            var assessmentOrgsFile = blockBlobs.FirstOrDefault();
 
             try
             {
-                _log.Debug("Downloading ROAAO", new Dictionary<string, object> {{"Url", _appServiceSettings.VstsAssessmentOrgsUrl} });
+                _log.Debug("Downloading ROAAO");
                 IEnumerable<Organisation> assessmentOrgs;
                 IEnumerable<StandardOrganisationsData> standardOrganisationsData;
-                using (var stream = new MemoryStream(_webClient.DownloadData(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl))))
-                using (var package = new ExcelPackage(stream))
+                using (var stream = new MemoryStream())
                 {
-                    assessmentOrgs = _assessmentOrgsExcelPackageService.GetAssessmentOrganisations(package).ToList();
-                    standardOrganisationsData = _assessmentOrgsExcelPackageService.GetStandardOrganisationsData(package).ToList();
-
-                    foreach (var org in assessmentOrgs)
+                    assessmentOrgsFile?.DownloadToStream(stream);
+                    using (var package = new ExcelPackage(stream))
                     {
-                        var standard = standardOrganisationsData.FirstOrDefault(x => x.EpaOrganisationIdentifier == org.EpaOrganisationIdentifier);
-                        org.Phone = standard?.Phone;
-                        org.Email = standard?.Email;
-                    }
+                        assessmentOrgs = _assessmentOrgsExcelPackageService.GetAssessmentOrganisations(package).ToList();
+                        standardOrganisationsData = _assessmentOrgsExcelPackageService.GetStandardOrganisationsData(package).ToList();
 
-                    foreach (var data in standardOrganisationsData)
-                    {
-                        var organisation = assessmentOrgs.FirstOrDefault(x => x.EpaOrganisationIdentifier == data.EpaOrganisationIdentifier);
-                        data.Address = organisation?.Address;
-                        data.EpaOrganisation = organisation?.EpaOrganisation;
-                        data.WebsiteLink = organisation?.WebsiteLink;
-                        data.OrganisationType = organisation?.OrganisationType;
+                        foreach (var org in assessmentOrgs)
+                        {
+                            var standard = standardOrganisationsData.FirstOrDefault(x => x.EpaOrganisationIdentifier == org.EpaOrganisationIdentifier);
+                            org.Phone = standard?.Phone;
+                            org.Email = standard?.Email;
+                        }
+
+                        foreach (var data in standardOrganisationsData)
+                        {
+                            var organisation = assessmentOrgs.FirstOrDefault(x => x.EpaOrganisationIdentifier == data.EpaOrganisationIdentifier);
+                            data.Address = organisation?.Address;
+                            data.EpaOrganisation = organisation?.EpaOrganisation;
+                            data.WebsiteLink = organisation?.WebsiteLink;
+                            data.OrganisationType = organisation?.OrganisationType;
+                        }
                     }
                 }
 
@@ -74,29 +75,12 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     StandardOrganisationsData = FilterStandardOrganisations(standardOrganisationsData)
                 };
             }
-            catch (WebException wex)
-            {
-                var response = (HttpWebResponse)wex.Response;
-                if (response != null)
-                {
-                    extras.Add("DependencyLogEntry.ResponseCode", response.StatusCode);
-                }
-
-                if (response?.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    _log.Error(wex, "Your VSTS credentials were unauthorised", extras);
-                }
-                else
-                {
-                    _log.Error(wex, "Problem downloading ROATP from VSTS", extras);
-                }
-            }
             catch (Exception ex)
             {
-                _log.Error(ex, "Problem downloading ROATP from VSTS", extras);
-            }
+                _log.Error(ex, "Problem downloading ROATP from Blob Storage");
 
-            return null;
+                return null;
+            }
         }
 
         private List<Organisation> FilterOrganisations(IEnumerable<Organisation> organisationsData)
