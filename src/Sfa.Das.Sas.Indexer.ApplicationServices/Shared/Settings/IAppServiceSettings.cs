@@ -60,6 +60,8 @@
 
         string AssessmentOrgsBlobContainerReference { get; }
 
+        string FcsBlobContainerReference { get; }
+
         string QueueName(Type type);
         string[] MonitoringUrl(Type type);
     }

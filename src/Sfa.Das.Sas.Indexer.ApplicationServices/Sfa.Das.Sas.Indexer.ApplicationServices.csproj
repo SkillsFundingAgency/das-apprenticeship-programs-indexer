@@ -153,6 +153,7 @@
     <Compile Include="Shared\Logging\Metrics\ExecutionTimerResult.cs" />
     <Compile Include="Shared\Logging\Models\ElasticSearchLogEntry.cs" />
     <Compile Include="Shared\Logging\Models\TimingLogEntry.cs" />
+    <Compile Include="Shared\MetaData\IFcsActiveProvidersService.cs" />
     <Compile Include="Shared\MetaData\IGetRoatpProviders.cs" />
     <Compile Include="Shared\MetaData\IGetAssessmentOrgsData.cs" />
     <Compile Include="Shared\MetaData\IGetLarsMetadata.cs" />

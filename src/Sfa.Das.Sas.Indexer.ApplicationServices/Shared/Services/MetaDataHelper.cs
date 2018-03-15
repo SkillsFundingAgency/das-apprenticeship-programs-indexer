@@ -1,4 +1,6 @@
-﻿using SFA.DAS.NLog.Logger;
+﻿using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.Fsc;
+using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
@@ -13,17 +15,20 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
 
         private readonly IGetLarsMetadata _larsApprenticeshipReader;
         private readonly IGetAssessmentOrgsData _assessmentOrgsData;
+        private readonly IFcsActiveProvidersService _fcsActiveProvidersService;
 
         private readonly ILog _log;
 
         public MetaDataHelper(
             IGetLarsMetadata getLarsMetadata,
             IGetAssessmentOrgsData assessmentOrgsData,
+            IFcsActiveProvidersService fcsActiveProvidersService,
             ILog log)
         {
             _log = log;
             _larsApprenticeshipReader = getLarsMetadata;
             _assessmentOrgsData = assessmentOrgsData;
+            _fcsActiveProvidersService = fcsActiveProvidersService;
         }
 
         public LarsData GetAllApprenticeshipLarsMetaData()
@@ -40,6 +45,16 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services
         {
             _log.Debug("Starting to get Assessment Organisations data");
             var timing = ExecutionTimer.GetTiming(() => _assessmentOrgsData.GetAssessmentOrganisationsData());
+
+            _log.Debug("MetaDataHelper.GetAssessmentOrganisationsData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
+
+            return timing.Result;
+        }
+
+        public ICollection<ActiveProviderCsvRecord> GetFcsData()
+        {
+            _log.Debug("Starting to get Assessment Organisations data");
+            var timing = ExecutionTimer.GetTiming(() => _fcsActiveProvidersService.GetFcsData());
 
             _log.Debug("MetaDataHelper.GetAssessmentOrganisationsData", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 

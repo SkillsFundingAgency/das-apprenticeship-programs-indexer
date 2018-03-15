@@ -41,6 +41,7 @@
       <Setting name="FrameworkBlobContainerReference" value="" />
       <Setting name="RoatpBlobContainerReference" value="" />
       <Setting name="AssessmentOrgsBlobContainerReference" value="" />
+      <Setting name="FcsBlobContainerReference" value="" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

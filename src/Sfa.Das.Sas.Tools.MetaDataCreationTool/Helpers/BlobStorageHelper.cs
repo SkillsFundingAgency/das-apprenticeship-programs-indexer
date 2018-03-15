@@ -35,6 +35,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers
             return CreateBlobContainer(_appServiceSettings.AssessmentOrgsBlobContainerReference);
         }
 
+        public CloudBlobContainer GetFcsBlobcontainer()
+        {
+            return CreateBlobContainer(_appServiceSettings.FcsBlobContainerReference);
+        }
+
         public void UploadToContainer(CloudBlockBlob blockBlob, StandardRepositoryData standardRepositoryData)
         {
             SetBlobProperties(blockBlob);

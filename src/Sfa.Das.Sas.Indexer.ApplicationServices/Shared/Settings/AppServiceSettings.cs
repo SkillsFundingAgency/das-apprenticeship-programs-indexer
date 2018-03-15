@@ -70,6 +70,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string AssessmentOrgsBlobContainerReference => _settings.GetSetting("AssessmentOrgsBlobContainerReference");
 
+        public string FcsBlobContainerReference => _settings.GetSetting("FcsBlobContainerReference");
+
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
 
         private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");

@@ -29,6 +29,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<IGenericMetaDataFactory>().Use<LarsMetaDataFactory>();
             For<IElasticsearchLarsDataService>().Use<ElasticsearchLarsDataService>();
             For<IAssessmentOrgsExcelPackageService>().Use<AssessmentOrgsExcelPackageService>();
+            For<IFcsActiveProvidersService>().Use<FcsActiveProvidersService>();
 
             // Meta Data factories
             For<IMetaDataFactory>().Use<FrameworkMetaDataFactory>();
