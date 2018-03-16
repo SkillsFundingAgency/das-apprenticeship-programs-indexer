@@ -26,13 +26,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         private const int StartDatePosition = 7;
         private const int EndDatePosition = 8;
 
-        private readonly IAppServiceSettings _appServiceSettings;
         private readonly IBlobStorageHelper _blobStorageHelper;
         private readonly ILog _log;
 
-        public RoatpProvidersXlsxService(IAppServiceSettings appServiceSettings, IBlobStorageHelper blobStorageHelper, ILog log)
+        public RoatpProvidersXlsxService(IBlobStorageHelper blobStorageHelper, ILog log)
         {
-            _appServiceSettings = appServiceSettings;
             _blobStorageHelper = blobStorageHelper;
             _log = log;
         }
