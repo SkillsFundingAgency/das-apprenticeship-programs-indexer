@@ -58,34 +58,12 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         public IEnumerable<StandardMetaData> GetStandards()
         {
-            try
-            {
-                var container = _blobStorageHelper.GetStandardsBlobContainer();
-                var standardsDictionary = GetAllFileContents(container);
-                return _jsonMetaDataConvert.DeserializeObject<StandardMetaData>(standardsDictionary);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Error getting framework meta data");
-            }
-
-            return new List<StandardMetaData>();
+            return GetApprenticeships<StandardMetaData>(_blobStorageHelper.GetStandardsBlobContainer());
         }
 
         public IEnumerable<FrameworkRepositoryMetaData> GetFrameworks()
         {
-            try
-            {
-                var container = _blobStorageHelper.GetFrameworksBlobContainer();
-                var frameworkDictionary = GetAllFileContents(container);
-                return _jsonMetaDataConvert.DeserializeObject<FrameworkRepositoryMetaData>(frameworkDictionary);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Error getting framework meta data");
-            }
-
-            return new List<FrameworkRepositoryMetaData>();
+            return GetApprenticeships<FrameworkRepositoryMetaData>(_blobStorageHelper.GetFrameworksBlobContainer());
         }
 
         public void PushStandards(List<StandardRepositoryData> items)
@@ -115,6 +93,22 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             }
 
             return standardsAsJson;
+        }
+
+        private IEnumerable<T> GetApprenticeships<T>(CloudBlobContainer container)
+            where T : class
+        {
+            try
+            {
+                var apprenticeshipDictionary = GetAllFileContents(container);
+                return _jsonMetaDataConvert.DeserializeObject<T>(apprenticeshipDictionary);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"Error getting {typeof(T)}");
+            }
+
+            return new List<T>();
         }
 
         // Helpers
