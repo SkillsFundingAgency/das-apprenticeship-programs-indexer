@@ -10,6 +10,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers
         CloudBlobContainer GetFrameworksBlobContainer();
         CloudBlobContainer GetAssessmentOrgsBlobContainer();
         CloudBlobContainer GetFcsBlobcontainer();
+        CloudBlobContainer GetRoatpBlobContainer();
         void UploadToContainer(CloudBlockBlob blockBlob, StandardRepositoryData standardRepositoryData);
         IEnumerable<string> GetAllBlobs(CloudBlobContainer cloudBlobContainer);
         IEnumerable<CloudBlockBlob> GetAllBlockBlobs(CloudBlobContainer cloudBlobContainer);

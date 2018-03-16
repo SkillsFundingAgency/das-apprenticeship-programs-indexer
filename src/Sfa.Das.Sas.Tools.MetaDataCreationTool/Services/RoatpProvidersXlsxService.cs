@@ -11,6 +11,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Extensions;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
@@ -26,58 +27,51 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         private const int EndDatePosition = 8;
 
         private readonly IAppServiceSettings _appServiceSettings;
+        private readonly IBlobStorageHelper _blobStorageHelper;
         private readonly ILog _log;
 
-        public RoatpProvidersXlsxService(IAppServiceSettings appServiceSettings, ILog log)
+        public RoatpProvidersXlsxService(IAppServiceSettings appServiceSettings, IBlobStorageHelper blobStorageHelper, ILog log)
         {
             _appServiceSettings = appServiceSettings;
+            _blobStorageHelper = blobStorageHelper;
             _log = log;
         }
 
         public List<RoatpProviderResult> GetRoatpData()
         {
             var roatpProviders = new List<RoatpProviderResult>();
-            IDictionary<string, object> extras = new Dictionary<string, object>();
-            extras.Add("DependencyLogEntry.Url", _appServiceSettings.VstsRoatpUrl);
 
-            using (var client = new WebClient())
+            var container = _blobStorageHelper.GetRoatpBlobContainer();
+            var blockBlobs = _blobStorageHelper.GetAllBlockBlobs(container);
+
+            var roatpFile = blockBlobs.FirstOrDefault();
+
+            try
             {
-                if (!string.IsNullOrEmpty(_appServiceSettings.GitUsername))
+                if (roatpFile == null)
                 {
-                    var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_appServiceSettings.GitUsername}:{_appServiceSettings.GitPassword}"));
-                    client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
+                    return null;
                 }
 
-                try
+                _log.Debug("Downloading RoATP");
+                using (var stream = new MemoryStream())
                 {
-                    _log.Debug("Downloading ROATP", new Dictionary<string, object> { { "Url", _appServiceSettings.VstsRoatpUrl } });
+                    roatpFile.DownloadToStream(stream);
 
-                    using (var stream = new MemoryStream(client.DownloadData(new Uri(_appServiceSettings.VstsRoatpUrl))))
                     using (var package = new ExcelPackage(stream))
                     {
-
                         GetRoatp(package, roatpProviders);
                     }
+                }
 
-                    return roatpProviders.Where(roatpProviderResult => roatpProviderResult.Ukprn != string.Empty && roatpProviderResult.OrganisationName != string.Empty).DistinctBy(x => x.Ukprn).ToList();
-                }
-                catch (WebException wex)
-                {
-                    var response = (HttpWebResponse) wex.Response;
-                    if (response != null)
-                    {
-                        extras.Add("DependencyLogEntry.ResponseCode", response.StatusCode);
-                    }
-
-                    _log.Error(wex, "Problem downloading ROATP from VSTS", extras);
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex, "Problem downloading ROATP from VSTS", extras);
-                }
+                return roatpProviders.Where(roatpProviderResult => roatpProviderResult.Ukprn != string.Empty && roatpProviderResult.OrganisationName != string.Empty).DistinctBy(x => x.Ukprn).ToList();
             }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Problem downloading RoATP file from Blob Storage");
 
-            return null;
+                return null;
+            }
         }
 
         public ProviderType GetProviderType(object providerType, string ukprn)

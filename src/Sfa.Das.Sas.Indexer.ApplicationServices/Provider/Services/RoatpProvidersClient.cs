@@ -16,7 +16,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         private readonly IGetRoatpProviders _getRoatpProviders;
         private readonly ProviderType[] _validProviderTypes = { ProviderType.MainProvider, ProviderType.EmployerProvider };
 
-
         public RoatpProvidersClient(IGetRoatpProviders getRoatpProviders, ILog logger)
         {
             _getRoatpProviders = getRoatpProviders;
