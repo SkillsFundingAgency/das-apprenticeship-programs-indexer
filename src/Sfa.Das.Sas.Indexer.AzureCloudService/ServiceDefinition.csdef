@@ -41,6 +41,7 @@
       <Setting name="RoatpBlobContainerReference" />
       <Setting name="AssessmentOrgsBlobContainerReference" />
       <Setting name="FcsBlobContainerReference" />
+      <Setting name="EmployerProvidersBlobContainerReference" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>

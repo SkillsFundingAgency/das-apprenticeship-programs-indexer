@@ -16,31 +16,20 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 
-    public class VstsService : IVstsService
+    public class ApprenticeshipRepoService : IApprenticeshipRepoService
     {
-        private readonly IAppServiceSettings _appServiceSettings;
-
-        private readonly IGitDynamicModelGenerator _gitDynamicModelGenerator;
-
         private readonly IJsonMetaDataConvert _jsonMetaDataConvert;
 
-        private readonly IVstsClient _vstsClient;
         private readonly IBlobStorageHelper _blobStorageHelper;
 
         private readonly ILog _logger;
 
-        public VstsService(
-            IAppServiceSettings appServiceSettings,
-            IGitDynamicModelGenerator gitDynamicModelGenerator,
+        public ApprenticeshipRepoService(
             IJsonMetaDataConvert jsonMetaDataConvert,
-            IVstsClient vstsClient,
             IBlobStorageHelper blobStorageHelper,
             ILog logger)
         {
-            _appServiceSettings = appServiceSettings;
-            _gitDynamicModelGenerator = gitDynamicModelGenerator;
             _jsonMetaDataConvert = jsonMetaDataConvert;
-            _vstsClient = vstsClient;
             _blobStorageHelper = blobStorageHelper;
             _logger = logger;
         }
@@ -51,7 +40,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var blobs = _blobStorageHelper.GetAllBlobs(container);
 
             var result = blobs?.Select(GetIdFromPath) ?? new List<string>();
-            _logger.Info($"Got {result.Count()} current meta data files Git Repository.");
+            _logger.Info($"Got {result.Count()} current meta data files.");
 
             return result;
         }

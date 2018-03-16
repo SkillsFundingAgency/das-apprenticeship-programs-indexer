@@ -62,6 +62,8 @@
 
         string FcsBlobContainerReference { get; }
 
+        string EmployerProvidersBlobContainerReference { get; }
+
         string QueueName(Type type);
         string[] MonitoringUrl(Type type);
     }

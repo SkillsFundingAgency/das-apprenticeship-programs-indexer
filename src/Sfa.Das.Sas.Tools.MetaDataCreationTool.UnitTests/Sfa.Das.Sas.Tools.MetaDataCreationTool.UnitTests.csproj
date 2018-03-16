@@ -132,8 +132,6 @@
     <Compile Include="Services\JsonMetaDataConvertTest.cs" />
     <Compile Include="Services\LarsDataServiceTest.cs" />
     <Compile Include="Services\RoatpProvidersXlsxServiceTests.cs" />
-    <Compile Include="VstsTest.cs" />
-    <Compile Include="Services\GitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sfa.Das.Sas.Indexer.ApplicationServices\Sfa.Das.Sas.Indexer.ApplicationServices.csproj">

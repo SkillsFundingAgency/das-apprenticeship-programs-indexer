@@ -72,6 +72,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string FcsBlobContainerReference => _settings.GetSetting("FcsBlobContainerReference");
 
+        public string EmployerProvidersBlobContainerReference => _settings.GetSetting("EmployerProvidersBlobContainerReference");
+
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
 
         private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");

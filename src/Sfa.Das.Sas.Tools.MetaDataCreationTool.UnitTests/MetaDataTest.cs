@@ -35,7 +35,7 @@
 
             var larsDataService = container.GetInstance<ILarsDataService>();
             var mockElasticsearchDataService = container.GetInstance<IElasticsearchLarsDataService>();
-            var vstsDataService = container.GetInstance<IVstsService>();
+            var apprenticeshipRepoService = container.GetInstance<IApprenticeshipRepoService>();
             var settings = container.GetInstance<IAppServiceSettings>();
             var logger = container.GetInstance<ILog>();
             var angleSharpService = container.GetInstance<IAngleSharpService>();
@@ -43,7 +43,7 @@
             Assert.True(string.IsNullOrEmpty(settings.GitUsername));
             Assert.True(string.IsNullOrEmpty(settings.GitPassword));
 
-            MetaDataManager metaData = new MetaDataManager(larsDataService, mockElasticsearchDataService, vstsDataService, settings, angleSharpService, logger);
+            MetaDataManager metaData = new MetaDataManager(larsDataService, mockElasticsearchDataService, apprenticeshipRepoService, settings, angleSharpService, logger);
 
             var standardsFromLars = larsDataService.GetListOfCurrentStandards();
 

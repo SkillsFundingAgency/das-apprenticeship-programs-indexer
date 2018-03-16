@@ -20,10 +20,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         [Test]
         public void GenerateStandardMetadataFilesTestShouldPushOnlyMissingStandardsToGit()
         {
-            // ILarsDataService larsDataService, IVstsService vstsService, IAppServiceSettings settings
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
-            var mockVstsService = new Mock<IVstsService>();
+            var mockApprenticeshipRepoService = new Mock<IApprenticeshipRepoService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
 
@@ -38,10 +37,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
             var existingMetaDataIds = new List<string> { "1", "2" };
 
             mockLarsDataService.Setup(x => x.GetListOfCurrentStandards()).Returns(currentStandards);
-            mockVstsService.Setup(x => x.GetExistingStandardIds()).Returns(existingMetaDataIds);
-            mockVstsService.Setup(x => x.PushStandards(It.IsAny<List<StandardRepositoryData>>())).Callback<List<FileContents>>(x => { standardsToAdd = x; });
+            mockApprenticeshipRepoService.Setup(x => x.GetExistingStandardIds()).Returns(existingMetaDataIds);
+            mockApprenticeshipRepoService.Setup(x => x.PushStandards(It.IsAny<List<StandardRepositoryData>>())).Callback<List<FileContents>>(x => { standardsToAdd = x; });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockSettings.Object, null, mockLogger.Object);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockApprenticeshipRepoService.Object, mockSettings.Object, null, mockLogger.Object);
 
             metaDataManager.GenerateStandardMetadataFiles();
 
@@ -51,17 +50,16 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         [Test]
         public void GetAllAsJsonShouldReturnDictionary()
         {
-            // ILarsDataService larsDataService, IVstsService vstsService, IAppServiceSettings settings
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
-            var mockVstsService = new Mock<IVstsService>();
+            var mockApprenticeshipRepoService = new Mock<IApprenticeshipRepoService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
 
             mockSettings.Setup(x => x.MetadataApiUri).Returns("www.abba.co.uk");
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockVstsService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockApprenticeshipRepoService.Object, mockSettings.Object, mockAngleSharpService.Object, mockLogger.Object);
 
             var standardJson = metaDataManager.GetStandardsMetaData();
 
@@ -73,7 +71,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         {
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
-            var mockVstsService = new Mock<IVstsService>();
+            var mockVstsService = new Mock<IApprenticeshipRepoService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
@@ -106,7 +104,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         {
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
-            var mockVstsService = new Mock<IVstsService>();
+            var mockVstsService = new Mock<IApprenticeshipRepoService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);
@@ -139,7 +137,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
         {
             var mockLarsDataService = new Mock<ILarsDataService>();
             var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
-            var mockVstsService = new Mock<IVstsService>();
+            var mockVstsService = new Mock<IApprenticeshipRepoService>();
             var mockSettings = new Mock<IAppServiceSettings>();
             var mockAngleSharpService = new Mock<IAngleSharpService>();
             var mockLogger = new Mock<ILog>(MockBehavior.Loose);

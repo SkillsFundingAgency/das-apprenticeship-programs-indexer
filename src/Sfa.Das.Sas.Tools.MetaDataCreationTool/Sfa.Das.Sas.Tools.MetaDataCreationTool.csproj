@@ -152,6 +152,7 @@
     <Compile Include="Models\GovLearn\GovLearnResponse.cs" />
     <Compile Include="Models\StandardRepositoryData.cs" />
     <Compile Include="Services\AssessmentOrgsExcelPackageService.cs" />
+    <Compile Include="Services\EmployerProvidersService.cs" />
     <Compile Include="Services\Interfaces\IAssessmentOrgsExcelPackageService.cs" />
     <Compile Include="Services\FcsActiveProvidersService.cs" />
     <Compile Include="Services\RoatpProvidersXlsxService.cs" />
@@ -160,10 +161,9 @@
     <Compile Include="Services\Interfaces\IJsonMetaDataConvert.cs" />
     <Compile Include="Services\Interfaces\IAngleSharpService.cs" />
     <Compile Include="Services\Interfaces\ILarsDataService.cs" />
-    <Compile Include="Services\Interfaces\IVstsService.cs" />
+    <Compile Include="Services\Interfaces\IApprenticeshipRepoService.cs" />
     <Compile Include="Services\JsonMetaDataConvert.cs" />
-    <Compile Include="Services\VstsService.cs" />
-    <Compile Include="Services\GitDynamicModelGenerator.cs" />
+    <Compile Include="Services\ApprenticeshipRepoService.cs" />
     <Compile Include="MetaDataManager.cs" />
     <Compile Include="Models\Git\GitTree.cs" />
     <Compile Include="Models\Git\Entity.cs" />
@@ -172,7 +172,6 @@
     <Compile Include="Services\AngleSharpService.cs" />
     <Compile Include="Services\CsvService.cs" />
     <Compile Include="Services\Interfaces\IReadMetaDataFromCsv.cs" />
-    <Compile Include="Services\Interfaces\IGitDynamicModelGenerator.cs" />
     <Compile Include="Services\AssessmentOrgsXlsxService.cs" />
   </ItemGroup>
   <ItemGroup>

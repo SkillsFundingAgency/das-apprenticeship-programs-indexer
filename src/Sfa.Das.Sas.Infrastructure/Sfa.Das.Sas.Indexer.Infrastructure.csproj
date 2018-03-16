@@ -183,7 +183,7 @@
     <Compile Include="Lars\Models\FundingDocument.cs" />
     <Compile Include="Lars\Models\LearningDeliveryDocument.cs" />
     <Compile Include="Lars\Models\StandardLars.cs" />
-    <Compile Include="Provider\CourseDirectory\EmployerProviderVstsClient.cs" />
+    <Compile Include="Provider\CourseDirectory\EmployerProviderClient.cs" />
     <Compile Include="Provider\DapperBD\AchievementRatesNational.cs" />
     <Compile Include="Provider\DapperBD\LearnerSatisfactionRatesProvider.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderInfrastructureRegistry.cs" />
@@ -237,7 +237,6 @@
     <Compile Include="Shared\Services\OrganisationTypeProcessor.cs" />
     <Compile Include="Shared\Services\RetryService.cs" />
     <Compile Include="Provider\Services\UkrlpService.cs" />
-    <Compile Include="Shared\Services\VstsClient.cs" />
     <Compile Include="Shared\Services\ZipFileExtractor.cs" />
     <Compile Include="Shared\Settings\AppConfigSettingsProvider.cs" />
     <Compile Include="Shared\Settings\ElasticsearchSettings.cs" />

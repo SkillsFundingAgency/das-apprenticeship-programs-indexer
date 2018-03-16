@@ -17,13 +17,13 @@
     [TestFixture]
     public class MetaDataHelperTests
     {
-        private Mock<IVstsService> _mockVstsService;
+        private Mock<IApprenticeshipRepoService> _mockApprenticeshipRepoService;
 
         [OneTimeSetUp]
         public void SetUp()
         {
-            _mockVstsService = new Mock<IVstsService>();
-            _mockVstsService.Setup(m => m.GetFrameworks()).Returns(GetVstsMetaData());
+            _mockApprenticeshipRepoService = new Mock<IApprenticeshipRepoService>();
+            _mockApprenticeshipRepoService.Setup(m => m.GetFrameworks()).Returns(GetRepoMetaData());
         }
 
         [Test]
@@ -37,7 +37,7 @@
                 .Returns(
                     new List<FrameworkMetaData> { new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 2 } });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockSettings.Object, null, Mock.Of<ILog>());
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockApprenticeshipRepoService.Object, mockSettings.Object, null, Mock.Of<ILog>());
             var frameworks = metaDataManager.GetAllFrameworks();
 
             Assert.AreEqual(1, frameworks.Count());
@@ -56,7 +56,7 @@
                 .Returns(
                     new List<FrameworkMetaData> { new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 2 } });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockSettings.Object, null, Mock.Of<ILog>());
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockApprenticeshipRepoService.Object, mockSettings.Object, null, Mock.Of<ILog>());
             var frameworks = metaDataManager.GetAllFrameworks();
 
             Assert.AreEqual(1, frameworks.Count(), "Should find one framework");
@@ -78,7 +78,7 @@
                         new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 21 }
                     });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockSettings.Object, null, Mock.Of<ILog>());
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockApprenticeshipRepoService.Object, mockSettings.Object, null, Mock.Of<ILog>());
             var framework = metaDataManager.GetAllFrameworks().FirstOrDefault();
 
             framework.Should().NotBeNull();
@@ -112,7 +112,7 @@
                         new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 21 }
                     });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockSettings.Object, null, Mock.Of<ILog>());
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockApprenticeshipRepoService.Object, mockSettings.Object, null, Mock.Of<ILog>());
             var framework = metaDataManager.GetAllFrameworks().FirstOrDefault();
 
             framework.Should().NotBeNull();
@@ -136,14 +136,14 @@
                         new FrameworkMetaData { EffectiveFrom = DateTime.Parse("2015-01-01"), EffectiveTo = null, FworkCode = 500, PwayCode = 1, ProgType = 21 }
                     });
 
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockVstsService.Object, mockSettings.Object, null, Mock.Of<ILog>());
+            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, _mockApprenticeshipRepoService.Object, mockSettings.Object, null, Mock.Of<ILog>());
             var framework = metaDataManager.GetAllFrameworks().FirstOrDefault();
 
             framework.Should().NotBeNull();
             framework.Keywords.Should().Contain(new string[] { "keyword1", "keyword2" });
         }
 
-        private IEnumerable<FrameworkRepositoryMetaData> GetVstsMetaData()
+        private IEnumerable<FrameworkRepositoryMetaData> GetRepoMetaData()
         {
             return new List<FrameworkRepositoryMetaData>
             {

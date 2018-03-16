@@ -6,7 +6,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
 
-    public interface IVstsService
+    public interface IApprenticeshipRepoService
     {
         IEnumerable<string> GetExistingStandardIds();
 

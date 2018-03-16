@@ -16,9 +16,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<ILarsDataService>().Use<LarsDataService>();
             For<IReadMetaDataFromCsv>().Use<CsvService>();
             For<IAngleSharpService>().Use<AngleSharpService>();
-            For<IVstsService>().Use<VstsService>();
+            For<IApprenticeshipRepoService>().Use<ApprenticeshipRepoService>();
             For<IBlobStorageHelper>().Use<BlobStorageHelper>();
-            For<IGitDynamicModelGenerator>().Use<GitDynamicModelGenerator>();
             For<IGetStandardMetaData>().Use<MetaDataManager>();
             For<IGenerateStandardMetaData>().Use<MetaDataManager>();
             For<IGetFrameworkMetaData>().Use<MetaDataManager>();
@@ -30,6 +29,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<IElasticsearchLarsDataService>().Use<ElasticsearchLarsDataService>();
             For<IAssessmentOrgsExcelPackageService>().Use<AssessmentOrgsExcelPackageService>();
             For<IFcsActiveProvidersService>().Use<FcsActiveProvidersService>();
+            For<IEmployerProvidersService>().Use<EmployerProvidersService>();
 
             // Meta Data factories
             For<IMetaDataFactory>().Use<FrameworkMetaDataFactory>();
