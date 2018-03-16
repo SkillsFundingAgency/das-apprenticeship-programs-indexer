@@ -14,6 +14,6 @@
         public string Email { get; set; }
         public string Phone { get; set; }
 
-        public int? Ukprn { get;set; }
+        public long? Ukprn { get;set; }
     }
 }

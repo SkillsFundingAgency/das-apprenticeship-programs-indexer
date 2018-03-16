@@ -45,11 +45,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             }
         }
 
-        public int? CheckForValidUkprn(string ukprnDetails)
+        public long? CheckForValidUkprn(string ukprnDetails)
         {
-            int? ukprnProcessed = null;
-            int ukprn;
-            int.TryParse(ukprnDetails, out ukprn);
+            long? ukprnProcessed = null;
+            long ukprn;
+            long.TryParse(ukprnDetails, out ukprn);
             if (ukprn.ToString().Length == 8)
             {
                 ukprnProcessed = ukprn;
