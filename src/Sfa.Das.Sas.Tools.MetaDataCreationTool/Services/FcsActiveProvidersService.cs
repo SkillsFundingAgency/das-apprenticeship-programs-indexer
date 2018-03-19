@@ -26,8 +26,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         public ICollection<ActiveProviderCsvRecord> GetFcsData()
         {
-            var loadProvidersFromVsts = GetFcsContent();
-            var records = _convertFromCsv.CsvTo<ActiveProviderCsvRecord>(loadProvidersFromVsts);
+            var loadProvidersFromBlobStorage = GetFcsContent();
+            var records = _convertFromCsv.CsvTo<ActiveProviderCsvRecord>(loadProvidersFromBlobStorage);
             return records;
         }
 

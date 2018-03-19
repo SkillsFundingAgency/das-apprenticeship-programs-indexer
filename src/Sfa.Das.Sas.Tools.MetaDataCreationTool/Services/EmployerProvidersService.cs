@@ -27,8 +27,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         public ICollection<EmployerProviderCsvRecord> GetEmployerProviders()
         {
-            var loadProvidersFromVsts = GetEmployerProvidersContent();
-            var records = _convertFromCsv.CsvTo<EmployerProviderCsvRecord>(loadProvidersFromVsts);
+            var loadProvidersFromBlobStorage = GetEmployerProvidersContent();
+            var records = _convertFromCsv.CsvTo<EmployerProviderCsvRecord>(loadProvidersFromBlobStorage);
             return records;
         }
 
