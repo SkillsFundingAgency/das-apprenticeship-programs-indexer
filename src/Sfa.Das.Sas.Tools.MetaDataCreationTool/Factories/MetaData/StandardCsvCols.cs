@@ -6,6 +6,7 @@
         public const int StandardSectorCode = 3;
         public const int NotionalEndLevel = 4;
         public const int EffectiveFrom = 5;
+        public const int LastDateStarts = 6;
         public const int EffectiveTo = 7;
         public const int UrlLink = 8;
         public const int SectorSubjectAreaTier1 = 9;
