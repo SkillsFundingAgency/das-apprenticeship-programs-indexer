@@ -23,7 +23,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard
         public DateTime? EffectiveFrom { get; set; }
         public int StandardSectorCode { get; set; }
 
-        public DateTime? LastDateStarts { get; set; }
+        public DateTime? LastDateForNewStarts { get; set; }
 
         public bool IsValidDate(DateTime currentDate)
         {

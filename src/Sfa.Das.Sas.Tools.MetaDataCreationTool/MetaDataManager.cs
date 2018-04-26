@@ -168,7 +168,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
             foreach (var standard in standards)
             {
-                var standardFromLars = currentStandards.SingleOrDefault(m => m.Id.Equals(standard.Id));
+               var standardFromLars = currentStandards.SingleOrDefault(m => m.Id.Equals(standard.Id));
 
                 if (standardFromLars == null)
                 {
@@ -185,6 +185,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 standard.FundingCap = standardFromLars.FundingCap;
                 standard.EffectiveFrom = standardFromLars.EffectiveFrom;
                 standard.EffectiveTo = standardFromLars.EffectiveTo;
+                standard.LastDateForNewStarts = standardFromLars.LastDateForNewStarts;
                 updated++;
             }
 

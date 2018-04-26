@@ -26,6 +26,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
         public DateTime? EffectiveTo { get; set; }
 
-        public DateTime? LastDateStarts { get; set; }
+        public DateTime? LastDateForNewStarts { get; set; }
     }
 }

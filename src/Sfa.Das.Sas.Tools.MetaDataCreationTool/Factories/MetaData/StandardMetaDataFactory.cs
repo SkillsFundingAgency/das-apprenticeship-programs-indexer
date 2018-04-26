@@ -39,7 +39,7 @@
                 SectorSubjectAreaTier2 = values[StandardCsvCols.SectorSubjectAreaTier2].RemoveQuotationMark().SafeParseDouble(),
                 EffectiveFrom = values[StandardCsvCols.EffectiveFrom].SafeParseDate(),
                 EffectiveTo = values[StandardCsvCols.EffectiveTo].SafeParseDate(),
-                LastDateStarts = values[StandardCsvCols.LastDateStarts].SafeParseDate()
+                LastDateForNewStarts = values[StandardCsvCols.LastDateForNewStarts].SafeParseDate()
             };
         }
 

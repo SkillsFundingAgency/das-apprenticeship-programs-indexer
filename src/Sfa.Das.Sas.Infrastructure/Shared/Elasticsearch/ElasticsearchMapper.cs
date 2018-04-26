@@ -60,7 +60,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 EffectiveFrom = standard.EffectiveFrom,
-                EffectiveTo = standard.EffectiveTo
+                EffectiveTo = standard.EffectiveTo,
+                LastDateForNewStarts = standard.LastDateForNewStarts
             };
         }
 
@@ -79,7 +80,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 FundingCap = standard.FundingCap,
                 EffectiveFrom = standard.EffectiveFrom,
                 EffectiveTo = standard.EffectiveTo,
-                LastDateStarts = standard.LastDateStarts
+                LastDateForNewStarts = standard.LastDateForNewStarts
             };
         }
 
