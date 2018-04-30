@@ -37,7 +37,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     .From(0)
                     .Size(size));
 
-            return standards.Documents.Where(x => x.IsValidDate(DateTime.UtcNow));
+            return standards.Documents;
         }
 
         private int GetLarsStandardsSize()

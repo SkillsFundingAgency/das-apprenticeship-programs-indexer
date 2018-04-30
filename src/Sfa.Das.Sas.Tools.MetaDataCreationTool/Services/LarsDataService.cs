@@ -454,10 +454,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 var s =
                     metaData.FirstOrDefault(stdrd =>
                         stdrd.ApprenticeshipType.ToLower() == "std" &&
-                        stdrd.ApprenticeshipCode == std.Id &&
-                        stdrd.EffectiveFrom.HasValue &&
-                        stdrd.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
-                        (!stdrd.EffectiveTo.HasValue || stdrd.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
+                        stdrd.ApprenticeshipCode == std.Id);
 
                 if (s == null)
                 {
