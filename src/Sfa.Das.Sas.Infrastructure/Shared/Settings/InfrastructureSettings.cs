@@ -20,11 +20,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string ElasticsearchPassword => _settingsProvider.GetSetting("ElasticsearchPassword");
 
-        public string FrameworkIdFormat => ConfigurationManager.AppSettings["FrameworkIdFormat"];
+        public string FrameworkIdFormat => CloudConfigurationManager.GetSetting("FrameworkIdFormat");
 
-        public string UkrlpStakeholderId => ConfigurationManager.AppSettings["UkrlpStakeholderId"];
+        public string UkrlpStakeholderId => CloudConfigurationManager.GetSetting("UkrlpStakeholderId");
 
-        public string UkrlpProviderStatus => ConfigurationManager.AppSettings["UkrlpProviderStatus"];
+        public string UkrlpProviderStatus => CloudConfigurationManager.GetSetting("UkrlpProviderStatus");
 
         public string UkrlpServiceEndpointUrl => _settingsProvider.GetSetting("UKRLP_EndpointUri");
 
@@ -34,7 +34,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string EnvironmentName => CloudConfigurationManager.GetSetting("EnvironmentName");
 
-        public string ApplicationName => ConfigurationManager.AppSettings["ApplicationName"];
+        public string ApplicationName => CloudConfigurationManager.GetSetting("ApplicationName");
 
         public double HttpClientTimeout => Convert.ToDouble(ConfigurationManager.AppSettings["HttpClient.Timeout"]);
 
