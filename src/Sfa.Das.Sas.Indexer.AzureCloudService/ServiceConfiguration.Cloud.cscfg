@@ -36,6 +36,7 @@
       <Setting name="GitPassword" value="__GitPassword__" />
       <Setting name="AchievementRateDataBaseConnectionString" value="__AchievementRateDataBaseConnectionString__" />
       <Setting name="UKRLP_EndpointUri" value="__UKRLP_EndpointUri__" />
+      <Setting name="FrameworkIdFormat" value="__FrameworkIdFormat__" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
