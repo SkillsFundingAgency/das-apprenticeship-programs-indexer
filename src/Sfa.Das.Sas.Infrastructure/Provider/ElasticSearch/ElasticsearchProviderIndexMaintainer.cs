@@ -66,8 +66,10 @@
 
                         if (deliveryLocationsOnly100.Any())
                         {
-                            standardProviderList.AddRange(deliveryLocationsOnly100.Select(deliveryInformation => ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryInformation)));
+                            var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryLocationsOnly100);
+                            standardProviderList.Add(standardProvider);
                         }
+
 
                         standardProviderList.AddRange(from location in standard.DeliveryLocations.Where(_anyNotAtEmployer) where location.DeliveryLocation.Address.GeoPoint != null select ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, location));
                     }
