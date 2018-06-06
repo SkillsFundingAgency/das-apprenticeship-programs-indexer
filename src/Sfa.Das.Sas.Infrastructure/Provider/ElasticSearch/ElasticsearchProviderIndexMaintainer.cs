@@ -66,7 +66,8 @@
 
                         if (deliveryLocationsOnly100.Any())
                         {
-                            standardProviderList.AddRange(deliveryLocationsOnly100.Select(deliveryInformation => ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryInformation)));
+                            var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryLocationsOnly100);
+                            standardProviderList.Add(standardProvider);
                         }
 
                         standardProviderList.AddRange(from location in standard.DeliveryLocations.Where(_anyNotAtEmployer) where location.DeliveryLocation.Address.GeoPoint != null select ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, location));
@@ -99,7 +100,8 @@
 
                         if (deliveryLocationsOnly100.Any())
                         {
-                            frameworkProviderList.AddRange(deliveryLocationsOnly100.Select(deliveryInformation => ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryInformation)));
+                            var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryLocationsOnly100);
+                            frameworkProviderList.Add(frameworkProvider);
                         }
 
                         frameworkProviderList.AddRange(from location in framework.DeliveryLocations.Where(_anyNotAtEmployer) where location.DeliveryLocation.Address.GeoPoint != null select ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, location));
