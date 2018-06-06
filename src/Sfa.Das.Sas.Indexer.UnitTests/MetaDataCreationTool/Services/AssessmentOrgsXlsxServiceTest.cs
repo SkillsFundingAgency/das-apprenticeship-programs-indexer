@@ -38,7 +38,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.MetaDataCreationTool.Services
             {
                 new Organisation
                 {
-                    EpaOrganisationIdentifier = "EPA1 ",
+                    EpaOrganisationIdentifier = "EPA1",
                     EpaOrganisation = "EPAorganisation1"
                 },
                 new Organisation
@@ -58,13 +58,15 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.MetaDataCreationTool.Services
                 },
                 new Organisation
                 {
-                    EpaOrganisationIdentifier = "EPA5 ",
-                    EpaOrganisation = "EPAorganisation5"
+                    EpaOrganisationIdentifier = "EPA5",
+                    EpaOrganisation = "EPAorganisation5",
+                    Ukprn = 11112222
                 }
             };
 
             actual.Should().NotBeNull();
             actual.Count.Should().Be(expected.Count);
+            actual.ShouldBeEquivalentTo(expected);
         }
 
         public List<Organisation> LoadOrganisationsTestData()
@@ -99,7 +101,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.MetaDataCreationTool.Services
                 new Organisation
                 {
                     EpaOrganisationIdentifier = "EPA5",
-                    EpaOrganisation = "EPAorganisation5"
+                    EpaOrganisation = "EPAorganisation5",
+                    Ukprn = 11112222
                 },new Organisation
                 {
                     EpaOrganisationIdentifier = "Epa5",
