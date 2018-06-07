@@ -37,6 +37,9 @@
       <Setting name="AchievementRateDataBaseConnectionString" value="" />
       <Setting name="UKRLP_EndpointUri" value="" />
       <Setting name="FrameworkIdFormat" value="{0}-{1}-{2}" />
+      <Setting name="VstsGitBaseUrl" value="https://sfa-gov-uk.visualstudio.com/DefaultCollection/Digital%20Apprenticeship%20Service/_apis/git/repositories/SFA-DAS-MetaDataStorage/" />
+      <Setting name="VstsGitStandardsFolderPath" value="standards/local/json" />
+      <Setting name="VstsGitFrameworksFolderPath" value="frameworks/local/json" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

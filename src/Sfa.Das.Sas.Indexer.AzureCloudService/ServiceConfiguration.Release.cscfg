@@ -37,6 +37,9 @@
       <Setting name="AchievementRateDataBaseConnectionString" value="__AchievementRateDataBaseConnectionString__" />
       <Setting name="UKRLP_EndpointUri" value="__UKRLP_EndpointUri__" />
       <Setting name="FrameworkIdFormat" value="__FrameworkIdFormat__" />
+      <Setting name="VstsGitBaseUrl" value="__VstsGitBaseUrl__" />
+      <Setting name="VstsGitStandardsFolderPath" value="__VstsGitStandardsFolderPath__" />
+      <Setting name="VstsGitFrameworksFolderPath" value="__VstsGitFrameworksFolderPath__" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
