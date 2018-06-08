@@ -12,11 +12,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
     {
         private readonly IDatabaseProvider _databaseProvider;
         private readonly ILog _log;
-
         private readonly IInfrastructureSettings _settings;
 
         public LearnerSatisfactionRatesProvider(
-            IDatabaseProvider databaseProvider, 
+            IDatabaseProvider databaseProvider,
             ILog log,
             IInfrastructureSettings settings)
         {

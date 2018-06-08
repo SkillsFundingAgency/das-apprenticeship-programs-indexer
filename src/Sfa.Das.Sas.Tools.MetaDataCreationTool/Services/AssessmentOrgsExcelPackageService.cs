@@ -58,7 +58,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return ukprnProcessed;
         }
 
-
         public IEnumerable<StandardOrganisationsData> GetStandardOrganisationsData(ExcelPackage package)
         {
             var standardOrganisationWorkSheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == standardsWorkSheetName);

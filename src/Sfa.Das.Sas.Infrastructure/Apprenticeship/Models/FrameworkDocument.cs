@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Nest;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-using JobRoleItem = Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models.JobRoleItem;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {

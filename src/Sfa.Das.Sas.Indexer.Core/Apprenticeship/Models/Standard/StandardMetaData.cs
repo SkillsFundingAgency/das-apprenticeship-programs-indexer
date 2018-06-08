@@ -44,5 +44,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models
         public DateTime? EffectiveFrom { get; set; }
 
         public DateTime? EffectiveTo { get; set; }
+
+        public int SectorCode { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
             try
             {
-                _log.Debug("Downloading ROAAO", new Dictionary<string, object> {{"Url", _appServiceSettings.VstsAssessmentOrgsUrl} });
+                _log.Debug("Downloading ROAAO", new Dictionary<string, object> {{"Url", _appServiceSettings.VstsAssessmentOrgsUrl}});
                 IEnumerable<Organisation> assessmentOrgs;
                 IEnumerable<StandardOrganisationsData> standardOrganisationsData;
                 using (var stream = new MemoryStream(_webClient.DownloadData(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl))))

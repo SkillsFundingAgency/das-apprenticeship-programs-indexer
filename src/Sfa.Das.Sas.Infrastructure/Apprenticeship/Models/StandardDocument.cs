@@ -26,7 +26,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public string Qualifications { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(NullValue = "null")]
         public string StandardPdf { get; set; }
 
         public string WhatApprenticesWillLearn { get; set; }
@@ -37,5 +37,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         [Keyword(NullValue = "null")]
         public string StandardIdKeyword => StandardId.ToString();
+
+        public int StandardSectorCode { get; set; }
     }
 }

@@ -63,14 +63,13 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.AreEqual(0, errors.Count, $"Following details are removed from 'Register - Standards' worksheet {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
         }
 
-
         [TestMethod]
         [TestCategory("RoAAo Excel Tests")]
         public void ShouldNotDeleteExistingOrganisation()
         {
             var prodAssesmentOrgs = prodsut.GetAssessmentOrganisationsData().Organisations.Select(x => x.EpaOrganisationIdentifier).ToList();
             var localAssesmentOrgs = results.Organisations.Select(x => x.EpaOrganisationIdentifier).ToList();
-
+            
             var removedOrganisations = prodAssesmentOrgs.Except(localAssesmentOrgs);
 
             Assert.AreEqual(0, removedOrganisations.Count(), $"Following details are removed from 'Register - Organisations' worksheet  {Environment.NewLine}{string.Join(Environment.NewLine, removedOrganisations)}");
@@ -162,7 +161,6 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                     var currentperiods = epaStandards
                                          .Where(x => x.StandardCode == standard)
                                          .Where(z => (z.EffectiveFrom.Date <= DateTime.Now.Date && (z.EffectiveTo.HasValue == false || z.EffectiveTo.Value.Date >= DateTime.Now.Date)));
-
                     if (currentperiods.Count() > 1)
                     {
                         errors.Add($"{epaidentifier} assessment for Standard {standard} has duplicate current periods.");

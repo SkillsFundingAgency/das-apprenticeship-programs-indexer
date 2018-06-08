@@ -17,7 +17,6 @@ using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
-
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
     {
         private readonly IMaintainProviderIndex _searchIndexMaintainer;
@@ -259,9 +258,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 if (courseDirectory != null)
                 {
-                    provider.ContactDetails.Email = provider.ContactDetails.Email ?? courseDirectory.Email;
-                    provider.ContactDetails.Website = provider.ContactDetails.Website ?? courseDirectory.Website;
-                    provider.ContactDetails.Phone = provider.ContactDetails.Phone ?? courseDirectory.Phone;
+                    provider.ContactDetails.Email = courseDirectory.Email ?? provider.ContactDetails.Email;
+                    provider.ContactDetails.Website = courseDirectory.Website ?? provider.ContactDetails.Website;
+                    provider.ContactDetails.Phone = courseDirectory.Phone ?? provider.ContactDetails.Phone;
+
                     provider.MarketingInfo = courseDirectory.MarketingInfo;
                     provider.IsLevyPayerOnly = !source.ActiveProviders.Providers.Contains(courseDirectory.Ukprn);
             }
