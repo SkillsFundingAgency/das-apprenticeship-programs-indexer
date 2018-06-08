@@ -34,6 +34,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
         public DateTime? EffectiveFrom { get; set; }
 
         public DateTime? EffectiveTo { get; set; }
+        public DateTime? LastDateForNewStarts { get; set; }
 
         [Keyword(NullValue = "null")]
         public string StandardIdKeyword => StandardId.ToString();
