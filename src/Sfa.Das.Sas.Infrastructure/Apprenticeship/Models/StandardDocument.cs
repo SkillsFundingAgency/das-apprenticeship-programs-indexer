@@ -17,7 +17,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public string EntryRequirements { get; set; }
 
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public IEnumerable<string> JobRoles { get; set; }
 
         public string OverviewOfRole { get; set; }
@@ -26,12 +26,18 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public string Qualifications { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(NullValue = "null")]
         public string StandardPdf { get; set; }
 
         public string WhatApprenticesWillLearn { get; set; }
+
         public DateTime? EffectiveFrom { get; set; }
+
         public DateTime? EffectiveTo { get; set; }
+
+        [Keyword(NullValue = "null")]
+        public string StandardIdKeyword => StandardId.ToString();
+
         public int StandardSectorCode { get; set; }
     }
 }

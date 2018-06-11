@@ -16,21 +16,25 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
             _settingsProvider = settingsProvider;
         }
 
-        public string FrameworkIdFormat => ConfigurationManager.AppSettings["FrameworkIdFormat"];
+        public string ElasticsearchUsername => _settingsProvider.GetSetting("ElasticsearchUsername");
 
-        public string UkrlpStakeholderId => ConfigurationManager.AppSettings["UkrlpStakeholderId"];
+        public string ElasticsearchPassword => _settingsProvider.GetSetting("ElasticsearchPassword");
 
-        public string UkrlpProviderStatus => ConfigurationManager.AppSettings["UkrlpProviderStatus"];
+        public string FrameworkIdFormat => CloudConfigurationManager.GetSetting("FrameworkIdFormat");
+
+        public string UkrlpStakeholderId => CloudConfigurationManager.GetSetting("UkrlpStakeholderId");
+
+        public string UkrlpProviderStatus => CloudConfigurationManager.GetSetting("UkrlpProviderStatus");
 
         public string UkrlpServiceEndpointUrl => _settingsProvider.GetSetting("UKRLP_EndpointUri");
 
-        public string CourseDirectoryUri => ConfigurationManager.AppSettings["CourseDirectoryUri"];
+        public string CourseDirectoryUri => CloudConfigurationManager.GetSetting("CourseDirectoryUri");
 
         public string UkrlpEndpointName => CloudConfigurationManager.GetSetting("UkrlpEndpointName");
 
-        public string EnvironmentName => ConfigurationManager.AppSettings["EnvironmentName"];
+        public string EnvironmentName => CloudConfigurationManager.GetSetting("EnvironmentName");
 
-        public string ApplicationName => ConfigurationManager.AppSettings["ApplicationName"];
+        public string ApplicationName => CloudConfigurationManager.GetSetting("ApplicationName");
 
         public double HttpClientTimeout => Convert.ToDouble(ConfigurationManager.AppSettings["HttpClient.Timeout"]);
 
@@ -38,13 +42,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string EstablishmentPassword => _settingsProvider.GetNullableSetting("EdubasePassword");
 
-        public string AchievementRateDataBaseConnectionString => _settingsProvider.GetSetting("AchievementRateDataBaseConnectionString");
-
-        public IEnumerable<Uri> ElasticServerUrls => GetElasticIPs("ElasticServerUrls");
-
         public string EmployerSatisfactionRatesTableName => _settingsProvider.GetSetting("EmployerSatisfactionRatesTableName");
 
         public string LearnerSatisfactionRatesTableName => _settingsProvider.GetSetting("LearnerSatisfactionRatesTableName");
+
+        public string AchievementRateDataBaseConnectionString => _settingsProvider.GetSetting("AchievementRateDataBaseConnectionString");
+
+        public IEnumerable<Uri> ElasticServerUrls => GetElasticIPs("ElasticServerUrls");
 
         public bool UseStoredProc => Convert.ToBoolean(_settingsProvider.GetSetting("FEChoicesUseStoredProc"));
 

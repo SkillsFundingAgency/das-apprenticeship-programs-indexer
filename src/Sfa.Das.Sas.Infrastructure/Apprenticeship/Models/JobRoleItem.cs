@@ -5,10 +5,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
     public class JobRoleItem
     {
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string Title { get; set; }
 
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustomText)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustomText)]
         public string Description { get; set; }
     }
 }

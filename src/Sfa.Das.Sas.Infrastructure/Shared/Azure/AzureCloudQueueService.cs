@@ -31,8 +31,17 @@
         public IEnumerable<IQueueMessage> GetQueueMessages(string queueName)
         {
             var queue = GetQueueReference(queueName);
+            try
+            {
+                var cloudQueueMessages = queue.GetMessages(DefaultMessageCount, _messageVisibilityTimeout);
+                return cloudQueueMessages.Select(x => new AzureQueueMessage(x));
+            }
+            catch (StorageException ex)
+            {
+                _logger.Error(ex, $"Couldn't get messages for {queueName}");
+            }
 
-            return queue?.GetMessages(DefaultMessageCount, _messageVisibilityTimeout).Select(x => new AzureQueueMessage(x));
+            return null;
         }
 
         /// <summary>
@@ -108,9 +117,7 @@
             var storageAccount = CloudStorageAccount.Parse(_appServiceSettings.ConnectionString);
             var queueClient = storageAccount.CreateCloudQueueClient();
 
-            var queue = queueClient.GetQueueReference(queueName);
-            queue.CreateIfNotExists();
-            return queue;
+            return queueClient.GetQueueReference(queueName);
         }
     }
 }

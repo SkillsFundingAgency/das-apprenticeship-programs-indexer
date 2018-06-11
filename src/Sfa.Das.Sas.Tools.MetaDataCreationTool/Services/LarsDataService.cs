@@ -1,20 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
+using Sfa.Das.Sas.Indexer.Core.Models.Framework;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-    using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
-    using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
-
     public sealed class LarsDataService : ILarsDataService
     {
         private const int MinimumValidFrameworkCode = 400;
@@ -396,7 +395,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             {
                 var fw =
                     metaData.ApprenticeshipFundings.FirstOrDefault(fwk =>
-                        fwk.ApprenticeshipType == "FWK" &&
+                        fwk.ApprenticeshipType.ToLower() == "fwk" &&
                         fwk.ApprenticeshipCode == framework.FworkCode &&
                         fwk.ProgType == framework.ProgType &&
                         fwk.PwayCode == framework.PwayCode &&
@@ -441,13 +440,15 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             {
                 var fw =
                     metaData.Where(fwk =>
-                        fwk.ApprenticeshipType == "FWK" &&
+                        fwk.ApprenticeshipType.ToLower() == "fwk" &&
                         fwk.ApprenticeshipCode == framework.FworkCode &&
                         fwk.ProgType == framework.ProgType &&
                         fwk.PwayCode == framework.PwayCode &&
                         fwk.EffectiveFrom.HasValue &&
                         fwk.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
-                        (!fwk.EffectiveTo.HasValue || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date || IsSpecialFramework($"{fwk.ApprenticeshipCode}-{fwk.ProgType}-{fwk.PwayCode}")))
+                            (!fwk.EffectiveTo.HasValue
+                                || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date
+                                || IsSpecialFramework($"{fwk.ApprenticeshipCode}-{fwk.ProgType}-{fwk.PwayCode}")))
                         .OrderByDescending(x => x.EffectiveFrom)
                         .FirstOrDefault();
 

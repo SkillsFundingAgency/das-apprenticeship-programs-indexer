@@ -1,4 +1,5 @@
-﻿using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
+﻿using Nest;
+using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models
 {
@@ -13,8 +14,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models
         public string WebsiteLink { get; set; }
 
         public Address Address { get; set; }
+
         public string Phone { get; set; }
+
         public string Email { get; set; }
         public long? Ukprn { get; set; }
+
+        [Keyword(NullValue = "null")]
+        public string EpaOrganisationIdentifierKeyword => EpaOrganisationIdentifier;
     }
 }

@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using Nest;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-using JobRoleItem = Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models.JobRoleItem;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
     public sealed class FrameworkDocument : ApprenticeshipDocument, IIndexEntry
     {
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(NullValue = "null")]
         public string FrameworkId { get; set; }
 
         public bool Published { get; set; }
 
         public int FrameworkCode { get; set; }
 
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string FrameworkName { get; set; }
 
         public int PathwayCode { get; set; }
 
         public int ProgType { get; set; }
 
-        [String(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
+        [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string PathwayName { get; set; }
 
         public IEnumerable<JobRoleItem> JobRoleItems { get; set; }
@@ -45,5 +44,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
         public IEnumerable<string> CombinedQualification { get; set; }
         public DateTime EffectiveFrom { get; set; }
         public DateTime? EffectiveTo { get; set; }
+
+        [Keyword(NullValue = "null")]
+        public string FrameworkIdKeyword => FrameworkId;
     }
 }

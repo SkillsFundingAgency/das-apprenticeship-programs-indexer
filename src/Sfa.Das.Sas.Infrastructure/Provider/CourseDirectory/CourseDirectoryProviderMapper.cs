@@ -1,18 +1,16 @@
+using System.Collections.Generic;
+using System.Linq;
 using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
+using CourseDirectoryProvider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory.Provider;
+using Location = Sfa.Das.Sas.Indexer.Core.Models.Provider.Location;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.CourseDirectory
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-    using Sfa.Das.Sas.Indexer.Core.Logging;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-    using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
-    using CourseDirectoryProvider = Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.CourseDirectory.Provider;
-    using Location = Sfa.Das.Sas.Indexer.Core.Models.Provider.Location;
-
     public sealed class CourseDirectoryProviderMapper : ICourseDirectoryProviderMapper
     {
         private readonly ILog _logger;

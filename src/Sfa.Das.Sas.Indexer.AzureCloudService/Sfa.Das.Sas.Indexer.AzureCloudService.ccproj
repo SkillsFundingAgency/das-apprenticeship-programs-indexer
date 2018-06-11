@@ -34,12 +34,18 @@
   <!-- Items for the project -->
   <ItemGroup>
     <ServiceDefinition Include="ServiceDefinition.csdef" />
+    <None Include="Configuration\ServiceDefinition.Cloud.csdef" />
+    <None Include="Configuration\ServiceDefinition.Release.csdef" />
     <ServiceConfiguration Include="ServiceConfiguration.Local.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
+    <None Include="ServiceConfiguration.PreProd.cscfg" />
+    <None Include="ServiceConfiguration.Prod.cscfg" />
+    <ServiceConfiguration Include="ServiceConfiguration.Release.cscfg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Profiles" />
     <Folder Include="Sfa.Das.Sas.Indexer.AzureWorkerRoleContent" />
+    <Folder Include="Configuration" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="Sfa.Das.Sas.Indexer.AzureWorkerRoleContent\diagnostics.wadcfgx" />

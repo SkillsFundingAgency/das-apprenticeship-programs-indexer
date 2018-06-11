@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Nest;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -35,5 +36,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         ICreateIndexResponse CreateIndex(IndexName index, Func<CreateIndexDescriptor, ICreateIndexRequest> selector = null, [CallerMemberName] string callerName = "");
 
         Task<IBulkResponse> BulkAsync(IBulkRequest request, [CallerMemberName] string callerName = "");
-    }
+
+        void BulkAllGeneric<T>(List<T> elementList, string indexName)
+            where T : class;
+		void IndexMany<T>(List<T> entries, string indexName)
+			where T : class;
+
+	}
 }

@@ -5,6 +5,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 {
     public interface IInfrastructureSettings
     {
+        string ElasticsearchUsername { get; }
+
+        string ElasticsearchPassword { get; }
+
         string CourseDirectoryUri { get; }
 
         string EnvironmentName { get; }

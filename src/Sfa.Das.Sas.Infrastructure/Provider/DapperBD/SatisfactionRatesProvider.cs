@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using MediatR;
-
 using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;

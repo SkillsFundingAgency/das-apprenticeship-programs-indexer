@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sfa.Das.Sas.Indexer.Core</RootNamespace>
     <AssemblyName>Sfa.Das.Sas.Indexer.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,13 +33,6 @@
     <CodeAnalysisRuleSet>..\SharedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.0\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SFA.DAS.NLog.Logger">
-      <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.26805\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,11 +55,6 @@
     <Compile Include="Shared\Extensions\EnumExtensions.cs" />
     <Compile Include="Shared\Extensions\ListExtensions.cs" />
     <Compile Include="Shared\Extensions\StringExtensions.cs" />
-    <Compile Include="Shared\Logging\Metrics\ExecutionTimer.cs" />
-    <Compile Include="Shared\Logging\Metrics\ExecutionTimerResult{T}.cs" />
-    <Compile Include="Shared\Logging\Models\DependencyLogEntry.cs" />
-    <Compile Include="Shared\Logging\Models\ElasticSearchLogEntry.cs" />
-    <Compile Include="Shared\Logging\Models\TimingLogEntry.cs" />
     <Compile Include="Provider\Models\FEChoices\AchievementRateNational.cs" />
     <Compile Include="Provider\Models\FEChoices\AchievementRateProvider.cs" />
     <Compile Include="Apprenticeship\Models\Framework\FrameworkAimMetaData.cs" />
@@ -93,6 +82,7 @@
     <Compile Include="Apprenticeship\Models\Standard\TypicalLength.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\Services\IProvideSettings.cs" />
+    <Compile Include="Shared\Models\IndexerResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -42,15 +42,15 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
         {
             List<string> errors = new List<string>();
             var prodresults = prodsut.GetAssessmentOrganisationsData();
-            var prodAssesmentOrgs = prodresults.StandardOrganisationsData.Select(x => new List<string> { x.EpaOrganisationIdentifier,x.StandardCode }).ToList();
+            var prodAssesmentOrgs = prodresults.StandardOrganisationsData.Select(x => new List<string> { x.EpaOrganisationIdentifier, x.StandardCode }).ToList();
             var localAssesmentOrgs = results.StandardOrganisationsData.Select(x => new List<string> { x.EpaOrganisationIdentifier, x.StandardCode }).ToList();
 
-            var removedOrganisationsAssociationWithStandards = prodAssesmentOrgs.Select(x=>$"{x[0]}-{x[1]}").ToList()
+            var removedOrganisationsAssociationWithStandards = prodAssesmentOrgs.Select(x => $"{x[0]}-{x[1]}").ToList()
                                                                .Except(localAssesmentOrgs.Select(y => $"{y[0]}-{y[1]}").ToList())
                                                                .Select(x => new List<string> { x.Split('-')[0], x.Split('-')[1] })
                                                                .ToList();
 
-            foreach(var removed in removedOrganisationsAssociationWithStandards)
+            foreach (var removed in removedOrganisationsAssociationWithStandards)
             {
                 var effectiveFrom = prodresults.StandardOrganisationsData.Single(x => x.EpaOrganisationIdentifier == removed[0] && x.StandardCode == removed[1]).EffectiveFrom;
                 var epaorganisation = results.Organisations.SingleOrDefault(x => x.EpaOrganisationIdentifier == removed[0]);
@@ -63,12 +63,11 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.AreEqual(0, errors.Count, $"Following details are removed from 'Register - Standards' worksheet {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
         }
 
-
         [TestMethod]
         [TestCategory("RoAAo Excel Tests")]
         public void ShouldNotDeleteExistingOrganisation()
         {
-            var prodAssesmentOrgs = prodsut.GetAssessmentOrganisationsData().Organisations.Select(x=>x.EpaOrganisationIdentifier).ToList();
+            var prodAssesmentOrgs = prodsut.GetAssessmentOrganisationsData().Organisations.Select(x => x.EpaOrganisationIdentifier).ToList();
             var localAssesmentOrgs = results.Organisations.Select(x => x.EpaOrganisationIdentifier).ToList();
             
             var removedOrganisations = prodAssesmentOrgs.Except(localAssesmentOrgs);
@@ -99,7 +98,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
 
             var validOrganisationTypes = ConfigurationManager.AppSettings["ValidOrganisationTypes"].Split('|');
             errors.AddRange(results.Organisations.Where(x => validOrganisationTypes.Contains(x.OrganisationType) == false).Select(y => $"{y.EpaOrganisationIdentifier} - Invalid Organisation Type:'{y.OrganisationType}'"));
-                
+
             Assert.AreEqual(0, errors.Count, $"Following assessment Org has an unmatched organisation type {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
         }
 
@@ -162,7 +161,6 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                     var currentperiods = epaStandards
                                          .Where(x => x.StandardCode == standard)
                                          .Where(z => (z.EffectiveFrom.Date <= DateTime.Now.Date && (z.EffectiveTo.HasValue == false || z.EffectiveTo.Value.Date >= DateTime.Now.Date)));
-                                  
                     if (currentperiods.Count() > 1)
                     {
                         errors.Add($"{epaidentifier} assessment for Standard {standard} has duplicate current periods.");
@@ -210,7 +208,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                 var websiteCheck = CheckWebsiteLink(website);
                 if (!string.IsNullOrEmpty(website) && !websiteCheck.Key)
                 {
-                   errors.Add($"{epa[0]} EPA Org has a broken website link {epa[1]}, no of attempts {websiteCheck.Value}");
+                    errors.Add($"{epa[0]} EPA Org has a broken website link {epa[1]}, no of attempts {websiteCheck.Value}");
                 }
             }
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
@@ -245,10 +243,10 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                     return new KeyValuePair<bool, int>(false, noofattempts);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return new KeyValuePair<bool, int>(false, noofattempts);
             }
         }
-    }    
+    }
 }

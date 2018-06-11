@@ -1,3 +1,5 @@
+using Sfa.Das.Sas.Indexer.Core.Shared.Models;
+
 ﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services
 {
     using System;
@@ -29,45 +31,33 @@
             _log = log;
         }
 
-        public async Task IndexEntries(string indexName)
+        public async Task<IndexerResult> IndexEntries(string indexName)
         {
             _log.Debug("Retrieving Assessment Orgs data");
             var assessmentOrgsData = _metaDataHelper.GetAssessmentOrganisationsData();
-            if (assessmentOrgsData != null)
-            {
-                _log.Debug("Indexing Assessment Orgs data into index");
-                await IndexOrganisations(indexName, assessmentOrgsData.Organisations).ConfigureAwait(false);
-                await IndexStandardOrganisationsData(indexName, assessmentOrgsData.StandardOrganisationsData).ConfigureAwait(false);
-                _log.Debug("Completed indexing Assessment Orgs data");
-            }
-        }
 
-        private async Task IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
-        {
-            try
+            if (assessmentOrgsData == null)
             {
-                _log.Debug("Indexing " + standardOrganisationsData.Count + " standard organisations data into Assessment Organisations index");
+                _log.Warn("Assessment Orgs were null");
+                return new IndexerResult
+                {
+                    IsSuccessful = false,
+                    TotalCount = 0
+                };
+            }
 
-                await _assessmentOrgsIndexMaintainer.IndexStandardOrganisationsData(indexName, standardOrganisationsData).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Error indexing Standard Organisations data");
-            }
-        }
+            var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(assessmentOrgsData);
 
-        private async Task IndexOrganisations(string indexName, List<Organisation> organisations)
-        {
-            try
-            {
-                _log.Debug("Indexing " + organisations.Count + " organisations into Assessment Organisations index");
+            _log.Debug("Indexing Assessment Orgs data into index");
+            IndexOrganisations(indexName, assessmentOrgsData.Organisations);
+            IndexStandardOrganisationsData(indexName, assessmentOrgsData.StandardOrganisationsData);
+            _log.Debug("Completed indexing Assessment Orgs data");
 
-                await _assessmentOrgsIndexMaintainer.IndexOrganisations(indexName, organisations).ConfigureAwait(false);
-            }
-            catch (Exception ex)
+            return new IndexerResult
             {
-                _log.Error(ex, "Error indexing Assessment Organisations");
-            }
+                IsSuccessful = IsIndexCorrectlyCreated(indexName, totalAmountDocuments),
+                TotalCount = totalAmountDocuments
+            };
         }
 
         public bool CreateIndex(string indexName)
@@ -86,9 +76,9 @@
             return _assessmentOrgsIndexMaintainer.IndexExists(indexName);
         }
 
-        public bool IsIndexCorrectlyCreated(string indexName)
+        public bool IsIndexCorrectlyCreated(string indexName, int totalAmountDocuments)
         {
-            return _assessmentOrgsIndexMaintainer.IndexContainsDocuments(indexName);
+            return _assessmentOrgsIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName, totalAmountDocuments);
         }
 
         public void ChangeUnderlyingIndexForAlias(string newIndexName)
@@ -112,6 +102,39 @@
                 !(x.StartsWith(today, StringComparison.InvariantCultureIgnoreCase) ||
                   x.StartsWith(oneDayAgo, StringComparison.InvariantCultureIgnoreCase)) &&
                 x.StartsWith(_settings.IndexesAlias, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private int GetTotalAmountDocumentsToBeIndexed(AssessmentOrganisationsDTO assessmentOrgsData)
+        {
+            return assessmentOrgsData.StandardOrganisationsData.Count + assessmentOrgsData.Organisations.Count;
+        }
+
+        private void IndexOrganisations(string indexName, List<Organisation> organisations)
+        {
+            try
+            {
+                _log.Debug("Indexing " + organisations.Count + " organisations into Assessment Organisations index");
+
+                _assessmentOrgsIndexMaintainer.IndexOrganisations(indexName, organisations);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing Assessment Organisations");
+            }
+        }
+
+        private void IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
+        {
+            try
+            {
+                _log.Debug("Indexing " + standardOrganisationsData.Count + " standard organisations data into Assessment Organisations index");
+
+                _assessmentOrgsIndexMaintainer.IndexStandardOrganisationsData(indexName, standardOrganisationsData);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing Standard Organisations data");
+            }
         }
     }
 }

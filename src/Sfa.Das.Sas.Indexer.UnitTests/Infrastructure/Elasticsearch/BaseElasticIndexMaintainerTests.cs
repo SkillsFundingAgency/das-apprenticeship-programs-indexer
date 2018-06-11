@@ -42,6 +42,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                 {
                     return _apiCallDetails;
                 }
+                set { throw new NotImplementedException(); }
             }
 
             public IApiCallDetails CallDetails
@@ -88,6 +89,9 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
                     throw new NotImplementedException();
                 }
             }
+
+            //IApiCallDetails IBodyWithApiCallDetails.ApiCall { get; set; }
+            public bool ShardsAcknowledged { get; }
         }
     }
 }

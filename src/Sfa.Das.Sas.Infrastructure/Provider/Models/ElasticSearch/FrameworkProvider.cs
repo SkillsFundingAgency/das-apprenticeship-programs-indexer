@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Nest;
 using Newtonsoft.Json;
 
@@ -10,17 +11,18 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
         public int PathwayCode { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(NullValue = "null")]
         public string FrameworkId { get; set; }
 
         public int Level { get; set; }
 
+        public Guid Id { get; set; }
         public int Ukprn { get; set; }
 
         public bool IsHigherEducationInstitute { get; set; }
 
         public string ProviderName { get; set; }
-        
+
         public string LegalName { get; set; }
 
         public bool NationalProvider { get; set; }
@@ -29,27 +31,27 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
         public string ApprenticeshipMarketingInfo { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(NullValue = "null")]
         public string Phone { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(NullValue = "null")]
         public string Email { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(NullValue = "null")]
         public string ContactUsUrl { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(NullValue = "null")]
         public string ApprenticeshipInfoUrl { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Include)]
+        //[JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public double? LearnerSatisfaction { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Include)]
+        //[JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public double? EmployerSatisfaction { get; set; }
 
         public string[] DeliveryModes { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(NullValue = "null")]
         public string Website { get; set; }
 
         [Nested]
@@ -63,6 +65,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
         public double? NationalOverallAchievementRate { get; set; }
 
         public string OverallCohort { get; set; }
+
+        [Keyword(NullValue = "null")]
+        public string[] DeliveryModesKeywords => DeliveryModes;
         public bool HasNonLevyContract { get; set; }
         public bool HasParentCompanyGuarantee { get; set; }
         public bool IsNew { get; set; }

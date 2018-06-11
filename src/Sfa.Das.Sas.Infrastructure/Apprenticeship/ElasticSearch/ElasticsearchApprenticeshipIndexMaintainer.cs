@@ -1,14 +1,12 @@
+using System.Linq;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
-    using System.Net;
     using System.Threading.Tasks;
-    using Nest;
     using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-    using Sfa.Das.Sas.Indexer.Core.Exceptions;
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
@@ -31,7 +29,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
 
         public override void CreateIndex(string indexName)
         {
-            var response = Client.CreateIndex(indexName, i => i
+            Client.CreateIndex(indexName, i => i
                 .Settings(settings => settings
                     .NumberOfShards(_elasticsearchConfiguration.ApprenticeshipIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.ApprenticeshipIndexReplicas())
@@ -39,46 +37,25 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
                 .Mappings(ms => ms
                     .Map<StandardDocument>(m => m.AutoMap())
                     .Map<FrameworkDocument>(m => m.AutoMap())));
-
-            if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
-            {
-                throw new ConnectionException($"Received non-200 response when trying to create the Apprenticeship Index, Status Code:{response.ApiCall.HttpStatusCode}");
-            }
         }
 
-        public async Task IndexStandards(string indexName, IEnumerable<StandardMetaData> entries)
+        public void IndexStandards(string indexName, IEnumerable<StandardMetaData> entries)
         {
-            await IndexApprenticeships(indexName, entries, ElasticsearchMapper.CreateStandardDocument).ConfigureAwait(true);
+            IndexApprenticeships(indexName, entries, ElasticsearchMapper.CreateStandardDocument);
         }
 
-        public async Task IndexFrameworks(string indexName, IEnumerable<FrameworkMetaData> entries)
+        public void IndexFrameworks(string indexName, IEnumerable<FrameworkMetaData> entries)
         {
-            await IndexApprenticeships(indexName, entries, ElasticsearchMapper.CreateFrameworkDocument).ConfigureAwait(true);
+            IndexApprenticeships(indexName, entries, ElasticsearchMapper.CreateFrameworkDocument);
         }
 
-        private async Task IndexApprenticeships<T1, T2>(string indexName, IEnumerable<T1> entries, Func<T1, T2> method)
+        private void IndexApprenticeships<T1, T2>(string indexName, IEnumerable<T1> entries, Func<T1, T2> method)
             where T1 : class
             where T2 : class
         {
-            var bulkProviderClient = new BulkProviderClient(indexName, Client);
+            var entriesList = entries.Select(method).ToList();
 
-            foreach (var entry in entries)
-            {
-                try
-                {
-                    var doc = method(entry);
-
-                    bulkProviderClient.Create<T2>(c => c.Document(doc));
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, $"Error indexing {typeof(T1)}");
-                }
-            }
-
-            var bulkTasks = new List<Task<IBulkResponse>>();
-            bulkTasks.AddRange(bulkProviderClient.GetTasks());
-            LogResponse(await Task.WhenAll(bulkTasks), typeof(T1).Name.ToLower(CultureInfo.CurrentCulture));
+            Client.BulkAllGeneric(entriesList, indexName);
         }
     }
 }

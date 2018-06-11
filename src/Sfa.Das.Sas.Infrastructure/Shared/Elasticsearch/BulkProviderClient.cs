@@ -39,6 +39,23 @@
             return _bulkDescriptor;
         }
 
+        public BulkDescriptor Index<T>(Func<BulkIndexDescriptor<T>, IBulkIndexOperation<T>> bulkCreateSelector)
+            where T : class
+        {
+            _bulkDescriptor.Index(bulkCreateSelector);
+            _count++;
+            if (HaveReachedBatchLimit(_count))
+            {
+                _tasks.Add(_client.BulkAsync(_bulkDescriptor));
+
+                _bulkDescriptor = CreateBulkDescriptor(_indexName);
+
+                _count = 0;
+            }
+
+            return _bulkDescriptor;
+        }
+
         public List<Task<IBulkResponse>> GetTasks()
         {
             if (_count > 0)
@@ -59,7 +76,7 @@
 
         private static bool HaveReachedBatchLimit(int count)
         {
-            const int BatchSize = 4000;
+            const int BatchSize = 1000;
 
             return count >= BatchSize;
         }

@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Nest;
-using SFA.DAS.NLog.Logger;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-using Sfa.Das.Sas.Indexer.Core.Exceptions;
-using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
-using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
-using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
+
     public sealed class ElasticsearchProviderIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainProviderIndex
     {
         private readonly ILog _log;
@@ -34,100 +30,29 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
 
         public override void CreateIndex(string indexName)
         {
-            var response = Client.CreateIndex(
+            Client.CreateIndex(
                 indexName,
                 i => i
                     .Settings(settings => settings
                         .NumberOfShards(_elasticsearchConfiguration.ProviderIndexShards())
                         .NumberOfReplicas(_elasticsearchConfiguration.ProviderIndexReplicas()))
                     .Mappings(ms => ms
+                        .Map<ProviderApiDocument>(m => m.AutoMap())
                         .Map<StandardProvider>(m => m.AutoMap())
                         .Map<FrameworkProvider>(m => m.AutoMap())));
-
-            if (response.ApiCall.HttpStatusCode != (int)HttpStatusCode.OK)
-            {
-                throw new ConnectionException($"Received non-200 response when trying to create the Apprenticeship Provider Index, Status Code:{response.ApiCall.HttpStatusCode}");
-            }
         }
 
-        public override bool IndexContainsDocuments(string indexName)
+        public void IndexApiProviders(string indexName, ICollection<Provider> entries)
         {
-            var providerApiDocuments = Client.Search<ProviderApiDocument>(s => s.Index(indexName).Size(0).MatchAll());
-            var standardProviderDocuments = Client.Search<StandardProvider>(s => s.Index(indexName).Size(0).MatchAll());
-            var frameworkProviderDocuments = Client.Search<FrameworkProvider>(s => s.Index(indexName).Size(0).MatchAll());
+            var apiProviderList = entries.Select(provider => ElasticsearchMapper.CreateProviderApiDocument(provider)).ToList();
 
-            return    providerApiDocuments.HitsMetaData.Total > 0
-                   && standardProviderDocuments.HitsMetaData.Total > 10000
-                   && frameworkProviderDocuments.HitsMetaData.Total > 100000;
+            Client.BulkAllGeneric(apiProviderList, indexName);
         }
 
-        public List<Task<IBulkResponse>> IndexFrameworks(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries)
+        public void IndexStandards(string indexName, ICollection<Provider> indexEntries)
         {
-            var bulkProviderLocation = new BulkProviderClient(indexName, Client);
+            var standardProviderList = new List<StandardProvider>();
 
-            try
-            {
-                foreach (var provider in indexEntries)
-                {
-                    foreach (var framework in provider.Frameworks)
-                    {
-                        var deliveryLocationsOnly100 = framework.DeliveryLocations
-                            .Where(_onlyAtEmployer)
-                            .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
-                            .ToArray();
-
-                        if (deliveryLocationsOnly100.Any())
-                        {
-                            foreach (var deliveryInformation in deliveryLocationsOnly100)
-                            {
-                                var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryInformation);
-                                bulkProviderLocation.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
-                            }
-                        }
-
-                        foreach (var location in framework.DeliveryLocations.Where(_anyNotAtEmployer))
-                        {
-                            if (location.DeliveryLocation.Address.GeoPoint != null)
-                            {
-                                var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, location);
-                                bulkProviderLocation.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Something failed indexing framework providers:" + ex.Message);
-                throw;
-            }
-
-            return bulkProviderLocation.GetTasks();
-        }
-
-        public List<Task<IBulkResponse>> IndexApiProviders(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries)
-        {
-            var bulkProviderLocation = new BulkProviderClient(indexName, Client);
-            try
-            {
-                foreach (var provider in indexEntries)
-                {
-                    var mappedProvider = ElasticsearchMapper.CreateProviderApiDocument(provider);
-                    bulkProviderLocation.Create<ProviderApiDocument>(c => c.Document(mappedProvider));
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Something failed indexing provider api documents:" + ex.Message);
-                throw;
-            }
-
-            return bulkProviderLocation.GetTasks();
-        }
-
-        public List<Task<IBulkResponse>> IndexStandards(string indexName, IEnumerable<Core.Models.Provider.Provider> indexEntries)
-        {
-            var bulkProviderLocation = new BulkProviderClient(indexName, Client);
             try
             {
                 foreach (var provider in indexEntries)
@@ -142,27 +67,54 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch
                         if (deliveryLocationsOnly100.Any())
                         {
                             var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, deliveryLocationsOnly100);
-                            bulkProviderLocation.Create<StandardProvider>(c => c.Document(standardProvider));
+                            standardProviderList.Add(standardProvider);
                         }
 
-                        foreach (var location in standard.DeliveryLocations.Where(_anyNotAtEmployer))
-                        {
-                            if (location.DeliveryLocation.Address.GeoPoint != null)
-                            {
-                                var standardProvider = ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, location);
-                                bulkProviderLocation.Create<StandardProvider>(c => c.Document(standardProvider));
-                            }
-                        }
+                        standardProviderList.AddRange(from location in standard.DeliveryLocations.Where(_anyNotAtEmployer) where location.DeliveryLocation.Address.GeoPoint != null select ElasticsearchMapper.CreateStandardProviderDocument(provider, standard, location));
                     }
                 }
+
+                Client.BulkAllGeneric(standardProviderList, indexName);
             }
             catch (Exception ex)
             {
                 _log.Error(ex, "Something failed indexing standard providers:" + ex.Message);
                 throw;
             }
+        }
 
-            return bulkProviderLocation.GetTasks();
+        public void IndexFrameworks(string indexName, ICollection<Provider> indexEntries)
+        {
+            var frameworkProviderList = new List<FrameworkProvider>();
+
+            try
+            {
+                foreach (var provider in indexEntries)
+                {
+                    foreach (var framework in provider.Frameworks)
+                    {
+                        var deliveryLocationsOnly100 = framework.DeliveryLocations
+                            .Where(_onlyAtEmployer)
+                            .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
+                            .ToArray();
+
+                        if (deliveryLocationsOnly100.Any())
+                        {
+                            var frameworkProvider = ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, deliveryLocationsOnly100);
+                            frameworkProviderList.Add(frameworkProvider);
+                        }
+
+                        frameworkProviderList.AddRange(from location in framework.DeliveryLocations.Where(_anyNotAtEmployer) where location.DeliveryLocation.Address.GeoPoint != null select ElasticsearchMapper.CreateFrameworkProviderDocument(provider, framework, location));
+                    }
+                }
+
+                Client.BulkAllGeneric(frameworkProviderList, indexName);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Something failed indexing framework providers:" + ex.Message);
+                throw;
+            }
         }
     }
 }

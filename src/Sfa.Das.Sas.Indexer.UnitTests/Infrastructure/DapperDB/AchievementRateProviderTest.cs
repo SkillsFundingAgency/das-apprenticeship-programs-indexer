@@ -31,6 +31,5 @@
             result.Count(m => !m.SectorSubjectAreaTier2.Equals("All SSA T2")).Should().Be(totalCount);
             result.Count(m => !m.ApprenticeshipLevel.Equals("All")).Should().Be(totalCount);
         }
-
     }
 }

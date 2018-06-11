@@ -73,9 +73,37 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return result;
         }
 
-        public virtual bool IndexContainsDocuments(string indexName)
+        public virtual bool IndexIsCompletedAndContainsDocuments(string indexName, int totalAmountDocuments)
         {
-            return Client.Search<dynamic>(s => s.Index(indexName).AllTypes().From(0).Size(10).MatchAll()).Documents.Any();
+            Log.Debug($"Amount of documents to index: {totalAmountDocuments}");
+            var r1 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
+            Log.Debug($"Amount of documents indexed: {r1}");
+            long r2 = 0;
+            do
+            {
+                System.Threading.Thread.Sleep(15000);
+
+                r2 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
+                Log.Debug($"Amount of documents indexed: {r2}");
+
+                if (r1 == 0 && r2 == 0)
+                {
+                    return false;
+                }
+
+                Log.Debug($"Comparing {r1} against {r2}");
+
+                if (r1 < r2)
+                {
+                    r1 = r2;
+                    r2 = 0;
+                }
+
+            } while (r1 != r2);
+
+            Log.Debug($"Total amount of documents indexed: {r1}");
+
+            return r1 == totalAmountDocuments;
         }
 
         public virtual bool IndexExists(string indexName)
@@ -107,7 +135,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             foreach (var bulkResponse in elementIndexResult)
             {
                 totalCount += bulkResponse.Items.Count();
-                took += bulkResponse.Took;
+                took += (int)bulkResponse.Took;
                 errorCount += bulkResponse.ItemsWithErrors.Count();
             }
 

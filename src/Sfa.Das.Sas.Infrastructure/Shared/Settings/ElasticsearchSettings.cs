@@ -2,6 +2,7 @@
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 {
+    using Microsoft.Azure;
     using System.Configuration;
 
     public class ElasticsearchSettings : IElasticsearchSettings
@@ -26,7 +27,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         private string[] GetSetting(string configName)
         {
-            var str = ConfigurationManager.AppSettings[configName];
+            var str = CloudConfigurationManager.GetSetting(configName);
             return !string.IsNullOrEmpty(str) ? str.Split('|') : new[] { string.Empty };
         }
     }

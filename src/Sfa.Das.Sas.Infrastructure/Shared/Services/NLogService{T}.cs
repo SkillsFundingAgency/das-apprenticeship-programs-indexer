@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
-using SFA.DAS.NLog.Logger;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Reflection;
+    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.AssessmentOrgs.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
@@ -12,27 +11,29 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services
 
     public class NLogService<T> : NLogLogger
     {
+        private readonly string _postfix = System.Configuration.ConfigurationManager.AppSettings["LoggingNamePostfix"];
+
         public NLogService()
             : base(null, null, GetProperties())
         {
             if (typeof(T) == typeof(IMaintainApprenticeshipIndex))
             {
-                ApplicationName = "das-apprenticeship-programmes-indexer";
+                ApplicationName = "das-apprenticeship-programmes-indexer" + _postfix;
             }
 
             if (typeof(T) == typeof(IMaintainLarsIndex))
             {
-                ApplicationName = "das-lars-indexer";
+                ApplicationName = "das-lars-indexer" + _postfix;
             }
 
             if (typeof(T) == typeof(IMaintainProviderIndex))
             {
-                ApplicationName = "das-provider-indexer";
+                ApplicationName = "das-provider-indexer" + _postfix;
             }
 
             if (typeof(T) == typeof(IMaintainAssessmentOrgsIndex))
             {
-                ApplicationName = "das-epao-indexer";
+                ApplicationName = "das-epao-indexer" + _postfix;
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿using SFA.DAS.NLog.Logger;
 
-namespace Sfa.Das.Sas.Indexer.Core.Logging.Models
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models
 {
     public class TimingLogEntry : ILogEntry
     {

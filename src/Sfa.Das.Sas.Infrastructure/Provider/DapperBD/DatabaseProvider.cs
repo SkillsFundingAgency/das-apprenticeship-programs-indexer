@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
+
+namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +9,6 @@
     using System.Diagnostics;
     using Dapper;
     using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.Core.Logging.Models;
     using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
     public class DatabaseProvider : IDatabaseProvider

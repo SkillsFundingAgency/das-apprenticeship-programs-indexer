@@ -11,11 +11,11 @@
     [TestFixture]
     public class BulkProviderClientTests
     {
-        [TestCase(3999, 1)]
+        [TestCase(3999, 4)]
         [TestCase(0, 0)]
-        [TestCase(4000, 1)]
-        [TestCase(4001, 2)]
-        [TestCase(16000, 4)]
+        [TestCase(4000, 4)]
+        [TestCase(4001, 5)]
+        [TestCase(16000, 16)]
         public void BatchSizeTest(int provideCount, int tasks)
         {
             var sut = new BulkProviderClient("testindex", Mock.Of<IElasticsearchCustomClient>());
@@ -23,17 +23,17 @@
             for (int i = 0; i < provideCount; i++)
             {
                 var frameworkProvider = new FrameworkProvider();
-                sut.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
+                sut.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
             }
 
             sut.GetTasks().Count.Should().Be(tasks);
         }
 
-        [TestCase(3999, 1)]
+        [TestCase(3999, 4)]
         [TestCase(0, 0)]
-        [TestCase(4000, 1)]
-        [TestCase(4001, 2)]
-        [TestCase(16000, 4)]
+        [TestCase(4000, 4)]
+        [TestCase(4001, 5)]
+        [TestCase(16000, 16)]
         public void ShouldCallClient(int provideCount, int callCount)
         {
             var mockElasticCustomClient = new Mock<ElasticsearchCustomClient>(Mock.Of<IElasticsearchClientFactory>(), Mock.Of<ILog>());
@@ -43,7 +43,7 @@
             for (int i = 0; i < provideCount; i++)
             {
                 var frameworkProvider = new FrameworkProvider();
-                sut.Create<FrameworkProvider>(c => c.Document(frameworkProvider));
+                sut.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
             }
 
             sut.GetTasks();

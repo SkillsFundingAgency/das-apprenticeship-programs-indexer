@@ -1,15 +1,15 @@
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
+using Sfa.Das.Sas.Indexer.Infrastructure.Services.Models;
+
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Services
 {
-    using System.Threading.Tasks;
-    using Core.Logging.Metrics;
-    using Core.Logging.Models;
-    using Newtonsoft.Json;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Services.Models;
-
     public class VstsClient : IVstsClient
     {
         private readonly IHttpGet _httpHelper;

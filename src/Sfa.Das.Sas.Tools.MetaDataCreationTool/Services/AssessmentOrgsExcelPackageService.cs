@@ -25,9 +25,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             {
                 for (var i = organisationsWorkSheet.Dimension.Start.Row + 1; i <= organisationsWorkSheet.Dimension.End.Row; i++)
                 {
-                     yield return new Organisation
+                    yield return new Organisation
                     {
-                        EpaOrganisationIdentifier = organisationsWorkSheet.Cells[i, 1].Value != null ? organisationsWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
+                        EpaOrganisationIdentifier = organisationsWorkSheet.Cells[i, 1].Value != null ? organisationsWorkSheet.Cells[i, 1].Value.ToString().Trim() : string.Empty,
                         EpaOrganisation = organisationsWorkSheet.Cells[i, 2].Value != null ? organisationsWorkSheet.Cells[i, 2].Value.ToString() : string.Empty,
                         OrganisationType = organisationsWorkSheet.Cells[i, 3].Value != null ? organisationsWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
                         WebsiteLink = organisationsWorkSheet.Cells[i, 4].Value != null ? organisationsWorkSheet.Cells[i, 4].Value.ToString() : string.Empty,
@@ -40,7 +40,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                             Postcode = organisationsWorkSheet.Cells[i, 9].Value != null ? organisationsWorkSheet.Cells[i, 9].Value.ToString() : string.Empty
                         },
                         Ukprn = CheckForValidUkprn(organisationsWorkSheet.Cells[i, 10].Value?.ToString())
-                };
+                    };
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 {
                     yield return new StandardOrganisationsData
                     {
-                        EpaOrganisationIdentifier = standardOrganisationWorkSheet.Cells[i, 1].Value != null ? standardOrganisationWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
+                        EpaOrganisationIdentifier = standardOrganisationWorkSheet.Cells[i, 1].Value != null ? standardOrganisationWorkSheet.Cells[i, 1].Value.ToString().Trim() : string.Empty,
                         StandardCode = standardOrganisationWorkSheet.Cells[i, 3].Value != null ? standardOrganisationWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
                         EffectiveFrom = !string.IsNullOrWhiteSpace(standardOrganisationWorkSheet.Cells[i, 5].Value?.ToString()) ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 5].Value.ToString()) : DateTime.MaxValue,
                         EffectiveTo = !string.IsNullOrWhiteSpace(standardOrganisationWorkSheet.Cells[i, 6].Value?.ToString()) ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 6].Value.ToString()) : (DateTime?)null,

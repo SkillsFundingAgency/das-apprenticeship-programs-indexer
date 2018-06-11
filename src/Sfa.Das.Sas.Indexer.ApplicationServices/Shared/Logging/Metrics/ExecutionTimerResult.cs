@@ -1,4 +1,4 @@
-﻿namespace Sfa.Das.Sas.Indexer.Core.Logging.Metrics
+﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics
 {
     public struct ExecutionTimerResult<T>
     {

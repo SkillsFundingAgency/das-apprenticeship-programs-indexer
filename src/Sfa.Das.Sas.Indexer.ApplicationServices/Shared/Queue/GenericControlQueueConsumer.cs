@@ -1,14 +1,14 @@
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Diagnostics;
 using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-
     public class GenericControlQueueConsumer : IGenericControlQueueConsumer
     {
         private readonly IAppServiceSettings _appServiceSettings;
@@ -34,45 +34,57 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
         public async Task CheckMessage<T>()
             where T : IMaintainSearchIndexes
         {
-            var indexerService = _indexerServiceFactory.GetIndexerService<T>();
-
-            if (indexerService == null)
-            {
-                return;
-            }
-
             try
             {
-                var queueName = _appServiceSettings.QueueName(typeof(T));
-
-                if (string.IsNullOrEmpty(queueName))
+                var indexerService = _indexerServiceFactory.GetIndexerService<T>();
+                if (indexerService == null)
                 {
                     return;
                 }
 
-                var messages = _cloudQueueService.GetQueueMessages(queueName)?.ToArray();
-
-                if (Debugger.IsAttached || (messages != null && messages.Any()))
+                try
                 {
-                    var latestMessage = messages?.FirstOrDefault();
+                    var queueName = _appServiceSettings.QueueName(typeof(T));
 
-                    var extraMessages = messages?.Where(m => m != latestMessage).ToList();
+                    if (string.IsNullOrEmpty(queueName))
+                    {
+                        return;
+                    }
 
-                    // Delete all the messages except the first as they are not needed
-                    _cloudQueueService.DeleteQueueMessages(queueName, extraMessages);
+                    var messages = _cloudQueueService.GetQueueMessages(queueName)?.ToArray();
 
-                    var indexTime = latestMessage?.InsertionTime ?? DateTime.Now;
+                    if (Debugger.IsAttached || (messages != null && messages.Any()))
+                    {
+                        var latestMessage = messages?.FirstOrDefault();
 
-                    await indexerService.CreateScheduledIndex(indexTime).ConfigureAwait(false);
+                        var extraMessages = messages?.Where(m => m != latestMessage).ToList();
+                        // Delete all the messages except the first as they are not needed
+                        _cloudQueueService.DeleteQueueMessages(queueName, extraMessages);
 
-                    _cloudQueueService.DeleteQueueMessage(queueName, latestMessage);
+                        var indexTime = latestMessage?.InsertionTime ?? DateTime.Now;
+
+                        await indexerService.CreateScheduledIndex(indexTime).ConfigureAwait(false);
+
+                        _cloudQueueService.DeleteQueueMessage(queueName, latestMessage);
+                    }
+                }
+                catch (AggregateException ex)
+                {
+                    foreach (var exception in ex.InnerExceptions)
+                    {
+                        indexerService.Log.Fatal(exception, exception.Message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    indexerService.Log.Fatal(ex, ex.Message);
                 }
 
                 _monitor.SendMonitoringNotification(_appServiceSettings.MonitoringUrl(typeof(T)));
             }
             catch (Exception ex)
             {
-                _log.Error(ex, $"Something failed creating index: {typeof(T)}");
+                _log.Fatal(ex, $"Unexpected Failure {IndexerNameLookup.GetIndexTypeName(typeof(T))}");
             }
         }
     }

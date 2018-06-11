@@ -99,7 +99,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 PathwayName = frameworkMetaData.PathwayName,
                 ProgType = frameworkMetaData.ProgType,
                 Level = MapToLevelFromProgType(frameworkMetaData.ProgType),
-                JobRoleItems = frameworkMetaData.JobRoleItems?.Select(m => new JobRoleItem {Title = m.Title, Description = m.Description}),
+                JobRoleItems = frameworkMetaData.JobRoleItems?.Select(m => new JobRoleItem { Title = m.Title, Description = m.Description }),
                 Keywords = frameworkMetaData.Keywords,
                 FundingCap = frameworkMetaData.FundingCap,
                 Duration = frameworkMetaData.Duration,
@@ -266,7 +266,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 
         public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation)
         {
-            return CreateStandardProviderDocument(provider, standardInformation, new List<DeliveryInformation> {deliveryInformation});
+            return CreateStandardProviderDocument(provider, standardInformation, new List<DeliveryInformation> { deliveryInformation });
         }
 
         public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation)
@@ -276,7 +276,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 
         public FrameworkProvider CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, DeliveryInformation deliveryInformation)
         {
-            return CreateFrameworkProviderDocument(provider, frameworkInformation, new List<DeliveryInformation> {deliveryInformation});
+            return CreateFrameworkProviderDocument(provider, frameworkInformation, new List<DeliveryInformation> { deliveryInformation });
         }
 
         public ProviderApiDocument CreateProviderApiDocument(CoreProvider provider)
@@ -359,6 +359,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             var locations = GetTrainingLocations(deliveryLocations);
             var firstLoc = deliveryLocations.FirstOrDefault();
 
+            documentToPopulate.Id = Guid.NewGuid();
             documentToPopulate.Ukprn = provider.Ukprn;
             documentToPopulate.IsHigherEducationInstitute = provider.IsHigherEducationInstitute;
             documentToPopulate.HasNonLevyContract = provider.HasNonLevyContract;

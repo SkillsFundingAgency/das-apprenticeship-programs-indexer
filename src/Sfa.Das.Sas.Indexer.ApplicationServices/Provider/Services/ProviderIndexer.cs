@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Nest;
 using Newtonsoft.Json;
 using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Metrics;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Extensions;
-using Sfa.Das.Sas.Indexer.Core.Logging.Metrics;
-using Sfa.Das.Sas.Indexer.Core.Logging.Models;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Services;
+using Sfa.Das.Sas.Indexer.Core.Shared.Models;
 using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
@@ -61,9 +61,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             return _searchIndexMaintainer.IndexExists(indexName);
         }
 
-        public bool IsIndexCorrectlyCreated(string indexName)
+        public bool IsIndexCorrectlyCreated(string indexName, int totalAmountDocuments)
         {
-            return _searchIndexMaintainer.IndexContainsDocuments(indexName);
+            return _searchIndexMaintainer.IndexIsCompletedAndContainsDocuments(indexName, totalAmountDocuments);
         }
 
         public void ChangeUnderlyingIndexForAlias(string newIndexName)
@@ -89,42 +89,133 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 x.StartsWith(_settings.IndexesAlias, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public async Task IndexEntries(string indexName)
+        public async Task<IndexerResult> IndexEntries(string indexName)
         {
-            var bulkStandardTasks = new List<Task<IBulkResponse>>();
-            var bulkFrameworkTasks = new List<Task<IBulkResponse>>();
-            var bulkApiProviderTasks = new List<Task<IBulkResponse>>();
-
             // Load data
             var timing = ExecutionTimer.GetTiming(() => _providerDataService.LoadDatasetsAsync());
 
             var source = await timing.Result;
-            _log.Debug("Loaded data for provider index", new TimingLogEntry { ElaspedMilliseconds = timing.ElaspedMilliseconds });
 
             // Providers
             var providersApi = CreateApiProviders(source).ToList();
-
-            _log.Debug("Indexing " + providersApi.Count + " API providers", new Dictionary<string, object> { { "TotalCount", providersApi.Count } });
-            bulkApiProviderTasks.AddRange(_searchIndexMaintainer.IndexApiProviders(indexName, providersApi));
-            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkApiProviderTasks), "ProviderApiDocument");
+            IndexApiProviders(indexName, providersApi);
 
             // Provider Sites
             var apprenticeshipProviders = CreateApprenticeshipProviders(source).ToList();
+            IndexStandards(indexName, apprenticeshipProviders);
+            IndexFrameworks(indexName, apprenticeshipProviders);
 
-            _log.Debug("Indexing " + apprenticeshipProviders.Count + " provider sites", new Dictionary<string, object> { { "TotalCount", apprenticeshipProviders.Count } });
+            var totalAmountDocuments = GetTotalAmountDocumentsToBeIndexed(providersApi, apprenticeshipProviders);
 
+            return new IndexerResult
+            {
+                IsSuccessful = IsIndexCorrectlyCreated(indexName, totalAmountDocuments),
+                TotalCount = totalAmountDocuments
+            };
+        }
+
+        private void IndexApiProviders(string indexName, ICollection<CoreProvider> providers)
+        {
             try
             {
-                bulkStandardTasks.AddRange(_searchIndexMaintainer.IndexStandards(indexName, apprenticeshipProviders));
-                bulkFrameworkTasks.AddRange(_searchIndexMaintainer.IndexFrameworks(indexName, apprenticeshipProviders));
+                _log.Debug($"Indexing {providers.Count} API providers into Providers index");
+
+                _searchIndexMaintainer.IndexApiProviders(indexName, providers);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _log.Error(e, "Something failed indexing apprenticeship providers");
+                _log.Error(ex, "Error indexing API Providers");
+            }
+        }
+
+        private void IndexStandards(string indexName, ICollection<CoreProvider> apprenticeshipProviders)
+        {
+            try
+            {
+                _log.Debug($"Indexing {apprenticeshipProviders.Count} standard providers into Providers index");
+
+                _searchIndexMaintainer.IndexStandards(indexName, apprenticeshipProviders);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing Standard Providers");
+            }
+        }
+
+        private void IndexFrameworks(string indexName, ICollection<CoreProvider> apprenticeshipProviders)
+        {
+            try
+            {
+                _log.Debug($"Indexing {apprenticeshipProviders.Count} framework providers into Providers index");
+
+                _searchIndexMaintainer.IndexFrameworks(indexName, apprenticeshipProviders);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error indexing Framework Providers");
+            }
+        }
+
+        private int GetTotalAmountDocumentsToBeIndexed(List<CoreProvider> providersApi, List<CoreProvider> apprenticeshipProviders)
+        {
+            Func<DeliveryInformation, bool> _onlyAtEmployer = x => x.DeliveryModes.All(xx => xx == ModesOfDelivery.OneHundredPercentEmployer);
+            Func<DeliveryInformation, bool> _anyNotAtEmployer = x => x.DeliveryModes.Any(xx => xx != ModesOfDelivery.OneHundredPercentEmployer);
+
+            var providersApiAmount = providersApi.Count;
+            var count = providersApiAmount;
+            _log.Debug($"{providersApiAmount} API providers to be indexed");
+
+            foreach (var provider in apprenticeshipProviders)
+            {
+                foreach (var framework in provider.Frameworks)
+                {
+                    var deliveryLocationsOnly100 = framework.DeliveryLocations
+                        .Where(_onlyAtEmployer)
+                        .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
+                        .ToArray();
+
+                    if (deliveryLocationsOnly100.Any())
+                    {
+                        count++;
+                    }
+
+                    var amount = (from location
+                                  in framework.DeliveryLocations.Where(_anyNotAtEmployer)
+                                  where location.DeliveryLocation.Address.GeoPoint != null
+                                  select location).Count();
+                    count += amount;
+                }
             }
 
-            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkStandardTasks), "StandardProvider");
-            _searchIndexMaintainer.LogResponse(await Task.WhenAll(bulkFrameworkTasks), "FrameworkProvider");
+            var frameworkProviders = count - providersApiAmount;
+            _log.Debug($"{frameworkProviders} framework providers to be indexed");
+
+            foreach (var provider in apprenticeshipProviders)
+            {
+                foreach (var standard in provider.Standards)
+                {
+                    var deliveryLocationsOnly100 = standard.DeliveryLocations
+                        .Where(_onlyAtEmployer)
+                        .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
+                        .ToArray();
+
+                    if (deliveryLocationsOnly100.Any())
+                    {
+                        count++;
+                    }
+
+                    var amount = (from location
+                                    in standard.DeliveryLocations.Where(_anyNotAtEmployer)
+                                    where location.DeliveryLocation.Address.GeoPoint != null
+                                    select location).Count();
+                    count += amount;
+                }
+            }
+
+            var standardProviders = count - frameworkProviders - providersApiAmount;
+            _log.Debug($"{standardProviders} standard providers to be indexed");
+
+            return count;
         }
 
         private IEnumerable<CoreProvider> CreateApiProviders(ProviderSourceDto source)
@@ -170,6 +261,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     provider.ContactDetails.Email = courseDirectory.Email ?? provider.ContactDetails.Email;
                     provider.ContactDetails.Website = courseDirectory.Website ?? provider.ContactDetails.Website;
                     provider.ContactDetails.Phone = courseDirectory.Phone ?? provider.ContactDetails.Phone;
+
                     provider.MarketingInfo = courseDirectory.MarketingInfo;
                     provider.IsLevyPayerOnly = !source.ActiveProviders.Providers.Contains(courseDirectory.Ukprn);
             }

@@ -1,42 +1,40 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-    using Sfa.Das.Sas.Indexer.Core.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using Sfa.Das.Sas.Indexer.Core.Services;
 
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared
+{
     public class IndexerService<T> : IIndexerService<T>
     {
         private readonly IGenericIndexerHelper<T> _indexerHelper;
-
-        private readonly ILog _log;
 
         private readonly IIndexSettings<T> _indexSettings;
 
         private readonly string _name;
 
+        public ILog Log { get; set; }
+
         public IndexerService(IIndexSettings<T> indexSettings, IGenericIndexerHelper<T> indexerHelper, ILog log)
         {
             _indexSettings = indexSettings;
             _indexerHelper = indexerHelper;
-            _log = log;
-            _name = GetIndexTypeName(typeof(T));
+            Log = log;
+            _name = IndexerNameLookup.GetIndexTypeName(typeof(T));
         }
 
         public async Task CreateScheduledIndex(DateTime scheduledRefreshDateTime)
         {
-            _log.Info($"Creating new scheduled {_name}");
+            NlogCorrelationId.SetJobCorrelationId(_name, true);
 
-            Stopwatch stopwatch = Stopwatch.StartNew();
+            Log.Info($"Creating new scheduled {_name}");
+            var stopwatch = Stopwatch.StartNew();
 
             var newIndexName = IndexerHelper.GetIndexNameAndDateExtension(scheduledRefreshDateTime, _indexSettings.IndexesAlias);
+
             var indexProperlyCreated = _indexerHelper.CreateIndex(newIndexName);
 
             if (!indexProperlyCreated)
@@ -44,59 +42,28 @@
                 throw new Exception($"{_name} index not created properly, exiting...");
             }
 
-            _log.Info($"Indexing documents for {_name}.");
+            Log.Info($"Indexing documents for {_name}.");
 
-            try
+            var result = await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
+
+            if (result.IsSuccessful)
             {
-                await _indexerHelper.IndexEntries(newIndexName).ConfigureAwait(false);
+                _indexerHelper.ChangeUnderlyingIndexForAlias(newIndexName);
 
-                PauseWhileIndexingIsBeingRun();
+                Log.Debug("Swap completed...");
 
-                var indexHasBeenCreated = _indexerHelper.IsIndexCorrectlyCreated(newIndexName);
-                if (indexHasBeenCreated)
-                {
-                    _indexerHelper.ChangeUnderlyingIndexForAlias(newIndexName);
-
-                    _log.Debug("Swap completed...");
-
-                    _indexerHelper.DeleteOldIndexes(scheduledRefreshDateTime);
-                }
-
-                stopwatch.Stop();
-                var properties = new Dictionary<string, object> { { "Alias", _indexSettings.IndexesAlias }, { "ExecutionTime", stopwatch.ElapsedMilliseconds }, { "IndexCorrectlyCreated", indexHasBeenCreated } };
-                _log.Debug($"Created {_name}", properties);
-                _log.Info($"{_name}ing complete.");
+                _indexerHelper.DeleteOldIndexes(scheduledRefreshDateTime);
             }
-            catch (Exception ex)
+
+            stopwatch.Stop();
+            var properties = new Dictionary<string, object>
             {
-                _log.Error(ex, "Error indexing");
-            }
-        }
-
-        private void PauseWhileIndexingIsBeingRun()
-        {
-            var time = _indexSettings.PauseTime;
-            Thread.Sleep(int.Parse(time));
-        }
-
-        private string GetIndexTypeName(Type type)
-        {
-            if (type == typeof(IMaintainProviderIndex))
-            {
-                return "Provider Index";
-            }
-            else if (type == typeof(IMaintainApprenticeshipIndex))
-            {
-                return "Apprenticeship Index";
-            }
-            else if (type == typeof(IMaintainLarsIndex))
-            {
-                return "Lars Index";
-            }
-            else
-            {
-                return "AssessmentOrgs Index";
-            }
+                { "Alias", _indexSettings.IndexesAlias },
+                { "ExecutionTime", stopwatch.ElapsedMilliseconds },
+                { "IndexCorrectlyCreated", result.IsSuccessful },
+                { "TotalCount", result.TotalCount }
+            };
+            Log.Debug($"Created {_name}", properties);
         }
     }
 }
