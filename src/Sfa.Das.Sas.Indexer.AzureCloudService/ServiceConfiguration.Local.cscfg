@@ -3,7 +3,7 @@
   <Role name="Sfa.Das.Sas.Indexer.AzureWorkerRole">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="ElasticsearchUsername" value=""/>
+      <Setting name="ElasticsearchUsername" value="" />
       <Setting name="ElasticsearchPassword" value="" />
       <Setting name="EdubaseUsername" value="" />
       <Setting name="EdubasePassword" value="" />
@@ -40,6 +40,7 @@
       <Setting name="VstsGitBaseUrl" value="https://sfa-gov-uk.visualstudio.com/DefaultCollection/Digital%20Apprenticeship%20Service/_apis/git/repositories/SFA-DAS-MetaDataStorage/" />
       <Setting name="VstsGitStandardsFolderPath" value="standards/local/json" />
       <Setting name="VstsGitFrameworksFolderPath" value="frameworks/local/json" />
+      <Setting name="InstrumentationKey" value="" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
