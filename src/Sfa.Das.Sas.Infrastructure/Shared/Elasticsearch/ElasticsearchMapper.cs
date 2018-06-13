@@ -72,7 +72,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Title = standard.Title,
                 StandardSectorCode = standard.StandardSectorCode,
                 NotionalEndLevel = standard.NotionalEndLevel,
-                StandardUrl = standard.StandardUrl,
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 Duration = standard.Duration,
