@@ -76,6 +76,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 Duration = standard.Duration,
+                FundingPeriods = standard.FundingPeriods,
                 FundingCap = standard.FundingCap,
                 EffectiveFrom = standard.EffectiveFrom,
                 EffectiveTo = standard.EffectiveTo
@@ -146,6 +147,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier2,
                 Duration = frameworkMetaData.Duration,
+                FundingPeriods = frameworkMetaData.FundingPeriods,
                 FundingCap = frameworkMetaData.FundingCap
             };
         }

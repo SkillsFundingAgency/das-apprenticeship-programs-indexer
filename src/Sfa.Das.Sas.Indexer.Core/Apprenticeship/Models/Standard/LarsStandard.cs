@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard
 {
@@ -19,8 +20,13 @@ namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard
         public int Duration { get; set; }
 
         public int FundingCap { get; set; }
+
+        public List<FundingPeriod> FundingPeriods { get; set; }
+
         public DateTime? EffectiveTo { get; set; }
+
         public DateTime? EffectiveFrom { get; set; }
+
         public int StandardSectorCode { get; set; }
 
         public bool IsValidDate(DateTime currentDate)

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using Elasticsearch.Net;
 using FeatureToggle.Core.Fluent;
 using Nest;
@@ -35,7 +36,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                     new SingleNodeConnectionPool(_infrastructureSettings.ElasticServerUrls.FirstOrDefault()));
             }
 
-            settings.BasicAuthentication(_infrastructureSettings.ElasticsearchUsername, _infrastructureSettings.ElasticsearchPassword);
+            if (!Debugger.IsAttached)
+            {
+                settings.BasicAuthentication(_infrastructureSettings.ElasticsearchUsername, _infrastructureSettings.ElasticsearchPassword);
+            }
 
             settings.OnRequestCompleted(r =>
             {

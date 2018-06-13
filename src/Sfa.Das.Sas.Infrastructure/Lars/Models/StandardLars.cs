@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Nest;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
@@ -37,5 +39,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
         [Keyword(NullValue = "null")]
         public DateTime? EffectiveTo { get; set; }
+
+        public List<FundingPeriod> FundingPeriods { get; set; }
     }
 }

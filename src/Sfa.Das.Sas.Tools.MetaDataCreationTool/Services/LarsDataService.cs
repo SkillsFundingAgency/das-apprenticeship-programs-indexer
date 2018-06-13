@@ -417,20 +417,33 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             foreach (var std in standards)
             {
-                var s =
-                    metaData.ApprenticeshipFundings.FirstOrDefault(stdrd =>
+                var fundingBands =
+                    metaData.ApprenticeshipFundings.Where(stdrd =>
                         stdrd.ApprenticeshipType.ToLower() == "std" &&
-                        stdrd.ApprenticeshipCode == std.Id && stdrd.EffectiveFrom.HasValue &&
-                        stdrd.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
-                        (!stdrd.EffectiveTo.HasValue || stdrd.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
+                        stdrd.ApprenticeshipCode == std.Id
+                        && stdrd.EffectiveFrom.HasValue && stdrd.EffectiveFrom.Value.Date != DateTime.MinValue.Date).ToList();
 
-                if (s == null)
+                if (!fundingBands.Any())
                 {
                     continue;
                 }
 
-                std.Duration = s.ReservedValue1;
-                std.FundingCap = s.MaxEmployerLevyCap;
+                std.Duration = fundingBands.First().ReservedValue1;
+
+                std.FundingPeriods = new List<FundingPeriod>();
+                foreach (var apprenticeshipFundingMetaData in fundingBands)
+                {
+                    var fundingPeriod = new FundingPeriod
+                    {
+                        FundingCap = apprenticeshipFundingMetaData.MaxEmployerLevyCap,
+                        EffectiveFrom = apprenticeshipFundingMetaData.EffectiveFrom,
+                        EffectiveTo = apprenticeshipFundingMetaData.EffectiveTo
+                    };
+
+                    std.FundingPeriods.Add(fundingPeriod);
+                }
+
+                //std.FundingCap = fundingBands.MaxEmployerLevyCap;
             }
         }
 
@@ -445,20 +458,30 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                         fwk.ProgType == framework.ProgType &&
                         fwk.PwayCode == framework.PwayCode &&
                         fwk.EffectiveFrom.HasValue &&
-                        fwk.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
-                            (!fwk.EffectiveTo.HasValue
-                                || fwk.EffectiveTo.Value.Date >= DateTime.UtcNow.Date
-                                || IsSpecialFramework($"{fwk.ApprenticeshipCode}-{fwk.ProgType}-{fwk.PwayCode}")))
-                        .OrderByDescending(x => x.EffectiveFrom)
-                        .FirstOrDefault();
+                        fwk.EffectiveFrom.Value.Date != DateTime.MinValue.Date)
+                        .ToList();
 
-                if (fw == null)
+                if (!fw.Any())
                 {
                     continue;
                 }
 
-                framework.Duration = fw.ReservedValue1;
-                framework.FundingCap = fw.MaxEmployerLevyCap;
+                framework.Duration = fw.OrderByDescending(x => x.EffectiveFrom).First().ReservedValue1;
+
+                framework.FundingPeriods = new List<FundingPeriod>();
+                foreach (var apprenticeshipFundingMetaData in fw)
+                {
+                    var fundingPeriod = new FundingPeriod
+                    {
+                        FundingCap = apprenticeshipFundingMetaData.MaxEmployerLevyCap,
+                        EffectiveFrom = apprenticeshipFundingMetaData.EffectiveFrom,
+                        EffectiveTo = apprenticeshipFundingMetaData.EffectiveTo
+                    };
+
+                    framework.FundingPeriods.Add(fundingPeriod);
+                }
+
+                //framework.FundingCap = fw.MaxEmployerLevyCap;
             }
         }
 
@@ -466,21 +489,31 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             foreach (var std in standards)
             {
-                var s =
-                    metaData.FirstOrDefault(stdrd =>
+                var fundingBands =
+                    metaData.Where(stdrd =>
                         stdrd.ApprenticeshipType.ToLower() == "std" &&
-                        stdrd.ApprenticeshipCode == std.Id &&
-                        stdrd.EffectiveFrom.HasValue &&
-                        stdrd.EffectiveFrom.Value.Date <= DateTime.UtcNow.Date &&
-                        (!stdrd.EffectiveTo.HasValue || stdrd.EffectiveTo.Value.Date >= DateTime.UtcNow.Date));
+                        stdrd.ApprenticeshipCode == std.Id
+                        && stdrd.EffectiveFrom.HasValue && stdrd.EffectiveFrom.Value.Date != DateTime.MinValue.Date).ToList();
 
-                if (s == null)
+                if (!fundingBands.Any())
                 {
                     continue;
                 }
 
-                std.Duration = s.ReservedValue1;
-                std.FundingCap = s.MaxEmployerLevyCap;
+                std.Duration = fundingBands.First().ReservedValue1;
+
+                std.FundingPeriods = new List<FundingPeriod>();
+                foreach (var apprenticeshipFundingMetaData in fundingBands)
+                {
+                    var fundingPeriod = new FundingPeriod
+                    {
+                        FundingCap = apprenticeshipFundingMetaData.MaxEmployerLevyCap,
+                        EffectiveFrom = apprenticeshipFundingMetaData.EffectiveFrom,
+                        EffectiveTo = apprenticeshipFundingMetaData.EffectiveTo
+                    };
+
+                    std.FundingPeriods.Add(fundingPeriod);
+                }
             }
         }
 
