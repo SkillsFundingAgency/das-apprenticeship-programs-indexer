@@ -443,7 +443,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     std.FundingPeriods.Add(fundingPeriod);
                 }
 
-                //std.FundingCap = fundingBands.MaxEmployerLevyCap;
+                std.FundingCap = fundingBands.Last(x => x.EffectiveFrom <= DateTime.Today).MaxEmployerLevyCap;
             }
         }
 
@@ -481,7 +481,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     framework.FundingPeriods.Add(fundingPeriod);
                 }
 
-                //framework.FundingCap = fw.MaxEmployerLevyCap;
+                framework.FundingCap = fw.Last(x => x.EffectiveFrom <= DateTime.Today).MaxEmployerLevyCap;
             }
         }
 
@@ -514,6 +514,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
                     std.FundingPeriods.Add(fundingPeriod);
                 }
+
+                std.FundingCap = fundingBands.Last(x => x.EffectiveFrom <= DateTime.Today).MaxEmployerLevyCap;
             }
         }
 
