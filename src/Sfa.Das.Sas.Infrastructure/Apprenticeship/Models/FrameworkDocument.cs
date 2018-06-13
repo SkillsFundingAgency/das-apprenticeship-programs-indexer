@@ -48,5 +48,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         [Keyword(NullValue = "null")]
         public string FrameworkIdKeyword => FrameworkId;
+
+        public List<FundingPeriod> FundingPeriods { get; set; }
     }
 }

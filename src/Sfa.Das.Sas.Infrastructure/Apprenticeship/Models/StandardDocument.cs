@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nest;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 
@@ -39,5 +40,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
         public string StandardIdKeyword => StandardId.ToString();
 
         public int StandardSectorCode { get; set; }
+
+        public List<FundingPeriod> FundingPeriods { get; set; }
     }
 }
