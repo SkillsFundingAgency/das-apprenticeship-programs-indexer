@@ -46,6 +46,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 JobRoles = standard.JobRoles,
                 Keywords = standard.Keywords,
                 Level = standard.NotionalEndLevel,
+                FundingCap = standard.FundingCap,
                 Duration = standard.Duration,
                 TypicalLength = standard.TypicalLength,
                 OverviewOfRole = standard.OverviewOfRole,
