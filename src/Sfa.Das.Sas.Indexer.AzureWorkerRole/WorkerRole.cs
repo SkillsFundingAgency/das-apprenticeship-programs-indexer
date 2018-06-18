@@ -1,3 +1,5 @@
+using Microsoft.Azure;
+
 namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 {
     using System;
@@ -81,7 +83,7 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 
         private void SetupApplicationInsights()
         {
-            TelemetryConfiguration.Active.InstrumentationKey = ConfigurationManager.AppSettings["iKey"];
+            TelemetryConfiguration.Active.InstrumentationKey = CloudConfigurationManager.GetSetting("InstrumentationKey");
 
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new ApplicationInsightsInitializer());
         }

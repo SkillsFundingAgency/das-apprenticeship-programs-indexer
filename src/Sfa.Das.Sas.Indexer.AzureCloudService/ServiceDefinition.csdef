@@ -39,6 +39,7 @@
       <Setting name="VstsGitBaseUrl" />
       <Setting name="VstsGitStandardsFolderPath" />
       <Setting name="VstsGitFrameworksFolderPath" />
+      <Setting name="InstrumentationKey" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>
