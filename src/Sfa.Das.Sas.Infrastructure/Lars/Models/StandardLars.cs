@@ -37,5 +37,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
         [Keyword(NullValue = "null")]
         public DateTime? EffectiveTo { get; set; }
+
+        public DateTime? LastDateForNewStarts { get; set; }
     }
 }
