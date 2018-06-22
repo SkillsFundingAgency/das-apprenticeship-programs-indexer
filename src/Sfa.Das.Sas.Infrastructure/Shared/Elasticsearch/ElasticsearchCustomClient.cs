@@ -171,7 +171,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                 .BackOffRetries(5)
                 .BackOffTime(TimeSpan.FromSeconds(15))
                 .RefreshOnCompleted(true)
-                .MaxDegreeOfParallelism(4)
+                .MaxDegreeOfParallelism(2)
                 .Size(1000));
 
             bulkAll.Subscribe(observer: new BulkAllObserver(

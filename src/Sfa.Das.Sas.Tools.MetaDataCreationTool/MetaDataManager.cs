@@ -180,6 +180,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 standard.SectorSubjectAreaTier1 = standardFromLars.SectorSubjectAreaTier1;
                 standard.SectorSubjectAreaTier2 = standardFromLars.SectorSubjectAreaTier2;
                 standard.Duration = standardFromLars.Duration;
+                standard.FundingPeriods = standardFromLars.FundingPeriods;
                 standard.FundingCap = standardFromLars.FundingCap;
                 standard.EffectiveFrom = standardFromLars.EffectiveFrom;
                 standard.EffectiveTo = standardFromLars.EffectiveTo;

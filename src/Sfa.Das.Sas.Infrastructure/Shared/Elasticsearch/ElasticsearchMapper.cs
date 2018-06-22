@@ -46,6 +46,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 JobRoles = standard.JobRoles,
                 Keywords = standard.Keywords,
                 Level = standard.NotionalEndLevel,
+                FundingPeriods = standard.FundingPeriods,
                 FundingCap = standard.FundingCap,
                 Duration = standard.Duration,
                 TypicalLength = standard.TypicalLength,
@@ -74,6 +75,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 Duration = standard.Duration,
+                FundingPeriods = standard.FundingPeriods,
                 FundingCap = standard.FundingCap,
                 EffectiveFrom = standard.EffectiveFrom,
                 EffectiveTo = standard.EffectiveTo,
@@ -100,6 +102,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Level = MapToLevelFromProgType(frameworkMetaData.ProgType),
                 JobRoleItems = frameworkMetaData.JobRoleItems?.Select(m => new JobRoleItem { Title = m.Title, Description = m.Description }),
                 Keywords = frameworkMetaData.Keywords,
+                FundingPeriods = frameworkMetaData.FundingPeriods,
                 FundingCap = frameworkMetaData.FundingCap,
                 Duration = frameworkMetaData.Duration,
                 TypicalLength = frameworkMetaData.TypicalLength,
@@ -145,6 +148,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier2,
                 Duration = frameworkMetaData.Duration,
+                FundingPeriods = frameworkMetaData.FundingPeriods,
                 FundingCap = frameworkMetaData.FundingCap
             };
         }

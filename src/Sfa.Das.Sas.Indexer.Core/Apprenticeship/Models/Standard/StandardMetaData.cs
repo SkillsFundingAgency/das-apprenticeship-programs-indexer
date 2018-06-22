@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 
 namespace Sfa.Das.Sas.Indexer.Core.Models
 {
@@ -41,5 +42,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Models
 
         public DateTime? LastDateForNewStarts { get; set; }
         public int SectorCode { get; set; }
+
+        public List<FundingPeriod> FundingPeriods { get; set; }
     }
 }
