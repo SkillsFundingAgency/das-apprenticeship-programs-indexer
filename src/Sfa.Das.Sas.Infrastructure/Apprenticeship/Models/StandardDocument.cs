@@ -13,9 +13,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public bool Published { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
-        public string AssessmentPlanPdf { get; set; }
-
         public string EntryRequirements { get; set; }
 
         [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
@@ -27,14 +24,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public string Qualifications { get; set; }
 
-        [Keyword(NullValue = "null")]
-        public string StandardPdf { get; set; }
-
         public string WhatApprenticesWillLearn { get; set; }
 
         public DateTime? EffectiveFrom { get; set; }
 
         public DateTime? EffectiveTo { get; set; }
+        public DateTime? LastDateForNewStarts { get; set; }
 
         [Keyword(NullValue = "null")]
         public string StandardIdKeyword => StandardId.ToString();

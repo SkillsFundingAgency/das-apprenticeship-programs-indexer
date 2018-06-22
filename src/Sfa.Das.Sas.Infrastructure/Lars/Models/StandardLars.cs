@@ -20,9 +20,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
         public int NotionalEndLevel { get; set; }
 
         [Keyword(NullValue = "null")]
-        public string StandardUrl { get; set; }
-
-        [Keyword(NullValue = "null")]
         public double SectorSubjectAreaTier1 { get; set; }
 
         [Keyword(NullValue = "null")]
@@ -41,5 +38,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
         public DateTime? EffectiveTo { get; set; }
 
         public List<FundingPeriod> FundingPeriods { get; set; }
+
+        public DateTime? LastDateForNewStarts { get; set; }
     }
 }

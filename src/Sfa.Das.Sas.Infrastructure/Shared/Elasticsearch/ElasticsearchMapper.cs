@@ -46,8 +46,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 JobRoles = standard.JobRoles,
                 Keywords = standard.Keywords,
                 Level = standard.NotionalEndLevel,
-                StandardPdf = standard.StandardPdfUrl,
-                AssessmentPlanPdf = standard.AssessmentPlanPdfUrl,
                 FundingPeriods = standard.FundingPeriods,
                 FundingCap = standard.FundingCap,
                 Duration = standard.Duration,
@@ -61,7 +59,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 EffectiveFrom = standard.EffectiveFrom,
-                EffectiveTo = standard.EffectiveTo
+                EffectiveTo = standard.EffectiveTo,
+                LastDateForNewStarts = standard.LastDateForNewStarts
             };
         }
 
@@ -73,14 +72,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Title = standard.Title,
                 StandardSectorCode = standard.StandardSectorCode,
                 NotionalEndLevel = standard.NotionalEndLevel,
-                StandardUrl = standard.StandardUrl,
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 Duration = standard.Duration,
                 FundingPeriods = standard.FundingPeriods,
                 FundingCap = standard.FundingCap,
                 EffectiveFrom = standard.EffectiveFrom,
-                EffectiveTo = standard.EffectiveTo
+                EffectiveTo = standard.EffectiveTo,
+                LastDateForNewStarts = standard.LastDateForNewStarts
             };
         }
 

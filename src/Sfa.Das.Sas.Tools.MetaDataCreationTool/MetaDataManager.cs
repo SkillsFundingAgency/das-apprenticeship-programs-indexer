@@ -177,8 +177,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
                 standard.SectorCode = standardFromLars.StandardSectorCode;
                 standard.NotionalEndLevel = standardFromLars.NotionalEndLevel;
-                standard.StandardPdfUrl = GetLinkUri(standardFromLars.StandardUrl, "Apprenticeship");
-                standard.AssessmentPlanPdfUrl = GetLinkUri(standardFromLars.StandardUrl, "Assessment");
                 standard.SectorSubjectAreaTier1 = standardFromLars.SectorSubjectAreaTier1;
                 standard.SectorSubjectAreaTier2 = standardFromLars.SectorSubjectAreaTier2;
                 standard.Duration = standardFromLars.Duration;
@@ -186,6 +184,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 standard.FundingCap = standardFromLars.FundingCap;
                 standard.EffectiveFrom = standardFromLars.EffectiveFrom;
                 standard.EffectiveTo = standardFromLars.EffectiveTo;
+                standard.LastDateForNewStarts = standardFromLars.LastDateForNewStarts;
                 updated++;
             }
 
@@ -195,19 +194,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
             return activeStandards;
         }
-
-        private string GetLinkUri(string link, string linkTitle)
-        {
-            if (string.IsNullOrEmpty(link))
-            {
-                return string.Empty;
-            }
-
-            var uri = _angleSharpService.GetLinks(link.RemoveQuotationMark(), ".attachment-details h2 a", linkTitle)?.FirstOrDefault();
-
-            return uri != null ? new Uri(new Uri(_appServiceSettings.GovWebsiteUrl), uri).ToString() : string.Empty;
-        }
-
+        
         private void PushStandardsToGit(List<FileContents> standards)
         {
             if (!standards.Any())
