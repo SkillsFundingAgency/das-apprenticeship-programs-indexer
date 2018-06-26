@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.Core.Models.Framework
+﻿using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
+
+namespace Sfa.Das.Sas.Indexer.Core.Models.Framework
 {
     using System;
     using System.Collections.Generic;
@@ -48,5 +50,7 @@
         public IEnumerable<string> KnowledgeQualification { get; set; }
 
         public IEnumerable<string> CombinedQualification { get; set; }
+
+        public List<FundingPeriod> FundingPeriods { get; set; }
     }
 }

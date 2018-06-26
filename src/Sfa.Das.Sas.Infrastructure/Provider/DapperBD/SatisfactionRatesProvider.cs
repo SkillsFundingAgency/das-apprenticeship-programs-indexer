@@ -9,10 +9,9 @@ using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 {
     public class SatisfactionRatesProvider : IRequestHandler<EmployerSatisfactionRateRequest, EmployerSatisfactionRateResult>
-    {
+    { 
         private readonly IDatabaseProvider _databaseProvider;
         private readonly ILog _log;
-
         private readonly IInfrastructureSettings _settings;
 
         public SatisfactionRatesProvider(

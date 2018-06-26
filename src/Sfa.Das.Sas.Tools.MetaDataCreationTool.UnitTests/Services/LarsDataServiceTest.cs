@@ -116,6 +116,8 @@
 
             _mockAngleSharpService.Setup(x => x.GetLinks(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(_linkEndPoints);
 
+            _mockAppServiceSettings.Setup(a => a.FrameworksExpiredRequired).Returns(new List<string>());
+
             _sut = new LarsDataService(
                 _mockAppServiceSettings.Object,
                 _mockCsvService.Object,

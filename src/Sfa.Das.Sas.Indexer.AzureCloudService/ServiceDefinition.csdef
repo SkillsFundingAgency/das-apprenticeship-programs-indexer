@@ -42,6 +42,8 @@
       <Setting name="AssessmentOrgsBlobContainerReference" />
       <Setting name="FcsBlobContainerReference" />
       <Setting name="EmployerProvidersBlobContainerReference" />
+      <Setting name="FrameworkIdFormat" />
+      <Setting name="InstrumentationKey" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>

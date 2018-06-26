@@ -34,11 +34,11 @@
                 Title = values[StandardCsvCols.Title].RemoveQuotationMark(),
                 StandardSectorCode = values[StandardCsvCols.StandardSectorCode].RemoveQuotationMark().SafeParseInt(),
                 NotionalEndLevel = values[StandardCsvCols.NotionalEndLevel].RemoveQuotationMark().SafeParseInt(),
-                StandardUrl = values[StandardCsvCols.UrlLink],
                 SectorSubjectAreaTier1 = values[StandardCsvCols.SectorSubjectAreaTier1].RemoveQuotationMark().SafeParseDouble(),
                 SectorSubjectAreaTier2 = values[StandardCsvCols.SectorSubjectAreaTier2].RemoveQuotationMark().SafeParseDouble(),
                 EffectiveFrom = values[StandardCsvCols.EffectiveFrom].SafeParseDate(),
-                EffectiveTo = values[StandardCsvCols.EffectiveTo].SafeParseDate()
+                EffectiveTo = values[StandardCsvCols.EffectiveTo].SafeParseDate(),
+                LastDateForNewStarts = values[StandardCsvCols.LastDateForNewStarts].SafeParseDate()
             };
         }
 

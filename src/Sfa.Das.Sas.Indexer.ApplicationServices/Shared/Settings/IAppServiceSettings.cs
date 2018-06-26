@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
+﻿using System.Collections.Generic;
+
+namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 {
     using System;
 
@@ -64,7 +66,10 @@
 
         string EmployerProvidersBlobContainerReference { get; }
 
+        List<string> FrameworksExpiredRequired { get; }
+
         string QueueName(Type type);
+
         string[] MonitoringUrl(Type type);
     }
 }

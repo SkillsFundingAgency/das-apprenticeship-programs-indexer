@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Azure;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.Core.Services;
@@ -75,6 +77,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         public string EmployerProvidersBlobContainerReference => _settings.GetSetting("EmployerProvidersBlobContainerReference");
 
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
+
+        public List<string> FrameworksExpiredRequired => GetFrameworksList(_settings.GetNullableSetting("FrameworksExpiredRequired"));
+
+        private List<string> GetFrameworksList(string frameworkIdList)
+        {
+            return !string.IsNullOrWhiteSpace(frameworkIdList) ? frameworkIdList.Split(',').Select(frameworkId => frameworkId.Trim()).ToList() : new List<string>();
+        }
 
         private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");
 

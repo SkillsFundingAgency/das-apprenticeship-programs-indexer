@@ -1,4 +1,5 @@
 ﻿using Nest;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
@@ -67,5 +68,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
         [Keyword(NullValue = "null")]
         public int FundingCap { get; set; }
+
+        public List<FundingPeriod> FundingPeriods { get; set; }
     }
 }

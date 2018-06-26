@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 
 namespace Sfa.Das.Sas.Indexer.Core.Models
 {
@@ -16,10 +17,6 @@ namespace Sfa.Das.Sas.Indexer.Core.Models
         public IEnumerable<string> Keywords { get; set; }
 
         public int NotionalEndLevel { get; set; }
-
-        public string StandardPdfUrl { get; set; }
-
-        public string AssessmentPlanPdfUrl { get; set; }
 
         public int FundingCap { get; set; }
 
@@ -40,9 +37,12 @@ namespace Sfa.Das.Sas.Indexer.Core.Models
         public double SectorSubjectAreaTier1 { get; set; }
 
         public double SectorSubjectAreaTier2 { get; set; }
-
         public DateTime? EffectiveFrom { get; set; }
-
         public DateTime? EffectiveTo { get; set; }
+
+        public DateTime? LastDateForNewStarts { get; set; }
+        public int SectorCode { get; set; }
+
+        public List<FundingPeriod> FundingPeriods { get; set; }
     }
 }
