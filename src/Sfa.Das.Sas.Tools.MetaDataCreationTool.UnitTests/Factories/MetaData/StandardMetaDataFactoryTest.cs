@@ -52,7 +52,6 @@
             metaData.Id.Should().Be(5);
             metaData.Title.Should().Be("standard title");
             metaData.NotionalEndLevel.Should().Be(2);
-            metaData.StandardUrl.Should().Be("standard url");
             metaData.SectorSubjectAreaTier1.Should().Be(1.1);
             metaData.SectorSubjectAreaTier2.Should().Be(2.2);
         }

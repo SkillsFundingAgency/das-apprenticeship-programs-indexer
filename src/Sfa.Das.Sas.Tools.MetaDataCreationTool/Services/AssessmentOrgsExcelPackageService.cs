@@ -27,7 +27,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 {
                     yield return new Organisation
                     {
-                        EpaOrganisationIdentifier = organisationsWorkSheet.Cells[i, 1].Value != null ? organisationsWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
+                        EpaOrganisationIdentifier = organisationsWorkSheet.Cells[i, 1].Value != null ? organisationsWorkSheet.Cells[i, 1].Value.ToString().Trim() : string.Empty,
                         EpaOrganisation = organisationsWorkSheet.Cells[i, 2].Value != null ? organisationsWorkSheet.Cells[i, 2].Value.ToString() : string.Empty,
                         OrganisationType = organisationsWorkSheet.Cells[i, 3].Value != null ? organisationsWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
                         WebsiteLink = organisationsWorkSheet.Cells[i, 4].Value != null ? organisationsWorkSheet.Cells[i, 4].Value.ToString() : string.Empty,
@@ -38,10 +38,24 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                             Street = organisationsWorkSheet.Cells[i, 7].Value != null ? organisationsWorkSheet.Cells[i, 7].Value.ToString() : string.Empty,
                             Town = organisationsWorkSheet.Cells[i, 8].Value != null ? organisationsWorkSheet.Cells[i, 8].Value.ToString() : string.Empty,
                             Postcode = organisationsWorkSheet.Cells[i, 9].Value != null ? organisationsWorkSheet.Cells[i, 9].Value.ToString() : string.Empty
-                        }
+                        },
+                        Ukprn = CheckForValidUkprn(organisationsWorkSheet.Cells[i, 10].Value?.ToString())
                     };
                 }
             }
+        }
+
+        public long? CheckForValidUkprn(string ukprnDetails)
+        {
+            long? ukprnProcessed = null;
+            long ukprn;
+            long.TryParse(ukprnDetails, out ukprn);
+            if (ukprn.ToString().Length == 8)
+            {
+                ukprnProcessed = ukprn;
+            }
+
+            return ukprnProcessed;
         }
 
         public IEnumerable<StandardOrganisationsData> GetStandardOrganisationsData(ExcelPackage package)
@@ -53,7 +67,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 {
                     yield return new StandardOrganisationsData
                     {
-                        EpaOrganisationIdentifier = standardOrganisationWorkSheet.Cells[i, 1].Value != null ? standardOrganisationWorkSheet.Cells[i, 1].Value.ToString() : string.Empty,
+                        EpaOrganisationIdentifier = standardOrganisationWorkSheet.Cells[i, 1].Value != null ? standardOrganisationWorkSheet.Cells[i, 1].Value.ToString().Trim() : string.Empty,
                         StandardCode = standardOrganisationWorkSheet.Cells[i, 3].Value != null ? standardOrganisationWorkSheet.Cells[i, 3].Value.ToString() : string.Empty,
                         EffectiveFrom = !string.IsNullOrWhiteSpace(standardOrganisationWorkSheet.Cells[i, 5].Value?.ToString()) ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 5].Value.ToString()) : DateTime.MaxValue,
                         EffectiveTo = !string.IsNullOrWhiteSpace(standardOrganisationWorkSheet.Cells[i, 6].Value?.ToString()) ? Convert.ToDateTime(standardOrganisationWorkSheet.Cells[i, 6].Value.ToString()) : (DateTime?)null,

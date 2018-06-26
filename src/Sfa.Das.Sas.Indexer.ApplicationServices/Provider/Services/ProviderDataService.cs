@@ -186,7 +186,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             if (achievementRate.Count > 1)
             {
-                _logger.Warn($"Multiple achievement rates found - UPPRN: {achievementRate.FirstOrDefault()?.Ukprn}");
+                _logger.Warn($"Multiple achievement rates found - UKPRN: {achievementRate.FirstOrDefault()?.Ukprn}");
             }
 
             var v1 = achievementRate.FirstOrDefault()?.OverallAchievementRate != null

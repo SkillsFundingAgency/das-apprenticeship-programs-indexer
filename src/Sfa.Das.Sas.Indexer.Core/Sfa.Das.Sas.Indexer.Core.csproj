@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apprenticeship\Models\ApprenticeshipFundingMetaData.cs" />
+    <Compile Include="Apprenticeship\Models\FundingPeriod.cs" />
     <Compile Include="Apprenticeship\Models\LarsData.cs" />
     <Compile Include="Apprenticeship\Models\Standard\LarsStandard.cs" />
     <Compile Include="AssessmentOrgs\Models\Address.cs" />

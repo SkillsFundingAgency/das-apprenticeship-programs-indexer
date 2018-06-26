@@ -35,6 +35,11 @@
       <Setting name="GitPassword" />
       <Setting name="AchievementRateDataBaseConnectionString" />
       <Setting name="UKRLP_EndpointUri" />
+      <Setting name="FrameworkIdFormat" />
+      <Setting name="VstsGitBaseUrl" />
+      <Setting name="VstsGitStandardsFolderPath" />
+      <Setting name="VstsGitFrameworksFolderPath" />
+      <Setting name="InstrumentationKey" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>

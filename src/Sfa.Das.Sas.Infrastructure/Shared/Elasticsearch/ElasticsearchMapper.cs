@@ -46,8 +46,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 JobRoles = standard.JobRoles,
                 Keywords = standard.Keywords,
                 Level = standard.NotionalEndLevel,
-                StandardPdf = standard.StandardPdfUrl,
-                AssessmentPlanPdf = standard.AssessmentPlanPdfUrl,
+                FundingPeriods = standard.FundingPeriods,
                 FundingCap = standard.FundingCap,
                 Duration = standard.Duration,
                 TypicalLength = standard.TypicalLength,
@@ -56,10 +55,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 WhatApprenticesWillLearn = standard.WhatApprenticesWillLearn,
                 Qualifications = standard.Qualifications,
                 ProfessionalRegistration = standard.ProfessionalRegistration,
+                StandardSectorCode = standard.SectorCode,
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 EffectiveFrom = standard.EffectiveFrom,
-                EffectiveTo = standard.EffectiveTo
+                EffectiveTo = standard.EffectiveTo,
+                LastDateForNewStarts = standard.LastDateForNewStarts
             };
         }
 
@@ -71,13 +72,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Title = standard.Title,
                 StandardSectorCode = standard.StandardSectorCode,
                 NotionalEndLevel = standard.NotionalEndLevel,
-                StandardUrl = standard.StandardUrl,
                 SectorSubjectAreaTier1 = standard.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 Duration = standard.Duration,
+                FundingPeriods = standard.FundingPeriods,
                 FundingCap = standard.FundingCap,
                 EffectiveFrom = standard.EffectiveFrom,
-                EffectiveTo = standard.EffectiveTo
+                EffectiveTo = standard.EffectiveTo,
+                LastDateForNewStarts = standard.LastDateForNewStarts
             };
         }
 
@@ -98,8 +100,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 PathwayName = frameworkMetaData.PathwayName,
                 ProgType = frameworkMetaData.ProgType,
                 Level = MapToLevelFromProgType(frameworkMetaData.ProgType),
-                JobRoleItems = frameworkMetaData.JobRoleItems?.Select(m => new JobRoleItem {Title = m.Title, Description = m.Description }),
+                JobRoleItems = frameworkMetaData.JobRoleItems?.Select(m => new JobRoleItem { Title = m.Title, Description = m.Description }),
                 Keywords = frameworkMetaData.Keywords,
+                FundingPeriods = frameworkMetaData.FundingPeriods,
                 FundingCap = frameworkMetaData.FundingCap,
                 Duration = frameworkMetaData.Duration,
                 TypicalLength = frameworkMetaData.TypicalLength,
@@ -145,6 +148,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 SectorSubjectAreaTier1 = frameworkMetaData.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2 = frameworkMetaData.SectorSubjectAreaTier2,
                 Duration = frameworkMetaData.Duration,
+                FundingPeriods = frameworkMetaData.FundingPeriods,
                 FundingCap = frameworkMetaData.FundingCap
             };
         }
@@ -230,6 +234,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 },
                 EpaOrganisation = organisation.EpaOrganisation,
                 WebsiteLink = organisation.WebsiteLink,
+                Ukprn = organisation.Ukprn
             };
         }
 
@@ -264,7 +269,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 
         public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation)
         {
-            return CreateStandardProviderDocument(provider, standardInformation, new List<DeliveryInformation> {deliveryInformation });
+            return CreateStandardProviderDocument(provider, standardInformation, new List<DeliveryInformation> { deliveryInformation });
         }
 
         public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation)
@@ -274,7 +279,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 
         public FrameworkProvider CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, DeliveryInformation deliveryInformation)
         {
-            return CreateFrameworkProviderDocument(provider, frameworkInformation, new List<DeliveryInformation> {deliveryInformation });
+            return CreateFrameworkProviderDocument(provider, frameworkInformation, new List<DeliveryInformation> { deliveryInformation });
         }
 
         public ProviderApiDocument CreateProviderApiDocument(CoreProvider provider)

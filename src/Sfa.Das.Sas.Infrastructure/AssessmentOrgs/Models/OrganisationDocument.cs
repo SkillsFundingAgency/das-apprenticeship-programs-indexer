@@ -18,6 +18,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models
         public string Phone { get; set; }
 
         public string Email { get; set; }
+        public long? Ukprn { get; set; }
 
         [Keyword(NullValue = "null")]
         public string EpaOrganisationIdentifierKeyword => EpaOrganisationIdentifier;

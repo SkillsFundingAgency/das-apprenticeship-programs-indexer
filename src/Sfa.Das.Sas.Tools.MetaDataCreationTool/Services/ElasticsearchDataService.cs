@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
@@ -40,6 +39,21 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             return standards.Documents;
         }
 
+        public IEnumerable<FrameworkMetaData> GetListOfFrameworks()
+        {
+            var size = GetLarsFrameworksSize();
+
+            var frameworks = _elasticsearchCustomClient
+                .Search<FrameworkMetaData>(s => s
+                    .Index(_larsSettings.IndexesAlias)
+                    .Type(Types.Parse("frameworklars"))
+                    .MatchAll()
+                    .From(0)
+                    .Size(size));
+
+            return frameworks.Documents;
+        }
+
         private int GetLarsStandardsSize()
         {
             var response = _elasticsearchCustomClient
@@ -54,21 +68,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             }
 
             return (int)response.HitsMetaData.Total;
-        }
-
-        public IEnumerable<FrameworkMetaData> GetListOfFrameworks()
-        {
-            var size = GetLarsFrameworksSize();
-
-            var frameworks = _elasticsearchCustomClient
-                .Search<FrameworkMetaData>(s => s
-                    .Index(_larsSettings.IndexesAlias)
-                    .Type(Types.Parse("frameworklars"))
-                    .MatchAll()
-                    .From(0)
-                    .Size(size));
-
-            return frameworks.Documents;
         }
 
         private int GetLarsFrameworksSize()

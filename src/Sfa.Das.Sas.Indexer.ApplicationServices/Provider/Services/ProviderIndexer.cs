@@ -17,7 +17,6 @@ using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
-
     public sealed class ProviderIndexer : IGenericIndexerHelper<IMaintainProviderIndex>
     {
         private readonly IMaintainProviderIndex _searchIndexMaintainer;
@@ -166,42 +165,50 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var count = providersApiAmount;
             _log.Debug($"{providersApiAmount} API providers to be indexed");
 
-            foreach (var apprenticeshipProvider in apprenticeshipProviders)
+            foreach (var provider in apprenticeshipProviders)
             {
-                foreach (var apprenticeshipProviderFramework in apprenticeshipProvider.Frameworks)
+                foreach (var framework in provider.Frameworks)
                 {
-                    var deliveryLocationsOnly100 = apprenticeshipProviderFramework.DeliveryLocations
-                            .Where(_onlyAtEmployer)
-                            .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
-                            .ToArray();
-
-                    if (deliveryLocationsOnly100.Any())
-                    {
-                        count += deliveryLocationsOnly100.Count();
-                    }
-
-                    count += apprenticeshipProviderFramework.DeliveryLocations.Where(_anyNotAtEmployer).Count(location => location.DeliveryLocation.Address.GeoPoint != null);
-                }
-            }
-
-            var frameworkProviders = count - providersApiAmount;
-            _log.Debug($"{frameworkProviders} framework providers to be indexed");
-
-            foreach (var apprenticeshipProvider in apprenticeshipProviders)
-            {
-                foreach (var apprenticeshipProviderStandard in apprenticeshipProvider.Standards)
-                {
-                    var deliveryLocationsOnly100 = apprenticeshipProviderStandard.DeliveryLocations
+                    var deliveryLocationsOnly100 = framework.DeliveryLocations
                         .Where(_onlyAtEmployer)
                         .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
                         .ToArray();
 
                     if (deliveryLocationsOnly100.Any())
                     {
-                        count += deliveryLocationsOnly100.Count();
+                        count++;
                     }
 
-                    count += apprenticeshipProviderStandard.DeliveryLocations.Where(_anyNotAtEmployer).Count(location => location.DeliveryLocation.Address.GeoPoint != null);
+                    var amount = (from location
+                                  in framework.DeliveryLocations.Where(_anyNotAtEmployer)
+                                  where location.DeliveryLocation.Address.GeoPoint != null
+                                  select location).Count();
+                    count += amount;
+                }
+            }
+
+            var frameworkProviders = count - providersApiAmount;
+            _log.Debug($"{frameworkProviders} framework providers to be indexed");
+
+            foreach (var provider in apprenticeshipProviders)
+            {
+                foreach (var standard in provider.Standards)
+                {
+                    var deliveryLocationsOnly100 = standard.DeliveryLocations
+                        .Where(_onlyAtEmployer)
+                        .Where(x => x.DeliveryLocation.Address.GeoPoint != null)
+                        .ToArray();
+
+                    if (deliveryLocationsOnly100.Any())
+                    {
+                        count++;
+                    }
+
+                    var amount = (from location
+                                    in standard.DeliveryLocations.Where(_anyNotAtEmployer)
+                                    where location.DeliveryLocation.Address.GeoPoint != null
+                                    select location).Count();
+                    count += amount;
                 }
             }
 
@@ -251,9 +258,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 if (courseDirectory != null)
                 {
-                    provider.ContactDetails.Email = provider.ContactDetails.Email ?? courseDirectory.Email;
-                    provider.ContactDetails.Website = provider.ContactDetails.Website ?? courseDirectory.Website;
-                    provider.ContactDetails.Phone = provider.ContactDetails.Phone ?? courseDirectory.Phone;
+                    provider.ContactDetails.Email = courseDirectory.Email ?? provider.ContactDetails.Email;
+                    provider.ContactDetails.Website = courseDirectory.Website ?? provider.ContactDetails.Website;
+                    provider.ContactDetails.Phone = courseDirectory.Phone ?? provider.ContactDetails.Phone;
+
                     provider.MarketingInfo = courseDirectory.MarketingInfo;
                     provider.IsLevyPayerOnly = !source.ActiveProviders.Providers.Contains(courseDirectory.Ukprn);
             }
