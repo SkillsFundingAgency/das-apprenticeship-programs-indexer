@@ -492,8 +492,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 var fundingBands =
                     metaData.Where(stdrd =>
                         stdrd.ApprenticeshipType.ToLower() == "std" &&
-                        stdrd.ApprenticeshipCode == std.Id
-                        && stdrd.EffectiveFrom.HasValue && stdrd.EffectiveFrom.Value.Date != DateTime.MinValue.Date).ToList();
+                        stdrd.ApprenticeshipCode == std.Id);
 
                 if (!fundingBands.Any())
                 {
