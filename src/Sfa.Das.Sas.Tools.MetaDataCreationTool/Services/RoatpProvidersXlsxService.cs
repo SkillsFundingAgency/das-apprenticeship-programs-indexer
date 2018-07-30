@@ -24,6 +24,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         private const int NewOrganisationWithoutFinancialTrackRecordPosition = 6;
         private const int StartDatePosition = 7;
         private const int EndDatePosition = 8;
+        private const int NotStartingNewApprentices = 9;
 
         private readonly IAppServiceSettings _appServiceSettings;
         private readonly ILog _log;
@@ -55,7 +56,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     using (var stream = new MemoryStream(client.DownloadData(new Uri(_appServiceSettings.VstsRoatpUrl))))
                     using (var package = new ExcelPackage(stream))
                     {
-
                         GetRoatp(package, roatpProviders);
                     }
 
@@ -124,6 +124,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     NewOrganisationWithoutFinancialTrackRecord = GetBooleanValue(roatpWorkSheet.Cells[i, NewOrganisationWithoutFinancialTrackRecordPosition]),
                     StartDate = GetDateTimeValue(roatpWorkSheet.Cells[i, StartDatePosition]),
                     EndDate = GetDateTimeValue(roatpWorkSheet.Cells[i, EndDatePosition]),
+					NotStartingNewApprentices = GetDateTimeValue(roatpWorkSheet.Cells[i, NotStartingNewApprentices]) != null
                 };
 
                 roatpProviders.Add(roatpData);
