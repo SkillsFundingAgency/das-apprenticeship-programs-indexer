@@ -24,7 +24,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData
                 EffectiveFrom = values[5].SafeParseDate(),
                 EffectiveTo = values[6].SafeParseDate(),
                 ReservedValue1 = Convert.ToInt32(values[13].SafeParseDouble()),
-                MaxEmployerLevyCap = Convert.ToInt32(values[16].SafeParseDouble())
+                MaxEmployerLevyCap = Convert.ToInt32(values[17].SafeParseDouble())
             };
         }
     }
