@@ -40,5 +40,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
         public bool HasParentCompanyGuarantee { get; set; }
         public bool IsNew { get; set; }
         public bool IsLevyPayerOnly { get; set; }
+	    public bool CurrentlyNotStartingNewApprentices { get; set; }
     }
 }

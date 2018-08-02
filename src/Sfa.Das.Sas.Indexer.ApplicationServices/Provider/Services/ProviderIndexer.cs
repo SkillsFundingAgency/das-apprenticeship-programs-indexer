@@ -272,6 +272,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 provider.HasParentCompanyGuarantee = roatpProvider.ParentCompanyGuarantee;
                 provider.IsNew = roatpProvider.NewOrganisationWithoutFinancialTrackRecord;
 
+                provider.CurrentlyNotStartingNewApprentices = roatpProvider.NotStartingNewApprentices;
+
                 _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
                 _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
 
@@ -327,6 +329,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 provider.IsLevyPayerOnly = false;
 
+                var roatpProvider = source.RoatpProviders.Where(x => x.Ukprn == courseDirectoryProvider.Ukprn.ToString());
+                provider.CurrentlyNotStartingNewApprentices = roatpProvider != null && roatpProvider.First().NotStartingNewApprentices;
+
                 var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
                 provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
                 provider.Standards.ForEach(m => _providerDataService.UpdateStandard(m, source.Standards, byProvidersFiltered, source.AchievementRateNationals));
@@ -366,6 +371,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 }
 
                 provider = _courseDirectoryProviderMapper.Map(courseDirectoryProvider);
+
+                provider.CurrentlyNotStartingNewApprentices = roatpProvider.NotStartingNewApprentices;
 
                 provider.LegalName = ukrlpProvider?.ProviderName;
                 provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
