@@ -36,7 +36,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
                     new SingleNodeConnectionPool(_infrastructureSettings.ElasticServerUrls.FirstOrDefault()));
             }
 
-            if (!Debugger.IsAttached)
+            if (!Debugger.IsAttached || !Is<IgnoreSslCertificateFeature>.Enabled)
             {
                 settings.BasicAuthentication(_infrastructureSettings.ElasticsearchUsername, _infrastructureSettings.ElasticsearchPassword);
             }
