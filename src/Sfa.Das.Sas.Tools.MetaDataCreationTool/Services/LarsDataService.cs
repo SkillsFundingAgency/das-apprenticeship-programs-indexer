@@ -492,8 +492,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 var fundingBands =
                     metaData.Where(stdrd =>
                         stdrd.ApprenticeshipType.ToLower() == "std" &&
-                        stdrd.ApprenticeshipCode == std.Id
-                        && stdrd.EffectiveFrom.HasValue && stdrd.EffectiveFrom.Value.Date != DateTime.MinValue.Date).ToList();
+                        stdrd.ApprenticeshipCode == std.Id);
 
                 if (!fundingBands.Any())
                 {
@@ -542,8 +541,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             var url = $"{_appServiceSettings.ImServiceBaseUrl}/{_appServiceSettings.ImServiceUrl}";
 
-            var link = _angleSharpService.GetLinks(url, "li a", "LARS CSV");
-            var linkEndpoint = link?.FirstOrDefault();
+            var links = _angleSharpService.GetLinks(url, "li a", _appServiceSettings.ImServiceLinkText);
+            var linkEndpoint = links?.FirstOrDefault();
+
             var fullLink = linkEndpoint != null ? $"{_appServiceSettings.ImServiceBaseUrl}/{linkEndpoint}" : string.Empty;
 
             if (string.IsNullOrEmpty(fullLink))

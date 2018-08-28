@@ -45,7 +45,9 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
         public bool IsLevyPayerOnly { get; set; }
 
-        public bool IsValid()
+		public bool CurrentlyNotStartingNewApprentices { get; set; }
+
+	    public bool IsValid()
         {
             if (string.IsNullOrEmpty(Name))
             {

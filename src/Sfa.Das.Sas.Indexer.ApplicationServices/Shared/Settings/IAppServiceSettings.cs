@@ -49,6 +49,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         string ImServiceBaseUrl { get; }
 
         string ImServiceUrl { get; }
+        string ImServiceLinkText { get; }
 
         string GovWebsiteUrl { get; }
 

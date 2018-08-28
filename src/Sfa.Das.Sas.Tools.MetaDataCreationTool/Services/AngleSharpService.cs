@@ -36,7 +36,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 var result = parser.Parse(timing.Result);
                 var all = result.QuerySelectorAll(selector);
 
-                return all.Where(x => x.InnerHtml.Contains(textInTitle)).Select(x => x.GetAttribute("href")).ToList();
+                return all.Where(x => x.TextContent.Contains(textInTitle)).Select(x => x.GetAttribute("href")).ToList();
             }
             catch (Exception ex)
             {

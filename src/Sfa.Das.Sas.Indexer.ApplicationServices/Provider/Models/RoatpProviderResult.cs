@@ -22,7 +22,9 @@ namespace Sfa.Das.Sas.Indexer.Core.Provider.Models
 
         public DateTime? EndDate { get; set; }
 
-        public bool IsDateValid()
+		public bool NotStartingNewApprentices { get; set; }
+
+	    public bool IsDateValid()
         {
             if (StartDate == null)
             {
