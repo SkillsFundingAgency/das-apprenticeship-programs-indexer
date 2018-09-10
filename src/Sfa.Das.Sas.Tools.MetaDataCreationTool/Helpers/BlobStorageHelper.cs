@@ -22,32 +22,32 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers
 
         public CloudBlobContainer GetStandardsBlobContainer()
         {
-            return CreateBlobContainer(_appServiceSettings.StandardBlobContainerReference);
+            return GetBlobContainer(_appServiceSettings.StandardBlobContainerReference);
         }
 
         public CloudBlobContainer GetFrameworksBlobContainer()
         {
-            return CreateBlobContainer(_appServiceSettings.FrameworkBlobContainerReference);
+            return GetBlobContainer(_appServiceSettings.FrameworkBlobContainerReference);
         }
 
         public CloudBlobContainer GetAssessmentOrgsBlobContainer()
         {
-            return CreateBlobContainer(_appServiceSettings.AssessmentOrgsBlobContainerReference);
+            return GetBlobContainer(_appServiceSettings.AssessmentOrgsBlobContainerReference);
         }
 
         public CloudBlobContainer GetFcsBlobcontainer()
         {
-            return CreateBlobContainer(_appServiceSettings.FcsBlobContainerReference);
+            return GetBlobContainer(_appServiceSettings.FcsBlobContainerReference);
         }
 
         public CloudBlobContainer GetRoatpBlobContainer()
         {
-            return CreateBlobContainer(_appServiceSettings.RoatpBlobContainerReference);
+            return GetBlobContainer(_appServiceSettings.RoatpBlobContainerReference);
         }
 
         public CloudBlobContainer GetEmployerProvidersBlobcontainer()
         {
-            return CreateBlobContainer(_appServiceSettings.EmployerProvidersBlobContainerReference);
+            return GetBlobContainer(_appServiceSettings.EmployerProvidersBlobContainerReference);
         }
 
         public void UploadToContainer(CloudBlockBlob blockBlob, StandardRepositoryData standardRepositoryData)
@@ -88,7 +88,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers
             blockBlob.Properties.ContentType = ContentType;
         }
 
-        private CloudBlobContainer CreateBlobContainer(string containerReference)
+        private CloudBlobContainer GetBlobContainer(string containerReference)
         {
             var storageAccount = CloudStorageAccount.Parse(_appServiceSettings.ConnectionString);
 

@@ -36,6 +36,13 @@
       <Setting name="GitPassword" value="__GitPassword__" />
       <Setting name="AchievementRateDataBaseConnectionString" value="__AchievementRateDataBaseConnectionString__" />
       <Setting name="UKRLP_EndpointUri" value="__UKRLP_EndpointUri__" />
+      <Setting name="BlobStorageConnectionString" value="__BlobStorageConnectionString__" />
+      <Setting name="StandardBlobContainerReference" value="__StandardBlobContainerReference__" />
+      <Setting name="FrameworkBlobContainerReference" value="__FrameworkBlobContainerReference__" />
+      <Setting name="RoatpBlobContainerReference" value="__RoatpBlobContainerReference__" />
+      <Setting name="AssessmentOrgsBlobContainerReference" value="__AssessmentOrgsBlobContainerReference__" />
+      <Setting name="FcsBlobContainerReference" value="__FcsBlobContainerReference__" />
+      <Setting name="EmployerProvidersBlobContainerReference" value="__EmployerProvidersBlobContainerReference__" />
       <Setting name="FrameworkIdFormat" value="__FrameworkIdFormat__" />
       <Setting name="VstsGitBaseUrl" value="__VstsGitBaseUrl__" />
       <Setting name="VstsGitStandardsFolderPath" value="__VstsGitStandardsFolderPath__" />
