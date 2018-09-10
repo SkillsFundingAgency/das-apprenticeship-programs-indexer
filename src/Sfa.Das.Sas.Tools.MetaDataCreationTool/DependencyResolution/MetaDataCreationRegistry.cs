@@ -2,7 +2,7 @@
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Factories.MetaData;
-using Sfa.Das.Sas.Tools.MetaDataCreationTool.Infrastructure;
+using Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 using StructureMap;
@@ -16,8 +16,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<ILarsDataService>().Use<LarsDataService>();
             For<IReadMetaDataFromCsv>().Use<CsvService>();
             For<IAngleSharpService>().Use<AngleSharpService>();
-            For<IVstsService>().Use<VstsService>();
-            For<IGitDynamicModelGenerator>().Use<GitDynamicModelGenerator>();
+            For<IApprenticeshipRepoService>().Use<ApprenticeshipRepoService>();
+            For<IBlobStorageHelper>().Use<BlobStorageHelper>();
             For<IGetStandardMetaData>().Use<MetaDataManager>();
             For<IGenerateStandardMetaData>().Use<MetaDataManager>();
             For<IGetFrameworkMetaData>().Use<MetaDataManager>();
@@ -28,7 +28,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.DependencyResolution
             For<IGenericMetaDataFactory>().Use<LarsMetaDataFactory>();
             For<IElasticsearchLarsDataService>().Use<ElasticsearchLarsDataService>();
             For<IAssessmentOrgsExcelPackageService>().Use<AssessmentOrgsExcelPackageService>();
-            For<IWebClient>().Use<WebClientWrapper>();
+            For<IFcsActiveProvidersService>().Use<FcsActiveProvidersService>();
+            For<IEmployerProvidersService>().Use<EmployerProvidersService>();
 
             // Meta Data factories
             For<IMetaDataFactory>().Use<FrameworkMetaDataFactory>();

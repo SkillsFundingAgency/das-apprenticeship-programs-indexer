@@ -36,10 +36,14 @@
       <Setting name="GitPassword" value="" />
       <Setting name="AchievementRateDataBaseConnectionString" value="" />
       <Setting name="UKRLP_EndpointUri" value="" />
+      <Setting name="BlobStorageConnectionString" value="UseDevelopmentStorage=true;" />
+      <Setting name="StandardBlobContainerReference" value="standards" />
+      <Setting name="FrameworkBlobContainerReference" value="frameworks" />
+      <Setting name="RoatpBlobContainerReference" value="roatp" />
+      <Setting name="AssessmentOrgsBlobContainerReference" value="assessmentorgs" />
+      <Setting name="FcsBlobContainerReference" value="fcs" />
+      <Setting name="EmployerProvidersBlobContainerReference" value="employerProviders" />
       <Setting name="FrameworkIdFormat" value="{0}-{1}-{2}" />
-      <Setting name="VstsGitBaseUrl" value="https://sfa-gov-uk.visualstudio.com/DefaultCollection/Digital%20Apprenticeship%20Service/_apis/git/repositories/SFA-DAS-MetaDataStorage/" />
-      <Setting name="VstsGitStandardsFolderPath" value="standards/local/json" />
-      <Setting name="VstsGitFrameworksFolderPath" value="frameworks/local/json" />
       <Setting name="InstrumentationKey" value="" />
     </ConfigurationSettings>
   </Role>

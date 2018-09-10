@@ -66,6 +66,18 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string MetadataApiUri => CloudConfigurationManager.GetSetting("MetadataApiUri");
 
+        public string StandardBlobContainerReference => _settings.GetSetting("StandardBlobContainerReference");
+
+        public string FrameworkBlobContainerReference => _settings.GetSetting("FrameworkBlobContainerReference");
+
+        public string RoatpBlobContainerReference => _settings.GetSetting("RoatpBlobContainerReference");
+
+        public string AssessmentOrgsBlobContainerReference => _settings.GetSetting("AssessmentOrgsBlobContainerReference");
+
+        public string FcsBlobContainerReference => _settings.GetSetting("FcsBlobContainerReference");
+
+        public string EmployerProvidersBlobContainerReference => _settings.GetSetting("EmployerProvidersBlobContainerReference");
+
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
 
         public List<string> FrameworksExpiredRequired => GetFrameworksList(_settings.GetNullableSetting("FrameworksExpiredRequired"));

@@ -4,9 +4,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using Newtonsoft.Json;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
     using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
@@ -15,7 +13,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models;
-    using Sfa.Das.Sas.Tools.MetaDataCreationTool.Models.Git;
     using Sfa.Das.Sas.Tools.MetaDataCreationTool.Services.Interfaces;
 
     public class MetaDataManager : IGetStandardMetaData, IGenerateStandardMetaData, IGetFrameworkMetaData, IGetLarsMetadata
@@ -29,19 +26,19 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
         private readonly IAngleSharpService _angleSharpService;
 
-        private readonly IVstsService _vstsService;
+        private readonly IApprenticeshipRepoService _apprenticeshipRepoService;
 
         public MetaDataManager(
             ILarsDataService larsDataService,
             IElasticsearchLarsDataService elasticsearchLarsDataService,
-            IVstsService vstsService,
+            IApprenticeshipRepoService apprenticeshipRepoService,
             IAppServiceSettings appServiceSettings,
             IAngleSharpService angleSharpService,
             ILog logger)
         {
             _larsDataService = larsDataService;
             _elasticsearchLarsDataService = elasticsearchLarsDataService;
-            _vstsService = vstsService;
+            _apprenticeshipRepoService = apprenticeshipRepoService;
             _appServiceSettings = appServiceSettings;
             _logger = logger;
             _angleSharpService = angleSharpService;
@@ -50,13 +47,13 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         public LarsData GetLarsData()
         {
             var larsData = _larsDataService.GetDataFromLars();
-            UpdateVstsStandards(larsData.Standards);
+            UpdateRepositoryStandards(larsData.Standards);
             return larsData;
         }
 
         public void GenerateStandardMetadataFiles()
         {
-            var currentMetaDataIds = _vstsService.GetExistingStandardIds().ToArray();
+            var currentMetaDataIds = _apprenticeshipRepoService.GetExistingStandardIds().ToArray();
 
             var standards = _larsDataService
                 .GetListOfCurrentStandards()
@@ -66,15 +63,15 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
             standards.ForEach(m => m.Published = false);
 
-            PushStandardsToGit(standards.Select(MapToFileContent).ToList());
+            PushStandardsToBlobStorage(standards.ToList());
         }
 
         public IEnumerable<StandardMetaData> GetStandardsMetaData()
         {
-            var standards = _vstsService
+            var standards = _apprenticeshipRepoService
                 .GetStandards()
                 .ToList();
-            _logger.Debug($"Retrieved {standards.Count} standards from VSTS");
+            _logger.Debug($"Retrieved {standards.Count} standards from Blob storage");
 
             var activeStandards = UpdateStandardsInformationFromLarsAndResolveUrls(standards);
             return activeStandards;
@@ -84,7 +81,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
         {
             var frameworks = _elasticsearchLarsDataService.GetListOfFrameworks().ToList();
             _logger.Debug($"Retrieved {frameworks.Count} frameworks from LARS index", new Dictionary<string, object> { { "TotalCount", frameworks.Count } });
-            UpdateFrameworkInformationFromVSTS(frameworks);
+            UpdateFrameworkInformation(frameworks);
             return frameworks;
         }
 
@@ -108,9 +105,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
             return standardRepositoryData;
         }
 
-        private void UpdateVstsStandards(IEnumerable<LarsStandard> larsDataStandards)
+        private void UpdateRepositoryStandards(IEnumerable<LarsStandard> larsDataStandards)
         {
-            var currentMetaDataIds = _vstsService.GetExistingStandardIds().ToArray();
+            var currentMetaDataIds = _apprenticeshipRepoService.GetExistingStandardIds().ToArray();
 
             var standards = larsDataStandards
                 .Select(MapStandardData)
@@ -119,21 +116,13 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
             standards.ForEach(m => m.Published = false);
 
-            PushStandardsToGit(standards.Select(MapToFileContent).ToList());
+            PushStandardsToBlobStorage(standards.ToList());
         }
 
-        private FileContents MapToFileContent(StandardRepositoryData standardRepositoryData)
-        {
-            var json = JsonConvert.SerializeObject(standardRepositoryData, Formatting.Indented);
-            var standardTitle = Path.GetInvalidFileNameChars().Aggregate(standardRepositoryData.Title, (current, c) => current.Replace(c, '_')).Replace(" ", string.Empty);
-            var gitFilePath = $"{_appServiceSettings.VstsGitStandardsFolderPath}/{standardRepositoryData.Id}-{standardTitle}.json";
-            return new FileContents(gitFilePath, json);
-        }
-
-        private void UpdateFrameworkInformationFromVSTS(IEnumerable<FrameworkMetaData> frameworks)
+        private void UpdateFrameworkInformation(IEnumerable<FrameworkMetaData> frameworks)
         {
             int updated = 0;
-            var repositoryFrameworks = _vstsService.GetFrameworks();
+            var repositoryFrameworks = _apprenticeshipRepoService.GetFrameworks();
 
             foreach (var framework in frameworks)
             {
@@ -158,7 +147,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 updated++;
             }
 
-            _logger.Debug($"Updated {updated} frameworks from VSTS");
+            _logger.Debug($"Updated {updated} frameworks from Blob storage");
         }
 
         private IEnumerable<StandardMetaData> UpdateStandardsInformationFromLarsAndResolveUrls(IEnumerable<StandardMetaData> standards)
@@ -194,16 +183,16 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
             return activeStandards;
         }
-        
-        private void PushStandardsToGit(List<FileContents> standards)
+
+        private void PushStandardsToBlobStorage(List<StandardRepositoryData> standards)
         {
             if (!standards.Any())
             {
                 return;
             }
 
-            _vstsService.PushCommit(standards);
-            _logger.Info($"Pushed {standards.Count} new meta files to Git Repository.");
+            _apprenticeshipRepoService.PushStandards(standards);
+            _logger.Info($"Pushed {standards.Count} new meta files to Blob Storage.");
         }
     }
 }

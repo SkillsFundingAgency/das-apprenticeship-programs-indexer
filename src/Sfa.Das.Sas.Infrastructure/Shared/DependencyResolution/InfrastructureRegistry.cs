@@ -29,7 +29,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution
             For<IElasticsearchConfiguration>().Use<ElasticsearchConfiguration>();
             For<IElasticsearchSettings>().Use<ElasticsearchSettings>();
             For<IConvertFromCsv>().Use<CsvService>();
-            For<IVstsClient>().Use<VstsClient>();
             For<IHttpGetFile>().Use<HttpService>();
             For<IHttpGet>().Use<HttpService>();
             For<IHttpPost>().Use<HttpService>();

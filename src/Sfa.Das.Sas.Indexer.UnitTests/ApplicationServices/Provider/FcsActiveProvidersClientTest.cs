@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
+
+namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider
 {
     using System.Linq;
     using FluentAssertions;
@@ -18,15 +20,11 @@
         [Test]
         public void ShouldGetFcsActiveProviders()
         {
-            var moqVstsClient = new Mock<IVstsClient>();
-            var moqIProvideSettings = new Mock<IProvideSettings>();
-            var appsettings = new AppServiceSettings(moqIProvideSettings.Object);
-            var moqIConvertFromCsv = new Mock<IConvertFromCsv>();
+            var moqMetaDataHelper = new Mock<IMetaDataHelper>();
 
-            moqVstsClient.Setup(m => m.GetFileContent(It.IsAny<string>())).Returns(string.Empty);
-            moqIConvertFromCsv.Setup(m => m.CsvTo<ActiveProviderCsvRecord>(It.IsAny<string>())).Returns(new[] { new ActiveProviderCsvRecord { UkPrn = 26 }, new ActiveProviderCsvRecord { UkPrn = 126 } });
+            moqMetaDataHelper.Setup(x => x.GetFcsData()).Returns(new[] { new ActiveProviderCsvRecord { UkPrn = 26 }, new ActiveProviderCsvRecord { UkPrn = 126 } });
 
-            var client = new FcsActiveProvidersClient(moqVstsClient.Object, appsettings, moqIConvertFromCsv.Object, Mock.Of<ILog>());
+            var client = new FcsActiveProvidersClient(moqMetaDataHelper.Object, Mock.Of<ILog>());
             var result = client.Handle(null);
 
             result.Result.Providers.Count().Should().Be(2);

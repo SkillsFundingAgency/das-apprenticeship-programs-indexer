@@ -55,9 +55,22 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         string MetadataApiUri { get; }
 
+        string StandardBlobContainerReference { get; }
+
+        string FrameworkBlobContainerReference { get; }
+
+        string RoatpBlobContainerReference { get; }
+
+        string AssessmentOrgsBlobContainerReference { get; }
+
+        string FcsBlobContainerReference { get; }
+
+        string EmployerProvidersBlobContainerReference { get; }
+
         List<string> FrameworksExpiredRequired { get; }
 
         string QueueName(Type type);
+
         string[] MonitoringUrl(Type type);
     }
 }

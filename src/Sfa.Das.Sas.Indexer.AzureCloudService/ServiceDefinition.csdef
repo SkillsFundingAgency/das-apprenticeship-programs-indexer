@@ -35,10 +35,14 @@
       <Setting name="GitPassword" />
       <Setting name="AchievementRateDataBaseConnectionString" />
       <Setting name="UKRLP_EndpointUri" />
+      <Setting name="BlobStorageConnectionString" />
+      <Setting name="StandardBlobContainerReference" />
+      <Setting name="FrameworkBlobContainerReference" />
+      <Setting name="RoatpBlobContainerReference" />
+      <Setting name="AssessmentOrgsBlobContainerReference" />
+      <Setting name="FcsBlobContainerReference" />
+      <Setting name="EmployerProvidersBlobContainerReference" />
       <Setting name="FrameworkIdFormat" />
-      <Setting name="VstsGitBaseUrl" />
-      <Setting name="VstsGitStandardsFolderPath" />
-      <Setting name="VstsGitFrameworksFolderPath" />
       <Setting name="InstrumentationKey" />
     </ConfigurationSettings>
   </WorkerRole>

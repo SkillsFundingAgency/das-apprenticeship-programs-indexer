@@ -4,7 +4,7 @@
 
     using Sfa.Das.Sas.Indexer.Core.Models;
 
-    public class VstsFrameworkMetaData
+    public class FrameworkRepositoryMetaData
     {
         public int FrameworkCode { get; set; }
 
