@@ -321,7 +321,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             {
                 var standardProvider = new StandardProvider
                 {
-                    StandardCode = standardInformation.Code
+                    StandardCode = standardInformation.Code,
+	                RegulatedStandard = standardInformation.RegulatedStandard
                 };
 
                 PopulateDocumentSharedProperties(standardProvider, provider, standardInformation, deliveryInformation);
