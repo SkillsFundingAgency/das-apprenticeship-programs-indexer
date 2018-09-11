@@ -79,7 +79,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 FundingCap = standard.FundingCap,
                 EffectiveFrom = standard.EffectiveFrom,
                 EffectiveTo = standard.EffectiveTo,
-                LastDateForNewStarts = standard.LastDateForNewStarts
+                LastDateForNewStarts = standard.LastDateForNewStarts,
+	            RegulatedStandard = standard.RegulatedStandard
             };
         }
 
