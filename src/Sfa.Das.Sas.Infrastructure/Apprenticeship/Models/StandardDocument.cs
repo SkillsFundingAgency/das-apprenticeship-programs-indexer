@@ -37,5 +37,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
         public int StandardSectorCode { get; set; }
 
         public List<FundingPeriod> FundingPeriods { get; set; }
+
+		public bool RegulatedStandard { get; set; }
     }
 }
