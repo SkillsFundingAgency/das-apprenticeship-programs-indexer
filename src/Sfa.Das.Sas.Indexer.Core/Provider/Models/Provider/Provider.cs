@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 
 namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 {
@@ -47,7 +48,9 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
 		public bool CurrentlyNotStartingNewApprentices { get; set; }
 
-	    public bool IsValid()
+        public IEnumerable<EmployerFeedback> ProviderFeedback { get; set; }
+
+        public bool IsValid()
         {
             if (string.IsNullOrEmpty(Name))
             {

@@ -66,6 +66,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string MetadataApiUri => CloudConfigurationManager.GetSetting("MetadataApiUri");
 
+        public string ProviderFeedbackApiUri => _settings.GetSetting("ProviderFeedbackApiUri");
+
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
 
         public List<string> FrameworksExpiredRequired => GetFrameworksList(_settings.GetNullableSetting("FrameworksExpiredRequired"));

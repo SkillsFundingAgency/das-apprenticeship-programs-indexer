@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "93edd53712b3569addd1cfe9d1010ed90a13b8ee"
+    "signature": "d8559572b2afd787ad178860c74873efb7f3b785"
   },
   "compilationOptions": {},
   "targets": {
@@ -14,7 +14,7 @@
           "xunit.console.dll": {}
         }
       },
-      "xunit.abstractions/2.0.1": {
+      "xunit.abstractions/2.0.2": {
         "runtime": {
           "lib/netstandard1.0/xunit.abstractions.dll": {}
         }
@@ -29,7 +29,7 @@
       },
       "xunit.runner.utility/99.99.99-dev": {
         "dependencies": {
-          "xunit.abstractions": "2.0.1"
+          "xunit.abstractions": "2.0.2"
         },
         "runtime": {
           "xunit.runner.utility.netcoreapp10.dll": {}
@@ -43,12 +43,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "xunit.abstractions/2.0.1": {
+    "xunit.abstractions/2.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-bDm/zdG5rnRDsobKuKwrvL4HccBdC0uvT12be6fG12P3d1U7u9Wkvfoq/PM2GeyIeb0Dtcmm/7k2oaawiqQ2Dg==",
-      "path": "xunit.abstractions/2.0.1",
-      "hashPath": "xunit.abstractions.2.0.1.nupkg.sha512"
+      "sha512": "sha512-dVXHi71eYyBRKMEJ4JRgpl/s/sRjFvPiE3xcaQYrUQ5+vE58KnLjfazbOKzG/UTFsjQyfH3x3M2EipMQLbJUYg==",
+      "path": "xunit.abstractions/2.0.2",
+      "hashPath": "xunit.abstractions.2.0.2.nupkg.sha512"
     },
     "xunit.runner.reporters/99.99.99-dev": {
       "type": "project",

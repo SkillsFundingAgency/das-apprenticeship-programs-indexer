@@ -55,6 +55,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         string MetadataApiUri { get; }
 
+        string ProviderFeedbackApiUri { get; }
+
         List<string> FrameworksExpiredRequired { get; }
 
         string QueueName(Type type);

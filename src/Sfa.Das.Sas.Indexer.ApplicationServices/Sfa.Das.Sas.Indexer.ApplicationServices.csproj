@@ -128,6 +128,8 @@
     <Compile Include="Provider\Models\EmployerSatisfactionRateRequest.cs" />
     <Compile Include="Provider\Models\EmployerSatisfactionRateResult.cs" />
     <Compile Include="Provider\Models\HeiProvidersResult.cs" />
+    <Compile Include="Provider\Models\ProviderFeedback\ProviderFeedbackRequest.cs" />
+    <Compile Include="Provider\Models\ProviderFeedback\ProviderFeedbackResult.cs" />
     <Compile Include="Provider\Models\ProviderType.cs" />
     <Compile Include="Provider\Models\RoatpProviderRequest.cs" />
     <Compile Include="Provider\Models\FcsProviderRequest.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Provider\Models\StandardMetaDataRequest.cs" />
     <Compile Include="Provider\Models\StandardMetaDataResult.cs" />
     <Compile Include="Provider\Models\UkRlp\UkrlpProviderRequest.cs" />
+    <Compile Include="Provider\Services\ProviderFeedbackHandler.cs" />
     <Compile Include="Provider\Services\RoatpProvidersClient.cs" />
     <Compile Include="Shared\DependencyResolution\SharedApplicationServicesRegistry.cs" />
     <Compile Include="Provider\Models\UkRlp\UkrlpProviderResponse.cs" />
@@ -153,6 +156,7 @@
     <Compile Include="Shared\Logging\Metrics\ExecutionTimerResult.cs" />
     <Compile Include="Shared\Logging\Models\ElasticSearchLogEntry.cs" />
     <Compile Include="Shared\Logging\Models\TimingLogEntry.cs" />
+    <Compile Include="Shared\MetaData\IGetProviderFeedback.cs" />
     <Compile Include="Shared\MetaData\IGetRoatpProviders.cs" />
     <Compile Include="Shared\MetaData\IGetAssessmentOrgsData.cs" />
     <Compile Include="Shared\MetaData\IGetLarsMetadata.cs" />

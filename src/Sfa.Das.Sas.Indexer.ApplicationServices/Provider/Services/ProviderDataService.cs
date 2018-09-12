@@ -8,6 +8,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
     using System.Threading.Tasks;
     using MediatR;
     using SFA.DAS.NLog.Logger;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.ProviderFeedback;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
     using Sfa.Das.Sas.Indexer.Core.Models;
@@ -43,6 +44,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             provider.EmployerSatisfaction = employerSatisfaction?.FinalScore != null && employerSatisfaction.FinalScore > 0
                 ? (double?)Math.Round(employerSatisfaction?.FinalScore ?? 0.0)
                 : null;
+        }
+
+        public void SetProviderFeedback(ProviderFeedbackResult providerFeedback, Provider provider)
+        {
+            provider.ProviderFeedback = providerFeedback.EmployerFeedback.Where(feedback => feedback.Ukprn == provider.Ukprn);
         }
 
         public void UpdateStandard(StandardInformation si, StandardMetaDataResult standards, IEnumerable<AchievementRateProvider> achievementRates, AchievementRateNationalResult nationalAchievementRates)
@@ -130,7 +136,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 LearnerSatisfactionRates = _mediator.Send(new LearnerSatisfactionRateRequest()),
                 EmployerSatisfactionRates = _mediator.Send(new EmployerSatisfactionRateRequest()),
                 EmployerProviders = _mediator.Send(new EmployerProviderRequest()),
-                HeiProviders = await _mediator.SendAsync(new HeiProvidersRequest())
+                HeiProviders = await _mediator.SendAsync(new HeiProvidersRequest()),
+                ProviderFeedback = await _mediator.SendAsync(new ProviderFeedbackRequest())
             };
         }
 

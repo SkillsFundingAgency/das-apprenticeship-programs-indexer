@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using OfficeOpenXml;
 using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Extensions;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using OfficeOpenXml;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
@@ -63,7 +63,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 }
                 catch (WebException wex)
                 {
-                    var response = (HttpWebResponse) wex.Response;
+                    var response = (HttpWebResponse)wex.Response;
                     if (response != null)
                     {
                         extras.Add("DependencyLogEntry.ResponseCode", response.StatusCode);
@@ -124,7 +124,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     NewOrganisationWithoutFinancialTrackRecord = GetBooleanValue(roatpWorkSheet.Cells[i, NewOrganisationWithoutFinancialTrackRecordPosition]),
                     StartDate = GetDateTimeValue(roatpWorkSheet.Cells[i, StartDatePosition]),
                     EndDate = GetDateTimeValue(roatpWorkSheet.Cells[i, EndDatePosition]),
-					NotStartingNewApprentices = GetDateTimeValue(roatpWorkSheet.Cells[i, NotStartingNewApprentices]) != null
+                    NotStartingNewApprentices = GetDateTimeValue(roatpWorkSheet.Cells[i, NotStartingNewApprentices]) != null
                 };
 
                 roatpProviders.Add(roatpData);
