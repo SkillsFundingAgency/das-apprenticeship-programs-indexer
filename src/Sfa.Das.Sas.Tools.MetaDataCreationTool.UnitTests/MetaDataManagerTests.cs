@@ -18,36 +18,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests
     public class MetaDataManagerTests
     {
         [Test]
-        public void GenerateStandardMetadataFilesTestShouldPushOnlyMissingStandardsToGit()
-        {
-            var mockLarsDataService = new Mock<ILarsDataService>();
-            var mockElasticsearchDataService = new Mock<IElasticsearchLarsDataService>();
-            var mockApprenticeshipRepoService = new Mock<IApprenticeshipRepoService>();
-            var mockSettings = new Mock<IAppServiceSettings>();
-            var mockLogger = new Mock<ILog>(MockBehavior.Loose);
-
-            List<FileContents> standardsToAdd = null;
-
-            var currentStandards = new List<LarsStandard>
-                                       {
-                                           new LarsStandard { Id = 1, Title = "One" },
-                                           new LarsStandard { Id = 2, Title = "Two" },
-                                           new LarsStandard { Id = 3, Title = "Three" }
-                                       };
-            var existingMetaDataIds = new List<string> { "1", "2" };
-
-            mockLarsDataService.Setup(x => x.GetListOfCurrentStandards()).Returns(currentStandards);
-            mockApprenticeshipRepoService.Setup(x => x.GetExistingStandardIds()).Returns(existingMetaDataIds);
-            mockApprenticeshipRepoService.Setup(x => x.PushStandards(It.IsAny<List<StandardRepositoryData>>())).Callback<List<FileContents>>(x => { standardsToAdd = x; });
-
-            var metaDataManager = new MetaDataManager(mockLarsDataService.Object, mockElasticsearchDataService.Object, mockApprenticeshipRepoService.Object, mockSettings.Object, null, mockLogger.Object);
-
-            metaDataManager.GenerateStandardMetadataFiles();
-
-            Assert.That(standardsToAdd.Count, Is.EqualTo(1));
-        }
-
-        [Test]
         public void GetAllAsJsonShouldReturnDictionary()
         {
             var mockLarsDataService = new Mock<ILarsDataService>();
