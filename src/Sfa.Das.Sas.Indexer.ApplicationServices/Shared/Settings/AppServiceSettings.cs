@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
@@ -66,7 +65,14 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string MetadataApiUri => CloudConfigurationManager.GetSetting("MetadataApiUri");
 
-        public string ProviderFeedbackApiUri => _settings.GetSetting("ProviderFeedbackApiUri");
+        public string ProviderFeedbackApiUri
+        {
+            get
+            {
+                var uri = _settings.GetSetting("ProviderFeedbackApiUri");
+                return uri.EndsWith("/") ? uri : uri += "/";
+            }
+        }
 
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
 
