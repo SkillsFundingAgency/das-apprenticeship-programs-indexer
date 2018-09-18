@@ -5,11 +5,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.ProviderFeedba
 {
     public class ProviderFeedbackResult
     {
-        public ProviderFeedbackResult(IEnumerable<EmployerFeedback> employerFeedback)
+        public ProviderFeedbackResult(IEnumerable<EmployerFeedbackSourceDto> employerFeedback)
         {
             EmployerFeedback = employerFeedback;
         }
 
-        public IEnumerable<EmployerFeedback> EmployerFeedback { get; private set; }
+        public IEnumerable<EmployerFeedbackSourceDto> EmployerFeedback { get; private set; }
     }
 }

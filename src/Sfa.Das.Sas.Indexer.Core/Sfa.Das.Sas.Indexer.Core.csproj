@@ -51,8 +51,11 @@
     <Compile Include="AssessmentOrgs\Models\AssessmentOrganisationsDTO.cs" />
     <Compile Include="AssessmentOrgs\Models\Organisation.cs" />
     <Compile Include="AssessmentOrgs\Models\StandardOrganisationsData.cs" />
-    <Compile Include="Provider\Models\ProviderFeedback\EmployerFeedback.cs" />
+    <Compile Include="Provider\Models\ProviderFeedback\EmployerFeedbackSourceDto.cs" />
+    <Compile Include="Provider\Models\ProviderFeedback\Feedback.cs" />
     <Compile Include="Provider\Models\ProviderFeedback\ProviderAttribute.cs" />
+    <Compile Include="Provider\Models\ProviderFeedback\ProviderAttributeSourceDto.cs" />
+    <Compile Include="Provider\Models\ProviderFeedback\ProviderRatings.cs" />
     <Compile Include="Shared\Exceptions\ConnectionException.cs" />
     <Compile Include="Shared\Exceptions\MappingException.cs" />
     <Compile Include="Shared\Extensions\EnumExtensions.cs" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
@@ -20,10 +19,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             _httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) };
         }
 
-        public async Task<List<EmployerFeedback>> GetProviderFeedbackData()
+        public async Task<List<EmployerFeedbackSourceDto>> GetProviderFeedbackData()
         {
             var response = await _httpClient.GetAsync(EmployerFeedbackPath);
-            return await response.Content.ReadAsAsync<List<EmployerFeedback>>();
+            return await response.Content.ReadAsAsync<List<EmployerFeedbackSourceDto>>();
         }
     }
 }

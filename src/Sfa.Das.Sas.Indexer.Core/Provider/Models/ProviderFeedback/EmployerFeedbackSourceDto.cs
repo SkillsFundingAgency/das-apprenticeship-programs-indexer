@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback
 {
-    public class EmployerFeedback
+    public class EmployerFeedbackSourceDto
     {
         public Guid Id { get; set; }
 
@@ -15,7 +15,7 @@ namespace Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback
 
         public DateTime DateTimeCompleted { get; set; }
 
-        public List<ProviderAttribute> ProviderAttributes { get; set; }
+        public List<ProviderAttributeSourceDto> ProviderAttributes { get; set; }
 
         public string ProviderRating { get; set; }
     }

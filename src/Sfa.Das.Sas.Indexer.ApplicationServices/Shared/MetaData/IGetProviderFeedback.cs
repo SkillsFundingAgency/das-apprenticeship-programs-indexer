@@ -6,6 +6,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData
 {
     public interface IGetProviderFeedback
     {
-        Task<List<EmployerFeedback>> GetProviderFeedbackData();
+        Task<List<EmployerFeedbackSourceDto>> GetProviderFeedbackData();
     }
 }
