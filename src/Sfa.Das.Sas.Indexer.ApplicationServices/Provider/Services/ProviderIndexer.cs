@@ -393,6 +393,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 _providerDataService.SetLearnerSatisfactionRate(source.LearnerSatisfactionRates, provider);
                 _providerDataService.SetEmployerSatisfactionRate(source.EmployerSatisfactionRates, provider);
+                _providerDataService.SetProviderFeedback(source.ProviderFeedback, provider);
 
                 yield return provider;
             }
