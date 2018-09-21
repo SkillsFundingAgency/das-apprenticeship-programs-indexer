@@ -119,11 +119,11 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
                 case ProviderRatings.Excellent:
                     return provider.ProviderFeedback.ExcellentFeedbackCount;
                 case ProviderRatings.Good:
-                    return provider.ProviderFeedback.ExcellentFeedbackCount;
+                    return provider.ProviderFeedback.GoodFeedbackCount;
                 case ProviderRatings.Poor:
-                    return provider.ProviderFeedback.ExcellentFeedbackCount;
+                    return provider.ProviderFeedback.PoorFeedbackCount;
                 case ProviderRatings.VeryPoor:
-                    return provider.ProviderFeedback.ExcellentFeedbackCount;
+                    return provider.ProviderFeedback.VeryPoorFeedbackCount;
                 default: return 0;
             }
         }
