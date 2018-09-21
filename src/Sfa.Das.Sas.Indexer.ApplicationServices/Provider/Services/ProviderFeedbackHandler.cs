@@ -22,7 +22,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         public async Task<ProviderFeedbackResult> Handle(ProviderFeedbackRequest message)
         {
-            List<EmployerFeedbackSourceDto> records = new List<EmployerFeedbackSourceDto>();
+            var records = new List<EmployerFeedbackSourceDto>();
             _logger.Debug("Starting to retreive Provider Feedback");
 
             try
