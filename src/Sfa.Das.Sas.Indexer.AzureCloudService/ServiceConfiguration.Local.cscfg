@@ -41,6 +41,7 @@
       <Setting name="VstsGitStandardsFolderPath" value="standards/local/json" />
       <Setting name="VstsGitFrameworksFolderPath" value="frameworks/local/json" />
       <Setting name="InstrumentationKey" value="" />
+      <Setting name="ProviderFeedbackApiUri" value=""/>
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

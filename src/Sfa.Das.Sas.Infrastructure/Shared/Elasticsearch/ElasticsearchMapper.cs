@@ -302,7 +302,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 MarketingInfo = provider.MarketingInfo,
                 IsLevyPayerOnly = provider.IsLevyPayerOnly,
                 IsNew = provider.IsNew,
-                HasParentCompanyGuarantee = provider.HasParentCompanyGuarantee
+                HasParentCompanyGuarantee = provider.HasParentCompanyGuarantee,
+                ProviderFeedback = provider.ProviderFeedback
             };
 
             return providerDocument;

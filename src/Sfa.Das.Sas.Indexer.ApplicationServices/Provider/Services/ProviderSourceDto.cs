@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.ProviderFeedback;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
@@ -21,6 +22,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         public AchievementRateNationalResult AchievementRateNationals { get; set; }
         public LearnerSatisfactionRateResult LearnerSatisfactionRates { get; set; }
         public EmployerSatisfactionRateResult EmployerSatisfactionRates { get; set; }
+        public ProviderFeedbackResult ProviderFeedback { get; set; }
         public HeiProvidersResult HeiProviders { get; set; }
     }
 }

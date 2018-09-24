@@ -11,6 +11,8 @@
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
     using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.ProviderFeedback;
+    using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 
     [TestFixture]
     public class ProviderDataServiceTest
@@ -24,16 +26,18 @@
         {
             _mockMediator = new Mock<IMediator>();
 
+            _mockMediator.Setup(m => m.SendAsync(It.IsAny<RoatpProviderRequest>())).ReturnsAsync(new List<RoatpProviderResult>());
             _mockMediator.Setup(x => x.Send(It.IsAny<FrameworkMetaDataRequest>())).Returns(FrameworkResults());
             _mockMediator.Setup(x => x.Send(It.IsAny<StandardMetaDataRequest>())).Returns(StandardResults());
-            _mockMediator.Setup(x => x.SendAsync(It.IsAny<FcsProviderRequest>())).Returns(new Task<FcsProviderResult>(() => new FcsProviderResult { Providers = new List<int> { 123, 456 } }));
-            _mockMediator.Setup(x => x.SendAsync(It.IsAny<CourseDirectoryRequest>())).Returns(new Task<CourseDirectoryResult>(() => new CourseDirectoryResult()));
+            _mockMediator.Setup(x => x.SendAsync(It.IsAny<FcsProviderRequest>())).ReturnsAsync(new FcsProviderResult { Providers = new List<int> { 123, 456 } });
+            _mockMediator.Setup(x => x.SendAsync(It.IsAny<CourseDirectoryRequest>())).ReturnsAsync(new CourseDirectoryResult());
 
             _mockMediator.Setup(m => m.Send(It.IsAny<AchievementRateProviderRequest>())).Returns(GetAchievementData());
             _mockMediator.Setup(m => m.Send(It.IsAny<AchievementRateNationalRequest>())).Returns(GetNationalAchievementData());
 
             _mockMediator.Setup(m => m.Send(It.IsAny<LearnerSatisfactionRateRequest>())).Returns(GetLearnerSatisfactionRateData());
             _mockMediator.Setup(m => m.Send(It.IsAny<UkrlpProviderRequest>())).Returns(new UkrlpProviderResponse { MatchingProviderRecords = new List<Ukrlp.SoapApi.Types.Provider>() });
+            _mockMediator.Setup(m => m.SendAsync(It.IsAny<ProviderFeedbackRequest>())).ReturnsAsync(new ProviderFeedbackResult(new List<EmployerFeedbackSourceDto>()));
 
             _sut = new ProviderDataService(_mockMediator.Object, Mock.Of<ILog>());
         }

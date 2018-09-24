@@ -1,19 +1,22 @@
-﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FeatureToggle.Core.Fluent;
+using MediatR;
+using SFA.DAS.NLog.Logger;
+using Sfa.Das.Sas.Indexer.ApplicationServices.FeatureToggles;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.ProviderFeedback;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using MediatR;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.UkRlp;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Utility;
-    using Sfa.Das.Sas.Indexer.Core.Models;
-    using Sfa.Das.Sas.Indexer.Core.Models.Provider;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
-
     public class ProviderDataService : IProviderDataService
     {
         private readonly ILog _logger;
@@ -43,6 +46,55 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             provider.EmployerSatisfaction = employerSatisfaction?.FinalScore != null && employerSatisfaction.FinalScore > 0
                 ? (double?)Math.Round(employerSatisfaction?.FinalScore ?? 0.0)
                 : null;
+        }
+
+        public void SetProviderFeedback(ProviderFeedbackResult providerFeedbackResult, Core.Models.Provider.Provider provider)
+        {
+            try
+            {
+                var feedbackToSet = new Feedback();
+                var resultsForProvider = providerFeedbackResult.EmployerFeedback.Where(feedback => feedback.Ukprn == provider.Ukprn);
+                if (resultsForProvider.Any())
+                {
+                    SetProviderRatings(feedbackToSet, resultsForProvider);
+                    SetProviderStrengthsAndWeaknesses(providerFeedbackResult, feedbackToSet, resultsForProvider);
+
+                    provider.ProviderFeedback = feedbackToSet;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"Unable to set provider feedback for UKPRN: {provider.Ukprn}");
+            }
+        }
+
+        private static void SetProviderStrengthsAndWeaknesses(ProviderFeedbackResult providerFeedbackResult, Feedback providerFeedback, IEnumerable<EmployerFeedbackSourceDto> feedbackForProvider)
+        {
+            foreach (var pa in feedbackForProvider.First().ProviderAttributes)
+            {
+                var attribute = new ProviderAttribute { Name = pa.Name };
+                var matchingAttributeFeedback = providerFeedbackResult.EmployerFeedback.Select(a => a.ProviderAttributes.Single(p => p.Name == pa.Name));
+                var paScore = matchingAttributeFeedback.Sum(x => x.Value);
+
+                if (paScore > 0)
+                {
+                    attribute.Count = matchingAttributeFeedback.Count(x => x.Value > 0);
+                    providerFeedback.Strengths.Add(attribute);
+                }
+                else if (paScore < 0)
+                {
+                    attribute.Count = matchingAttributeFeedback.Count(x => x.Value < 0);
+                    providerFeedback.Weaknesses.Add(attribute);
+                }
+            }
+        }
+
+        private static void SetProviderRatings(Feedback providerFeedback, IEnumerable<EmployerFeedbackSourceDto> feedbackForProvider)
+        {
+            providerFeedback.ExcellentFeedbackCount = feedbackForProvider.Where(f => f.ProviderRating == ProviderRatings.Excellent).Count();
+            providerFeedback.GoodFeedbackCount = feedbackForProvider.Where(f => f.ProviderRating == ProviderRatings.Good).Count();
+            providerFeedback.PoorFeedbackCount = feedbackForProvider.Where(f => f.ProviderRating == ProviderRatings.Poor).Count();
+            providerFeedback.VeryPoorFeedbackCount = feedbackForProvider.Where(f => f.ProviderRating == ProviderRatings.VeryPoor).Count();
         }
 
         public void UpdateStandard(StandardInformation si, StandardMetaDataResult standards, IEnumerable<AchievementRateProvider> achievementRates, AchievementRateNationalResult nationalAchievementRates)
@@ -130,7 +182,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 LearnerSatisfactionRates = _mediator.Send(new LearnerSatisfactionRateRequest()),
                 EmployerSatisfactionRates = _mediator.Send(new EmployerSatisfactionRateRequest()),
                 EmployerProviders = _mediator.Send(new EmployerProviderRequest()),
-                HeiProviders = await _mediator.SendAsync(new HeiProvidersRequest())
+                HeiProviders = await _mediator.SendAsync(new HeiProvidersRequest()),
+                ProviderFeedback = Is<ProviderFeedbackFeature>.Enabled ? await _mediator.SendAsync(new ProviderFeedbackRequest()) : new ProviderFeedbackResult(new List<EmployerFeedbackSourceDto>())
             };
         }
 
