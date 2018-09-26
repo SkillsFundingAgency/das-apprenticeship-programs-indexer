@@ -118,6 +118,7 @@
     <Compile Include="AssessmentOrgs\Services\IMaintainAssessmentOrgsIndex.cs" />
     <Compile Include="AssessmentOrgs\Services\AssessmentOrgsIndexer.cs" />
     <Compile Include="AssessmentOrgs\Settings\AssessmentOrgsIndexSettings.cs" />
+    <Compile Include="FeatureToggles\CloudConfigToggleValueProvider.cs" />
     <Compile Include="FeatureToggles\ProviderFeedbackFeature.cs" />
     <Compile Include="Lars\DependencyResolution\LarsApplicationServicesRegistry.cs" />
     <Compile Include="Lars\Services\LarsIndexer.cs" />
