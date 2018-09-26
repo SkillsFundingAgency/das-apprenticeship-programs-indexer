@@ -42,6 +42,7 @@
       <Setting name="VstsGitFrameworksFolderPath" value="__VstsGitFrameworksFolderPath__" />
       <Setting name="InstrumentationKey" value="__InstrumentationKey__" />
       <Setting name="ProviderFeedbackApiUri" value="__ProviderFeedbackApiUri__"/>
+      <Setting name="FeatureToggle.ProviderFeedbackFeature" value="__FeatureToggle_ProviderFeedbackFeature__"/>
     </ConfigurationSettings>
   </Role>
   <NetworkConfiguration>

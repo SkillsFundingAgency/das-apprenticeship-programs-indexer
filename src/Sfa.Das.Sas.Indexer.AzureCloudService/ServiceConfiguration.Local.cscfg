@@ -42,6 +42,7 @@
       <Setting name="VstsGitFrameworksFolderPath" value="frameworks/local/json" />
       <Setting name="InstrumentationKey" value="" />
       <Setting name="ProviderFeedbackApiUri" value=""/>
+    <Setting name="FeatureToggle.ProviderFeedbackFeature" value="__FeatureToggle_ProviderFeedbackFeature__"/>
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
