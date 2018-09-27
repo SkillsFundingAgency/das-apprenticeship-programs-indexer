@@ -57,7 +57,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 if (resultsForProvider.Any())
                 {
                     SetProviderRatings(feedbackToSet, resultsForProvider);
-                    SetProviderStrengthsAndWeaknesses(providerFeedbackResult, feedbackToSet, resultsForProvider);
+                    SetProviderStrengthsAndWeaknesses(feedbackToSet, resultsForProvider);
 
                     provider.ProviderFeedback = feedbackToSet;
                 }
@@ -68,12 +68,16 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
         }
 
-        private static void SetProviderStrengthsAndWeaknesses(ProviderFeedbackResult providerFeedbackResult, Feedback providerFeedback, IEnumerable<EmployerFeedbackSourceDto> feedbackForProvider)
+        private static void SetProviderStrengthsAndWeaknesses(Feedback providerFeedback, IEnumerable<EmployerFeedbackSourceDto> feedbackForProvider)
         {
-            foreach (var pa in feedbackForProvider.First().ProviderAttributes)
+            var distinctAttributeList = feedbackForProvider.SelectMany(fp => fp.ProviderAttributes).GroupBy(pa => pa.Name).Select(group => group.Key);
+            foreach (var providerAttributeName in distinctAttributeList)
             {
-                var attribute = new ProviderAttribute { Name = pa.Name };
-                var matchingAttributeFeedback = providerFeedbackResult.EmployerFeedback.Select(a => a.ProviderAttributes.Single(p => p.Name == pa.Name));
+                var attribute = new ProviderAttribute { Name = providerAttributeName };
+                var matchingAttributeFeedback = feedbackForProvider
+                    .Select(a => a.ProviderAttributes.SingleOrDefault(p => p.Name == providerAttributeName))
+                    .Where(pf => pf != default(ProviderAttributeSourceDto));
+
                 var paScore = matchingAttributeFeedback.Sum(x => x.Value);
 
                 if (paScore > 0)
