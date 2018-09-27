@@ -112,6 +112,23 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             Assert.AreEqual(amount, ratingCountToCheck);
         }
 
+        [Test]
+        public void FeedbackResults_FeedbackSet_Attributes_ShouldContain_DistinctList()
+        {
+            // Arrange
+            SetProviderAttributesStrengths(9);
+            var feedbackDiffAttributes = new EmployerFeedbackSourceDto { ProviderAttributes = new List<ProviderAttributeSourceDto> { new ProviderAttributeSourceDto { Name = "NewPa", Value = 1 } }, Ukprn = Ukprn };
+            _feedbackEntries.Add(feedbackDiffAttributes);
+            var feedbackResult = new ProviderFeedbackResult(_feedbackEntries);
+            var provider = new CoreProvider { Ukprn = Ukprn };
+
+            // Act
+            _sut.SetProviderFeedback(feedbackResult, provider);
+
+            // Assert
+            Assert.AreEqual(10, provider.ProviderFeedback.Strengths.Count);
+        }
+
         private static int GetRatingCount(string providerRating, CoreProvider provider)
         {
             switch (providerRating)
