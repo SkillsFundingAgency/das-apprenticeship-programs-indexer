@@ -10,7 +10,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
     public class ProviderFeedbackService : IGetProviderFeedback
     {
-        private const string EmployerFeedbackPath = "Feedback";
+        private const string EmployerFeedbackPath = "api/Feedback";
         private readonly HttpClient _httpClient;
 
         public ProviderFeedbackService(IAppServiceSettings appServiceSettings)
