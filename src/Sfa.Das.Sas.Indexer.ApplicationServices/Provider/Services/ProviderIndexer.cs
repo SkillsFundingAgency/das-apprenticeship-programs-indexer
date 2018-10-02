@@ -330,8 +330,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 provider.IsLevyPayerOnly = false;
 
-                var roatpProvider = source.RoatpProviders.Where(x => x.Ukprn == courseDirectoryProvider.Ukprn.ToString());
-                provider.CurrentlyNotStartingNewApprentices = roatpProvider != null && roatpProvider.First().NotStartingNewApprentices;
+                var roatpProvider = source.RoatpProviders.SingleOrDefault(x => x.Ukprn == courseDirectoryProvider.Ukprn.ToString());
+                provider.CurrentlyNotStartingNewApprentices = roatpProvider != null && roatpProvider.NotStartingNewApprentices;
 
                 var byProvidersFiltered = source.AchievementRateProviders.Rates.Where(bp => bp.Ukprn == provider.Ukprn);
                 provider.Frameworks.ForEach(m => _providerDataService.UpdateFramework(m, source.Frameworks, byProvidersFiltered, source.AchievementRateNationals));
