@@ -60,7 +60,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 SectorSubjectAreaTier2 = standard.SectorSubjectAreaTier2,
                 EffectiveFrom = standard.EffectiveFrom,
                 EffectiveTo = standard.EffectiveTo,
-                LastDateForNewStarts = standard.LastDateForNewStarts
+                LastDateForNewStarts = standard.LastDateForNewStarts,
+                RegulatedStandard = standard.RegulatedStandard
             };
         }
 
@@ -79,7 +80,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 FundingCap = standard.FundingCap,
                 EffectiveFrom = standard.EffectiveFrom,
                 EffectiveTo = standard.EffectiveTo,
-                LastDateForNewStarts = standard.LastDateForNewStarts
+                LastDateForNewStarts = standard.LastDateForNewStarts,
+                RegulatedStandard = standard.RegulatedStandard
             };
         }
 
@@ -289,7 +291,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
                 Ukprn = provider.Ukprn,
                 IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
                 NationalProvider = provider.NationalProvider,
-	            CurrentlyNotStartingNewApprentices = provider.CurrentlyNotStartingNewApprentices,
+                CurrentlyNotStartingNewApprentices = provider.CurrentlyNotStartingNewApprentices,
                 ProviderName = provider.Name,
                 Aliases = provider.Aliases,
                 Addresses = provider.Addresses,
@@ -320,7 +322,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             {
                 var standardProvider = new StandardProvider
                 {
-                    StandardCode = standardInformation.Code
+                    StandardCode = standardInformation.Code,
+	                RegulatedStandard = standardInformation.RegulatedStandard
                 };
 
                 PopulateDocumentSharedProperties(standardProvider, provider, standardInformation, deliveryInformation);
@@ -369,8 +372,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
             documentToPopulate.IsHigherEducationInstitute = provider.IsHigherEducationInstitute;
             documentToPopulate.HasNonLevyContract = provider.HasNonLevyContract;
             documentToPopulate.HasParentCompanyGuarantee = provider.HasParentCompanyGuarantee;
-	        documentToPopulate.CurrentlyNotStartingNewApprentices = provider.CurrentlyNotStartingNewApprentices;
-			documentToPopulate.IsNew = provider.IsNew;
+            documentToPopulate.CurrentlyNotStartingNewApprentices = provider.CurrentlyNotStartingNewApprentices;
+            documentToPopulate.IsNew = provider.IsNew;
             documentToPopulate.ProviderName = provider.Name;
             documentToPopulate.LegalName = provider.LegalName;
             documentToPopulate.NationalProvider = provider.NationalProvider;

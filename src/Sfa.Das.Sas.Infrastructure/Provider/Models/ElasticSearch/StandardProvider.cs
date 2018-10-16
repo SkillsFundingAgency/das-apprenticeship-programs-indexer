@@ -67,6 +67,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
         public bool IsNew { get; set; }
 
         public bool IsLevyPayerOnly { get; set; }
-	    public bool CurrentlyNotStartingNewApprentices { get; set; }
+
+        public bool CurrentlyNotStartingNewApprentices { get; set; }
+
+        public bool RegulatedStandard { get; set; }
     }
 }

@@ -28,6 +28,8 @@ namespace Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models.Standard
 
         public DateTime? LastDateForNewStarts { get; set; }
 
+        public bool RegulatedStandard { get; set; }
+
         public bool IsValidDate(DateTime currentDate)
         {
             return EffectiveFrom != null && EffectiveFrom.Value.Date <= currentDate.Date && (EffectiveTo == null || EffectiveTo.Value.Date >= currentDate.Date);

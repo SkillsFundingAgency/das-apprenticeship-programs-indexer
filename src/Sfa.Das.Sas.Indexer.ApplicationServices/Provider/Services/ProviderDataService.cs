@@ -123,6 +123,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 si.NationalOverallAchievementRate =
                     GetNationalOverallAchievementRate(nationalAchievementRate);
+
+	            si.RegulatedStandard = metaData.RegulatedStandard;
             }
         }
 

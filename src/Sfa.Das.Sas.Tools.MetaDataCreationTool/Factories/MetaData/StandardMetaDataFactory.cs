@@ -38,8 +38,14 @@
                 SectorSubjectAreaTier2 = values[StandardCsvCols.SectorSubjectAreaTier2].RemoveQuotationMark().SafeParseDouble(),
                 EffectiveFrom = values[StandardCsvCols.EffectiveFrom].SafeParseDate(),
                 EffectiveTo = values[StandardCsvCols.EffectiveTo].SafeParseDate(),
-                LastDateForNewStarts = values[StandardCsvCols.LastDateForNewStarts].SafeParseDate()
+                LastDateForNewStarts = values[StandardCsvCols.LastDateForNewStarts].SafeParseDate(),
+                RegulatedStandard = GetRegulatedStandard(values[StandardCsvCols.RegulatedStandard])
             };
+        }
+
+        private bool GetRegulatedStandard(string value)
+        {
+            return value.ToLower() == "y";
         }
 
         private static int GetStandardId(IReadOnlyList<string> values)
