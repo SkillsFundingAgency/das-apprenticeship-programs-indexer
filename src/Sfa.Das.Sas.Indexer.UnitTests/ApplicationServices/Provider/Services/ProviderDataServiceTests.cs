@@ -71,8 +71,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
 
             // Assert
             Assert.IsNotNull(provider.ProviderFeedback);
-            Assert.IsNotEmpty(provider.ProviderFeedback.Strengths);
-            Assert.AreEqual(3, provider.ProviderFeedback.Strengths.Count);
+            Assert.AreEqual(3, provider.ProviderFeedback.ProviderAttributes.Count(x => x.StrengthCount > 0));
         }
 
         [Test]
@@ -88,8 +87,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
 
             // Assert
             Assert.IsNotNull(provider.ProviderFeedback);
-            Assert.IsNotEmpty(provider.ProviderFeedback.Weaknesses);
-            Assert.AreEqual(3, provider.ProviderFeedback.Weaknesses.Count);
+            Assert.AreEqual(3, provider.ProviderFeedback.ProviderAttributes.Count(x => x.WeaknessCount > 0));
         }
 
         [Test]
@@ -126,7 +124,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             _sut.SetProviderFeedback(feedbackResult, provider);
 
             // Assert
-            Assert.AreEqual(10, provider.ProviderFeedback.Strengths.Count);
+            Assert.AreEqual(10, provider.ProviderFeedback.ProviderAttributes.Count);
         }
 
         private static int GetRatingCount(string providerRating, CoreProvider provider)

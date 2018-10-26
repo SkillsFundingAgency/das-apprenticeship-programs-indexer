@@ -74,22 +74,14 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             foreach (var providerAttributeName in distinctAttributeList)
             {
                 var attribute = new ProviderAttribute { Name = providerAttributeName };
+
                 var matchingAttributeFeedback = feedbackForProvider
                     .Select(a => a.ProviderAttributes.SingleOrDefault(p => p.Name == providerAttributeName))
                     .Where(pf => pf != default(ProviderAttributeSourceDto));
 
-                var paScore = matchingAttributeFeedback.Sum(x => x.Value);
-
-                if (paScore > 0)
-                {
-                    attribute.Count = matchingAttributeFeedback.Count(x => x.Value > 0);
-                    providerFeedback.Strengths.Add(attribute);
-                }
-                else if (paScore < 0)
-                {
-                    attribute.Count = matchingAttributeFeedback.Count(x => x.Value < 0);
-                    providerFeedback.Weaknesses.Add(attribute);
-                }
+                attribute.StrengthCount = matchingAttributeFeedback.Count(x => x.Value > 0);
+                attribute.WeaknessCount = matchingAttributeFeedback.Count(x => x.Value < 0);
+                providerFeedback.ProviderAttributes.Add(attribute);
             }
         }
 

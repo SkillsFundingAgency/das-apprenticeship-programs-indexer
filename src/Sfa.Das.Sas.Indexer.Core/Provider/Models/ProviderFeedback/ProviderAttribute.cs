@@ -4,6 +4,8 @@
     {
         public string Name { get; set; }
 
-        public int Count { get; set; }
+        public int StrengthCount { get; set; }
+
+        public int WeaknessCount { get; set; }
     }
 }
