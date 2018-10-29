@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FeatureToggle.Core.Fluent;
 using MediatR;
+using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.FeatureToggles;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.ProviderFeedback;
@@ -13,7 +14,6 @@ using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
-using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
@@ -80,14 +80,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                     .Where(pf => pf != default(ProviderAttributeSourceDto));
 
                 strengthAttribute.Count = matchingAttributeFeedback.Count(x => x.Value > 0);
-
                 if (strengthAttribute.Count > 0)
                 {
                     providerFeedback.Strengths.Add(strengthAttribute);
                 }
 
                 weaknessAttribute.Count = matchingAttributeFeedback.Count(x => x.Value < 0);
-
                 if (weaknessAttribute.Count > 0)
                 {
                     providerFeedback.Weaknesses.Add(weaknessAttribute);
