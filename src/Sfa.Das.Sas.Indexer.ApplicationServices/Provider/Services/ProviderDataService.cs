@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using FeatureToggle.Core.Fluent;
 using MediatR;
-using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.FeatureToggles;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models.ProviderFeedback;
@@ -14,6 +13,7 @@ using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
@@ -73,22 +73,24 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var distinctAttributeList = feedbackForProvider.SelectMany(fp => fp.ProviderAttributes).GroupBy(pa => pa.Name).Select(group => group.Key);
             foreach (var providerAttributeName in distinctAttributeList)
             {
-                var attribute = new ProviderAttribute { Name = providerAttributeName };
+                var strengthAttribute = new ProviderAttribute { Name = providerAttributeName };
+                var weaknessAttribute = new ProviderAttribute { Name = providerAttributeName };
                 var matchingAttributeFeedback = feedbackForProvider
                     .Select(a => a.ProviderAttributes.SingleOrDefault(p => p.Name == providerAttributeName))
                     .Where(pf => pf != default(ProviderAttributeSourceDto));
 
-                var paScore = matchingAttributeFeedback.Sum(x => x.Value);
+                strengthAttribute.Count = matchingAttributeFeedback.Count(x => x.Value > 0);
 
-                if (paScore > 0)
+                if (strengthAttribute.Count > 0)
                 {
-                    attribute.Count = matchingAttributeFeedback.Count(x => x.Value > 0);
-                    providerFeedback.Strengths.Add(attribute);
+                    providerFeedback.Strengths.Add(strengthAttribute);
                 }
-                else if (paScore < 0)
+
+                weaknessAttribute.Count = matchingAttributeFeedback.Count(x => x.Value < 0);
+
+                if (weaknessAttribute.Count > 0)
                 {
-                    attribute.Count = matchingAttributeFeedback.Count(x => x.Value < 0);
-                    providerFeedback.Weaknesses.Add(attribute);
+                    providerFeedback.Weaknesses.Add(weaknessAttribute);
                 }
             }
         }
@@ -124,7 +126,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 si.NationalOverallAchievementRate =
                     GetNationalOverallAchievementRate(nationalAchievementRate);
 
-	            si.RegulatedStandard = metaData.RegulatedStandard;
+                si.RegulatedStandard = metaData.RegulatedStandard;
             }
         }
 
