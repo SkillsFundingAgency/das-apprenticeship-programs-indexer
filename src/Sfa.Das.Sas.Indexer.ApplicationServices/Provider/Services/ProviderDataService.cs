@@ -73,22 +73,22 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var distinctAttributeList = feedbackForProvider.SelectMany(fp => fp.ProviderAttributes).GroupBy(pa => pa.Name).Select(group => group.Key);
             foreach (var providerAttributeName in distinctAttributeList)
             {
-                var attribute = new ProviderAttribute { Name = providerAttributeName };
+                var strengthAttribute = new ProviderAttribute { Name = providerAttributeName };
+                var weaknessAttribute = new ProviderAttribute { Name = providerAttributeName };
                 var matchingAttributeFeedback = feedbackForProvider
                     .Select(a => a.ProviderAttributes.SingleOrDefault(p => p.Name == providerAttributeName))
                     .Where(pf => pf != default(ProviderAttributeSourceDto));
 
-                var paScore = matchingAttributeFeedback.Sum(x => x.Value);
-
-                if (paScore > 0)
+                strengthAttribute.Count = matchingAttributeFeedback.Count(x => x.Value > 0);
+                if (strengthAttribute.Count > 0)
                 {
-                    attribute.Count = matchingAttributeFeedback.Count(x => x.Value > 0);
-                    providerFeedback.Strengths.Add(attribute);
+                    providerFeedback.Strengths.Add(strengthAttribute);
                 }
-                else if (paScore < 0)
+
+                weaknessAttribute.Count = matchingAttributeFeedback.Count(x => x.Value < 0);
+                if (weaknessAttribute.Count > 0)
                 {
-                    attribute.Count = matchingAttributeFeedback.Count(x => x.Value < 0);
-                    providerFeedback.Weaknesses.Add(attribute);
+                    providerFeedback.Weaknesses.Add(weaknessAttribute);
                 }
             }
         }
@@ -124,7 +124,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 si.NationalOverallAchievementRate =
                     GetNationalOverallAchievementRate(nationalAchievementRate);
 
-	            si.RegulatedStandard = metaData.RegulatedStandard;
+                si.RegulatedStandard = metaData.RegulatedStandard;
             }
         }
 
