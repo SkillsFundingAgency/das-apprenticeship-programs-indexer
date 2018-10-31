@@ -10,6 +10,8 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 using System;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
 {
@@ -127,6 +129,28 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
 
             // Assert
             Assert.AreEqual(10, provider.ProviderFeedback.Strengths.Count);
+        }
+
+        [TestCase(9.9, 10)]
+        [TestCase(9.51, 10)]
+        [TestCase(9.5, 10)]
+        [TestCase(9.49, 9)]
+        [TestCase(9.2, 9)]
+        [TestCase(0, null)]
+        [TestCase(null, null)]
+        public void ShouldRoundLearnerSatisfaction(double? finalScore, double? expected)
+        {
+            // Arrange
+            var satisfactionRateProviderResult = new SatisfactionRateProvider
+            {
+                FinalScore = finalScore
+            };
+            
+            // Act
+            var actual = _sut.GetRoundedSatisfactionRate(satisfactionRateProviderResult);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
         private static int GetRatingCount(string providerRating, CoreProvider provider)

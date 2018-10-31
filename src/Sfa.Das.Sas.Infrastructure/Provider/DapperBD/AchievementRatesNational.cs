@@ -44,19 +44,19 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
             var query = @"
                     SELECT 
                         [Institution Type] as InstitutionType,
-                        [Hybrid End Year] as HybridEndYear,
+                        [HybridYear] as HybridEndYear,
                         [Age],
                         [Sector Subject Area Tier 1] as SectorSubjectAreaTier1,
                         [Sector Subject Area Tier 2] as SectorSubjectAreaTier2,
                         [Apprenticeship Level] as ApprenticeshipLevel,
                         [Overall Achievement Rate %] as OverallAchievementRate,
                         [SSA2] as SSA2Code
-                    FROM ar_national
+                    FROM AchievementRatesNational
                     WHERE [Institution Type] = 'All Institution Type'
                     AND [Age] = 'All Age'
                     AND [Sector Subject Area Tier 2] <> 'All SSA T2'
                     AND [Apprenticeship Level] <> 'All'
-                    AND [Hybrid End Year] = (SELECT MAX([Hybrid End Year]) FROM ar_national)
+                    AND [HybridYear] = (SELECT MAX([HybridYear]) FROM AchievementRatesNational)
                     ";
 
             return _databaseProvider.Query<AchievementRateNational>(query).ToList();

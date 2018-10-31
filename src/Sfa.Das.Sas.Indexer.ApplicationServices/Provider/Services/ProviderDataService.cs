@@ -34,17 +34,20 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             var learnerSatisfaction = satisfactionRates.Rates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
-            provider.LearnerSatisfaction = learnerSatisfaction?.FinalScore != null && learnerSatisfaction.FinalScore > 0
-                ? (double?)Math.Round(learnerSatisfaction?.FinalScore ?? 0.0)
-                : null;
+            provider.LearnerSatisfaction = GetRoundedSatisfactionRate(learnerSatisfaction);
         }
 
         public void SetEmployerSatisfactionRate(EmployerSatisfactionRateResult satisfactionRates, Core.Models.Provider.Provider provider)
         {
             var employerSatisfaction = satisfactionRates.Rates.SingleOrDefault(sr => sr.Ukprn == provider.Ukprn);
 
-            provider.EmployerSatisfaction = employerSatisfaction?.FinalScore != null && employerSatisfaction.FinalScore > 0
-                ? (double?)Math.Round(employerSatisfaction?.FinalScore ?? 0.0)
+            provider.EmployerSatisfaction = GetRoundedSatisfactionRate(employerSatisfaction);
+        }
+
+        public double? GetRoundedSatisfactionRate(SatisfactionRateProvider satisfactionRateProvider)
+        {
+            return satisfactionRateProvider?.FinalScore != null && satisfactionRateProvider.FinalScore > 0
+                ? (double?)Math.Round(satisfactionRateProvider?.FinalScore ?? 0.0)
                 : null;
         }
 
