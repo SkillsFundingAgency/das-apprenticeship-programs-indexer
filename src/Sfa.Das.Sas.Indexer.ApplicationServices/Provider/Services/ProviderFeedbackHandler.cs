@@ -29,13 +29,13 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             {
                 records = await _getProviderFeedback.GetProviderFeedbackData();
                 _logger.Debug($"Retrieved {records.Count} Provider feedback results", new Dictionary<string, object> { { "TotalCount", records.Count } });
+                return new ProviderFeedbackResult(records);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, $"Unable to retrieve provider feedback results");
+                throw ex;
             }
-
-            return new ProviderFeedbackResult(records);
         }
     }
 }
