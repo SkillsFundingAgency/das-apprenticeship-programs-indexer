@@ -44,9 +44,9 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             provider.EmployerSatisfaction = GetRoundedSatisfactionRate(employerSatisfaction);
         }
 
-        public double? GetRoundedSatisfactionRate(SatisfactionRateProvider satisfactionRateProvider)
+        private double? GetRoundedSatisfactionRate(SatisfactionRateProvider satisfactionRateProvider)
         {
-            return satisfactionRateProvider?.FinalScore != null && satisfactionRateProvider.FinalScore > 0
+            return satisfactionRateProvider.FinalScore > 0
                 ? (double?)Math.Round(satisfactionRateProvider?.FinalScore ?? 0.0, MidpointRounding.AwayFromZero)
                 : null;
         }
