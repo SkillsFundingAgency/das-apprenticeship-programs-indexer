@@ -131,17 +131,17 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
             Assert.AreEqual(10, provider.ProviderFeedback.Strengths.Count);
         }
 
-		[TestCase(9.9, 10)]
-		[TestCase(9.51, 10)]
-		[TestCase(9.5, 10)]
-		[TestCase(9.49, 9)]
-		[TestCase(9.2, 9)]
-		[TestCase(90.9, 91)]
-		[TestCase(90.51, 91)]
-		[TestCase(90.5, 91)]
-		[TestCase(90.49, 90)]
-		[TestCase(90.2, 90)]
-		[TestCase(0, null)]
+        [TestCase(9.9, 10)]
+        [TestCase(9.51, 10)]
+        [TestCase(9.5, 10)]
+        [TestCase(9.49, 9)]
+        [TestCase(9.2, 9)]
+        [TestCase(90.9, 91)]
+        [TestCase(90.51, 91)]
+        [TestCase(90.5, 91)]
+        [TestCase(90.49, 90)]
+        [TestCase(90.2, 90)]
+        [TestCase(0, null)]
         [TestCase(null, null)]
         public void ShouldRoundLearnerSatisfaction(double? finalScore, double? expected)
         {
