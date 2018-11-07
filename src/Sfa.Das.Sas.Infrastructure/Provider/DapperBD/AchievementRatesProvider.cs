@@ -49,11 +49,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
                     [Overall Achivement Rate %] as OverallAchievementRate,
                     [Sector Subject Area Tier 2] as SectorSubjectAreaTier2,
                     [SSA2 Code] as SSA2Code
-                    FROM ar_by_provider
+                    FROM AchievementRatesProvider
                     WHERE [Age] = 'All Age'
                     AND [Sector Subject Area Tier 2] <> 'All SSA T2'
                     AND [Apprenticeship Level] <> 'All'
-                    AND [Hybrid End Year] = (SELECT MAX([Hybrid End Year]) FROM ar_by_provider)
+                    AND [HybridYear] = (SELECT MAX([HybridYear]) FROM AchievementRatesProvider)
                     ";
             return _databaseProvider.Query<AchievementRateProvider>(query).ToList();
         }

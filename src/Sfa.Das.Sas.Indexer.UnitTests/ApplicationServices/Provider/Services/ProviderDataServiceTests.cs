@@ -10,6 +10,8 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 using CoreProvider = Sfa.Das.Sas.Indexer.Core.Models.Provider.Provider;
 using System;
+using Sfa.Das.Sas.Indexer.Core.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
 namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
 {
@@ -127,6 +129,84 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Provider.Services
 
             // Assert
             Assert.AreEqual(10, provider.ProviderFeedback.Strengths.Count);
+        }
+
+        [TestCase(9.9, 10)]
+        [TestCase(9.51, 10)]
+        [TestCase(9.5, 10)]
+        [TestCase(9.49, 9)]
+        [TestCase(9.2, 9)]
+        [TestCase(90.9, 91)]
+        [TestCase(90.51, 91)]
+        [TestCase(90.5, 91)]
+        [TestCase(90.49, 90)]
+        [TestCase(90.2, 90)]
+        [TestCase(0, null)]
+        [TestCase(null, null)]
+        public void ShouldRoundEmployerSatisfaction(double? finalScore, double? expected)
+        {
+            // Arrange
+            var provider = new CoreProvider
+            {
+                Ukprn = 12345
+            };
+
+            var satisfactionRates = new EmployerSatisfactionRateResult
+            {
+                Rates = new List<SatisfactionRateProvider>
+                {
+                    new SatisfactionRateProvider
+                    {
+                        FinalScore = finalScore,
+                        Ukprn = provider.Ukprn
+                    }
+                }
+            };
+
+            // Act
+            _sut.SetEmployerSatisfactionRate(satisfactionRates, provider);
+
+            // Assert
+            Assert.AreEqual(expected, provider.EmployerSatisfaction);
+        }
+
+        [TestCase(9.9, 10)]
+        [TestCase(9.51, 10)]
+        [TestCase(9.5, 10)]
+        [TestCase(9.49, 9)]
+        [TestCase(9.2, 9)]
+        [TestCase(90.9, 91)]
+        [TestCase(90.51, 91)]
+        [TestCase(90.5, 91)]
+        [TestCase(90.49, 90)]
+        [TestCase(90.2, 90)]
+        [TestCase(0, null)]
+        [TestCase(null, null)]
+        public void ShouldRoundLearnerSatisfaction(double? finalScore, double? expected)
+        {
+            // Arrange
+            var provider = new CoreProvider
+            {
+                Ukprn = 12345
+            };
+
+            var satisfactionRates = new LearnerSatisfactionRateResult
+            {
+                Rates = new List<SatisfactionRateProvider>
+                {
+                    new SatisfactionRateProvider
+                    {
+                        FinalScore = finalScore,
+                        Ukprn = provider.Ukprn
+                    }
+                }
+            };
+
+            // Act
+            _sut.SetLearnerSatisfactionRate(satisfactionRates, provider);
+
+            // Assert
+            Assert.AreEqual(expected, provider.LearnerSatisfaction);
         }
 
         private static int GetRatingCount(string providerRating, CoreProvider provider)

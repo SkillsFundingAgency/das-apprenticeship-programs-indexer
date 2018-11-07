@@ -28,8 +28,8 @@
       <Setting name="CourseDirectoryUri" value="https://dasapidev.coursedirectoryproviderportal.org.uk/dasapi" />
       <Setting name="VstsAssessmentOrgsUrl" value="https://sfa-gov-uk.visualstudio.com/DefaultCollection/c39e0c0b-7aff-4606-b160-3566f3bbce23/_api/_versioncontrol/itemContent?repositoryId=9b4f676e-ce9a-4f10-a043-0ec9e5bf053c&amp;path=%2FassessmentOrgs%2Flocal%2FassessmentOrgs.xlsx&amp;version=GBmaster&amp;contentOnly=false&amp;__v=5" />
       <Setting name="VstsRoatpUrl" value="https://sfa-gov-uk.visualstudio.com/DefaultCollection/c39e0c0b-7aff-4606-b160-3566f3bbce23/_api/_versioncontrol/itemContent?repositoryId=9b4f676e-ce9a-4f10-a043-0ec9e5bf053c&amp;path=%2Froatp%2FCI%2Froatp.xlsx&amp;version=GBmaster&amp;contentOnly=false&amp;__v=5" />
-      <Setting name="EmployerSatisfactionRatesTableName" value="[dbo].[EmployerSatisf_2016_2017]" />
-      <Setting name="LearnerSatisfactionRatesTableName" value="[dbo].[LearnerSatisf_2016_2017]" />
+      <Setting name="EmployerSatisfactionRatesTableName" value="[dbo].[EmployerSatisfaction]" />
+      <Setting name="LearnerSatisfactionRatesTableName" value="[dbo].[LearnerSatisfaction]" />
       <Setting name="LoggingRedisConnectionString" value="" />
       <Setting name="LoggingRedisKey" value="" />
       <Setting name="GitUsername" value="" />
