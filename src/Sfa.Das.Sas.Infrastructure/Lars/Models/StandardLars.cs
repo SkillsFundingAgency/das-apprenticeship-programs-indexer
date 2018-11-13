@@ -40,5 +40,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
         public List<FundingPeriod> FundingPeriods { get; set; }
 
         public DateTime? LastDateForNewStarts { get; set; }
+
+		public bool RegulatedStandard { get; set; }
     }
 }

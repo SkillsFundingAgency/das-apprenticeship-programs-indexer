@@ -45,6 +45,8 @@
       <Setting name="EmployerProvidersBlobContainerReference" value="__EmployerProvidersBlobContainerReference__" />
       <Setting name="FrameworkIdFormat" value="__FrameworkIdFormat__" />
       <Setting name="InstrumentationKey" value="__InstrumentationKey__" />
+      <Setting name="ProviderFeedbackApiUri" value="__ProviderFeedbackApiUri__"/>
+      <Setting name="FeatureToggle.ProviderFeedbackFeature" value="__FeatureToggle_ProviderFeedbackFeature__"/>
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

@@ -26,24 +26,17 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD
 
         public EmployerSatisfactionRateResult Handle(EmployerSatisfactionRateRequest message)
         {
-            var results = _settings.UseStoredProc
-                ? GetDataWithStoredProc()
-                : GetData();
+            var results = GetData();
 
             _log.Debug($"Retrieved {results.Count} employer satisfaction rates");
             return new EmployerSatisfactionRateResult { Rates = results };
-        }
-
-        private IList<SatisfactionRateProvider> GetDataWithStoredProc()
-        {
-            return _databaseProvider.QueryStoredProc<SatisfactionRateProvider>("[dbo].[GetLatestEmployerSatisfaction]").ToList();
         }
 
         private IList<SatisfactionRateProvider> GetData()
         {
             var query = $@"
                     SELECT  [UKPRN]
-                    ,       [Final_Score] AS FinalScore
+                    ,       [FinalScore] AS FinalScore
                     ,       [Employers] AS TotalCount
                     ,       [Responses] AS ResponseCount
                     FROM    {_settings.EmployerSatisfactionRatesTableName}

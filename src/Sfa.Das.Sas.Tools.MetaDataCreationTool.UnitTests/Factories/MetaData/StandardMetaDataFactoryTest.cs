@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData
+﻿using System;
+
+namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.UnitTests.Factories.MetaData
 {
     using System.Collections.Generic;
     using FluentAssertions;
@@ -24,8 +26,8 @@
             var data = new List<string>
             {
                 "5", string.Empty, "standard title", string.Empty, "2", string.Empty,
-                string.Empty, string.Empty, "standard url", "1.1", "2.2"
-            };
+                string.Empty, string.Empty, "standard url", "1.1", "2.2", string.Empty, "Y"
+			};
 
             // Act
             var metaData = _sut.Create(data);
@@ -41,7 +43,7 @@
             var data = new List<string>
             {
                 "5", string.Empty, "standard title", string.Empty, "2", string.Empty,
-                string.Empty, string.Empty, "standard url", "1.1", "2.2"
+                string.Empty, string.Empty, "standard url", "1.1", "2.2", string.Empty, "Y"
             };
 
             // Act

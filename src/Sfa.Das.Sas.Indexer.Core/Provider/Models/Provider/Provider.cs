@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 
 namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 {
@@ -45,9 +45,11 @@ namespace Sfa.Das.Sas.Indexer.Core.Models.Provider
 
         public bool IsLevyPayerOnly { get; set; }
 
-		public bool CurrentlyNotStartingNewApprentices { get; set; }
+        public bool CurrentlyNotStartingNewApprentices { get; set; }
 
-	    public bool IsValid()
+        public Feedback ProviderFeedback { get; set; }
+
+        public bool IsValid()
         {
             if (string.IsNullOrEmpty(Name))
             {

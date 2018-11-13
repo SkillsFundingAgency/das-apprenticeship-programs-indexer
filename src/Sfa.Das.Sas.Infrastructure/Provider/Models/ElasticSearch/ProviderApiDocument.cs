@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Nest;
-using Newtonsoft.Json;
 using Sfa.Das.Sas.Indexer.Core.Models.Provider;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
@@ -40,6 +40,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
         public bool HasParentCompanyGuarantee { get; set; }
         public bool IsNew { get; set; }
         public bool IsLevyPayerOnly { get; set; }
-	    public bool CurrentlyNotStartingNewApprentices { get; set; }
+        public bool CurrentlyNotStartingNewApprentices { get; set; }
+        public Feedback ProviderFeedback { get; set; }
     }
 }

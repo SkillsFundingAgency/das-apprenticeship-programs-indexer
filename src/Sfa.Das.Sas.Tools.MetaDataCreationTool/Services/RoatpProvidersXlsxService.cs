@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using OfficeOpenXml;
 using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Extensions;
@@ -12,6 +11,7 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 using Sfa.Das.Sas.Tools.MetaDataCreationTool.Helpers;
+using OfficeOpenXml;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 {
@@ -36,44 +36,44 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             _log = log;
         }
 
-        public List<RoatpProviderResult> GetRoatpData()
-        {
-            var roatpProviders = new List<RoatpProviderResult>();
+	    public List<RoatpProviderResult> GetRoatpData()
+	    {
+		    var roatpProviders = new List<RoatpProviderResult>();
 
-            var container = _blobStorageHelper.GetRoatpBlobContainer();
-            var blockBlobs = _blobStorageHelper.GetAllBlockBlobs(container);
+		    var container = _blobStorageHelper.GetRoatpBlobContainer();
+		    var blockBlobs = _blobStorageHelper.GetAllBlockBlobs(container);
 
-            var roatpFile = blockBlobs.FirstOrDefault();
+		    var roatpFile = blockBlobs.FirstOrDefault();
 
-            try
-            {
-                if (roatpFile == null)
-                {
-                    return null;
-                }
+		    try
+		    {
+			    if (roatpFile == null)
+			    {
+				    return null;
+			    }
 
-                _log.Debug("Downloading RoATP");
-                using (var stream = new MemoryStream())
-                {
-                    roatpFile.DownloadToStream(stream);
+			    _log.Debug("Downloading RoATP");
+			    using (var stream = new MemoryStream())
+			    {
+				    roatpFile.DownloadToStream(stream);
 
-                    using (var package = new ExcelPackage(stream))
-                    {
-                        GetRoatp(package, roatpProviders);
-                    }
-                }
+				    using (var package = new ExcelPackage(stream))
+				    {
+					    GetRoatp(package, roatpProviders);
+				    }
+			    }
 
-                return roatpProviders.Where(roatpProviderResult => roatpProviderResult.Ukprn != string.Empty && roatpProviderResult.OrganisationName != string.Empty).DistinctBy(x => x.Ukprn).ToList();
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, "Problem downloading RoATP file from Blob Storage");
+			    return roatpProviders.Where(roatpProviderResult => roatpProviderResult.Ukprn != string.Empty && roatpProviderResult.OrganisationName != string.Empty).DistinctBy(x => x.Ukprn).ToList();
+		    }
+		    catch (Exception ex)
+		    {
+			    _log.Error(ex, "Problem downloading RoATP file from Blob Storage");
 
-                return null;
-            }
-        }
+			    return null;
+		    }
+	    }
 
-        public ProviderType GetProviderType(object providerType, string ukprn)
+	    public ProviderType GetProviderType(object providerType, string ukprn)
         {
             if (providerType != null)
             {
@@ -117,7 +117,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                     NewOrganisationWithoutFinancialTrackRecord = GetBooleanValue(roatpWorkSheet.Cells[i, NewOrganisationWithoutFinancialTrackRecordPosition]),
                     StartDate = GetDateTimeValue(roatpWorkSheet.Cells[i, StartDatePosition]),
                     EndDate = GetDateTimeValue(roatpWorkSheet.Cells[i, EndDatePosition]),
-					NotStartingNewApprentices = GetDateTimeValue(roatpWorkSheet.Cells[i, NotStartingNewApprentices]) != null
+                    NotStartingNewApprentices = GetDateTimeValue(roatpWorkSheet.Cells[i, NotStartingNewApprentices]) != null
                 };
 
                 roatpProviders.Add(roatpData);

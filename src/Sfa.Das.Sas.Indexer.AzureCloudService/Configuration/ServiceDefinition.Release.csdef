@@ -40,6 +40,8 @@
       <Setting name="VstsGitStandardsFolderPath" />
       <Setting name="VstsGitFrameworksFolderPath" />
       <Setting name="InstrumentationKey" />
+      <Setting name="ProviderFeedbackApiUri" />
+      <Setting name="FeatureToggle.ProviderFeedbackFeature" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>

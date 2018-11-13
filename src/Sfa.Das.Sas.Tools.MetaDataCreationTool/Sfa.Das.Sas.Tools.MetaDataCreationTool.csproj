@@ -155,6 +155,7 @@
     <Compile Include="Services\EmployerProvidersService.cs" />
     <Compile Include="Services\Interfaces\IAssessmentOrgsExcelPackageService.cs" />
     <Compile Include="Services\FcsActiveProvidersService.cs" />
+    <Compile Include="Services\ProviderFeedbackService.cs" />
     <Compile Include="Services\RoatpProvidersXlsxService.cs" />
     <Compile Include="Services\ElasticsearchDataService.cs" />
     <Compile Include="Services\Interfaces\IElasticsearchDataService.cs" />
