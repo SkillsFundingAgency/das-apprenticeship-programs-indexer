@@ -187,7 +187,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
 
         private void PushStandardsToBlobStorage(List<StandardRepositoryData> standards)
         {
-            if (!standards.Any())
+            if (!standards.Any() || _appServiceSettings.EnvironmentName.Equals("AT"))
             {
                 return;
             }
