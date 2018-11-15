@@ -26,6 +26,8 @@
       <Setting name="LarsIndexShards" value="__LarsIndexShards__" />
       <Setting name="LarsIndexReplicas" value="__LarsIndexReplicas__" />
       <Setting name="CourseDirectoryUri" value="__CourseDirectoryUri__" />
+      <Setting name="VstsAssessmentOrgsUrl" value="__VstsAssessmentOrgsUrl__" />
+      <Setting name="VstsRoatpUrl" value="__VstsRoatpUrl__" />
       <Setting name="EmployerSatisfactionRatesTableName" value="__EmployerSatisfactionRatesTableName__" />
       <Setting name="LearnerSatisfactionRatesTableName" value="__LearnerSatisfactionRatesTableName__" />
       <Setting name="LoggingRedisConnectionString" value="__LoggingRedisConnectionString__" />

@@ -43,6 +43,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string VstsGitPushUrl => $"{VstsGitBaseUrl}/pushes?api-version=2.0-preview";
 
+        public string VstsAssessmentOrgsUrl => _settings.GetSetting("VstsAssessmentOrgsUrl");
+
+        public string VstsRoatpUrl => _settings.GetSetting("VstsRoatpUrl");
+
         public string GitUsername => _settings.GetSetting("GitUsername");
 
         public string GitPassword => _settings.GetSetting("GitPassword");
