@@ -59,7 +59,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
 
                         var extraMessages = messages?.Where(m => m != latestMessage).ToList();
                         // Delete all the messages except the first as they are not needed
-                        _cloudQueueService.DeleteQueueMessages(queueName, extraMessages);
+                        //_cloudQueueService.DeleteQueueMessages(queueName, extraMessages);
 
                         var indexTime = latestMessage?.InsertionTime ?? DateTime.Now;
 

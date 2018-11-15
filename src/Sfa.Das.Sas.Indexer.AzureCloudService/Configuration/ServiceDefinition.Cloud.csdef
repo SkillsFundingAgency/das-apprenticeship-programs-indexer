@@ -42,6 +42,13 @@
       <Setting name="InstrumentationKey" />
       <Setting name="ProviderFeedbackApiUri"/>
       <Setting name="FeatureToggle.ProviderFeedbackFeature" />
+      <Setting name="BlobStorageConnectionString" />
+      <Setting name="StandardBlobContainerReference" />
+      <Setting name="FrameworkBlobContainerReference" />
+      <Setting name="RoatpBlobContainerReference" />
+      <Setting name="AssessmentOrgsBlobContainerReference" />
+      <Setting name="FcsBlobContainerReference" />
+      <Setting name="EmployerProvidersBlobContainerReference" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>
