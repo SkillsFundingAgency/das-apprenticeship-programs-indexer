@@ -38,10 +38,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         string VstsGitPushUrl { get; }
 
-        string VstsAssessmentOrgsUrl { get; }
-
-        string VstsRoatpUrl { get; }
-
         string EnvironmentName { get; }
 
         string ConnectionString { get; }

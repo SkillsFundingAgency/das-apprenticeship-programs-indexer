@@ -25,8 +25,6 @@
       <Setting name="LarsIndexShards" />
       <Setting name="LarsIndexReplicas" />
       <Setting name="CourseDirectoryUri" />
-      <Setting name="VstsAssessmentOrgsUrl" />
-      <Setting name="VstsRoatpUrl" />
       <Setting name="EmployerSatisfactionRatesTableName" />
       <Setting name="LearnerSatisfactionRatesTableName" />
       <Setting name="LoggingRedisConnectionString" />
@@ -42,6 +40,13 @@
       <Setting name="InstrumentationKey" />
       <Setting name="ProviderFeedbackApiUri" />
       <Setting name="FeatureToggle.ProviderFeedbackFeature" />
+      <Setting name="BlobStorageConnectionString" />
+      <Setting name="StandardBlobContainerReference" />
+      <Setting name="FrameworkBlobContainerReference" />
+      <Setting name="RoatpBlobContainerReference" />
+      <Setting name="AssessmentOrgsBlobContainerReference" />
+      <Setting name="FcsBlobContainerReference" />
+      <Setting name="EmployerProvidersBlobContainerReference" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>
