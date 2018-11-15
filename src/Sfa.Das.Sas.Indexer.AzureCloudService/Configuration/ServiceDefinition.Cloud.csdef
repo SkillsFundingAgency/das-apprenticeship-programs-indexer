@@ -36,9 +36,6 @@
       <Setting name="AchievementRateDataBaseConnectionString" />
       <Setting name="UKRLP_EndpointUri" />
       <Setting name="FrameworkIdFormat" />
-      <Setting name="VstsGitBaseUrl" />
-      <Setting name="VstsGitStandardsFolderPath" />
-      <Setting name="VstsGitFrameworksFolderPath" />
       <Setting name="InstrumentationKey" />
       <Setting name="ProviderFeedbackApiUri"/>
       <Setting name="FeatureToggle.ProviderFeedbackFeature" />
