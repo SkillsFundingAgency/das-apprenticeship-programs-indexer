@@ -8,24 +8,27 @@
     [TestFixture]
     public class ProcessOrganisationTypeTests
     {
-        [TestCase("Assessment Organisation", "Assessment Organisation", false)]
-        [TestCase(" Assessment Organisation", "Other", true)]
-        [TestCase("Assessment Organisation ", "Other", true)]
-        [TestCase("assessment organisation", "Other", true)]
-        [TestCase("Awarding Organisation", "Awarding Organisation", false)]
-        [TestCase("Employer or trade body", "Employer or trade body", false)]
-        [TestCase("Higher Education Institution", "Higher Education Institution", false)]
+        [TestCase("Assessment Organisations", "Assessment Organisations", false)]
+        [TestCase(" Assessment Organisations", "Other", true)]
+        [TestCase("Assessment Organisations ", "Other", true)]
+        [TestCase("assessment organisations", "Other", true)]
+        [TestCase("Awarding Organisations", "Awarding Organisations", false)]
+        [TestCase("Trade body", "Trade body", false)]
+        [TestCase("HEI", "HEI", false)]
         [TestCase("Other", "Other", false)]
         [TestCase("Professional body", "Professional body", false)]
-        [TestCase("Sector Skills Council", "Sector Skills Council", false)]
-        [TestCase("Training Provider", "Training Provider", false)]
+        [TestCase("NSA or SSC", "NSA or SSC", false)]
+        [TestCase("Public Sector", "Public Sector", false)]
+        [TestCase("College", "College", false)]
+        [TestCase("Academy or Free School", "Academy or Free School", false)]
+		[TestCase("Training Provider", "Training Provider", false)]
         [TestCase("Unmatched Item", "Other", true)]
         public void RunTests(string organisationalType, string expectedOrganisationalType, bool raiseWarningBecauseUnmatchedValue)
         {
             var logObject = new Mock<ILog>();
             var actualOrganisationalType = new OrganisationTypeProcessor(logObject.Object).ProcessOrganisationType(organisationalType);
 
-            Assert.AreEqual(actualOrganisationalType, expectedOrganisationalType);
+            Assert.AreEqual(expectedOrganisationalType, actualOrganisationalType);
 
             if (raiseWarningBecauseUnmatchedValue)
             {
