@@ -32,8 +32,12 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             results = sut.GetAssessmentOrganisationsData();
             using (var prodContainer = container.GetNestedContainer())
             {
-                prodContainer.Configure(_ => { _.For<IAppServiceSettings>().Use<ProdAppSettings>(); });
-                prodsut = prodContainer.GetInstance<IGetAssessmentOrgsData>();
+                prodContainer.Configure(_ =>
+                {
+	                _.For<IAppServiceSettings>().Use<ProdAppSettings>();
+	                _.For<IGetAssessmentOrgsData>().Use<AssessmentOrgsXlsxIntegrationService>();
+				});
+				prodsut = prodContainer.GetInstance<IGetAssessmentOrgsData>();
             }
             Assert.IsNotNull(results, "GetAssessmentOrganisationsData returned null may be vsts internal server error or an unauthorized error");
         }
