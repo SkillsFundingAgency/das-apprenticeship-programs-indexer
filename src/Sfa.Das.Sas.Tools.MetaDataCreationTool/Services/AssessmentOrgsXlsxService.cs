@@ -18,7 +18,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
     {
         private readonly IAssessmentOrgsExcelPackageService _assessmentOrgsExcelPackageService;
         private readonly IWebClient _webClient;
-        private readonly IAppServiceSettings _appServiceSettings;
+        protected readonly IAppServiceSettings _appServiceSettings;
         private readonly ILog _log;
 
         public AssessmentOrgsXlsxService(IAssessmentOrgsExcelPackageService assessmentOrgsExcelPackageService, IWebClient webClient, IAppServiceSettings appServiceSettings, ILog log)
@@ -45,7 +45,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 _log.Debug("Downloading ROAAO", new Dictionary<string, object> {{"Url", _appServiceSettings.VstsAssessmentOrgsUrl}});
                 IEnumerable<Organisation> assessmentOrgs;
                 IEnumerable<StandardOrganisationsData> standardOrganisationsData;
-                using (var stream = new MemoryStream(_webClient.DownloadData(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl))))
+                using (var stream = GetFileStream())
                 using (var package = new ExcelPackage(stream))
                 {
                     assessmentOrgs = _assessmentOrgsExcelPackageService.GetAssessmentOrganisations(package).ToList();
@@ -97,6 +97,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             }
 
             return null;
+        }
+
+        public virtual Stream GetFileStream()
+        {
+            return new MemoryStream(_webClient.DownloadData(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl)));
         }
 
         private List<Organisation> FilterOrganisations(IEnumerable<Organisation> organisationsData)
