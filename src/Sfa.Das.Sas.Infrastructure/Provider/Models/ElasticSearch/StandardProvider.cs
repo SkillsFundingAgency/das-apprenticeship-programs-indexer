@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nest;
-using Newtonsoft.Json;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
@@ -71,5 +71,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
         public bool CurrentlyNotStartingNewApprentices { get; set; }
 
         public bool RegulatedStandard { get; set; }
+
+        public Feedback ProviderFeedback { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
-
-namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
+﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 {
     using System;
     using System.Collections.Generic;
@@ -21,6 +19,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
     using Nest;
     using Provider.Models.ElasticSearch;
     using Settings;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
     using Address = Core.AssessmentOrgs.Models.Address;
     using CoreProvider = Core.Models.Provider.Provider;
     using JobRoleItem = Apprenticeship.Models.JobRoleItem;
@@ -396,6 +395,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.Elasticsearch
 
             documentToPopulate.HasNonLevyContract = provider.HasNonLevyContract;
             documentToPopulate.IsLevyPayerOnly = provider.IsLevyPayerOnly;
+            documentToPopulate.ProviderFeedback = provider.ProviderFeedback;
         }
 
         private static double? GetRoundedValue(double? value)
