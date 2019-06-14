@@ -267,7 +267,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             }
 
                 provider.IsEmployerProvider = roatpProvider.ProviderType == ProviderType.EmployerProvider;
-                provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
+                //provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
                 provider.HasParentCompanyGuarantee = roatpProvider.ParentCompanyGuarantee;
                 provider.IsNew = roatpProvider.NewOrganisationWithoutFinancialTrackRecord;
@@ -322,7 +322,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
                 provider.LegalName = ukrlpProvider?.ProviderName;
 
-                provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
+                //provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
                 provider.HasNonLevyContract = true;
                 provider.HasParentCompanyGuarantee = false;
@@ -379,7 +379,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 provider.LegalName = ukrlpProvider?.ProviderName;
                 provider.IsEmployerProvider = source.EmployerProviders.Providers.Contains(provider.Ukprn.ToString());
 
-                provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
+                //provider.IsHigherEducationInstitute = source.HeiProviders.Providers.Contains(provider.Ukprn.ToString());
 
                 provider.HasNonLevyContract = false; //roatpProvider.ContractedForNonLeviedEmployers;
                 provider.HasParentCompanyGuarantee = roatpProvider.ParentCompanyGuarantee;

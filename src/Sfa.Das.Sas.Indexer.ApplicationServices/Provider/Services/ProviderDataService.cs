@@ -191,7 +191,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
                 LearnerSatisfactionRates = _mediator.Send(new LearnerSatisfactionRateRequest()),
                 EmployerSatisfactionRates = _mediator.Send(new EmployerSatisfactionRateRequest()),
                 EmployerProviders = _mediator.Send(new EmployerProviderRequest()),
-                HeiProviders = await _mediator.SendAsync(new HeiProvidersRequest()),
+                //HeiProviders = await _mediator.SendAsync(new HeiProvidersRequest()),
                 ProviderFeedback = Is<ProviderFeedbackFeature>.Enabled ? await _mediator.SendAsync(new ProviderFeedbackRequest()) : new ProviderFeedbackResult(new List<EmployerFeedbackSourceDto>())
             };
         }
