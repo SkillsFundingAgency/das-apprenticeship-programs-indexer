@@ -27,8 +27,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Handlers
 
         public async Task<HeiProvidersResult> Handle(HeiProvidersRequest message)
         {
-            var apiProviders = (await GetHeiUkprns())
-                .ToList();
+            var apiProviders = new List<string>(); // (await GetHeiUkprns()).ToList();
 
             _logger.Info($"Found ${apiProviders.Count} provider with establishment type of Higher Education");
 
