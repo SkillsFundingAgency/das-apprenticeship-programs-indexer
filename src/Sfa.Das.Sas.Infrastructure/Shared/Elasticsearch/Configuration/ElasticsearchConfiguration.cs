@@ -1,8 +1,10 @@
 ﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration
 {
+    using System.Collections.Generic;
     using Nest;
 
     using Settings;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
 
     public class ElasticsearchConfiguration : IElasticsearchConfiguration
     {
@@ -33,7 +35,17 @@
                                 .CharFilters("char_pattern_replace_er"))
                             .Custom(AnalyserEnglishCustomText, l => l
                                 .Tokenizer("standard")
-                                .Filters("english_possessive_stemmer", "lowercase", "english_stop_freetext", "english_custom_synonyms")));
+                                .Filters("english_possessive_stemmer", "lowercase", "english_stop_freetext", "english_custom_synonyms"))
+                            .Custom("autocomplete", cc => cc
+                                .Tokenizer("autocomplete")
+                                .Filters(new List<string> { "lowercase" }))
+                            .Custom("autocomplete_search", cc => cc
+                                .Tokenizer("lowercase")))
+                        .Tokenizers(tz => tz
+                            .NGram("autocomplete", td => td
+                                .MinGram(2)
+                                .MaxGram(20)
+                                .TokenChars(TokenChar.Letter)));
         }
 
         public int ApprenticeshipIndexShards() => !string.IsNullOrEmpty(_elasticsearchSettings.ApprenticeshipIndexShards) ? int.Parse(_elasticsearchSettings.ApprenticeshipIndexShards) : 1;
@@ -47,5 +59,38 @@
         public int LarsIndexShards() => !string.IsNullOrEmpty(_elasticsearchSettings.LarsIndexShards) ? int.Parse(_elasticsearchSettings.LarsIndexShards) : 1;
 
         public int LarsIndexReplicas() => !string.IsNullOrEmpty(_elasticsearchSettings.LarsIndexReplicas) ? int.Parse(_elasticsearchSettings.LarsIndexReplicas) : 0;
+
+        public MappingsDescriptor ApprenticeshipMappingDescriptor()
+        {
+            return new MappingsDescriptor()
+                    .Map<StandardDocument>(m => m
+                    .AutoMap()
+                    .Properties(p => p
+                        .Text(t => t
+                            .Name("title.auto")
+                            .Analyzer("autocomplete")
+                            .SearchAnalyzer("autocomplete_search"))
+                        .Text(t => t
+                            .Name("jobRoles.auto")
+                            .Analyzer("autocomplete")
+                            .SearchAnalyzer("autocomplete_search"))
+                        .Text(t => t
+                            .Name("keywords.auto")
+                            .Analyzer("autocomplete")
+                            .SearchAnalyzer("autocomplete_search"))))
+                    .Map<FrameworkDocument>(m => m
+                        .AutoMap()
+                        .Properties(p => p
+                            .Nested<IEnumerable<JobRoleItem>>(n => n
+                                .Properties(pp => pp
+                                .Text(ppt => ppt
+                                    .Name("title.auto")
+                                .Analyzer("autocomplete")
+                                .SearchAnalyzer("autocomplete_search"))
+                            .Text(t => t
+                                .Name("keywords.auto")
+                                .Analyzer("autocomplete")
+                                .SearchAnalyzer("autocomplete_search"))))));
+        }
     }
 }
