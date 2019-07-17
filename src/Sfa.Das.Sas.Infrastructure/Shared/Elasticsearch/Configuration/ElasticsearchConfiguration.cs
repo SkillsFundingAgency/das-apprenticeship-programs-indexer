@@ -10,6 +10,10 @@
     {
         public const string AnalyserEnglishCustom = "english_custom";
         public const string AnalyserEnglishCustomText = "english_custom_text";
+        public const string AutocompleteAnalyser = "autocomplete";
+        public const string AutocompleteSearchAnalyser = "autocomplete_search";
+        public const string AutocompleteTokeniser = "autocomplete";
+        public const string AutocompleteNgramPropertyField = "auto";
         private readonly IElasticsearchSettings _elasticsearchSettings;
 
         public ElasticsearchConfiguration(IElasticsearchSettings elasticsearchSettings)
@@ -36,13 +40,13 @@
                             .Custom(AnalyserEnglishCustomText, l => l
                                 .Tokenizer("standard")
                                 .Filters("english_possessive_stemmer", "lowercase", "english_stop_freetext", "english_custom_synonyms"))
-                            .Custom("autocomplete", cc => cc
-                                .Tokenizer("autocomplete")
+                            .Custom(AutocompleteAnalyser, cc => cc
+                                .Tokenizer(AutocompleteTokeniser)
                                 .Filters(new List<string> { "lowercase" }))
-                            .Custom("autocomplete_search", cc => cc
+                            .Custom(AutocompleteSearchAnalyser, cc => cc
                                 .Tokenizer("lowercase")))
                         .Tokenizers(tz => tz
-                            .NGram("autocomplete", td => td
+                            .EdgeNGram(AutocompleteTokeniser, td => td
                                 .MinGram(2)
                                 .MaxGram(20)
                                 .TokenChars(TokenChar.Letter)));
@@ -67,30 +71,54 @@
                     .AutoMap()
                     .Properties(p => p
                         .Text(t => t
-                            .Name("title.auto")
-                            .Analyzer("autocomplete")
-                            .SearchAnalyzer("autocomplete_search"))
+                            .Name("title")
+                            .Analyzer(AnalyserEnglishCustom)
+                            .Fields(f => f
+                                .Text(t2 => t2
+                                    .Name(AutocompleteNgramPropertyField)
+                                    .Analyzer(AutocompleteAnalyser)
+                                    .SearchAnalyzer(AutocompleteSearchAnalyser))))
                         .Text(t => t
-                            .Name("jobRoles.auto")
-                            .Analyzer("autocomplete")
-                            .SearchAnalyzer("autocomplete_search"))
+                            .Name("jobRoles")
+                            .Analyzer(AnalyserEnglishCustom)
+                            .Fields(f => f
+                                .Text(t2 => t2
+                                    .Name(AutocompleteNgramPropertyField)
+                                    .Analyzer(AutocompleteAnalyser)
+                                    .SearchAnalyzer(AutocompleteSearchAnalyser))))
                         .Text(t => t
-                            .Name("keywords.auto")
-                            .Analyzer("autocomplete")
-                            .SearchAnalyzer("autocomplete_search"))))
+                            .Name("keywords")
+                            .Analyzer(AnalyserEnglishCustom)
+                            .Fields(f => f
+                                .Text(t2 => t2
+                                    .Name(AutocompleteNgramPropertyField)
+                                    .Analyzer(AutocompleteAnalyser)
+                                    .SearchAnalyzer(AutocompleteSearchAnalyser))))))
                     .Map<FrameworkDocument>(m => m
                         .AutoMap()
                         .Properties(p => p
-                            .Nested<IEnumerable<JobRoleItem>>(n => n
-                                .Properties(pp => pp
-                                .Text(ppt => ppt
-                                    .Name("title.auto")
-                                .Analyzer("autocomplete")
-                                .SearchAnalyzer("autocomplete_search"))
+                            .Object<JobRoleItem>(o => o
+                            .Name(n => n.JobRoleItems)
+                            .Properties(jrps => jrps
+                                .Text(t => t
+                                    .Name("title")
+                                    .Analyzer(AnalyserEnglishCustom)
+                                    .Fields(f => f
+                                        .Text(t2 => t2
+                                            .Name(AutocompleteNgramPropertyField)
+                                            .Analyzer(AutocompleteAnalyser)
+                                            .SearchAnalyzer(AutocompleteSearchAnalyser))))
+                                .Text(t2 => t2
+                                    .Name(n => n.Description)
+                                    .Analyzer(AnalyserEnglishCustomText))))
                             .Text(t => t
-                                .Name("keywords.auto")
-                                .Analyzer("autocomplete")
-                                .SearchAnalyzer("autocomplete_search"))))));
+                                .Name("keywords")
+                                .Analyzer(AnalyserEnglishCustom)
+                                .Fields(f => f
+                                    .Text(t2 => t2
+                                        .Name(AutocompleteNgramPropertyField)
+                                        .Analyzer(AutocompleteAnalyser)
+                                        .SearchAnalyzer(AutocompleteSearchAnalyser))))));
         }
     }
 }
