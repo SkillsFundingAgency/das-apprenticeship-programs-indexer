@@ -30,21 +30,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Roatp
 
         }
 
-        //MFCMFC
-        // STUFF FROM ROATP.Register that was parked
-
-        //private readonly IConfigurationSettings _applicationSettings;
-
-        //public RoatpServiceApiClient(IConfigurationSettings applicationSettings): base("https://roatp.apprenticeships.sfa.bis.gov.uk")
-        //{
-        //    _applicationSettings = applicationSettings;
-
-        //    _httpClient.BaseAddress = new Uri(_applicationSettings.RoatpApiBaseUrl) ;
-        //    // _applicationSettings = applicationSettings;
-        //    //_applicationSettings = applicationSettings;
-        //    // private ConfigurationSettings _applicationSettings;
-        //}
-
         public async Task<List<RoatpResult>> GetRoatpSummary()
         {
             try
