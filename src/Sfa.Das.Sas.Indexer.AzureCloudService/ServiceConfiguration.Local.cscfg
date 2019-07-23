@@ -45,11 +45,11 @@
       <Setting name="ProviderFeedbackApiUri" value=""/>
     <Setting name="FeatureToggle.ProviderFeedbackFeature" value="false"/>
       <Setting name="RoatpApiClientBaseUrl" value ="http://localhost:37951" />
-      <Setting name="RoatpApiAuthenticationInstance"  value ="https://login.microsoftonline.com/" />
-      <Setting name="RoatpApiAuthenticationTenantId"  value ="citizenazuresfabisgov.onmicrosoft.com"/>
-      <Setting name="RoatpApiAuthenticationClientId"  value ="960510a1-87bd-4d98-bde3-00a9646abfdb"/>
-      <Setting name="RoatpApiAuthenticationClientSecret"  value ="411SjzbAssGpz5xhZ3qxsdbF/cTu5ioWovbwuKbhhXc="/>
-      <Setting name="RoatpApiAuthenticationResourceId"  value ="https://citizenazuresfabisgov.onmicrosoft.com/das-roatpservice-api"/>
+      <Setting name="RoatpApiAuthenticationInstance"  value ="" />
+      <Setting name="RoatpApiAuthenticationTenantId"  value =""/>
+      <Setting name="RoatpApiAuthenticationClientId"  value =""/>
+      <Setting name="RoatpApiAuthenticationClientSecret"  value =""/>
+      <Setting name="RoatpApiAuthenticationResourceId"  value =""/>
       <Setting name="RoatpApiAuthenticationApiBaseAddress"  value ="http://localhost:37951"/>
     </ConfigurationSettings>
   </Role>

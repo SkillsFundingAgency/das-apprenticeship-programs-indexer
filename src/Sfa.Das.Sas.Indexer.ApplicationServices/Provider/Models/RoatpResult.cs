@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models
 {
     public class RoatpResult
     {
-        // stuff in Roatp.Register.Provider
-        //  public string Name { get; set; }
-        //  public string Uri { get; set; }
-        //public DateTime? ApplicationDeterminedDate { get; set; }
-        //public bool IsDateValid(DateTime currentDate)
-        //{
-        //    return StartDate.HasValue && StartDate.Value.Date <= currentDate.Date;
-        //}
-
         public string Ukprn { get; set; }
 
         [JsonProperty("Organisation Name")]

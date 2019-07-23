@@ -154,8 +154,10 @@
     <Compile Include="Provider\Models\UkRlp\UkrlpProviderRequest.cs" />
     <Compile Include="Provider\Services\IRoatpApiClient.cs" />
     <Compile Include="Provider\Services\IRoatpMapper.cs" />
+    <Compile Include="Provider\Services\ITokenService.cs" />
     <Compile Include="Provider\Services\ProviderFeedbackHandler.cs" />
     <Compile Include="Provider\Services\RoatpClient.cs" />
+    <Compile Include="Provider\Services\TokenService.cs" />
     <Compile Include="Shared\DependencyResolution\SharedApplicationServicesRegistry.cs" />
     <Compile Include="Provider\Models\UkRlp\UkrlpProviderResponse.cs" />
     <Compile Include="Provider\Services\IUkrlpProviderMapper.cs" />

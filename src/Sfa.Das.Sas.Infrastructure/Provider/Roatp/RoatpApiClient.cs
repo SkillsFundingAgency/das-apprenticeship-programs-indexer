@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Roatp
 {
@@ -17,14 +18,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Roatp
         private readonly IAppServiceSettings _settings;
         private readonly HttpClient _httpClient;
         private readonly ILog _log;
+        private readonly ITokenService _tokenService;
 
-
-        public RoatpApiClient(IAppServiceSettings settings, ILog log)
+        public RoatpApiClient(IAppServiceSettings settings, ILog log, ITokenService tokenService)
         {
             _settings = settings;
             _log = log;
+            _tokenService = tokenService;
             var baseUrl = _settings.RoatpApiClientBaseUrl;
             _httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) };
+
         }
 
         //MFCMFC
@@ -46,6 +49,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Roatp
         {
             try
             {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", _tokenService.GetToken());
                 _log.Info("Gathering roatp details from API");
                 var response = await _httpClient.GetAsync(downloadPath);
                 return await response.Content.ReadAsAsync<List<RoatpResult>>();
