@@ -17,5 +17,7 @@
         int LarsIndexShards();
 
         int LarsIndexReplicas();
+
+        MappingsDescriptor ApprenticeshipMappingDescriptor();
     }
 }
