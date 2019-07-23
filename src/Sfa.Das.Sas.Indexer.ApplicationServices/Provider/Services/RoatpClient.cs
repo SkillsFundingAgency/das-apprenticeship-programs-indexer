@@ -1,36 +1,42 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MediatR;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using SFA.DAS.NLog.Logger;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using MediatR;
-    using SFA.DAS.NLog.Logger;
-    using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-    using Sfa.Das.Sas.Indexer.Core.Provider.Models;
 
-    public class RoatpProvidersClient : IAsyncRequestHandler<RoatpProviderRequest, List<RoatpProviderResult>>
+
+    public class RoatpClient : IAsyncRequestHandler<RoatpRequest, List<RoatpProviderResult>>
     {
         private readonly ILog _logger;
-        private readonly IGetRoatpProviders _getRoatpProviders;
+        private readonly IRoatpApiClient _apiClient;
+        private readonly IRoatpMapper _mapper;
         private readonly ProviderType[] _validProviderTypes = { ProviderType.MainProvider, ProviderType.EmployerProvider };
 
-
-        public RoatpProvidersClient(IGetRoatpProviders getRoatpProviders, ILog logger)
+        public RoatpClient(IRoatpApiClient apiClient, ILog logger, IRoatpMapper mapper)
         {
-            _getRoatpProviders = getRoatpProviders;
+            _apiClient = apiClient;
             _logger = logger;
+            _mapper = mapper;
         }
 
-        public async Task<List<RoatpProviderResult>> Handle(RoatpProviderRequest message)
+        public async Task<List<RoatpProviderResult>> Handle(RoatpRequest message)
         {
-            _logger.Debug("Starting to retreive RoATP providers");
-            var records = _getRoatpProviders.GetRoatpData();
+            var roatpSummaries = await _apiClient.GetRoatpSummary();
+
+            // MFCMFC
+            // add logging
+            var records = _mapper.Map(roatpSummaries);
+
             _logger.Debug($"Retrieved {records.Count} providers on the ROATP list", new Dictionary<string, object> { { "TotalCount", records.Count } });
             var filtered = records.Where(x => _validProviderTypes.Contains(x.ProviderType) && x.IsDateValid()).ToList();
             _logger.Debug($"Filtered out Supporting providers on ROATP", new Dictionary<string, object> { { "TotalCount", filtered.Count } });
             return filtered;
+
         }
     }
 }

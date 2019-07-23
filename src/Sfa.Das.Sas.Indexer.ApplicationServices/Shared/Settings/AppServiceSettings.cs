@@ -74,16 +74,21 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
             }
         }
 
-        private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
-
         public List<string> FrameworksExpiredRequired => GetFrameworksList(_settings.GetNullableSetting("FrameworksExpiredRequired"));
+       
+        public string RoatpApiClientBaseUrl => _settings.GetSetting("RoatpApiClientBaseUrl");
+
+        public string RoatpApiAuthenticationInstance => _settings.GetSetting("RoatpApiAuthenticationInstance");
+        public string RoatpApiAuthenticationTenantId => _settings.GetSetting("RoatpApiAuthenticationTenantId");
+        public string RoatpApiAuthenticationClientId => _settings.GetSetting("RoatpApiAuthenticationClientId");
+        public string RoatpApiAuthenticationClientSecret => _settings.GetSetting("RoatpApiAuthenticationClientSecret");
+        public string RoatpApiAuthenticationResourceId => _settings.GetSetting("RoatpApiAuthenticationResourceId");
+        public string RoatpApiAuthenticationApiBaseAddress => _settings.GetSetting("RoatpApiAuthenticationApiBaseAddress");
 
         private List<string> GetFrameworksList(string frameworkIdList)
         {
             return !string.IsNullOrWhiteSpace(frameworkIdList) ? frameworkIdList.Split(',').Select(frameworkId => frameworkId.Trim()).ToList() : new List<string>();
         }
-
-        private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");
 
         public string QueueName(Type type)
         {
@@ -102,6 +107,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
             return value.Split(';');
         }
+
+        private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
+
+        private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");
 
         private static string TypeToName(Type type)
         {
