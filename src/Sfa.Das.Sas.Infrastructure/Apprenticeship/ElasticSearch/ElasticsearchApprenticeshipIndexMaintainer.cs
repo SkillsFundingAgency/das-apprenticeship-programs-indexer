@@ -4,14 +4,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
     using Sfa.Das.Sas.Indexer.Core.Models;
     using Sfa.Das.Sas.Indexer.Core.Models.Framework;
-    using Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
+    using SFA.DAS.NLog.Logger;
 
     public sealed class ElasticsearchApprenticeshipIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainApprenticeshipIndex
     {
@@ -34,9 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
                     .NumberOfShards(_elasticsearchConfiguration.ApprenticeshipIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.ApprenticeshipIndexReplicas())
                     .Analysis(a => _elasticsearchConfiguration.ApprenticeshipAnalysisDescriptor()))
-                .Mappings(ms => ms
-                    .Map<StandardDocument>(m => m.AutoMap())
-                    .Map<FrameworkDocument>(m => m.AutoMap())));
+                .Mappings(m => _elasticsearchConfiguration.ApprenticeshipMappingDescriptor()));
         }
 
         public void IndexStandards(string indexName, IEnumerable<StandardMetaData> entries)
