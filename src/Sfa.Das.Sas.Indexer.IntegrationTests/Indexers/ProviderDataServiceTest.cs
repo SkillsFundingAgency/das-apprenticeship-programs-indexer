@@ -1,4 +1,6 @@
-﻿namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
+﻿using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Models;
+
+namespace Sfa.Das.Sas.Indexer.IntegrationTests.Indexers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -26,6 +28,7 @@
         {
             _mockMediator = new Mock<IMediator>();
 
+            _mockMediator.Setup(m => m.SendAsync(It.IsAny<RoatpRequest>())).ReturnsAsync(new List<RoatpProviderResult>());
             _mockMediator.Setup(x => x.Send(It.IsAny<FrameworkMetaDataRequest>())).Returns(FrameworkResults());
             _mockMediator.Setup(x => x.Send(It.IsAny<StandardMetaDataRequest>())).Returns(StandardResults());
             _mockMediator.Setup(x => x.SendAsync(It.IsAny<FcsProviderRequest>())).ReturnsAsync(new FcsProviderResult { Providers = new List<int> { 123, 456 } });

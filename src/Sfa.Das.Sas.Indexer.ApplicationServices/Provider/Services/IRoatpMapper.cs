@@ -7,7 +7,5 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
     public interface IRoatpMapper
     {
         List<RoatpProviderResult> Map(List<RoatpResult> roatpResult);
-
-
     }
 }

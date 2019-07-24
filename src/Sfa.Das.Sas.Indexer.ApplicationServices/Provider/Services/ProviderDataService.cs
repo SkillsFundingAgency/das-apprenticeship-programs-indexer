@@ -170,12 +170,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             _logger.Debug($"Provider Indexer, task 1 of {totalProviderTaskCount}: ROATP: {roatpProviders?.Count()} ukprns gathered");
 
-            
             var courseDirectoryProviders = await _mediator.SendAsync(new CourseDirectoryRequest());
             _logger.Debug($"Provider Indexer, task 2 of {totalProviderTaskCount}:Course Directory: {courseDirectoryProviders.Providers?.Count()} providers gathered");
             var activeProviders = await _mediator.SendAsync(new FcsProviderRequest());
             _logger.Debug($"Provider Indexer, task 3 of {totalProviderTaskCount}:FCS: {activeProviders.Providers?.Count()} active providers gathered");
-         
+
             _logger.Debug($"Finished loading course directory and active providers");
 
             var frameworks = Task.Run(() => _mediator.Send(new FrameworkMetaDataRequest()));

@@ -28,8 +28,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
         {
             var roatpSummaries = await _apiClient.GetRoatpSummary();
 
-            // MFCMFC
-            // add logging
             var records = _mapper.Map(roatpSummaries);
 
             _logger.Debug($"Retrieved {records.Count} providers on the ROATP list", new Dictionary<string, object> { { "TotalCount", records.Count } });
