@@ -168,12 +168,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             var roatpProviders = await _mediator.SendAsync(new RoatpRequest());
 
-            _logger.Debug($"Provider Indexer, task 1 of {totalProviderTaskCount}: ROATP: {roatpProviders?.Count()} ukprns gathered");
+            _logger.Info($"Provider Indexer, task 1 of {totalProviderTaskCount}: ROATP: {roatpProviders?.Count()} ukprns gathered");
 
             var courseDirectoryProviders = await _mediator.SendAsync(new CourseDirectoryRequest());
-            _logger.Debug($"Provider Indexer, task 2 of {totalProviderTaskCount}:Course Directory: {courseDirectoryProviders.Providers?.Count()} providers gathered");
+            _logger.Info($"Provider Indexer, task 2 of {totalProviderTaskCount}:Course Directory: {courseDirectoryProviders.Providers?.Count()} providers gathered");
             var activeProviders = await _mediator.SendAsync(new FcsProviderRequest());
-            _logger.Debug($"Provider Indexer, task 3 of {totalProviderTaskCount}:FCS: {activeProviders.Providers?.Count()} active providers gathered");
+            _logger.Info($"Provider Indexer, task 3 of {totalProviderTaskCount}:FCS: {activeProviders.Providers?.Count()} active providers gathered");
 
             _logger.Debug($"Finished loading course directory and active providers");
 
@@ -182,35 +182,35 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
             await Task.WhenAll(frameworks, standards);
 
-            _logger.Debug($"Provider Indexer, task 4 of {totalProviderTaskCount}: Finished loading frameworks, standards");
+            _logger.Info($"Provider Indexer, task 4 of {totalProviderTaskCount}: Finished loading frameworks, standards");
 
             var ukprnList = JoinUkprnLists(roatpProviders, activeProviders);
 
-            _logger.Debug($"Provider Indexer, task 5 of { totalProviderTaskCount}: {ukprnList?.Count()} ukprns gathered from roatp and active FCS Providers");
+            _logger.Info($"Provider Indexer, task 5 of { totalProviderTaskCount}: {ukprnList?.Count()} ukprns gathered from roatp and active FCS Providers");
 
             var ukrlpProviders = _mediator.Send(new UkrlpProviderRequest(ukprnList));
-            _logger.Debug($"Provider Indexer, task 6 of {totalProviderTaskCount}: UKRLP: {ukrlpProviders?.MatchingProviderRecords?.Count()} matching provider records gathered");
+            _logger.Info($"Provider Indexer, task 6 of {totalProviderTaskCount}: UKRLP: {ukrlpProviders?.MatchingProviderRecords?.Count()} matching provider records gathered");
 
             var achievementRateProviders = _mediator.Send(new AchievementRateProviderRequest());
-            _logger.Debug($"Provider Indexer, task 7 of {totalProviderTaskCount}: Achievement rate providers: {achievementRateProviders?.Rates?.Count()} records gathered");
+            _logger.Info($"Provider Indexer, task 7 of {totalProviderTaskCount}: Achievement rate providers: {achievementRateProviders?.Rates?.Count()} records gathered");
 
             var achievementRateNationals = _mediator.Send(new AchievementRateNationalRequest());
-            _logger.Debug($"Provider Indexer, task 8 of {totalProviderTaskCount}:Achievement rate nationals: {achievementRateNationals?.Rates?.Count()} records gathered");
+            _logger.Info($"Provider Indexer, task 8 of {totalProviderTaskCount}:Achievement rate nationals: {achievementRateNationals?.Rates?.Count()} records gathered");
 
             var learnerSatisfactionRates = _mediator.Send(new LearnerSatisfactionRateRequest());
-            _logger.Debug($"Provider Indexer, task 9 of {totalProviderTaskCount}: Learner Satisfaction Rates: {learnerSatisfactionRates?.Rates?.Count()} records gathered");
+            _logger.Info($"Provider Indexer, task 9 of {totalProviderTaskCount}: Learner Satisfaction Rates: {learnerSatisfactionRates?.Rates?.Count()} records gathered");
 
             var employerSatisfactionRates = _mediator.Send(new EmployerSatisfactionRateRequest());
-            _logger.Debug($"Provider Indexer, task 10 of {totalProviderTaskCount}: Employer Satisfaction Rates: {employerSatisfactionRates?.Rates?.Count()} records gathered");
+            _logger.Info($"Provider Indexer, task 10 of {totalProviderTaskCount}: Employer Satisfaction Rates: {employerSatisfactionRates?.Rates?.Count()} records gathered");
 
             var employerProviders = _mediator.Send(new EmployerProviderRequest());
-            _logger.Debug($"Provider Indexer, task 11 of {totalProviderTaskCount}: Employer Providers: {employerProviders?.Providers?.Count} provider records gathered");
+            _logger.Info($"Provider Indexer, task 11 of {totalProviderTaskCount}: Employer Providers: {employerProviders?.Providers?.Count} provider records gathered");
 
             var heiProviders = await _mediator.SendAsync(new HeiProvidersRequest());
-            _logger.Debug($"Provider Indexer, task 12 of {totalProviderTaskCount}: HEI Providers: {heiProviders?.Providers?.Count} records gathered");
+            _logger.Info($"Provider Indexer, task 12 of {totalProviderTaskCount}: HEI Providers: {heiProviders?.Providers?.Count} records gathered");
 
             var providerFeedback = Is<ProviderFeedbackFeature>.Enabled ? await _mediator.SendAsync(new ProviderFeedbackRequest()) : new ProviderFeedbackResult(new List<EmployerFeedbackSourceDto>());
-            _logger.Debug($"Provider Indexer, task 13 of {totalProviderTaskCount}: Provider Feedback: {providerFeedback?.EmployerFeedback?.Count()} records gathered");
+            _logger.Info($"Provider Indexer, task 13 of {totalProviderTaskCount}: Provider Feedback: {providerFeedback?.EmployerFeedback?.Count()} records gathered");
 
             return new ProviderSourceDto
             {
