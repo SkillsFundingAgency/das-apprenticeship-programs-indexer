@@ -17,15 +17,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Mapping
         {
 
             ProviderType providerType;
-            switch (roatpResult.ProviderType)
+            switch (roatpResult.ProviderType.ToLower())
             {
-                case "Main provider":
+                case "main provider":
                     providerType = ProviderType.MainProvider;
                     break;
-                case "Employer provider":
+                case "employer provider":
                     providerType = ProviderType.EmployerProvider;
                     break;
-                case "Supporting provider":
+                case "supporting provider":
                     providerType = ProviderType.SupportingProvider;
                     break;
                 default:
