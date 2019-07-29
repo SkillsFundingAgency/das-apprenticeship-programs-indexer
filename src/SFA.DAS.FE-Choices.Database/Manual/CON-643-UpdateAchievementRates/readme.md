@@ -56,4 +56,7 @@ Also, the code matches against standards and frameworks using the SSA2Code, so w
 We could possible get the codes from preprod (but new codes might have been added).
 Need to source the codes from somewhere.
 
+Appendix 2 of this pdf contains the codes...
+https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/732683/Learning_Aim_Class_Codes_2018_to_2019.pdf
+
 Check generated data in app
