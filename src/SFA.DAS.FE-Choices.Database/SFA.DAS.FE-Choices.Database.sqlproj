@@ -84,5 +84,6 @@
     <Content Include="Manual\CON-643-UpdateAchievementRates\CreateImportTableForAchievementRatesProvider.sql" />
     <Content Include="Manual\CON-643-UpdateAchievementRates\InsertNewAchievementRatesNational.sql" />
     <Content Include="Manual\CON-643-UpdateAchievementRates\InsertNewAchievementRatesProvider.sql" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\readme.md" />
   </ItemGroup>
 </Project>
