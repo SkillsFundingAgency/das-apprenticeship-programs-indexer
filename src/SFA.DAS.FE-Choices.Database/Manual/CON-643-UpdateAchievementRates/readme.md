@@ -47,8 +47,13 @@ Instead, here’s how i imported the raw data
 
 # Whats left to do
 
-Source csv files don't contain any ssa1 or ssa2 data. Need to see if it’s necessary, and if so where/how to get the data).
+Source csv files don't contain any ssa1 or ssa2 codes. Need to see if it’s necessary, and if so where/how to get the data).
 GetAchievementRatesNational stored proc returns SSA2Code, but not SSA1Code. 
 Need to check if SSA2Code is used and what for. Can we do without it? Does the consumer of the stored proc need it to be non-null?
+
+Looks like SSAnCode is the code for the value in the columns Subject Subject Area Tier n.
+Also, the code matches against standards and frameworks using the SSA2Code, so we need to populate that column!
+We could possible get the codes from preprod (but new codes might have been added).
+Need to source the codes from somewhere.
 
 Check generated data in app
