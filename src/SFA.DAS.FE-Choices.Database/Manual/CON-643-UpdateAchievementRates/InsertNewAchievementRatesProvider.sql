@@ -21,9 +21,10 @@ SELECT [UKPRN]
      ,[Apprenticeship Type]
      ,[Institution Type]
      ,[Institution Name]
+    -- preprod has - & *, so don't convert them to null
+    --,case when [overall cohort] in ('-', '*') then null else replace([Overall Cohort],',','') end
      ,replace([Overall Cohort],',','')
--- preprod has - & *, so don't convert them to null
---,case when [overall cohort] in ('-', '*') then null else replace([Overall Cohort],',','') end
+     -- guide says to exclude rows where overall achievement rate is not present, but preprod contains rows with it set to null, so bring them all in
      ,case when [Overall Achivement Rate %] in ('-', '*') then null
            else convert(float,replace( [Overall Achivement Rate %],',','')) end
 
