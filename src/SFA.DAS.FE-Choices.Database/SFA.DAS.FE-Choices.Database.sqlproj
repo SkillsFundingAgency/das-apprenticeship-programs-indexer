@@ -85,5 +85,6 @@
     <Content Include="Manual\CON-643-UpdateAchievementRates\InsertNewAchievementRatesNational.sql" />
     <Content Include="Manual\CON-643-UpdateAchievementRates\InsertNewAchievementRatesProvider.sql" />
     <Content Include="Manual\CON-643-UpdateAchievementRates\readme.md" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\UpdateNationalSsaCodes.sql" />
   </ItemGroup>
 </Project>
