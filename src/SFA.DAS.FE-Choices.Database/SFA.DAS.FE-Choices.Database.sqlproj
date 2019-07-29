@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Manual\CON-643-UpdateAchievementRates\2017-18\2017-18 AchievementRatesNational.sql" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\2017-18\2017-18 AchievementRatesProvider.sql" />
     <Content Include="Manual\CON-643-UpdateAchievementRates\CreateImportTableForAchievementRatesNational.sql" />
     <Content Include="Manual\CON-643-UpdateAchievementRates\CreateImportTableForAchievementRatesProvider.sql" />
     <Content Include="Manual\CON-643-UpdateAchievementRates\InsertNewAchievementRatesNational.sql" />
