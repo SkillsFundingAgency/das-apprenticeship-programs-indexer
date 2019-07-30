@@ -35,7 +35,7 @@ Instead, here’s how i imported the raw data
 
 * Copy and paste generated insert statements out of Excel and run in SSMS, into empty deployed database
 
-* Copy from raw imports into destination table, manipulating some fields as per earlier guide / stored procs. see
+* Copy from raw imports into destination table, manipulating some fields as per earlier guide, these stored procs [1](https://github.com/SkillsFundingAgency/das-apprenticeship-programs-indexer/blob/master/src/SFA.DAS.FE-Choices.Database/StoredProcedures/GetAchievementRatesNational.sql) , [2](https://github.com/SkillsFundingAgency/das-apprenticeship-programs-indexer/blob/master/src/SFA.DAS.FE-Choices.Database/StoredProcedures/GetAchievementRatesProvider.sql) , and the [code](https://github.com/SkillsFundingAgency/das-apprenticeship-programs-indexer/blob/master/src/Sfa.Das.Sas.Indexer.ApplicationServices/Provider/Services/ProviderIndexer.cs) . See...
     
     InsertNewAchievementRatesNational.sql
     
