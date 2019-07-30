@@ -1,3 +1,20 @@
+update AchievementRatesProvider set [SSA1 Code] = 1 where [Sector Subject Area Tier 1] = 'Health, Public Services and Care'
+update AchievementRatesProvider set [SSA1 Code] = 2 where [Sector Subject Area Tier 1] = 'Science and Mathematics'
+update AchievementRatesProvider set [SSA1 Code] = 3 where [Sector Subject Area Tier 1] = 'Agriculture, Horticulture and Animal Care'
+update AchievementRatesProvider set [SSA1 Code] = 4 where [Sector Subject Area Tier 1] = 'Engineering and Manufacturing Technologies'
+update AchievementRatesProvider set [SSA1 Code] = 5 where [Sector Subject Area Tier 1] = 'Construction, Planning and the Built Environment'
+update AchievementRatesProvider set [SSA1 Code] = 6 where [Sector Subject Area Tier 1] = 'Information and Communication Technology'
+update AchievementRatesProvider set [SSA1 Code] = 7 where [Sector Subject Area Tier 1] = 'Retail and Commercial Enterprise'
+update AchievementRatesProvider set [SSA1 Code] = 8 where [Sector Subject Area Tier 1] = 'Leisure, Travel and Tourism'
+update AchievementRatesProvider set [SSA1 Code] = 9 where [Sector Subject Area Tier 1] = 'Arts, Media and Publishing'
+update AchievementRatesProvider set [SSA1 Code] = 10 where [Sector Subject Area Tier 1] = 'History, Philosophy and Theology'
+update AchievementRatesProvider set [SSA1 Code] = 11 where [Sector Subject Area Tier 1] = 'Social Sciences'
+update AchievementRatesProvider set [SSA1 Code] = 12 where [Sector Subject Area Tier 1] = 'Languages, Literature and Culture'
+update AchievementRatesProvider set [SSA1 Code] = 13 where [Sector Subject Area Tier 1] = 'Education and Training'
+update AchievementRatesProvider set [SSA1 Code] = 14 where [Sector Subject Area Tier 1] = 'Preparation for Life and Work'
+update AchievementRatesProvider set [SSA1 Code] = 15 where [Sector Subject Area Tier 1] = 'Business, Administration and Law'
+go
+
 update [AchievementRatesProvider] set [SSA1 Code] = 1, [SSA2 Code] = 1.1 where [Sector Subject Area Tier 2] = 'Medicine and Dentistry'
 update [AchievementRatesProvider] set [SSA1 Code] = 1, [SSA2 Code] = 1.2 where [Sector Subject Area Tier 2] = 'Nursing and Subjects and Vocations Allied to Medicine'
 update [AchievementRatesProvider] set [SSA1 Code] = 1, [SSA2 Code] = 1.3 where [Sector Subject Area Tier 2] = 'Health and Social Care'
@@ -74,5 +91,6 @@ update [AchievementRatesProvider] set [SSA1 Code] = 15, [SSA2 Code] = 15.2 where
 update [AchievementRatesProvider] set [SSA1 Code] = 15, [SSA2 Code] = 15.3 where [Sector Subject Area Tier 2] = 'Business Management'
 update [AchievementRatesProvider] set [SSA1 Code] = 15, [SSA2 Code] = 15.4 where [Sector Subject Area Tier 2] = 'Marketing and Sales'
 update [AchievementRatesProvider] set [SSA1 Code] = 15, [SSA2 Code] = 15.4 where [Sector Subject Area Tier 2] = 'Law and Legal Services'
+go
 
 --TODO: need to check all the missing entries!
