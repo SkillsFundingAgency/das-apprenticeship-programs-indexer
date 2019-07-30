@@ -60,3 +60,20 @@ Appendix 2 of this pdf contains the codes...
 https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/732683/Learning_Aim_Class_Codes_2018_to_2019.pdf
 
 Check generated data in app
+
+preprod provider:
+	  select distinct HybridYear
+  FROM [dbo].[AchievementRatesProvider]
+2015/16
+2016/17
+2014/15
+
+new data provider:
+19-23
+All Age
+24+
+16-18
+
+how to reconcile?
+
+`All SSA T2` has SSA1 Code set
