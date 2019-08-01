@@ -28,7 +28,7 @@ SELECT [UKPRN]
      ,case when [Overall Achivement Rate %] in ('-', '*') then null
            else convert(float,replace( [Overall Achivement Rate %],',','')) end
 
-     ,null -- all source [SSA1 Code] rows are blank
-     ,null -- all source [SSA2 Code] rows are blank
+     ,null
+     ,null
      ,[hybridyear]
 FROM ProviderRaw

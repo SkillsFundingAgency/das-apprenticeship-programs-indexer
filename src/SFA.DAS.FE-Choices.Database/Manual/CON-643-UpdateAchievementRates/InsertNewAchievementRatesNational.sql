@@ -19,7 +19,7 @@ select
     case [Overall Cohort] when '-' then null else convert(float,replace([Overall Cohort],',','')) end,
     case [Overall Achievement Rate %] when '-' then null else convert(float,[Overall Achievement Rate %]) end,
     [Institution Type],
-    null, --todo? no source SSA1 convert(float,[SSA1]),
-    null, --todo? no source SSA2 case [ssa2] when 'NULL' then null else convert(float,[SSA2]) end,
+    null,
+    null,
     [HybridYear]
 from [dbo].[NationalRaw]
