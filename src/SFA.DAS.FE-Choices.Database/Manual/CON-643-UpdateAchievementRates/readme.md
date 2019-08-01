@@ -22,16 +22,24 @@ Instead, here’s how i imported the raw data
 
 * Script insert into's. Add (and fill) into excel column, e.g. 
 
-`    INSERT INTO [dbo].[NationalRaw] ([Age],[Sector Subject Area Tier 1],[Sector Subject Area Tier 2],[Apprenticeship Level],[Apprenticeship Type],[Overall Cohort],[Overall Achievement Rate %],[Institution Type],[SSA1],[SSA2],[HybridYear]) VALUES(`
+`
+INSERT INTO [dbo].[NationalRaw] ([Age],[Sector Subject Area Tier 1],[Sector Subject Area Tier 2],[Apprenticeship Level],[Apprenticeship Type],[Overall Cohort],[Overall Achievement Rate %],[Institution Type],[SSA1],[SSA2],[HybridYear]) VALUES(
+
+INSERT INTO [dbo].[ProviderRaw] ([UKPRN],[Age],[Sector Subject Area Tier 1],[Sector Subject Area Tier 2],[Apprenticeship Level],[Apprenticeship Type],[Institution Type],[Institution Name],[Overall Cohort],[Overall Achivement Rate %],[SSA1 Code],[SSA2 Code],[HybridYear]) VALUES (
+`
 
 * Add (and fill formula) into excel column, i.e.
 
-`    ="'"&C2&"','"&D2&"','"&E2&"','"&F2&"','"&G2&"','"&H2&"','a"&I2&"','"&A2&"','','','"&B2&"')"
-    ="'"&B2&"','"&E2&"','"&F2&"','"&G2&"','"&H2&"','"&I2&"','"&C2&"','"&A2&"','"&J2&"','"&K2&"','','','"&E2&"')"
 `
-* Add (and fill) concat column to join insert column & values column
+="'"&C2&"','"&D2&"','"&E2&"','"&F2&"','"&G2&"','"&H2&"','a"&I2&"','"&A2&"','','','"&B2&"')"
 
-* Do some manual data cleansing, e.g. some strings have single quotes.
+="'"&B2&"','"&E2&"','"&F2&"','"&G2&"','"&H2&"','"&I2&"','"&C2&"','"&SUBSTITUTE(A2, "'", "''")&"','"&J2&"','"&K2&"','','','"&D2&"')"
+`
+* Add (and fill) concat column to join insert column & values column, e.g.
+
+`
+=L2&M2
+`
 
 * Copy and paste generated insert statements out of Excel and run in SSMS, into empty deployed database
 
@@ -57,19 +65,6 @@ https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attac
 
 # Whats left to do
 
+do we need rows with null overall achievement rate?
+
 Check generated data in app
-
-preprod provider:
-	  select distinct HybridYear
-  FROM [dbo].[AchievementRatesProvider]
-2015/16
-2016/17
-2014/15
-
-new data provider:
-19-23
-All Age
-24+
-16-18
-
-how to reconcile?
