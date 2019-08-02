@@ -63,8 +63,3 @@ INSERT INTO [dbo].[ProviderRaw] ([UKPRN],[Age],[Sector Subject Area Tier 1],[Sec
 Appendix 2 of this pdf contains the SSA codes...
 https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/732683/Learning_Aim_Class_Codes_2018_to_2019.pdf
 
-# Whats left to do
-
-do we need rows with null overall achievement rate?
-
-Check generated data in app
