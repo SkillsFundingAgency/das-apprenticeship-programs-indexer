@@ -98,6 +98,9 @@
         },
         "providerFeedbackApiUri": {
             "type": "string"
+        },
+        "courseDirectoryUri": {
+            "type": "string"
         }
     },
     "variables": {
@@ -320,6 +323,10 @@
                             {
                                 "name": "ProviderFeedbackApiUri",
                                 "value": "[parameters('providerFeedbackApiUri')]"
+                            },
+                            {
+                                "name": "CourseDirectoryUri",
+                                "value": "[parameters('courseDirectoryUri')]"
                             }
                         ]
                     }
