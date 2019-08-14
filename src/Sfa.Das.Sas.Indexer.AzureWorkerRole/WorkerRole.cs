@@ -24,7 +24,7 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
         private IWorkerRoleSettings _commonSettings;
 
         private IContainer _container;
-
+        
         public override void Run()
         {
             _logger.Info("Starting indexer processing loop. ");
@@ -83,7 +83,7 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 
         private void SetupApplicationInsights()
         {
-            TelemetryConfiguration.Active.InstrumentationKey = CloudConfigurationManager.GetSetting("InstrumentationKey");
+            TelemetryConfiguration.Active.InstrumentationKey = ConfigurationManager.AppSettings["APPINSIGHTS_INSTRUMENTATIONKEY"];
 
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new ApplicationInsightsInitializer());
         }

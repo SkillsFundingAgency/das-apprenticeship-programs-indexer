@@ -1,4 +1,5 @@
-﻿using FeatureToggle.Core;
+﻿using System.Configuration;
+using FeatureToggle.Core;
 using Microsoft.Azure;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.FeatureToggles
@@ -7,7 +8,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.FeatureToggles
     {
         public bool EvaluateBooleanToggleValue(IFeatureToggle toggle)
         {
-            var setting = CloudConfigurationManager.GetSetting($"FeatureToggle.{toggle.GetType().Name}");
+            var setting = ConfigurationManager.AppSettings[$"FeatureToggle.{toggle.GetType().Name}"];
 
             return !string.IsNullOrEmpty(setting) && bool.Parse(setting);
         }

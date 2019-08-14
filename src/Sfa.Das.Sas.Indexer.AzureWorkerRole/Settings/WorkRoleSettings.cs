@@ -7,6 +7,6 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole.Settings
     {
         public string WorkerRolePauseTime => ConfigurationManager.AppSettings["WorkerRolePauseTime"];
 
-        public string StorageConnectionString => CloudConfigurationManager.GetSetting("StorageConnectionString");
+        public string StorageConnectionString => ConfigurationManager.AppSettings["StorageConnectionString"];
     }
 }

@@ -7,7 +7,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Settings
 {
     public class ProviderIndexSettings : IIndexSettings<IMaintainProviderIndex>
     {
-        public string IndexesAlias => CloudConfigurationManager.GetSetting("ProviderIndexAlias");
+        public string IndexesAlias => ConfigurationManager.AppSettings["ProviderIndexAlias"];
 
         public string PauseTime => ConfigurationManager.AppSettings["PauseTime"];
 

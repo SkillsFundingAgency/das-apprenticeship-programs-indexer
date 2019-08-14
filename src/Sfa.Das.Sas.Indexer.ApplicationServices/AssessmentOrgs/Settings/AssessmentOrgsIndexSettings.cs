@@ -7,7 +7,7 @@
 
     public class AssessmentOrgsIndexSettings : IIndexSettings<IMaintainAssessmentOrgsIndex>
     {
-        public string IndexesAlias => CloudConfigurationManager.GetSetting("AssessmentOrgsIndexAlias");
+        public string IndexesAlias => ConfigurationManager.AppSettings["AssessmentOrgsIndexAlias"];
 
         public string PauseTime => ConfigurationManager.AppSettings["PauseTime"];
 

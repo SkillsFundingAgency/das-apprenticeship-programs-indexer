@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using Microsoft.Azure;
 using Sfa.Das.Sas.Indexer.Core.Services;
@@ -63,7 +64,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string GovWebsiteUrl => _settings.GetSetting("GovWebsiteUrl");
 
-        public string MetadataApiUri => CloudConfigurationManager.GetSetting("MetadataApiUri");
+        public string MetadataApiUri => ConfigurationManager.AppSettings["MetadataApiUri"];
 
         public string ProviderFeedbackApiUri
         {
