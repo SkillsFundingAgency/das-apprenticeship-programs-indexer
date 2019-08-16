@@ -4,8 +4,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
     using System;
 
-    public class FundingDocument
+    public class FundingDocument : LarsDocument
     {
+        public FundingDocument(string documentType)
+            : base(documentType)
+        {
+        }
+
         [Keyword(NullValue = "null")]
         public string LearnAimRef { get; set; }
 

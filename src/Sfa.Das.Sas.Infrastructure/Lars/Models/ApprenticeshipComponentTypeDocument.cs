@@ -4,8 +4,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
     using System;
 
-    public class ApprenticeshipComponentTypeDocument
+    public class ApprenticeshipComponentTypeDocument : LarsDocument
     {
+        public ApprenticeshipComponentTypeDocument(string documentType)
+            : base(documentType)
+        {
+        }
+
         [Keyword(NullValue = "null")]
         public int ApprenticeshipComponentType { get; set; }
 

@@ -5,8 +5,13 @@ using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
-    public class StandardLars
+    public class StandardLars : LarsDocument
     {
+        public StandardLars(string documentType)
+            : base(documentType)
+        {
+        }
+
         [Keyword(NullValue = "null")]
         public int Id { get; set; }
 
