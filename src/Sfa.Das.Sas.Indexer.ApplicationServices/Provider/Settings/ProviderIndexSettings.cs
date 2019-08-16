@@ -10,9 +10,5 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Settings
         public string IndexesAlias => ConfigurationManager.AppSettings["ProviderIndexAlias"];
 
         public string PauseTime => ConfigurationManager.AppSettings["PauseTime"];
-
-        public string StandardProviderDocumentType => ConfigurationManager.AppSettings["StandardProviderDocumentType"];
-
-        public string FrameworkProviderDocumentType => ConfigurationManager.AppSettings["FrameworkProviderDocumentType"];
     }
 }

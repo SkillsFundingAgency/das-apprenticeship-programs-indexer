@@ -5,9 +5,5 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         string IndexesAlias { get; }
 
         string PauseTime { get; }
-
-        string StandardProviderDocumentType { get; }
-
-        string FrameworkProviderDocumentType { get; }
     }
 }

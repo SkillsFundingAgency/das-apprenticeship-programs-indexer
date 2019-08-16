@@ -11,9 +11,5 @@
         public string IndexesAlias => ConfigurationManager.AppSettings["LarsIndexAlias"];
 
         public string PauseTime => ConfigurationManager.AppSettings["PauseTime"];
-
-        public string StandardProviderDocumentType => ConfigurationManager.AppSettings["StandardProviderDocumentType"];
-
-        public string FrameworkProviderDocumentType => ConfigurationManager.AppSettings["FrameworkProviderDocumentType"];
     }
 }

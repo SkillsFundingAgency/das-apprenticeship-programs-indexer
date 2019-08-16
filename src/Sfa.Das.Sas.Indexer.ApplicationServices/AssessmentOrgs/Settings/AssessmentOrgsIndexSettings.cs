@@ -10,9 +10,5 @@
         public string IndexesAlias => ConfigurationManager.AppSettings["AssessmentOrgsIndexAlias"];
 
         public string PauseTime => ConfigurationManager.AppSettings["PauseTime"];
-
-        public string StandardProviderDocumentType => ConfigurationManager.AppSettings["StandardProviderDocumentType"];
-
-        public string FrameworkProviderDocumentType => ConfigurationManager.AppSettings["FrameworkProviderDocumentType"];
     }
 }
