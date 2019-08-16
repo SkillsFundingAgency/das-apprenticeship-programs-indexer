@@ -7,8 +7,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
     public class StandardLars : LarsDocument
     {
-        public StandardLars(string documentType)
-            : base(documentType)
+        public StandardLars()
+            : base(nameof(StandardLars))
         {
         }
 

@@ -66,7 +66,7 @@
 
         public StandardLars CreateLarsStandardDocument(LarsStandard standard)
         {
-            return new StandardLars(nameof(StandardLars))
+            return new StandardLars()
             {
                 Id = standard.Id,
                 Title = standard.Title,
@@ -128,7 +128,7 @@
             frameworkMetaData.NasTitle = frameworkMetaData.NasTitle?.Trim();
             frameworkMetaData.PathwayName = frameworkMetaData.PathwayName?.Trim();
 
-            return new FrameworkLars(nameof(FrameworkLars))
+            return new FrameworkLars()
             {
                 CombinedQualification = frameworkMetaData.CombinedQualification,
                 CompetencyQualification = frameworkMetaData.CompetencyQualification,
@@ -156,7 +156,7 @@
 
         public FundingDocument CreateFundingMetaDataDocument(FundingMetaData fundingMetaData)
         {
-            return new FundingDocument(nameof(FundingDocument))
+            return new FundingDocument()
             {
                 EffectiveFrom = fundingMetaData.EffectiveFrom,
                 EffectiveTo = fundingMetaData.EffectiveTo,
@@ -168,7 +168,7 @@
 
         public FrameworkAimDocument CreateFrameworkAimMetaDataDocument(FrameworkAimMetaData frameworkAimMetaData)
         {
-            return new FrameworkAimDocument(nameof(FrameworkAimDocument))
+            return new FrameworkAimDocument()
             {
                 EffectiveFrom = frameworkAimMetaData.EffectiveFrom,
                 EffectiveTo = frameworkAimMetaData.EffectiveTo,
@@ -182,7 +182,7 @@
 
         public LearningDeliveryDocument CreateLearningDeliveryMetaDataDocument(LearningDeliveryMetaData learningDeliveryMetaData)
         {
-            return new LearningDeliveryDocument(nameof(LearningDeliveryDocument))
+            return new LearningDeliveryDocument()
             {
                 EffectiveFrom = learningDeliveryMetaData.EffectiveFrom,
                 EffectiveTo = learningDeliveryMetaData.EffectiveTo,
@@ -194,7 +194,7 @@
 
         public ApprenticeshipFundingDocument CreateApprenticeshipFundingDocument(ApprenticeshipFundingMetaData apprenticeshipFunding)
         {
-            return new ApprenticeshipFundingDocument(nameof(ApprenticeshipFundingDocument))
+            return new ApprenticeshipFundingDocument()
             {
                 ProgType = apprenticeshipFunding.ProgType,
                 ApprenticeshipCode = apprenticeshipFunding.ApprenticeshipCode,
@@ -207,7 +207,7 @@
 
         public ApprenticeshipComponentTypeDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData)
         {
-            return new ApprenticeshipComponentTypeDocument(nameof(ApprenticeshipComponentTypeDocument))
+            return new ApprenticeshipComponentTypeDocument()
             {
                 EffectiveTo = apprenticeshipComponentTypeMetaData.EffectiveTo,
                 EffectiveFrom = apprenticeshipComponentTypeMetaData.EffectiveFrom,

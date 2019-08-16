@@ -6,8 +6,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
     public class ApprenticeshipComponentTypeDocument : LarsDocument
     {
-        public ApprenticeshipComponentTypeDocument(string documentType)
-            : base(documentType)
+        public ApprenticeshipComponentTypeDocument()
+            : base(nameof(ApprenticeshipComponentTypeDocument))
         {
         }
 

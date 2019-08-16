@@ -6,8 +6,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
     public class LearningDeliveryDocument : LarsDocument
     {
-        public LearningDeliveryDocument(string documentType)
-            : base(documentType)
+        public LearningDeliveryDocument()
+            : base(nameof(LearningDeliveryDocument))
         {
         }
 

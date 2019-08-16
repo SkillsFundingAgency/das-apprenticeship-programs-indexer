@@ -6,8 +6,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
     public class FrameworkAimDocument : LarsDocument
     {
-        public FrameworkAimDocument(string documentType)
-            : base(documentType)
+        public FrameworkAimDocument()
+            : base(nameof(FrameworkAimDocument))
         {
         }
 

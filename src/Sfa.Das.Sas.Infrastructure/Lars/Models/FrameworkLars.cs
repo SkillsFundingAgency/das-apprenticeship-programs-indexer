@@ -9,8 +9,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
     public class FrameworkLars : LarsDocument
     {
-        public FrameworkLars(string documentType)
-            : base(documentType)
+        public FrameworkLars()
+            : base(nameof(FrameworkLars))
         {
         }
 

@@ -6,8 +6,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 
     public class FundingDocument : LarsDocument
     {
-        public FundingDocument(string documentType)
-            : base(documentType)
+        public FundingDocument()
+            : base(nameof(FundingDocument))
         {
         }
 
