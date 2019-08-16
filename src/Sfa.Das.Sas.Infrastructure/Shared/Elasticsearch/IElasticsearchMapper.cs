@@ -15,11 +15,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
     public interface IElasticsearchMapper
     {
-        StandardDocument CreateStandardDocument(StandardMetaData standard);
+        ApprenticeshipDocument CreateStandardDocument(StandardMetaData standard);
 
         StandardLars CreateLarsStandardDocument(LarsStandard standard);
 
-        FrameworkDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData);
+        ApprenticeshipDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData);
 
         FrameworkLars CreateLarsFrameworkDocument(FrameworkMetaData frameworkMetaData);
 

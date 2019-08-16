@@ -31,8 +31,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.ElasticSearch
                 .Settings(settings => settings
                     .NumberOfShards(_elasticsearchConfiguration.ApprenticeshipIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.ApprenticeshipIndexReplicas())
-                    .Analysis(a => _elasticsearchConfiguration.ApprenticeshipAnalysisDescriptor())));
-                //.Mappings(m => _elasticsearchConfiguration.ApprenticeshipMappingDescriptor()));
+                    .Analysis(a => _elasticsearchConfiguration.ApprenticeshipAnalysisDescriptor()))
+                .Map(_elasticsearchConfiguration.ApprenticeshipMappingDescriptor()));
         }
 
         public void IndexStandards(string indexName, IEnumerable<StandardMetaData> entries)

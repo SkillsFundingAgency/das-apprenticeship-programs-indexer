@@ -35,9 +35,9 @@
             _organisationTypeProcessor = organisationTypeProcessor;
         }
 
-        public StandardDocument CreateStandardDocument(StandardMetaData standard)
+        public ApprenticeshipDocument CreateStandardDocument(StandardMetaData standard)
         {
-            return new StandardDocument
+            return new ApprenticeshipDocument(ProgrammeType.Standard)
             {
                 StandardId = standard.Id,
                 Published = standard.Published,
@@ -84,13 +84,13 @@
             };
         }
 
-        public FrameworkDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData)
+        public ApprenticeshipDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData)
         {
             // Trim off any whitespaces in the title or the Pathway Name
             frameworkMetaData.NasTitle = frameworkMetaData.NasTitle?.Trim();
             frameworkMetaData.PathwayName = frameworkMetaData.PathwayName?.Trim();
 
-            return new FrameworkDocument
+            return new ApprenticeshipDocument(ProgrammeType.Framework)
             {
                 FrameworkId = string.Format(_settings.FrameworkIdFormat, frameworkMetaData.FworkCode, frameworkMetaData.ProgType, frameworkMetaData.PwayCode),
                 Published = frameworkMetaData.Published,

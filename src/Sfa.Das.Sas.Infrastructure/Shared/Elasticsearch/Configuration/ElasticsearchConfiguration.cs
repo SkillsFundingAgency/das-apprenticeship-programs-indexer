@@ -1,5 +1,6 @@
 ﻿namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration
 {
+    using System;
     using System.Collections.Generic;
     using Nest;
 
@@ -64,61 +65,57 @@
 
         public int LarsIndexReplicas() => !string.IsNullOrEmpty(_elasticsearchSettings.LarsIndexReplicas) ? int.Parse(_elasticsearchSettings.LarsIndexReplicas) : 0;
 
-        //public MappingsDescriptor ApprenticeshipMappingDescriptor()
-        //{
-        //    return new MappingsDescriptor()
-        //            .Map<StandardDocument>(m => m
-        //            .AutoMap()
-        //            .Properties(p => p
-        //                .Text(t => t
-        //                    .Name("title")
-        //                    .Analyzer(AnalyserEnglishCustom)
-        //                    .Fields(f => f
-        //                        .Text(t2 => t2
-        //                            .Name(AutocompleteNgramPropertyField)
-        //                            .Analyzer(AutocompleteAnalyser)
-        //                            .SearchAnalyzer(AutocompleteSearchAnalyser))))
-        //                .Text(t => t
-        //                    .Name("jobRoles")
-        //                    .Analyzer(AnalyserEnglishCustom)
-        //                    .Fields(f => f
-        //                        .Text(t2 => t2
-        //                            .Name(AutocompleteNgramPropertyField)
-        //                            .Analyzer(AutocompleteAnalyser)
-        //                            .SearchAnalyzer(AutocompleteSearchAnalyser))))
-        //                .Text(t => t
-        //                    .Name("keywords")
-        //                    .Analyzer(AnalyserEnglishCustom)
-        //                    .Fields(f => f
-        //                        .Text(t2 => t2
-        //                            .Name(AutocompleteNgramPropertyField)
-        //                            .Analyzer(AutocompleteAnalyser)
-        //                            .SearchAnalyzer(AutocompleteSearchAnalyser))))))
-        //            .Map<FrameworkDocument>(m => m
-        //                .AutoMap()
-        //                .Properties(p => p
-        //                    .Object<JobRoleItem>(o => o
-        //                    .Name(n => n.JobRoleItems)
-        //                    .Properties(jrps => jrps
-        //                        .Text(t => t
-        //                            .Name("title")
-        //                            .Analyzer(AnalyserEnglishCustom)
-        //                            .Fields(f => f
-        //                                .Text(t2 => t2
-        //                                    .Name(AutocompleteNgramPropertyField)
-        //                                    .Analyzer(AutocompleteAnalyser)
-        //                                    .SearchAnalyzer(AutocompleteSearchAnalyser))))
-        //                        .Text(t2 => t2
-        //                            .Name(n => n.Description)
-        //                            .Analyzer(AnalyserEnglishCustomText))))
-        //                    .Text(t => t
-        //                        .Name("keywords")
-        //                        .Analyzer(AnalyserEnglishCustom)
-        //                        .Fields(f => f
-        //                            .Text(t2 => t2
-        //                                .Name(AutocompleteNgramPropertyField)
-        //                                .Analyzer(AutocompleteAnalyser)
-        //                                .SearchAnalyzer(AutocompleteSearchAnalyser))))));
-        //}
+        public Func<TypeMappingDescriptor<ApprenticeshipDocument>, ITypeMapping> ApprenticeshipMappingDescriptor()
+        {
+            return m => m
+                    .AutoMap()
+                    .Properties(p => p
+                        .Text(t => t
+                            .Name("title")
+                            .Analyzer(AnalyserEnglishCustom)
+                            .Fields(f => f
+                                .Text(t2 => t2
+                                    .Name(AutocompleteNgramPropertyField)
+                                    .Analyzer(AutocompleteAnalyser)
+                                    .SearchAnalyzer(AutocompleteSearchAnalyser))))
+                        .Text(t => t
+                            .Name("jobRoles")
+                            .Analyzer(AnalyserEnglishCustom)
+                            .Fields(f => f
+                                .Text(t2 => t2
+                                    .Name(AutocompleteNgramPropertyField)
+                                    .Analyzer(AutocompleteAnalyser)
+                                    .SearchAnalyzer(AutocompleteSearchAnalyser))))
+                        .Text(t => t
+                            .Name("keywords")
+                            .Analyzer(AnalyserEnglishCustom)
+                            .Fields(f => f
+                                .Text(t2 => t2
+                                    .Name(AutocompleteNgramPropertyField)
+                                    .Analyzer(AutocompleteAnalyser)
+                                    .SearchAnalyzer(AutocompleteSearchAnalyser))))
+                        .Object<JobRoleItem>(o => o
+                            .Name(n => n.JobRoleItems)
+                            .Properties(jrps => jrps
+                                .Text(t => t
+                                    .Name("title")
+                                    .Analyzer(AnalyserEnglishCustom)
+                                    .Fields(f => f
+                                        .Text(t2 => t2
+                                            .Name(AutocompleteNgramPropertyField)
+                                            .Analyzer(AutocompleteAnalyser)
+                                            .SearchAnalyzer(AutocompleteSearchAnalyser))))
+                                .Text(t2 => t2
+                                    .Name(n => n.Description)
+                                    .Analyzer(AnalyserEnglishCustomText))))
+                        .Text(t => t
+                            .Name("keywords")
+                            .Analyzer(AnalyserEnglishCustom)
+                            .Fields(f => f
+                                .Text(t2 => t2
+                                    .Name(AutocompleteNgramPropertyField)
+                                    .Analyzer(AutocompleteAnalyser)
+                                    .SearchAnalyzer(AutocompleteSearchAnalyser)))));
+        }
     }
 }
