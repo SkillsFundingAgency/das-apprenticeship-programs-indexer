@@ -14,6 +14,7 @@ using Polly;
 using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
 using Sfa.Das.Sas.Indexer.Core.Exceptions;
+using Policy = Polly.Policy;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 {
@@ -44,83 +45,83 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return result;
         }
 
-        public IExistsResponse IndexExists(IndexName index, [CallerMemberName] string callerName = "")
+        public ExistsResponse IndexExists(IndexName index, [CallerMemberName] string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.IndexExists(index);
+            var result = _client.Indices.Exists(index);
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.IndexExists.{callerName}");
             return result;
         }
 
-        public IDeleteIndexResponse DeleteIndex(IndexName index, [CallerMemberName] string callerName = "")
+        public DeleteIndexResponse DeleteIndex(IndexName index, [CallerMemberName] string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.DeleteIndex(index);
+            var result = _client.Indices.Delete(index);
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.DeleteIndex.{callerName}");
             return result;
         }
 
-        public IGetMappingResponse GetMapping<T>(Func<GetMappingDescriptor<T>, IGetMappingRequest> selector = null, [CallerMemberName] string callerName = "")
+        public GetMappingResponse GetMapping<T>(Func<GetMappingDescriptor<T>, IGetMappingRequest> selector = null, [CallerMemberName] string callerName = "")
             where T : class
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.GetMapping(selector);
+            var result = _client.Indices.GetMapping(selector);
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.GetMapping.{callerName}");
             return result;
         }
 
-        public IRefreshResponse Refresh(IRefreshRequest request, [CallerMemberName] string callerName = "")
+        public RefreshResponse Refresh(IRefreshRequest request, [CallerMemberName] string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.Refresh(request);
+            var result = _client.Indices.Refresh(request);
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.Refresh.{callerName}");
             return result;
         }
 
-        public IRefreshResponse Refresh(Indices indices, Func<RefreshDescriptor, IRefreshRequest> selector = null, string callerName = "")
+        public RefreshResponse Refresh(Indices indices, Func<RefreshDescriptor, IRefreshRequest> selector = null, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.Refresh(indices);
+            var result = _client.Indices.Refresh(indices);
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.Refresh.{callerName}");
             return result;
         }
 
-        public IExistsResponse AliasExists(Func<AliasExistsDescriptor, IAliasExistsRequest> selector, string callerName = "")
+        public ExistsResponse AliasExists(string aliasName, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.AliasExists(selector);
+            var result = _client.Indices.AliasExists(new AliasExistsRequest(aliasName));
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.AliasExists.{callerName}");
             return result;
         }
 
-        public IBulkAliasResponse Alias(Func<BulkAliasDescriptor, IBulkAliasRequest> selector, string callerName = "")
+        public BulkAliasResponse Alias(Func<BulkAliasDescriptor, IBulkAliasRequest> selector, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.Alias(selector);
+            var result = _client.Indices.BulkAlias(selector);
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.Alias.{callerName}");
             return result;
         }
 
-        public IBulkAliasResponse Alias(IBulkAliasRequest request, string callerName = "")
+        public BulkAliasResponse Alias(IBulkAliasRequest request, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.Alias(request);
+            var result = _client.Indices.BulkAlias(request);
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.Alias.{callerName}");
             return result;
         }
 
-        public IIndicesStatsResponse IndicesStats(Indices indices, Func<IndicesStatsDescriptor, IIndicesStatsRequest> selector = null, string callerName = "")
+        public IndicesStatsResponse IndicesStats(Indices indices, Func<IndicesStatsDescriptor, IIndicesStatsRequest> selector = null, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.IndicesStats(indices, selector);
+            var result = _client.Indices.Stats(indices, selector);
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.IndicesStats.{callerName}");
             return result;
@@ -134,16 +135,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return result.ToList();
         }
 
-        public ICreateIndexResponse CreateIndex(IndexName index, Func<CreateIndexDescriptor, ICreateIndexRequest> selector = null, string callerName = "")
+        public CreateIndexResponse CreateIndex(IndexName index, Func<CreateIndexDescriptor, ICreateIndexRequest> selector = null, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
-            var result = _client.CreateIndex(index, selector);
+            var result = _client.Indices.Create(index, selector);
             ValidateResponse(result);
             SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.CreateIndex.{callerName}");
             return result;
         }
 
-        public virtual async Task<IBulkResponse> BulkAsync(IBulkRequest request, string callerName = "")
+        public virtual async Task<BulkResponse> BulkAsync(IBulkRequest request, string callerName = "")
         {
             var timer = Stopwatch.StartNew();
             var policy = Policy
@@ -262,7 +263,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             return response;
         }
 
-        private Task<IBulkResponse> BulkData(IBulkRequest request)
+        private Task<BulkResponse> BulkData(IBulkRequest request)
         {
             var response = _client.BulkAsync(request);
 
@@ -309,7 +310,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             _logger.Debug($"ElasticsearchQuery: {identifier}", logEntry);
         }
 
-        private void ValidateResponse(IBodyWithApiCallDetails response)
+        private void ValidateResponse(IResponse response)
         {
             var status = response?.ApiCall?.HttpStatusCode;
             if (response?.ApiCall == null || status == null)

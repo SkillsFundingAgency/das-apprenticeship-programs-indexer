@@ -31,7 +31,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var standards = _elasticsearchCustomClient
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .Type(Types.Parse("standardlars"))
                     .MatchAll()
                     .From(0)
                     .Size(size));
@@ -46,7 +45,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var frameworks = _elasticsearchCustomClient
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .Type(Types.Parse("frameworklars"))
                     .MatchAll()
                     .From(0)
                     .Size(size));
@@ -59,7 +57,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var response = _elasticsearchCustomClient
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .Type(Types.Parse("standardlars"))
                     .MatchAll());
 
             if (!response.IsValid)
@@ -67,7 +64,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 throw new Exception($"{response.ServerError.Error.Reason} {response.ServerError.Error.Index}", response.OriginalException);
             }
 
-            return (int)response.HitsMetaData.Total;
+            return (int)response.HitsMetadata.Total.Value;
         }
 
         private int GetLarsFrameworksSize()
@@ -75,7 +72,6 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var response = _elasticsearchCustomClient
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .Type(Types.Parse("frameworklars"))
                     .MatchAll());
 
             if (!response.IsValid)
@@ -83,7 +79,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 throw new Exception($"{response.ServerError.Error.Reason} {response.ServerError.Error.Index}", response.OriginalException);
             }
 
-            return (int)response.HitsMetaData.Total;
+            return (int)response.HitsMetadata.Total.Value;
         }
     }
 }

@@ -36,10 +36,9 @@
                     .Settings(settings => settings
                         .NumberOfShards(_elasticsearchConfiguration.ProviderIndexShards())
                         .NumberOfReplicas(_elasticsearchConfiguration.ProviderIndexReplicas()))
-                    .Mappings(ms => ms
                         .Map<ProviderApiDocument>(m => m.AutoMap())
                         .Map<StandardProvider>(m => m.AutoMap())
-                        .Map<FrameworkProvider>(m => m.AutoMap())));
+                        .Map<FrameworkProvider>(m => m.AutoMap()));
         }
 
         public void IndexApiProviders(string indexName, ICollection<Provider> entries)

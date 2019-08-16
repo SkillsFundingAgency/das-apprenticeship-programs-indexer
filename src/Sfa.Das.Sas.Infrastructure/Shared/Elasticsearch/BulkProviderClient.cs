@@ -8,7 +8,7 @@
 
     public class BulkProviderClient
     {
-        private readonly List<Task<IBulkResponse>> _tasks;
+        private readonly List<Task<BulkResponse>> _tasks;
         private readonly string _indexName;
         private readonly IElasticsearchCustomClient _client;
         private int _count;
@@ -17,7 +17,7 @@
         public BulkProviderClient(string indexName, IElasticsearchCustomClient client)
         {
             _bulkDescriptor = CreateBulkDescriptor(indexName);
-            _tasks = new List<Task<IBulkResponse>>();
+            _tasks = new List<Task<BulkResponse>>();
             _indexName = indexName;
             _client = client;
         }
@@ -56,7 +56,7 @@
             return _bulkDescriptor;
         }
 
-        public List<Task<IBulkResponse>> GetTasks()
+        public List<Task<BulkResponse>> GetTasks()
         {
             if (_count > 0)
             {

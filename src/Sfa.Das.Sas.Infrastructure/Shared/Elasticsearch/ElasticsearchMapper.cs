@@ -442,14 +442,10 @@
                                 PostCode = loc.DeliveryLocation.Address.Postcode,
                             },
                         Location =
-                            new CircleGeoShape
-                            {
-                                Coordinates =
-                                    new GeoCoordinate(
+                            new CircleGeoShape(new GeoCoordinate(
                                         loc.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
                                         loc.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0),
-                                Radius = $"{loc.Radius}mi"
-                            },
+                                        $"{loc.Radius}mi"),
                         LocationPoint = new GeoCoordinate(
                             loc.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
                             loc.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0)

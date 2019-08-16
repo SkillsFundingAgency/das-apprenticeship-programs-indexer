@@ -28,7 +28,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         public virtual bool AliasExists(string aliasName)
         {
-            var aliasExistsResponse = Client.AliasExists(a => a.Name(aliasName));
+            var aliasExistsResponse = Client.AliasExists(aliasName);
 
             return aliasExistsResponse.Exists;
         }
@@ -76,14 +76,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
         public virtual bool IndexIsCompletedAndContainsDocuments(string indexName, int totalAmountDocuments)
         {
             Log.Debug($"Amount of documents to index: {totalAmountDocuments}");
-            var r1 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
+            var r1 = Client.Search<dynamic>(s => s.Index(indexName).MatchAll()).HitsMetadata.Total.Value;
             Log.Debug($"Amount of documents indexed: {r1}");
             long r2 = 0;
             do
             {
                 System.Threading.Thread.Sleep(15000);
 
-                r2 = Client.Search<dynamic>(s => s.Index(indexName).AllTypes().MatchAll()).HitsMetaData.Total;
+                r2 = Client.Search<dynamic>(s => s.Index(indexName).MatchAll()).HitsMetadata.Total.Value;
                 Log.Debug($"Amount of documents indexed: {r2}");
 
                 if (r1 == 0 && r2 == 0)
@@ -126,7 +126,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             Client.Alias(aliasRequest);
         }
 
-        public void LogResponse(IBulkResponse[] elementIndexResult, string documentType)
+        public void LogResponse(BulkResponse[] elementIndexResult, string documentType)
         {
             var totalCount = 0;
             var took = 0;
@@ -147,7 +147,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             }
         }
 
-        private void ReportErrors(IBulkResponse result, string documentType)
+        private void ReportErrors(BulkResponse result, string documentType)
         {
             foreach (var item in result.ItemsWithErrors)
             {

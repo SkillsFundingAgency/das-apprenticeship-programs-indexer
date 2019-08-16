@@ -13,6 +13,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
     public sealed class ElasticsearchAssessmentOrgsIndexMaintainer : ElasticsearchIndexMaintainerBase, IMaintainAssessmentOrgsIndex
     {
         private readonly IElasticsearchConfiguration _elasticsearchConfiguration;
+        public const string AnalyserEnglishCustom = "english_custom";
+        public const string AnalyserEnglishCustomText = "english_custom_text";
+        public const string AutocompleteAnalyser = "autocomplete";
+        public const string AutocompleteSearchAnalyser = "autocomplete_search";
+        public const string AutocompleteTokeniser = "autocomplete";
+        public const string AutocompleteNgramPropertyField = "auto";
 
         public ElasticsearchAssessmentOrgsIndexMaintainer(
             IElasticsearchCustomClient elasticsearchClient,
@@ -30,9 +36,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
                 .Settings(settings => settings
                     .NumberOfShards(_elasticsearchConfiguration.LarsIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
-                .Mappings(ms => ms
                     .Map<OrganisationDocument>(m => m.AutoMap())
-                    .Map<StandardOrganisationDocument>(m => m.AutoMap())));
+                    .Map<StandardOrganisationDocument>(m => m.AutoMap()));
         }
 
         public void IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)
