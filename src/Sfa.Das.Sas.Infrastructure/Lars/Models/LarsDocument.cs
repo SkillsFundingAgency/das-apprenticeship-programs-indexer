@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Nest;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
@@ -13,6 +9,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
             DocumentType = documentType;
         }
 
+        [Keyword]
         public string DocumentType { get; }
     }
 }
