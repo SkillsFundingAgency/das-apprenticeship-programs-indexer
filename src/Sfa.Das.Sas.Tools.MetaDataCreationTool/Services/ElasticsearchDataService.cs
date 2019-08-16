@@ -31,7 +31,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var standards = _elasticsearchCustomClient
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .MatchAll()
+                    .Query(q => q
+                        .Match(m => m
+                            .Field("documentType")
+                            .Query("StandardLars")))
                     .From(0)
                     .Size(size));
 
@@ -45,7 +48,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var frameworks = _elasticsearchCustomClient
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .MatchAll()
+                    .Query(q => q
+                        .Match(m => m
+                            .Field("documentType")
+                            .Query("FrameworkLars")))
                     .From(0)
                     .Size(size));
 
@@ -57,7 +63,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var response = _elasticsearchCustomClient
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .MatchAll());
+                    .Query(q => q
+                        .Match(m => m
+                            .Field("documentType")
+                            .Query("StandardLars"))));
 
             if (!response.IsValid)
             {
@@ -72,7 +81,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var response = _elasticsearchCustomClient
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .MatchAll());
+                    .Query(q => q
+                        .Match(m => m
+                            .Field("documentType")
+                            .Query("FrameworkLars"))));
 
             if (!response.IsValid)
             {
