@@ -42,5 +42,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 		void IndexMany<T>(List<T> entries, string indexName)
 			where T : class;
 
-	}
+        CountResponse DocumentCount(IndexName index, [CallerMemberName] string callerName = "");
+    }
 }

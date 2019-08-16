@@ -2,8 +2,13 @@
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
-    public class ApprenticeshipFundingDocument
+    public class ApprenticeshipFundingDocument : LarsDocument
     {
+        public ApprenticeshipFundingDocument()
+            : base(nameof(ApprenticeshipFundingDocument))
+        {
+        }
+
         [Keyword(NullValue = "null")]
         public string ApprenticeshipType { get; set; }
 

@@ -4,8 +4,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
 {
     using System;
 
-    public class FrameworkAimDocument
+    public class FrameworkAimDocument : LarsDocument
     {
+        public FrameworkAimDocument()
+            : base(nameof(FrameworkAimDocument))
+        {
+        }
+
         [Keyword(NullValue = "null")]
         public int FworkCode { get; set; }
 

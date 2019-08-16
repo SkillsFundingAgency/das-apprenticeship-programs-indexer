@@ -229,6 +229,15 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             }
         }
 
+        public CountResponse DocumentCount(IndexName index, [CallerMemberName] string callerName = "")
+        {
+            var timer = Stopwatch.StartNew();
+            var result = _client.Count(new CountRequest(index));
+            ValidateResponse(result);
+            SendLog(result.ApiCall, null, timer.ElapsedMilliseconds, $"Elasticsearch.Count.{callerName}");
+            return result;
+        }
+
         private IEnumerable<List<T>> SplitAndReturn<T>(List<T> entries, int size)
         {
             for (var i = 0; i < entries.Count; i = i + size)
@@ -289,7 +298,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
             return response;
         }
-
+        
         private void SendLog(IApiCallDetails apiCallDetails, long? took, double networkTime, string identifier)
         {
             string body = string.Empty;

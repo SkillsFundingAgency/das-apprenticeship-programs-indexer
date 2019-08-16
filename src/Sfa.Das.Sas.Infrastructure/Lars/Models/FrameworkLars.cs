@@ -7,8 +7,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.Models
     using System.Collections.Generic;
     using Sfa.Das.Sas.Indexer.Core.Models;
 
-    public class FrameworkLars
+    public class FrameworkLars : LarsDocument
     {
+        public FrameworkLars()
+            : base(nameof(FrameworkLars))
+        {
+        }
+
         [Keyword(NullValue = "null")]
         public int FworkCode { get; set; }
 
