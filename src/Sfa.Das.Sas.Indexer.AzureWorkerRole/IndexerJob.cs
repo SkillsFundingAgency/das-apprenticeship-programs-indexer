@@ -18,7 +18,6 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 
         public void Run()
         {
-
             _controlQueueConsumer.StartIndexer<IMaintainApprenticeshipIndex>().Wait();
             _controlQueueConsumer.StartIndexer<IMaintainLarsIndex>().Wait();
             _controlQueueConsumer.StartIndexer<IMaintainAssessmentOrgsIndex>().Wait();
