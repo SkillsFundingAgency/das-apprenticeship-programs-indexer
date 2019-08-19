@@ -3,8 +3,6 @@ using Sfa.Das.Sas.Indexer.ApplicationServices.Lars.Services;
 
 namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
     using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
@@ -20,15 +18,11 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 
         public void Run()
         {
-            var tasks = new List<Task>
-            {
-                _controlQueueConsumer.CheckMessage<IMaintainApprenticeshipIndex>(),
-                _controlQueueConsumer.CheckMessage<IMaintainProviderIndex>(),
-                _controlQueueConsumer.CheckMessage<IMaintainLarsIndex>(),
-                _controlQueueConsumer.CheckMessage<IMaintainAssessmentOrgsIndex>()
-            };
 
-            Task.WaitAll(tasks.ToArray());
+            _controlQueueConsumer.StartIndexer<IMaintainApprenticeshipIndex>().Wait();
+            _controlQueueConsumer.StartIndexer<IMaintainLarsIndex>().Wait();
+            _controlQueueConsumer.StartIndexer<IMaintainAssessmentOrgsIndex>().Wait();
+            _controlQueueConsumer.StartIndexer<IMaintainProviderIndex>().Wait();
         }
     }
 }

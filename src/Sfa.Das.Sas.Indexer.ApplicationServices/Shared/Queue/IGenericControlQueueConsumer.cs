@@ -5,7 +5,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
 {
     public interface IGenericControlQueueConsumer
     {
-        Task CheckMessage<T>()
+        Task StartIndexer<T>()
             where T : IMaintainSearchIndexes;
     }
 }

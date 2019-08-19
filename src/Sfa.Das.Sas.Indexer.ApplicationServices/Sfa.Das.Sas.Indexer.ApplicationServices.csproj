@@ -196,8 +196,6 @@
     <Compile Include="Provider\Models\Hei\HeiProviderCsvRecord.cs" />
     <Compile Include="Provider\Services\IProviderDataService.cs" />
     <Compile Include="Provider\Services\ProviderDataService.cs" />
-    <Compile Include="Shared\Queue\IQueueMessage.cs" />
-    <Compile Include="Shared\Queue\IMessageQueueService.cs" />
     <Compile Include="Provider\Utility\ApprenticeshipLevelMapper.cs" />
     <Compile Include="Provider\Services\ICourseDirectoryProviderMapper.cs" />
     <Compile Include="Shared\IIndexerServiceFactory.cs" />

@@ -6,10 +6,8 @@ using Nest;
 using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Services;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Utility;
-using Sfa.Das.Sas.Indexer.Infrastructure.Azure;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 using Sfa.Das.Sas.Indexer.Infrastructure.Services;
@@ -25,7 +23,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Shared.DependencyResolution
         public InfrastructureRegistry()
         {
             // Shared
-            For<IMessageQueueService>().Use<AzureCloudQueueService>();
             For<IElasticsearchConfiguration>().Use<ElasticsearchConfiguration>();
             For<IElasticsearchSettings>().Use<ElasticsearchSettings>();
             For<IConvertFromCsv>().Use<CsvService>();
