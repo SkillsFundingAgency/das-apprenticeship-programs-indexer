@@ -5,8 +5,13 @@ using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
-    public sealed class StandardProvider : IProviderApprenticeshipDocument
+    public sealed class StandardProvider : ProviderDocument, IProviderApprenticeshipDocument
     {
+        public StandardProvider()
+            : base(nameof(StandardProvider))
+        {
+        }
+
         public int StandardCode { get; set; }
 
         public Guid Id { get; set; }

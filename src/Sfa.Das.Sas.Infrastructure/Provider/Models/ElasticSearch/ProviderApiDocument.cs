@@ -5,8 +5,13 @@ using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
-    public class ProviderApiDocument
+    public class ProviderApiDocument : ProviderDocument
     {
+        public ProviderApiDocument()
+            : base(nameof(ProviderApiDocument))
+        {
+        }
+
         public string Uri { get; set; }
 
         public int Ukprn { get; set; }

@@ -166,13 +166,20 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
             var count = 0;
 
             var waitHandle = new CountdownEvent(1);
-            
+
             var bulkAll = _client.BulkAll(elementList, b => b
                 .Index(indexName)
                 .BackOffRetries(5)
                 .BackOffTime(TimeSpan.FromSeconds(15))
                 .RefreshOnCompleted(true)
                 .MaxDegreeOfParallelism(2)
+                .BulkResponseCallback((c) =>
+                {
+                    if (!c.IsValid)
+                    {
+                        _logger.Debug($"Bulk Response was invalid: {c.DebugInformation}");
+                    }
+                })
                 .Size(1000));
 
             bulkAll.Subscribe(observer: new BulkAllObserver(

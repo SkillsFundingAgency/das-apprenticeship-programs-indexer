@@ -5,8 +5,13 @@ using Sfa.Das.Sas.Indexer.Core.Provider.Models.ProviderFeedback;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 {
-    public sealed class FrameworkProvider : IProviderApprenticeshipDocument
+    public sealed class FrameworkProvider : ProviderDocument, IProviderApprenticeshipDocument
     {
+        public FrameworkProvider()
+            : base(nameof(FrameworkProvider))
+        {
+        }
+
         public int FrameworkCode { get; set; }
 
         public int PathwayCode { get; set; }
