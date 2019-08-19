@@ -7,6 +7,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
     public class ApprenticeshipDocument
     {
+        public ApprenticeshipDocument(string documentType)
+        {
+            DocumentType = documentType;
+        }
+
+        [Keyword]
+        public string DocumentType { get; }
+
         [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string Title { get; set; }
 

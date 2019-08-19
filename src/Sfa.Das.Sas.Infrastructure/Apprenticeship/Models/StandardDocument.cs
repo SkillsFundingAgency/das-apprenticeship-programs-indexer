@@ -9,6 +9,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
     public sealed class StandardDocument : ApprenticeshipDocument, IIndexEntry
     {
+        public StandardDocument()
+            : base(nameof(StandardDocument))
+        {
+        }
+
         public int StandardId { get; set; }
 
         public bool Published { get; set; }
