@@ -50,10 +50,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
                     {
                         indexerService.Log.Fatal(exception, exception.Message);
                     }
+                    throw ex;
                 }
                 catch (Exception ex)
                 {
                     indexerService.Log.Fatal(ex, ex.Message);
+                    throw ex;
                 }
 
                 _monitor.SendMonitoringNotification(_appServiceSettings.MonitoringUrl(typeof(T)));
@@ -61,6 +63,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Queue
             catch (Exception ex)
             {
                 _log.Fatal(ex, $"Unexpected Failure {IndexerNameLookup.GetIndexTypeName(typeof(T))}");
+                throw ex;
             }
         }
     }
