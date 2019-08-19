@@ -3,8 +3,13 @@ using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models
 {
-    public class StandardOrganisationDocument
+    public class StandardOrganisationDocument : AssessmentOrgsDocument
     {
+        public StandardOrganisationDocument()
+            : base(nameof(StandardOrganisationDocument))
+        {
+        }
+
         public string EpaOrganisationIdentifier { get; set; }
 
         public string StandardCode { get; set; }
