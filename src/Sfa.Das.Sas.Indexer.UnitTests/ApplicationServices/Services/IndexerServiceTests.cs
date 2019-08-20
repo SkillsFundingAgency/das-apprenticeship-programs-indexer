@@ -24,7 +24,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationServices.Services
             _mockHelper = new Mock<IGenericIndexerHelper<Indexer.Core.Models.Provider.Provider>>();
             _mockSettings =
                 Mock.Of<IIndexSettings<Indexer.Core.Models.Provider.Provider>>(
-                    x => x.PauseTime == "10" && x.IndexesAlias == "testproviderindexesalias");
+                    x => x.IndexesAlias == "testproviderindexesalias");
 
             _sut = new IndexerService<Indexer.Core.Models.Provider.Provider>(_mockSettings, _mockHelper.Object, Mock.Of<ILog>());
         }
