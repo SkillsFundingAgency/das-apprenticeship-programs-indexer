@@ -8,7 +8,5 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Settings
     public class ProviderIndexSettings : IIndexSettings<IMaintainProviderIndex>
     {
         public string IndexesAlias => ConfigurationManager.AppSettings["ProviderIndexAlias"];
-
-        public string PauseTime => ConfigurationManager.AppSettings["PauseTime"];
     }
 }

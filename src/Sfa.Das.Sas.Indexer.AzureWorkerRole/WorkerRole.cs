@@ -29,18 +29,13 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
         {
             _logger.Info("Starting indexer processing loop. ");
 
-            while (true)
+            try
             {
-                try
-                {
-                    _container.GetInstance<IIndexerJob>().Run();
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex, "Exception worker role");
-                }
-
-                Thread.Sleep(TimeSpan.FromSeconds(double.Parse(_commonSettings.WorkerRolePauseTime ?? "60")));
+                _container.GetInstance<IIndexerJob>().Run();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Exception worker role");
             }
         }
 
