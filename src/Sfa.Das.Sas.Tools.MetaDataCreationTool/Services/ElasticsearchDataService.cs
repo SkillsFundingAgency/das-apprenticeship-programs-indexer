@@ -32,9 +32,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
                     .Query(q => q
-                        .Match(m => m
-                            .Field("documentType")
-                            .Query("StandardLars")))
+                        .Bool(b => b
+                            .Filter(f => f
+                                .Term(t => t.Field("documentType").Value("StandardLars")))))
                     .From(0)
                     .Size(size));
 
@@ -49,9 +49,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
                     .Query(q => q
-                        .Match(m => m
-                            .Field("documentType")
-                            .Query("FrameworkLars")))
+                        .Bool(b => b
+                            .Filter(f => f
+                                .Term(t => t.Field("documentType").Value("FrameworkLars")))))
                     .From(0)
                     .Size(size));
 
@@ -64,9 +64,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
                     .Query(q => q
-                        .Match(m => m
-                            .Field("documentType")
-                            .Query("StandardLars"))));
+                        .Bool(b => b
+                            .Filter(f => f
+                                .Term(t => t.Field("documentType").Value("StandardLars"))))));
 
             if (!response.IsValid)
             {
@@ -82,9 +82,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
                     .Query(q => q
-                        .Match(m => m
-                            .Field("documentType")
-                            .Query("FrameworkLars"))));
+                        .Bool(b => b
+                            .Filter(f => f
+                                .Term(t => t.Field("documentType").Value("FrameworkLars"))))));
 
             if (!response.IsValid)
             {
