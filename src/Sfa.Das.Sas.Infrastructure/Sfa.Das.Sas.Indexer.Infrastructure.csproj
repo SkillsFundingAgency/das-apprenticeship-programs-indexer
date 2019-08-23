@@ -170,9 +170,9 @@
     <Compile Include="Apprenticeship\Models\ApprenticeshipDocument.Standard.cs" />
     <Compile Include="AssessmentOrgs\DependencyResolution\AssessmentOrgsInfrastructureRegistry.cs" />
     <Compile Include="AssessmentOrgs\ElasticSearch\ElasticsearchAssessmentOrgsIndexMaintainer.cs" />
+    <Compile Include="AssessmentOrgs\Models\AssessmentOrgsDocument.StandardOrganisationDocument.cs" />
+    <Compile Include="AssessmentOrgs\Models\AssessmentOrgsDocument.OrgainisationDocument.cs" />
     <Compile Include="AssessmentOrgs\Models\AssessmentOrgsDocument.cs" />
-    <Compile Include="AssessmentOrgs\Models\OrganisationDocument.cs" />
-    <Compile Include="AssessmentOrgs\Models\StandardOrganisationDocument.cs" />
     <Compile Include="FeatureToggles\IgnoreSslCertificateFeature.cs" />
     <Compile Include="Lars\DependencyResolution\LarsInfrastructureRegistry.cs" />
     <Compile Include="Lars\Models\ApprenticeshipComponentTypeDocument.cs" />

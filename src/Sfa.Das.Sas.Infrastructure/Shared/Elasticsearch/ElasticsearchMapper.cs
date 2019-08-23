@@ -38,7 +38,7 @@
 
         public ApprenticeshipDocument CreateStandardDocument(StandardMetaData standard)
         {
-            return new ApprenticeshipDocument(ElasticsearchDocumentTypes.STANDARDDOCUMENT)
+            return new ApprenticeshipDocument(ElasticsearchDocumentTypes.STANDARD_DOCUMENT)
             {
                 StandardId = standard.Id,
                 Published = standard.Published,
@@ -91,7 +91,7 @@
             frameworkMetaData.NasTitle = frameworkMetaData.NasTitle?.Trim();
             frameworkMetaData.PathwayName = frameworkMetaData.PathwayName?.Trim();
 
-            return new ApprenticeshipDocument(ElasticsearchDocumentTypes.FRAMEWORKDOCUMENT)
+            return new ApprenticeshipDocument(ElasticsearchDocumentTypes.FRAMEWORK_DOCUMENT)
             {
                 FrameworkId = string.Format(_settings.FrameworkIdFormat, frameworkMetaData.FworkCode, frameworkMetaData.ProgType, frameworkMetaData.PwayCode),
                 Published = frameworkMetaData.Published,
@@ -218,9 +218,9 @@
             };
         }
 
-        public OrganisationDocument CreateOrganisationDocument(Organisation organisation)
+        public AssessmentOrgsDocument CreateOrganisationDocument(Organisation organisation)
         {
-            return new OrganisationDocument
+            return new AssessmentOrgsDocument(ElasticsearchDocumentTypes.ORG_DOCUMENT)
             {
                 EpaOrganisationIdentifier = organisation.EpaOrganisationIdentifier,
                 OrganisationType = _organisationTypeProcessor.ProcessOrganisationType(organisation.OrganisationType),
@@ -240,9 +240,9 @@
             };
         }
 
-        public StandardOrganisationDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData)
+        public AssessmentOrgsDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData)
         {
-            return new StandardOrganisationDocument
+            return new AssessmentOrgsDocument(ElasticsearchDocumentTypes.STANDARD_ORG_DOCUMENT)
             {
                 EpaOrganisationIdentifier = standardOrganisationsData.EpaOrganisationIdentifier,
                 EpaOrganisation = standardOrganisationsData.EpaOrganisation,

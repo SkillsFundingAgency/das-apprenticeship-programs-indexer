@@ -33,9 +33,9 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         ApprenticeshipComponentTypeDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData);
 
-        OrganisationDocument CreateOrganisationDocument(Organisation organisation);
+        AssessmentOrgsDocument CreateOrganisationDocument(Organisation organisation);
 
-        StandardOrganisationDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData);
+        AssessmentOrgsDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData);
 
         int MapToLevelFromProgType(int level);
 

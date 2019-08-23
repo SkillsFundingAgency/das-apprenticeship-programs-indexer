@@ -2,7 +2,10 @@
 {
     internal static class ElasticsearchDocumentTypes
     {
-        public const string STANDARDDOCUMENT = "standarddocument";
-        public const string FRAMEWORKDOCUMENT = "frameworkdocument";
+        public const string STANDARD_DOCUMENT = "standarddocument";
+        public const string FRAMEWORK_DOCUMENT = "frameworkdocument";
+        public const string STANDARD_ORG_DOCUMENT = "standardorganisationdocument";
+        public const string ORG_DOCUMENT = "organisationdocument";
+
     }
 }
