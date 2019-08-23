@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nest;
-using Sfa.Das.Sas.Indexer.Core.Apprenticeship.Models;
-using Sfa.Das.Sas.Indexer.Core.Models;
 using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch.Configuration;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
-    public sealed class FrameworkDocument : ApprenticeshipDocument, IIndexEntry
+    public partial class ApprenticeshipDocument
     {
-        public FrameworkDocument()
-            : base(nameof(FrameworkDocument))
-        {
-        }
-
         [Keyword(NullValue = "null")]
         public string FrameworkId { get; set; }
-
-        public bool Published { get; set; }
 
         public int FrameworkCode { get; set; }
 
@@ -35,10 +26,6 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public DateTime? ExpiryDate { get; set; }
 
-        public string EntryRequirements { get; set; }
-
-        public string ProfessionalRegistration { get; set; }
-
         public string CompletionQualifications { get; set; }
 
         public string FrameworkOverview { get; set; }
@@ -48,12 +35,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
         public IEnumerable<string> KnowledgeQualification { get; set; }
 
         public IEnumerable<string> CombinedQualification { get; set; }
-        public DateTime EffectiveFrom { get; set; }
-        public DateTime? EffectiveTo { get; set; }
 
         [Keyword(NullValue = "null")]
         public string FrameworkIdKeyword => FrameworkId;
-
-        public List<FundingPeriod> FundingPeriods { get; set; }
     }
 }

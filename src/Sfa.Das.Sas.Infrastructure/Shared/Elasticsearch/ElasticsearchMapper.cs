@@ -19,6 +19,7 @@
     using Nest;
     using Provider.Models.ElasticSearch;
     using Settings;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
     using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
     using Address = Core.AssessmentOrgs.Models.Address;
     using CoreProvider = Core.Models.Provider.Provider;
@@ -35,9 +36,9 @@
             _organisationTypeProcessor = organisationTypeProcessor;
         }
 
-        public StandardDocument CreateStandardDocument(StandardMetaData standard)
+        public ApprenticeshipDocument CreateStandardDocument(StandardMetaData standard)
         {
-            return new StandardDocument
+            return new ApprenticeshipDocument(ElasticsearchDocumentTypes.STANDARDDOCUMENT)
             {
                 StandardId = standard.Id,
                 Published = standard.Published,
@@ -84,13 +85,13 @@
             };
         }
 
-        public FrameworkDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData)
+        public ApprenticeshipDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData)
         {
             // Trim off any whitespaces in the title or the Pathway Name
             frameworkMetaData.NasTitle = frameworkMetaData.NasTitle?.Trim();
             frameworkMetaData.PathwayName = frameworkMetaData.PathwayName?.Trim();
 
-            return new FrameworkDocument
+            return new ApprenticeshipDocument(ElasticsearchDocumentTypes.FRAMEWORKDOCUMENT)
             {
                 FrameworkId = string.Format(_settings.FrameworkIdFormat, frameworkMetaData.FworkCode, frameworkMetaData.ProgType, frameworkMetaData.PwayCode),
                 Published = frameworkMetaData.Published,

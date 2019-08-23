@@ -20,8 +20,6 @@
 
         int LarsIndexReplicas();
 
-        Func<TypeMappingDescriptor<StandardDocument>, ITypeMapping> ApprenticeshipsStandardMappingDescriptor();
-
-        Func<TypeMappingDescriptor<FrameworkDocument>, ITypeMapping> ApprenticeshipsFrameworkMappingDescriptor();
+        Func<TypeMappingDescriptor<ApprenticeshipDocument>, ITypeMapping> ApprenticeshipsMappingDescriptor();
     }
 }

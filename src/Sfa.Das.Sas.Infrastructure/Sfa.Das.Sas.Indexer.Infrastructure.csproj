@@ -166,6 +166,8 @@
   <ItemGroup>
     <Compile Include="Apprenticeship\DependencyResolution\ApprenticeshipInfrastructureRegistry.cs" />
     <Compile Include="Apprenticeship\ElasticSearch\ElasticsearchApprenticeshipIndexMaintainer.cs" />
+    <Compile Include="Apprenticeship\Models\ApprenticeshipDocument.Framework.cs" />
+    <Compile Include="Apprenticeship\Models\ApprenticeshipDocument.Standard.cs" />
     <Compile Include="AssessmentOrgs\DependencyResolution\AssessmentOrgsInfrastructureRegistry.cs" />
     <Compile Include="AssessmentOrgs\ElasticSearch\ElasticsearchAssessmentOrgsIndexMaintainer.cs" />
     <Compile Include="AssessmentOrgs\Models\AssessmentOrgsDocument.cs" />
@@ -208,7 +210,6 @@
     <Compile Include="Shared\Elasticsearch\IElasticsearchCustomClient.cs" />
     <Compile Include="Apprenticeship\Models\ApprenticeshipDocument.cs" />
     <Compile Include="Shared\Elasticsearch\BulkProviderClient.cs" />
-    <Compile Include="Apprenticeship\Models\FrameworkDocument.cs" />
     <Compile Include="Shared\Elasticsearch\IElasticsearchClientFactory.cs" />
     <Compile Include="Shared\Elasticsearch\IElasticsearchMapper.cs" />
     <Compile Include="Provider\Models\ElasticSearch\Address.cs" />
@@ -237,13 +238,13 @@
     <Compile Include="Shared\Services\VstsClient.cs" />
     <Compile Include="Shared\Services\ZipFileExtractor.cs" />
     <Compile Include="Shared\Settings\AppConfigSettingsProvider.cs" />
+    <Compile Include="Shared\Settings\ElasticsearchDocumentTypes.cs" />
     <Compile Include="Shared\Settings\ElasticsearchSettings.cs" />
     <Compile Include="Shared\Settings\IElasticsearchSettings.cs" />
     <Compile Include="Shared\Settings\InfrastructureSettings.cs" />
     <Compile Include="Shared\Settings\IInfrastructureSettings.cs" />
     <Compile Include="Shared\Settings\LarsSettings.cs" />
     <Compile Include="Shared\Settings\ILarsSettings.cs" />
-    <Compile Include="Apprenticeship\Models\StandardDocument.cs" />
     <Compile Include="Shared\Settings\MachineSettings.cs" />
   </ItemGroup>
   <ItemGroup>
