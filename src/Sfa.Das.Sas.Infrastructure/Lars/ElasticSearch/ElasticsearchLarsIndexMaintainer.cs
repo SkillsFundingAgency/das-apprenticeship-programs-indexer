@@ -32,13 +32,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Lars.ElasticSearch
                 .Settings(settings => settings
                     .NumberOfShards(_elasticsearchConfiguration.LarsIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
-                    .Map<ApprenticeshipFundingDocument>(m => m.AutoMap())
-                    .Map<LearningDeliveryDocument>(m => m.AutoMap())
-                    .Map<FundingDocument>(m => m.AutoMap())
-                    .Map<FrameworkAimDocument>(m => m.AutoMap())
-                    .Map<FrameworkLars>(m => m.AutoMap())
-                    .Map<StandardLars>(m => m.AutoMap())
-                    .Map<ApprenticeshipComponentTypeDocument>(m => m.AutoMap()));
+                    .Map<LarsDocument>(m => m
+                        .DynamicTemplates(dt => dt
+                            .DynamicTemplate("null_keywords", t => t
+                                .PathMatch("*")
+                                .PathUnmatch("fundingPeriods*")
+                                .Mapping(mp => mp
+                                    .Keyword(tx => tx
+                                        .NullValue(null)))))));
         }
 
         public void IndexStandards(string indexName, IEnumerable<LarsStandard> entries)
