@@ -53,7 +53,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
 
         // Programme only shared properties
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         public string LegalName { get; set; }
 
@@ -61,14 +61,13 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
         public string ApprenticeshipMarketingInfo { get; set; }
 
-        [Keyword(NullValue = "null")]
+        [Keyword]
         public string ContactUsUrl { get; set; }
 
-        [Keyword(NullValue = "null")]
+        [Keyword]
         public string ApprenticeshipInfoUrl { get; set; }
 
         public string[] DeliveryModes { get; set; }
-
 
         [Nested]
         public IEnumerable<TrainingLocation> TrainingLocations { get; set; }
@@ -82,10 +81,10 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
         public string OverallCohort { get; set; }
 
-        [Keyword(NullValue = "null")]
+        [Keyword]
         public string[] DeliveryModesKeywords => DeliveryModes;
 
-        public bool HasNonLevyContract { get; set; }
+        public bool? HasNonLevyContract { get; set; }
 
 
         // API Document only
@@ -105,7 +104,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
         public int? PathwayCode { get; set; }
 
-        [Keyword(NullValue = "null")]
+        [Keyword]
         public string FrameworkId { get; set; }
 
         public int? Level { get; set; }
