@@ -36,9 +36,7 @@
                     .Settings(settings => settings
                         .NumberOfShards(_elasticsearchConfiguration.ProviderIndexShards())
                         .NumberOfReplicas(_elasticsearchConfiguration.ProviderIndexReplicas()))
-                        .Map<ProviderApiDocument>(m => m.AutoMap())
-                        .Map<StandardProvider>(m => m.AutoMap())
-                        .Map<FrameworkProvider>(m => m.AutoMap()));
+                        .Map<ProviderDocument>(m => m.AutoMap()));
         }
 
         public void IndexApiProviders(string indexName, ICollection<Provider> entries)
@@ -50,7 +48,7 @@
 
         public void IndexStandards(string indexName, ICollection<Provider> indexEntries)
         {
-            var standardProviderList = new List<StandardProvider>();
+            var standardProviderList = new List<ProviderDocument>();
 
             try
             {
@@ -84,7 +82,7 @@
 
         public void IndexFrameworks(string indexName, ICollection<Provider> indexEntries)
         {
-            var frameworkProviderList = new List<FrameworkProvider>();
+            var frameworkProviderList = new List<ProviderDocument>();
 
             try
             {

@@ -20,7 +20,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
     public class ElasticsearchMapperTest
     {
         private Mock<IInfrastructureSettings> _settings;
-        private string _frameworkIdFormat = "{0}{1}{2}";
+        private string _frameworkIdFormat = "{0}-{1}-{2}";
         private Mock<IOrganisationTypeProcessor> _organisationTypeProcessor;
 
         [OneTimeSetUp]

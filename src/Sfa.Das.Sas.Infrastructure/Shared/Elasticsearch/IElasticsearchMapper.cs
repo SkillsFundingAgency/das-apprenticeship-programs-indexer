@@ -39,14 +39,14 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         int MapToLevelFromProgType(int level);
 
-        StandardProvider CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
+        ProviderDocument CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
 
-        StandardProvider CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation);
+        ProviderDocument CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation);
 
-        FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
+        ProviderDocument CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
 
-        FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, DeliveryInformation deliveryInformation);
+        ProviderDocument CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, DeliveryInformation deliveryInformation);
 
-        ProviderApiDocument CreateProviderApiDocument(Provider provider);
+        ProviderDocument CreateProviderApiDocument(Provider provider);
     }
 }

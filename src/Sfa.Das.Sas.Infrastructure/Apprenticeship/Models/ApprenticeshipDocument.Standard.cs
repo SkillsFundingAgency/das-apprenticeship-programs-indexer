@@ -7,7 +7,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
     public partial class ApprenticeshipDocument
     {
-        public int StandardId { get; set; }
+        public int? StandardId { get; set; }
 
         [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public IEnumerable<string> JobRoles { get; set; }
@@ -20,11 +20,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public DateTime? LastDateForNewStarts { get; set; }
 
-        [Keyword(NullValue = "null")]
-        public string StandardIdKeyword => StandardId.ToString();
+        [Keyword]
+        public string StandardIdKeyword { get; set; }
 
-        public int StandardSectorCode { get; set; }
+        public int? StandardSectorCode { get; set; }
 
-        public bool RegulatedStandard { get; set; }
+        public bool? RegulatedStandard { get; set; }
     }
 }

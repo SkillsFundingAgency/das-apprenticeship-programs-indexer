@@ -7,17 +7,17 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 {
     public partial class ApprenticeshipDocument
     {
-        [Keyword(NullValue = "null")]
+        [Keyword]
         public string FrameworkId { get; set; }
 
-        public int FrameworkCode { get; set; }
+        public int? FrameworkCode { get; set; }
 
         [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string FrameworkName { get; set; }
 
-        public int PathwayCode { get; set; }
+        public int? PathwayCode { get; set; }
 
-        public int ProgType { get; set; }
+        public int? ProgType { get; set; }
 
         [Text(Analyzer = ElasticsearchConfiguration.AnalyserEnglishCustom)]
         public string PathwayName { get; set; }
@@ -36,7 +36,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Apprenticeship.Models
 
         public IEnumerable<string> CombinedQualification { get; set; }
 
-        [Keyword(NullValue = "null")]
+        [Keyword]
         public string FrameworkIdKeyword => FrameworkId;
     }
 }

@@ -6,7 +6,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.Models
     {
         public string StandardCode { get; set; }
 
-        public DateTime EffectiveFrom { get; set; }
+        public DateTime? EffectiveFrom { get; set; }
 
         public DateTime? EffectiveTo { get; set; }
     }
