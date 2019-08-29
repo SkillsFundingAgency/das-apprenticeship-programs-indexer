@@ -53,7 +53,12 @@ INSERT INTO [dbo].[ProviderRaw] ([UKPRN],[Age],[Sector Subject Area Tier 1],[Sec
 
 `    UpdateNationalSsaCodes.sql  
     UpdateProviderSsaCodes.sql
-`
+
+* The FAT web contains a bug where it doesn't correctly handle provider rows containing '-' in [Overall Cohort] and NULL in [Overall Achivement Rate %], so delete all rows with 
+that combination. i.e.
+
+`delete [AchievementRatesProvider] where [Overall Cohort] = '-' and [Overall Achivement Rate %] is NULL`
+
 * Generate insert statements from national/provider tables (use Tasks -> Generate scripts...)
 
 * Get devops to run insert scripts in test environment & testers to test. if ok, get devops to run insert scripts in pp/prod (etc?)
