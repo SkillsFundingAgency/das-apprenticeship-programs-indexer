@@ -53,7 +53,7 @@ INSERT INTO [dbo].[ProviderRaw] ([UKPRN],[Age],[Sector Subject Area Tier 1],[Sec
 
 `    UpdateNationalSsaCodes.sql  
     UpdateProviderSsaCodes.sql
-
+`
 * The FAT web contains a bug where it doesn't correctly handle provider rows containing '-' in [Overall Cohort] and NULL in [Overall Achivement Rate %], so delete all rows with 
 that combination. i.e.
 
