@@ -24,6 +24,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
             var resourceId = _settings.RoatpApiAuthenticationResourceId;
             var instance = _settings.RoatpApiAuthenticationInstance;
 
+            instance = instance.TrimEnd('/');
+
             var authority = $"{instance}/{tenantId}";
             var clientCredential = new ClientCredential(clientId, appKey);
             var context = new AuthenticationContext(authority, true);
