@@ -249,22 +249,6 @@
                                 "value": "[parameters('assessmentOrgsIndexAlias')]"
                             },
                             {
-                                "name": "Apprenticeship.QueueName",
-                                "value": "[parameters('apprenticeshipQueueName')]"
-                            },
-                            {
-                                "name": "Provider.QueueName",
-                                "value": "[parameters('providerQueueName')]"
-                            },
-                            {
-                                "name": "Lars.QueueName",
-                                "value": "[parameters('larsQueueName')]"
-                            },
-                            {
-                                "name": "AssessmentOrgs.QueueName",
-                                "value": "[parameters('assessmentOrgsQueueName')]"
-                            },
-                            {
                                 "name": "StorageConnectionString",
                                 "value": "[reference('storage-account').outputs.storageConnectionString.value]"
                             },
