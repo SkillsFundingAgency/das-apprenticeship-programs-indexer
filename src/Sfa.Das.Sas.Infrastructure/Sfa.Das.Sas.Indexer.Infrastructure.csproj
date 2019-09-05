@@ -188,6 +188,8 @@
     <Compile Include="Provider\DapperBD\LearnerSatisfactionRatesProvider.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderInfrastructureRegistry.cs" />
     <Compile Include="Provider\Models\ElasticSearch\ProviderDocument.cs" />
+    <Compile Include="Provider\Mapping\RoatpMapper.cs" />
+    <Compile Include="Provider\Roatp\RoatpApiClient.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataService.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataServiceExtensions.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderMapper.cs" />

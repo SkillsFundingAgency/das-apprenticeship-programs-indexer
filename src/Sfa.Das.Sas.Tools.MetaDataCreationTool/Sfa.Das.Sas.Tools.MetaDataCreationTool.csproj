@@ -134,7 +134,6 @@
     <Compile Include="Services\AssessmentOrgsExcelPackageService.cs" />
     <Compile Include="Services\Interfaces\IAssessmentOrgsExcelPackageService.cs" />
     <Compile Include="Services\ProviderFeedbackService.cs" />
-    <Compile Include="Services\RoatpProvidersXlsxService.cs" />
     <Compile Include="Services\ElasticsearchDataService.cs" />
     <Compile Include="Services\Interfaces\IElasticsearchDataService.cs" />
     <Compile Include="Services\Interfaces\IJsonMetaDataConvert.cs" />
