@@ -93,7 +93,22 @@
         "vstsAssessmentOrgsUrl": {
             "type": "string"
         },
-        "vstsRoatpUrl": {
+        "roatpApiClientBaseUrl": {
+            "type": "string"
+        },
+        "roatpApiAuthenticationTenantId": {
+            "type": "string"
+        },
+        "roatpApiAuthenticationClientId": {
+            "type": "string"
+        },
+        "roatpApiAuthenticationClientSecret": {
+            "type": "securestring"
+        },
+        "roatpApiAuthenticationResourceId": {
+            "type": "string"
+        },
+        "roatpApiAuthenticationApiBaseAddress": {
             "type": "string"
         }
     },
@@ -311,8 +326,32 @@
                                 "value": "[parameters('vstsAssessmentOrgsUrl')]"
                             },
                             {
-                                "name": "VstsRoatpUrl",
-                                "value": "[parameters('vstsRoatpUrl')]"
+                                "name": "RoatpApiClientBaseUrl",
+                                "value": "[parameters('roatpApiClientBaseUrl')]"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationInstance",
+                                "value": "https://login.microsoftonline.com/"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationTenantId",
+                                "value": "[parameters('roatpApiAuthenticationTenantId')]"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationClientId",
+                                "value": "[parameters('roatpApiAuthenticationClientId')]"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationClientSecret",
+                                "value": "[parameters('roatpApiAuthenticationClientSecret')]"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationResourceId",
+                                "value": "[parameters('roatpApiAuthenticationResourceId')]"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationApiBaseAddress",
+                                "value": "[parameters('roatpApiAuthenticationApiBaseAddress')]"
                             }
                         ]
                     }
