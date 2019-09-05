@@ -25,6 +25,7 @@
       <Setting name="ProviderIndexReplicas" value="0" />
       <Setting name="LarsIndexShards" value="1" />
       <Setting name="LarsIndexReplicas" value="0" />
+      <!--<Setting name="CourseDirectoryUri" value="https://dasapi.coursedirectoryproviderportal.org.uk/dasapi" />-->
       <Setting name="CourseDirectoryUri" value="https://dasapidev.coursedirectoryproviderportal.org.uk/dasapi" />
       <Setting name="VstsAssessmentOrgsUrl" value="https://sfa-gov-uk.visualstudio.com/DefaultCollection/c39e0c0b-7aff-4606-b160-3566f3bbce23/_api/_versioncontrol/itemContent?repositoryId=9b4f676e-ce9a-4f10-a043-0ec9e5bf053c&amp;path=%2FassessmentOrgs%2Flocal%2FassessmentOrgs.xlsx&amp;version=GBmaster&amp;contentOnly=false&amp;__v=5" />
       <Setting name="VstsRoatpUrl" value="https://sfa-gov-uk.visualstudio.com/DefaultCollection/c39e0c0b-7aff-4606-b160-3566f3bbce23/_api/_versioncontrol/itemContent?repositoryId=9b4f676e-ce9a-4f10-a043-0ec9e5bf053c&amp;path=%2Froatp%2FCI%2Froatp.xlsx&amp;version=GBmaster&amp;contentOnly=false&amp;__v=5" />
@@ -42,7 +43,14 @@
       <Setting name="VstsGitFrameworksFolderPath" value="frameworks/local/json" />
       <Setting name="InstrumentationKey" value="" />
       <Setting name="ProviderFeedbackApiUri" value=""/>
-    <Setting name="FeatureToggle.ProviderFeedbackFeature" value="__FeatureToggle_ProviderFeedbackFeature__"/>
+    <Setting name="FeatureToggle.ProviderFeedbackFeature" value="false"/>
+      <Setting name="RoatpApiClientBaseUrl" value ="http://localhost:37951" />
+      <Setting name="RoatpApiAuthenticationInstance"  value ="" />
+      <Setting name="RoatpApiAuthenticationTenantId"  value =""/>
+      <Setting name="RoatpApiAuthenticationClientId"  value =""/>
+      <Setting name="RoatpApiAuthenticationClientSecret"  value =""/>
+      <Setting name="RoatpApiAuthenticationResourceId"  value =""/>
+      <Setting name="RoatpApiAuthenticationApiBaseAddress"  value ="http://localhost:37951"/>
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

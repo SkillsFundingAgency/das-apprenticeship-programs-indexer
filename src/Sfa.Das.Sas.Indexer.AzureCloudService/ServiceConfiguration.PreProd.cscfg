@@ -43,6 +43,13 @@
       <Setting name="InstrumentationKey" value="__InstrumentationKey__" />
       <Setting name="ProviderFeedbackApiUri" value="__ProviderFeedbackApiUri__"/>
       <Setting name="FeatureToggle.ProviderFeedbackFeature" value="__FeatureToggle_ProviderFeedbackFeature__"/>
+      <Setting name="RoatpApiClientBaseUrl" value ="__RoatpApiClientBaseUrl__" />
+      <Setting name="RoatpApiAuthenticationInstance"  value ="__RoatpApiAuthenticationInstance__"/>
+      <Setting name="RoatpApiAuthenticationTenantId"  value ="__RoatpApiAuthenticationTenantId__"/>
+      <Setting name="RoatpApiAuthenticationClientId"  value ="__RoatpApiAuthenticationClientId__"/>
+      <Setting name="RoatpApiAuthenticationClientSecret"  value ="__RoatpApiAuthenticationClientSecret__"/>
+      <Setting name="RoatpApiAuthenticationResourceId"  value ="__RoatpApiAuthenticationResourceId__"/>
+      <Setting name="RoatpApiAuthenticationApiBaseAddress"  value ="__RoatpApiAuthenticationApiBaseAddress__"/>
     </ConfigurationSettings>
   </Role>
   <NetworkConfiguration>

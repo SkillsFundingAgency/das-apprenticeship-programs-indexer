@@ -6,6 +6,7 @@ using Sfa.Das.Sas.Indexer.Infrastructure.Provider.CourseDirectory;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.ElasticSearch;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Mapping;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Roatp;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 using StructureMap;
 using Ukrlp.SoapApi.Client;
@@ -22,7 +23,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DependencyResolution
             For<IDatabaseProvider>().Use<DatabaseProvider>();
             For<IProviderQueryApiClient>().Use(x => new ProviderQueryApiClient(x.GetInstance<IInfrastructureSettings>().UkrlpServiceEndpointUrl));
             For<IUkrlpProviderMapper>().Use<UkrlpProviderMapper>();
-
+            For<IRoatpApiClient>().Use<RoatpApiClient>();
+            For<IRoatpMapper>().Use<RoatpMapper>();
             For<IEstablishmentClient>().Use(x => new EstablishmentClient(x.GetInstance<IInfrastructureSettings>().EstablishmentUsername, x.GetInstance<IInfrastructureSettings>().EstablishmentPassword));
         }
     }
