@@ -87,6 +87,18 @@
         "providerFeedbackApiUri": {
             "type": "string"
         },
+        "providerFeedbackApiAuthenticationTenantId": {
+            "type": "string"
+        },
+        "providerFeedbackApiAuthenticationClientId": {
+            "type": "string"
+        },
+        "providerFeedbackApiAuthenticationClientSecret": {
+            "type": "securestring"
+        },
+        "providerFeedbackApiAuthenticationResourceId": {
+            "type": "string"
+        },
         "courseDirectoryUri": {
             "type": "string"
         },
@@ -106,9 +118,6 @@
             "type": "securestring"
         },
         "roatpApiAuthenticationResourceId": {
-            "type": "string"
-        },
-        "roatpApiAuthenticationApiBaseAddress": {
             "type": "string"
         }
     },
@@ -318,6 +327,26 @@
                                 "value": "[parameters('providerFeedbackApiUri')]"
                             },
                             {
+                                "name": "ProviderFeedbackApiAuthenticationInstance",
+                                "value": "https://login.microsoftonline.com/"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiAuthenticationTenantId",
+                                "value": "[parameters('providerFeedbackApiAuthenticationTenantId')]"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiAuthenticationClientId",
+                                "value": "[parameters('providerFeedbackApiAuthenticationClientId')]"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiAuthenticationClientSecret",
+                                "value": "[parameters('providerFeedbackApiAuthenticationClientSecret')]"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiAuthenticationResourceId",
+                                "value": "[parameters('providerFeedbackApiAuthenticationResourceId')]"
+                            },
+                            {
                                 "name": "CourseDirectoryUri",
                                 "value": "[parameters('courseDirectoryUri')]"
                             },
@@ -348,10 +377,6 @@
                             {
                                 "name": "RoatpApiAuthenticationResourceId",
                                 "value": "[parameters('roatpApiAuthenticationResourceId')]"
-                            },
-                            {
-                                "name": "RoatpApiAuthenticationApiBaseAddress",
-                                "value": "[parameters('roatpApiAuthenticationApiBaseAddress')]"
                             }
                         ]
                     }

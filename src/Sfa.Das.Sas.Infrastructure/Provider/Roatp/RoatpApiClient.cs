@@ -35,7 +35,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Roatp
             try
             {
                 _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", _tokenService.GetToken());
+                    new AuthenticationHeaderValue("Bearer", _tokenService.GetRoatpToken());
                 _log.Info("Gathering roatp details from API");
                 var response = await _httpClient.GetAsync(downloadPath);
                 return await response.Content.ReadAsAsync<List<RoatpResult>>();
