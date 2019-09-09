@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using Microsoft.Azure;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
@@ -73,6 +72,12 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
             }
         }
 
+        public string ProviderFeedbackApiAuthenticationInstance => _settings.GetSetting("ProviderFeedbackApiAuthenticationInstance");
+        public string ProviderFeedbackApiAuthenticationTenantId => _settings.GetSetting("ProviderFeedbackApiAuthenticationTenantId");
+        public string ProviderFeedbackApiAuthenticationClientId => _settings.GetSetting("ProviderFeedbackApiAuthenticationClientId");
+        public string ProviderFeedbackApiAuthenticationClientSecret => _settings.GetSetting("ProviderFeedbackApiAuthenticationClientSecret");
+        public string ProviderFeedbackApiAuthenticationResourceId => _settings.GetSetting("ProviderFeedbackApiAuthenticationResourceId");
+
         public List<string> FrameworksExpiredRequired => GetFrameworksList(_settings.GetNullableSetting("FrameworksExpiredRequired"));
        
         public string RoatpApiClientBaseUrl => _settings.GetSetting("RoatpApiClientBaseUrl");
@@ -82,7 +87,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         public string RoatpApiAuthenticationClientId => _settings.GetSetting("RoatpApiAuthenticationClientId");
         public string RoatpApiAuthenticationClientSecret => _settings.GetSetting("RoatpApiAuthenticationClientSecret");
         public string RoatpApiAuthenticationResourceId => _settings.GetSetting("RoatpApiAuthenticationResourceId");
-        public string RoatpApiAuthenticationApiBaseAddress => _settings.GetSetting("RoatpApiAuthenticationApiBaseAddress");
 
         private List<string> GetFrameworksList(string frameworkIdList)
         {
