@@ -77,4 +77,15 @@
   <ItemGroup>
     <PostDeploy Include="PostDeployment\Script.PostDeployment.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Manual\CON-643-UpdateAchievementRates\2017-18\2017-18 AchievementRatesNational.sql" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\2017-18\2017-18 AchievementRatesProvider.sql" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\CreateImportTableForAchievementRatesNational.sql" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\CreateImportTableForAchievementRatesProvider.sql" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\InsertNewAchievementRatesNational.sql" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\InsertNewAchievementRatesProvider.sql" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\readme.md" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\UpdateNationalSsaCodes.sql" />
+    <Content Include="Manual\CON-643-UpdateAchievementRates\UpdateProviderSsaCodes.sql" />
+  </ItemGroup>
 </Project>
