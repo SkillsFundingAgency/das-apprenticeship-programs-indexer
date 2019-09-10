@@ -60,6 +60,9 @@
     <Folder Include="Tables" />
     <Folder Include="StoredProcedures" />
     <Folder Include="PostDeployment" />
+    <Folder Include="Manual\" />
+    <Folder Include="Manual\CON-643-UpdateAchievementRates\" />
+    <Folder Include="Manual\CON-643-UpdateAchievementRates\2017-18\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\LearnerSatisfaction.sql" />
@@ -70,6 +73,7 @@
     <Build Include="StoredProcedures\GetLatestEmployerSatisfaction.sql" />
     <Build Include="StoredProcedures\GetAchievementRatesNational.sql" />
     <Build Include="StoredProcedures\GetAchievementRatesProvider.sql" />
+    <Build Include="Manual\CON-857_2018-19_LearnerSatisfaction.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Database.publish.xml" />
