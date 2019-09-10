@@ -31,15 +31,13 @@ There has been a recent update to FAT Indexer, so that it now consumes roatp fro
 2. Do the following steps to point your local FAT indexer to a working endpoint, in this case AT
 - Go to ServiceConfiguration.Local.cscfg
 and set all the roatp variables to empty
-
-eg
-- &lt;Setting name=&quot;RoatpApiClientBaseUrl&quot; value =&quot;&quot; /&gt;
-- &lt;Setting name=&quot;RoatpApiAuthenticationInstance&quot;  value =&quot;&quot; /&gt;
-- &lt;Setting name=&quot;RoatpApiAuthenticationTenantId&quot;  value =&quot;&quot;/&gt;
-- &lt;Setting name=&quot;RoatpApiAuthenticationClientId&quot;  value =&quot;&quot;/&gt;
-- &lt;Setting name=&quot;RoatpApiAuthenticationClientSecret&quot;  value =&quot;&quot;/&gt;
-- &lt;Setting name=&quot;RoatpApiAuthenticationResourceId&quot;  value =&quot;&quot;/&gt;
-- &lt;Setting name=&quot;RoatpApiAuthenticationApiBaseAddress&quot;  value =&quot;&quot;/&gt;
+ - &lt;Setting name=&quot;RoatpApiClientBaseUrl&quot; value =&quot;&quot; /&gt;
+ - &lt;Setting name=&quot;RoatpApiAuthenticationInstance&quot;  value =&quot;&quot; /&gt;
+ - &lt;Setting name=&quot;RoatpApiAuthenticationTenantId&quot;  value =&quot;&quot;/&gt;
+ - &lt;Setting name=&quot;RoatpApiAuthenticationClientId&quot;  value =&quot;&quot;/&gt;
+ - &lt;Setting name=&quot;RoatpApiAuthenticationClientSecret&quot;  value =&quot;&quot;/&gt;
+ - &lt;Setting name=&quot;RoatpApiAuthenticationResourceId&quot;  value =&quot;&quot;/&gt;
+ - &lt;Setting name=&quot;RoatpApiAuthenticationApiBaseAddress&quot;  value =&quot;&quot;/&gt;
   
   
 Set these up as environmental variables (this assumes you want to use AT as source of roatp data)
