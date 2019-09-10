@@ -29,7 +29,7 @@ Is responsible of creating a searchable index for apprenticeship and providers
 There has been a recent update to FAT Indexer, so that it now consumes roatp from Roatp-service API instead of MetaDataStorage.  You will require a roatp-service endpoint to consume for FAT Indexer to run locally.  There are two options
 1. Setup and run roatp-service locally, concurrently with FAT Indexer
 2. Do the following steps to point your local FAT indexer to a working endpoint, in this case AT
-- Go to ServiceConfiguration.Local.cscfg
+Go to ServiceConfiguration.Local.cscfg
 and set all the roatp variables to empty
  - &lt;Setting name=&quot;RoatpApiClientBaseUrl&quot; value =&quot;&quot; /&gt;
  - &lt;Setting name=&quot;RoatpApiAuthenticationInstance&quot;  value =&quot;&quot; /&gt;
