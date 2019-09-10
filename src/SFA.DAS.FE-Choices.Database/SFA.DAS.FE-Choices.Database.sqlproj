@@ -73,7 +73,6 @@
     <Build Include="StoredProcedures\GetLatestEmployerSatisfaction.sql" />
     <Build Include="StoredProcedures\GetAchievementRatesNational.sql" />
     <Build Include="StoredProcedures\GetAchievementRatesProvider.sql" />
-    <Build Include="Manual\CON-857_2018-19_LearnerSatisfaction.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Database.publish.xml" />
