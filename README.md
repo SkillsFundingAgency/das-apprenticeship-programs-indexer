@@ -42,8 +42,8 @@ eg
 - &lt;Setting name=&quot;RoatpApiAuthenticationApiBaseAddress&quot;  value =&quot;&quot;/&gt;
   
   
- - Set these up as environmental variables (this assumes you want to use AT as source of roatp data)
-	- DAS_RoatpApiAuthenticationApiBaseAddress = https://das-at-roatp-as.azurewebsites.net
+Set these up as environmental variables (this assumes you want to use AT as source of roatp data)
+- DAS_RoatpApiAuthenticationApiBaseAddress = https://das-at-roatp-as.azurewebsites.net
  - DAS_RoatpApiAuthenticationTenantId = citizenazuresfabisgov.onmicrosoft.com
  - DAS_RoatpApiAuthenticationClientId = 960510a1-87bd-4d98-bde3-00a9646abfdb
  - DAS_RoatpApiAuthenticationClientSecret	  = Get from DevOps and ask for the value for on AT das-apprenticeship-programs-indexer for variable 'RoatpApiAuthenticationClientSecret'
