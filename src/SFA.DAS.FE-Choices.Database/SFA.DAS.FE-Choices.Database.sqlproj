@@ -60,6 +60,9 @@
     <Folder Include="Tables" />
     <Folder Include="StoredProcedures" />
     <Folder Include="PostDeployment" />
+    <Folder Include="Manual\" />
+    <Folder Include="Manual\CON-643-UpdateAchievementRates\" />
+    <Folder Include="Manual\CON-643-UpdateAchievementRates\2017-18\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\LearnerSatisfaction.sql" />
