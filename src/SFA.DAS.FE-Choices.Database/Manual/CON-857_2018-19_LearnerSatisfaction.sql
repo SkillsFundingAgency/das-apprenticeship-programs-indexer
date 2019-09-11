@@ -2970,8 +2970,7 @@ INSERT INTO [dbo].[LearnerSatisfaction] VALUES ('10054692','ALTAMIRA ART & DESIG
 GO
 INSERT INTO [dbo].[LearnerSatisfaction] VALUES ('10054735','SPRINGFIELD TRAINING LIMITED','Private Sector Public Funded', '95.3', NULL,'52','61','2018/2019', 2019)
 GO
-INSERT INTO [dbo].[LearnerSatisfaction] VALUES ('10054747','ORCHARD HILL COLLEGE
-','Other Public Funded', NULL, 'There was not enough data to award a score','0','0','2018/2019', 2019)
+INSERT INTO [dbo].[LearnerSatisfaction] VALUES ('10054747','ORCHARD HILL COLLEGE','Other Public Funded', NULL, 'There was not enough data to award a score','0','0','2018/2019', 2019)
 GO
 INSERT INTO [dbo].[LearnerSatisfaction] VALUES ('10054751','VALUE GROUP TRAINING SERVICES LIMITED','Private Sector Public Funded', NULL, 'This organisation did not participate in the survey','0','0','2018/2019', 2019)
 GO
