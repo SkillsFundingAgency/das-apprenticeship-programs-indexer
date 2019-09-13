@@ -16,21 +16,16 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DependencyResolution
 {
     public class ProviderInfrastructureRegistry : Registry
     {
-        private IAppServiceSettings _settings;
-
-
-
         public ProviderInfrastructureRegistry()
         {
-            // _settings = (IAppServiceSettings) new AppConfigSettingsProvider(new MachineSettings());
-            _settings = new AppServiceSettings(new AppConfigSettingsProvider(new MachineSettings()));
             For<ICourseDirectoryProviderDataService>().Use(x => new CourseDirectoryProviderDataService(x.GetInstance<IInfrastructureSettings>()));
             For<ICourseDirectoryProviderMapper>().Use<CourseDirectoryProviderMapper>();
             For<IMaintainProviderIndex>().Use<ElasticsearchProviderIndexMaintainer>();
             For<IDatabaseProvider>().Use<DatabaseProvider>();
             For<IProviderQueryApiClient>().Use(x => new ProviderQueryApiClient(x.GetInstance<IInfrastructureSettings>().UkrlpServiceEndpointUrl));
             For<IUkrlpProviderMapper>().Use<UkrlpProviderMapper>();
-            if (_settings.RoatpApiAuthenticationApiBaseAddress.ToLower().Contains("stub"))
+            IAppServiceSettings settings = new AppServiceSettings(new AppConfigSettingsProvider(new MachineSettings()));
+            if (settings.RoatpApiAuthenticationApiBaseAddress.ToLower().Contains("stub"))
             {
                 For<IRoatpApiClient>().Use<RoatpApiClientStubbedData>();
             }
