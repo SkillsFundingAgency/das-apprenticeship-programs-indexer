@@ -1,6 +1,7 @@
 using Dfe.Edubase2.SoapApi.Client;
 
 using Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services;
+using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.CourseDirectory;
 using Sfa.Das.Sas.Indexer.Infrastructure.Provider.DapperBD;
@@ -15,15 +16,29 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.DependencyResolution
 {
     public class ProviderInfrastructureRegistry : Registry
     {
+        private IAppServiceSettings _settings;
+
+
+
         public ProviderInfrastructureRegistry()
         {
+            // _settings = (IAppServiceSettings) new AppConfigSettingsProvider(new MachineSettings());
+            _settings = new AppServiceSettings(new AppConfigSettingsProvider(new MachineSettings()));
             For<ICourseDirectoryProviderDataService>().Use(x => new CourseDirectoryProviderDataService(x.GetInstance<IInfrastructureSettings>()));
             For<ICourseDirectoryProviderMapper>().Use<CourseDirectoryProviderMapper>();
             For<IMaintainProviderIndex>().Use<ElasticsearchProviderIndexMaintainer>();
             For<IDatabaseProvider>().Use<DatabaseProvider>();
             For<IProviderQueryApiClient>().Use(x => new ProviderQueryApiClient(x.GetInstance<IInfrastructureSettings>().UkrlpServiceEndpointUrl));
             For<IUkrlpProviderMapper>().Use<UkrlpProviderMapper>();
-            For<IRoatpApiClient>().Use<RoatpApiClient>();
+            if (_settings.RoatpApiAuthenticationApiBaseAddress.ToLower().Contains("stub"))
+            {
+                For<IRoatpApiClient>().Use<RoatpApiClientStubbedData>();
+            }
+            else
+            {
+                For<IRoatpApiClient>().Use<RoatpApiClient>();
+            }
+
             For<IRoatpMapper>().Use<RoatpMapper>();
             For<IEstablishmentClient>().Use(x => new EstablishmentClient(x.GetInstance<IInfrastructureSettings>().EstablishmentUsername, x.GetInstance<IInfrastructureSettings>().EstablishmentPassword));
         }

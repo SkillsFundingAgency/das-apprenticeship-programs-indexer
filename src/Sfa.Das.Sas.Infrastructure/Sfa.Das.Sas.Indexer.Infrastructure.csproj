@@ -190,6 +190,7 @@
     <Compile Include="Provider\Mapping\RoatpMapper.cs" />
     <Compile Include="Provider\Models\ElasticSearch\ProviderApiDocument.cs" />
     <Compile Include="Provider\Roatp\RoatpApiClient.cs" />
+    <Compile Include="Provider\Roatp\RoatpApiClientStubbedData.cs" />
     <Compile Include="Shared\Azure\AzureCloudQueueService.cs" />
     <Compile Include="Shared\Azure\AzureQueueMessage.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataService.cs" />
