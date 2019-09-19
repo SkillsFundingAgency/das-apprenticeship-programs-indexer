@@ -24,23 +24,18 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
         private IWorkerRoleSettings _commonSettings;
 
         private IContainer _container;
-
+        
         public override void Run()
         {
             _logger.Info("Starting indexer processing loop. ");
 
-            while (true)
+            try
             {
-                try
-                {
-                    _container.GetInstance<IIndexerJob>().Run();
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex, "Exception worker role");
-                }
-
-                Thread.Sleep(TimeSpan.FromSeconds(double.Parse(_commonSettings.WorkerRolePauseTime ?? "60")));
+                _container.GetInstance<IIndexerJob>().Run();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Exception worker role");
             }
         }
 
@@ -83,7 +78,7 @@ namespace Sfa.Das.Sas.Indexer.AzureWorkerRole
 
         private void SetupApplicationInsights()
         {
-            TelemetryConfiguration.Active.InstrumentationKey = CloudConfigurationManager.GetSetting("InstrumentationKey");
+            TelemetryConfiguration.Active.InstrumentationKey = ConfigurationManager.AppSettings["APPINSIGHTS_INSTRUMENTATIONKEY"];
 
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new ApplicationInsightsInitializer());
         }

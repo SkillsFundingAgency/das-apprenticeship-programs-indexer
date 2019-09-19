@@ -15,7 +15,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string GetSetting(string settingKey)
         {
-            var setting = CloudConfigurationManager.GetSetting(settingKey);
+            var setting = ConfigurationManager.AppSettings[settingKey];
 
             if (string.IsNullOrWhiteSpace(setting))
             {
@@ -32,7 +32,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string GetNullableSetting(string settingKey)
         {
-            var setting = CloudConfigurationManager.GetSetting(settingKey);
+            var setting = ConfigurationManager.AppSettings[settingKey];
 
             if (string.IsNullOrEmpty(setting))
             {

@@ -15,11 +15,11 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
     public interface IElasticsearchMapper
     {
-        StandardDocument CreateStandardDocument(StandardMetaData standard);
+        ApprenticeshipDocument CreateStandardDocument(StandardMetaData standard);
 
         StandardLars CreateLarsStandardDocument(LarsStandard standard);
 
-        FrameworkDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData);
+        ApprenticeshipDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData);
 
         FrameworkLars CreateLarsFrameworkDocument(FrameworkMetaData frameworkMetaData);
 
@@ -33,20 +33,20 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch
 
         ApprenticeshipComponentTypeDocument CreateApprenticeshipComponentTypeMetaDataDocument(ApprenticeshipComponentTypeMetaData apprenticeshipComponentTypeMetaData);
 
-        OrganisationDocument CreateOrganisationDocument(Organisation organisation);
+        AssessmentOrgsDocument CreateOrganisationDocument(Organisation organisation);
 
-        StandardOrganisationDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData);
+        AssessmentOrgsDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData);
 
         int MapToLevelFromProgType(int level);
 
-        StandardProvider CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
+        ProviderDocument CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
 
-        StandardProvider CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation);
+        ProviderDocument CreateStandardProviderDocument(Provider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation);
 
-        FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
+        ProviderDocument CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation);
 
-        FrameworkProvider CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, DeliveryInformation deliveryInformation);
+        ProviderDocument CreateFrameworkProviderDocument(Provider provider, FrameworkInformation standardInformation, DeliveryInformation deliveryInformation);
 
-        ProviderApiDocument CreateProviderApiDocument(Provider provider);
+        ProviderDocument CreateProviderApiDocument(Provider provider);
     }
 }

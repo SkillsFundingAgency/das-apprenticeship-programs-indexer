@@ -7,12 +7,6 @@
 
     public class AssessmentOrgsIndexSettings : IIndexSettings<IMaintainAssessmentOrgsIndex>
     {
-        public string IndexesAlias => CloudConfigurationManager.GetSetting("AssessmentOrgsIndexAlias");
-
-        public string PauseTime => ConfigurationManager.AppSettings["PauseTime"];
-
-        public string StandardProviderDocumentType => ConfigurationManager.AppSettings["StandardProviderDocumentType"];
-
-        public string FrameworkProviderDocumentType => ConfigurationManager.AppSettings["FrameworkProviderDocumentType"];
+        public string IndexesAlias => ConfigurationManager.AppSettings["AssessmentOrgsIndexAlias"];
     }
 }

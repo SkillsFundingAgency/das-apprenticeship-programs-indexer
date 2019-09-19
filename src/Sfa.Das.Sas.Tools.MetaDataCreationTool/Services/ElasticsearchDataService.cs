@@ -31,8 +31,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var standards = _elasticsearchCustomClient
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .Type(Types.Parse("standardlars"))
-                    .MatchAll()
+                    .Query(q => q
+                        .Bool(b => b
+                            .Filter(f => f
+                                .Term(t => t.Field("documentType").Value("StandardLars")))))
                     .From(0)
                     .Size(size));
 
@@ -46,8 +48,10 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var frameworks = _elasticsearchCustomClient
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .Type(Types.Parse("frameworklars"))
-                    .MatchAll()
+                    .Query(q => q
+                        .Bool(b => b
+                            .Filter(f => f
+                                .Term(t => t.Field("documentType").Value("FrameworkLars")))))
                     .From(0)
                     .Size(size));
 
@@ -59,15 +63,17 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var response = _elasticsearchCustomClient
                 .Search<LarsStandard>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .Type(Types.Parse("standardlars"))
-                    .MatchAll());
+                    .Query(q => q
+                        .Bool(b => b
+                            .Filter(f => f
+                                .Term(t => t.Field("documentType").Value("StandardLars"))))));
 
             if (!response.IsValid)
             {
                 throw new Exception($"{response.ServerError.Error.Reason} {response.ServerError.Error.Index}", response.OriginalException);
             }
 
-            return (int)response.HitsMetaData.Total;
+            return (int)response.HitsMetadata.Total.Value;
         }
 
         private int GetLarsFrameworksSize()
@@ -75,15 +81,17 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
             var response = _elasticsearchCustomClient
                 .Search<FrameworkMetaData>(s => s
                     .Index(_larsSettings.IndexesAlias)
-                    .Type(Types.Parse("frameworklars"))
-                    .MatchAll());
+                    .Query(q => q
+                        .Bool(b => b
+                            .Filter(f => f
+                                .Term(t => t.Field("documentType").Value("FrameworkLars"))))));
 
             if (!response.IsValid)
             {
                 throw new Exception($"{response.ServerError.Error.Reason} {response.ServerError.Error.Index}", response.OriginalException);
             }
 
-            return (int)response.HitsMetaData.Total;
+            return (int)response.HitsMetadata.Total.Value;
         }
     }
 }

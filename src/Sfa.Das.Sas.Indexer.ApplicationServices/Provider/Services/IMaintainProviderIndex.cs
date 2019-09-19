@@ -12,6 +12,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Provider.Services
 
         void IndexFrameworks(string indexName, ICollection<Core.Models.Provider.Provider> indexEntries);
 
-        void LogResponse(IBulkResponse[] elementIndexResult, string documentType);
+        void LogResponse(BulkResponse[] elementIndexResult, string documentType);
     }
 }

@@ -19,6 +19,7 @@
     using Nest;
     using Provider.Models.ElasticSearch;
     using Settings;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
     using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Services;
     using Address = Core.AssessmentOrgs.Models.Address;
     using CoreProvider = Core.Models.Provider.Provider;
@@ -35,11 +36,12 @@
             _organisationTypeProcessor = organisationTypeProcessor;
         }
 
-        public StandardDocument CreateStandardDocument(StandardMetaData standard)
+        public ApprenticeshipDocument CreateStandardDocument(StandardMetaData standard)
         {
-            return new StandardDocument
+            return new ApprenticeshipDocument(ElasticsearchDocumentTypes.STANDARD_DOCUMENT)
             {
                 StandardId = standard.Id,
+                StandardIdKeyword = standard.Id.ToString(),
                 Published = standard.Published,
                 Title = standard.Title,
                 JobRoles = standard.JobRoles,
@@ -84,13 +86,13 @@
             };
         }
 
-        public FrameworkDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData)
+        public ApprenticeshipDocument CreateFrameworkDocument(FrameworkMetaData frameworkMetaData)
         {
             // Trim off any whitespaces in the title or the Pathway Name
             frameworkMetaData.NasTitle = frameworkMetaData.NasTitle?.Trim();
             frameworkMetaData.PathwayName = frameworkMetaData.PathwayName?.Trim();
 
-            return new FrameworkDocument
+            return new ApprenticeshipDocument(ElasticsearchDocumentTypes.FRAMEWORK_DOCUMENT)
             {
                 FrameworkId = string.Format(_settings.FrameworkIdFormat, frameworkMetaData.FworkCode, frameworkMetaData.ProgType, frameworkMetaData.PwayCode),
                 Published = frameworkMetaData.Published,
@@ -217,11 +219,12 @@
             };
         }
 
-        public OrganisationDocument CreateOrganisationDocument(Organisation organisation)
+        public AssessmentOrgsDocument CreateOrganisationDocument(Organisation organisation)
         {
-            return new OrganisationDocument
+            return new AssessmentOrgsDocument(ElasticsearchDocumentTypes.ORG_DOCUMENT)
             {
                 EpaOrganisationIdentifier = organisation.EpaOrganisationIdentifier,
+                EpaOrganisationIdentifierKeyword = organisation.EpaOrganisationIdentifier,
                 OrganisationType = _organisationTypeProcessor.ProcessOrganisationType(organisation.OrganisationType),
                 Email = organisation.Email,
                 Phone = organisation.Phone,
@@ -239,9 +242,9 @@
             };
         }
 
-        public StandardOrganisationDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData)
+        public AssessmentOrgsDocument CreateStandardOrganisationDocument(StandardOrganisationsData standardOrganisationsData)
         {
-            return new StandardOrganisationDocument
+            return new AssessmentOrgsDocument(ElasticsearchDocumentTypes.STANDARD_ORG_DOCUMENT)
             {
                 EpaOrganisationIdentifier = standardOrganisationsData.EpaOrganisationIdentifier,
                 EpaOrganisation = standardOrganisationsData.EpaOrganisation,
@@ -268,25 +271,25 @@
             return ApprenticeshipLevelMapper.MapToLevel(progType);
         }
 
-        public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation)
+        public ProviderDocument CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, DeliveryInformation deliveryInformation)
         {
             return CreateStandardProviderDocument(provider, standardInformation, new List<DeliveryInformation> { deliveryInformation });
         }
 
-        public StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation)
+        public ProviderDocument CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, IEnumerable<DeliveryInformation> deliveryInformation)
         {
             return CreateStandardProviderDocument(provider, standardInformation, deliveryInformation.ToList());
         }
 
-        public FrameworkProvider CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, DeliveryInformation deliveryInformation)
+        public ProviderDocument CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, DeliveryInformation deliveryInformation)
         {
             return CreateFrameworkProviderDocument(provider, frameworkInformation, new List<DeliveryInformation> { deliveryInformation });
         }
 
-        public ProviderApiDocument CreateProviderApiDocument(CoreProvider provider)
+        public ProviderDocument CreateProviderApiDocument(CoreProvider provider)
         {
-          var providerDocument = new ProviderApiDocument
-            {
+          var providerDocument = new ProviderDocument(ElasticsearchDocumentTypes.PROVIDER_API_DOCUMENT)
+          {
                 Ukprn = provider.Ukprn,
                 IsHigherEducationInstitute = provider.IsHigherEducationInstitute,
                 NationalProvider = provider.NationalProvider,
@@ -310,16 +313,16 @@
             return providerDocument;
         }
 
-        public FrameworkProvider CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, IEnumerable<DeliveryInformation> deliveryInformation)
+        public ProviderDocument CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, IEnumerable<DeliveryInformation> deliveryInformation)
         {
             return CreateFrameworkProviderDocument(provider, frameworkInformation, deliveryInformation.ToList());
         }
 
-        private StandardProvider CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, List<DeliveryInformation> deliveryInformation)
+        private ProviderDocument CreateStandardProviderDocument(CoreProvider provider, StandardInformation standardInformation, List<DeliveryInformation> deliveryInformation)
         {
             try
             {
-                var standardProvider = new StandardProvider
+                var standardProvider = new ProviderDocument(ElasticsearchDocumentTypes.PROVIDER_STANDARD_DOCUMENT)
                 {
                     StandardCode = standardInformation.Code,
 	                RegulatedStandard = standardInformation.RegulatedStandard
@@ -335,11 +338,11 @@
             }
         }
 
-        private FrameworkProvider CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, List<DeliveryInformation> deliveryInformation)
+        private ProviderDocument CreateFrameworkProviderDocument(CoreProvider provider, FrameworkInformation frameworkInformation, List<DeliveryInformation> deliveryInformation)
         {
             try
             {
-                var frameworkProvider = new FrameworkProvider
+                var frameworkProvider = new ProviderDocument(ElasticsearchDocumentTypes.PROVIDER_FRAMEWORK_DOCUMENT)
                 {
                     FrameworkCode = frameworkInformation.Code,
                     PathwayCode = frameworkInformation.PathwayCode,
@@ -358,7 +361,7 @@
         }
 
         private void PopulateDocumentSharedProperties(
-            IProviderApprenticeshipDocument documentToPopulate,
+            ProviderDocument documentToPopulate,
             CoreProvider provider,
             IApprenticeshipInformation apprenticeshipInformation,
             List<DeliveryInformation> deliveryLocations)
@@ -442,14 +445,10 @@
                                 PostCode = loc.DeliveryLocation.Address.Postcode,
                             },
                         Location =
-                            new CircleGeoShape
-                            {
-                                Coordinates =
-                                    new GeoCoordinate(
+                            new CircleGeoShape(new GeoCoordinate(
                                         loc.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
                                         loc.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0),
-                                Radius = $"{loc.Radius}mi"
-                            },
+                                        $"{loc.Radius}mi"),
                         LocationPoint = new GeoCoordinate(
                             loc.DeliveryLocation.Address?.GeoPoint?.Latitude ?? 0,
                             loc.DeliveryLocation.Address?.GeoPoint?.Longitude ?? 0)

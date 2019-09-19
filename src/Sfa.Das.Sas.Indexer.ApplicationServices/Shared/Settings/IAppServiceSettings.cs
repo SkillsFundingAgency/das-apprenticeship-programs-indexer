@@ -40,8 +40,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         string VstsAssessmentOrgsUrl { get; }
 
-        string VstsRoatpUrl { get; }
-
         string EnvironmentName { get; }
 
         string ConnectionString { get; }
@@ -56,6 +54,11 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         string MetadataApiUri { get; }
 
         string ProviderFeedbackApiUri { get; }
+        string ProviderFeedbackApiAuthenticationInstance { get; }
+        string ProviderFeedbackApiAuthenticationTenantId { get; }
+        string ProviderFeedbackApiAuthenticationClientId { get; }
+        string ProviderFeedbackApiAuthenticationClientSecret { get; }
+        string ProviderFeedbackApiAuthenticationResourceId { get; }
 
         List<string> FrameworksExpiredRequired { get; }
 
@@ -65,7 +68,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         string RoatpApiAuthenticationClientId { get; }
         string RoatpApiAuthenticationClientSecret { get; }
         string RoatpApiAuthenticationResourceId { get; }
-        string RoatpApiAuthenticationApiBaseAddress { get; }
 
         string QueueName(Type type);
         string[] MonitoringUrl(Type type);

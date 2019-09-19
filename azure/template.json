@@ -1,0 +1,398 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serviceName": {
+            "type": "string"
+        },
+        "resourceEnvironmentName": {
+            "type": "string",
+            "metadata": {
+                "description": "Short name of the environment. Used for the name of resources created"
+            }
+        },
+        "appServicePlanSize": {
+            "type": "string",
+            "allowedValues": [
+                "1",
+                "2",
+                "3"
+            ],
+            "defaultValue": "1"
+        },
+        "environmentName": {
+            "type": "string"
+        },
+        "appServicePlanInstances": {
+            "type": "int",
+            "defaultValue": 1
+        },
+        "loggingRedisConnectionString": {
+            "type": "securestring"
+        },
+        "elasticsearchUsername": {
+            "type": "string"
+        },
+        "elasticsearchPassword": {
+            "type": "securestring"
+        },
+        "edubaseUsername": {
+            "type": "string"
+        },
+        "edubasePassword": {
+            "type": "securestring"
+        },
+        "apprenticeshipIndexAlias": {
+            "type": "string"
+        },
+        "providerIndexAlias": {
+            "type": "string"
+        },
+        "larsIndexAlias": {
+            "type": "string"
+        },
+        "assessmentOrgsIndexAlias": {
+            "type": "string"
+        },
+        "elasticServerUrls": {
+            "type": "string"
+        },
+        "metadataApiUri": {
+            "type": "string"
+        },
+        "employerSatisfactionRatesTableName": {
+            "type": "string"
+        },
+        "learnerSatisfactionRatesTableName": {
+            "type": "string"
+        },
+        "gitUsername": {
+            "type": "string"
+        },
+        "gitPassword": {
+            "type": "securestring"
+        },
+        "achievementRateDataBaseConnectionString": {
+            "type": "securestring"
+        },
+        "ukrlpEndpointUri": {
+            "type": "string"
+        },
+        "vstsGitStandardsFolderPath": {
+            "type": "string"
+        },
+        "vstsGitFrameworksFolderPath": {
+            "type": "string"
+        },
+        "providerFeedbackApiUri": {
+            "type": "string"
+        },
+        "providerFeedbackApiAuthenticationTenantId": {
+            "type": "string"
+        },
+        "providerFeedbackApiAuthenticationClientId": {
+            "type": "string"
+        },
+        "providerFeedbackApiAuthenticationClientSecret": {
+            "type": "securestring"
+        },
+        "providerFeedbackApiAuthenticationResourceId": {
+            "type": "string"
+        },
+        "courseDirectoryUri": {
+            "type": "string"
+        },
+        "vstsAssessmentOrgsUrl": {
+            "type": "string"
+        },
+        "roatpApiClientBaseUrl": {
+            "type": "string"
+        },
+        "roatpApiAuthenticationTenantId": {
+            "type": "string"
+        },
+        "roatpApiAuthenticationClientId": {
+            "type": "string"
+        },
+        "roatpApiAuthenticationClientSecret": {
+            "type": "securestring"
+        },
+        "roatpApiAuthenticationResourceId": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/",
+        "resourcePrefix": "[concat('das-',toLower(parameters('resourceEnvironmentName')),'-' , parameters('serviceName'))]",
+        "appServicePlanName": "[concat(variables('resourcePrefix'),'-asp')]",
+        "appServiceName": "[concat(variables('resourcePrefix'),'-as')]",
+        "storageAccountName": "[concat('das',toLower(parameters('resourceEnvironmentName')),parameters('serviceName'),'str')]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "worker-app-service-plan",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'app-service-plan.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServicePlanName": {
+                        "value": "[variables('appServicePlanName')]"
+                    },
+                    "aspSize": {
+                        "value": "[parameters('appServicePlanSize')]"
+                    },
+                    "aspInstances": {
+                        "value": "[parameters('appServicePlanInstances')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "worker-app-insights",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsightsName": {
+                        "value": "[variables('appServiceName')]"
+                    },
+                    "attachedService": {
+                        "value": "[variables('appServiceName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "storage-account",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'storage-account-arm.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('storageAccountName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "worker-app-service",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('appServiceName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('appServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "deployStagingSlot": {
+                        "value": false
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "EnvironmentName",
+                                "value": "[parameters('environmentName')]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[reference('storage-account').outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsDashboard",
+                                "value": "[reference('storage-account').outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference('worker-app-insights').outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "LoggingRedisConnectionString",
+                                "value": "[parameters('loggingRedisConnectionString')]"
+                            },
+                            {
+                                "name": "ElasticsearchUsername",
+                                "value": "[parameters('elasticsearchUsername')]"
+                            },
+                            {
+                                "name": "ElasticsearchPassword",
+                                "value": "[parameters('elasticsearchPassword')]"
+                            },
+                            {
+                                "name": "EdubaseUsername",
+                                "value": "[parameters('edubaseUsername')]"
+                            },
+                            {
+                                "name": "EdubasePassword",
+                                "value": "[parameters('edubasePassword')]"
+                            },
+                            {
+                                "name": "ApprenticeshipIndexAlias",
+                                "value": "[parameters('apprenticeshipIndexAlias')]"
+                            },
+                            {
+                                "name": "ProviderIndexAlias",
+                                "value": "[parameters('providerIndexAlias')]"
+                            },
+                            {
+                                "name": "LarsIndexAlias",
+                                "value": "[parameters('larsIndexAlias')]"
+                            },
+                            {
+                                "name": "AssessmentOrgsIndexAlias",
+                                "value": "[parameters('assessmentOrgsIndexAlias')]"
+                            },
+                            {
+                                "name": "StorageConnectionString",
+                                "value": "[reference('storage-account').outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "ElasticServerUrls",
+                                "value": "[parameters('elasticServerUrls')]"
+                            },
+                            {
+                                "name": "MetadataApiUri",
+                                "value": "[parameters('metadataApiUri')]"
+                            },
+                            {
+                                "name": "ApprenticeshipIndexShards",
+                                "value": "3"
+                            },
+                            {
+                                "name": "ProviderIndexShards",
+                                "value": "3"
+                            },
+                            {
+                                "name": "LarsIndexShards",
+                                "value": "3"
+                            },
+                            {
+                                "name": "EmployerSatisfactionRatesTableName",
+                                "value": "[parameters('employerSatisfactionRatesTableName')]"
+                            },
+                            {
+                                "name": "LearnerSatisfactionRatesTableName",
+                                "value": "[parameters('learnerSatisfactionRatesTableName')]"
+                            },
+                            {
+                                "name": "GitUsername",
+                                "value": "[parameters('gitUsername')]"
+                            },
+                            {
+                                "name": "GitPassword",
+                                "value": "[parameters('gitPassword')]"
+                            },
+                            {
+                                "name": "AchievementRateDataBaseConnectionString",
+                                "value": "[parameters('achievementRateDataBaseConnectionString')]"
+                            },
+                            {
+                                "name": "UKRLP_EndpointUri",
+                                "value": "[parameters('ukrlpEndpointUri')]"
+                            },
+                            {
+                                "name": "VstsGitStandardsFolderPath",
+                                "value": "[parameters('vstsGitStandardsFolderPath')]"
+                            },
+                            {
+                                "name": "VstsGitFrameworksFolderPath",
+                                "value": "[parameters('vstsGitFrameworksFolderPath')]"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiUri",
+                                "value": "[parameters('providerFeedbackApiUri')]"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiAuthenticationInstance",
+                                "value": "https://login.microsoftonline.com/"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiAuthenticationTenantId",
+                                "value": "[parameters('providerFeedbackApiAuthenticationTenantId')]"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiAuthenticationClientId",
+                                "value": "[parameters('providerFeedbackApiAuthenticationClientId')]"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiAuthenticationClientSecret",
+                                "value": "[parameters('providerFeedbackApiAuthenticationClientSecret')]"
+                            },
+                            {
+                                "name": "ProviderFeedbackApiAuthenticationResourceId",
+                                "value": "[parameters('providerFeedbackApiAuthenticationResourceId')]"
+                            },
+                            {
+                                "name": "CourseDirectoryUri",
+                                "value": "[parameters('courseDirectoryUri')]"
+                            },
+                            {
+                                "name": "VstsAssessmentOrgsUrl",
+                                "value": "[parameters('vstsAssessmentOrgsUrl')]"
+                            },
+                            {
+                                "name": "RoatpApiClientBaseUrl",
+                                "value": "[parameters('roatpApiClientBaseUrl')]"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationInstance",
+                                "value": "https://login.microsoftonline.com/"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationTenantId",
+                                "value": "[parameters('roatpApiAuthenticationTenantId')]"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationClientId",
+                                "value": "[parameters('roatpApiAuthenticationClientId')]"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationClientSecret",
+                                "value": "[parameters('roatpApiAuthenticationClientSecret')]"
+                            },
+                            {
+                                "name": "RoatpApiAuthenticationResourceId",
+                                "value": "[parameters('roatpApiAuthenticationResourceId')]"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "worker-app-service-plan",
+                "worker-app-insights",
+                "storage-account"
+            ]
+        }
+    ],
+    "outputs": {
+        "appServiceName": {
+            "type": "string",
+            "value": "[variables('appServiceName')]"
+        }
+    }
+}

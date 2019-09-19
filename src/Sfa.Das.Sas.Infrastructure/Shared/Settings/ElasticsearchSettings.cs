@@ -27,7 +27,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         private string[] GetSetting(string configName)
         {
-            var str = CloudConfigurationManager.GetSetting(configName);
+            var str = ConfigurationManager.AppSettings[configName];
             return !string.IsNullOrEmpty(str) ? str.Split('|') : new[] { string.Empty };
         }
     }

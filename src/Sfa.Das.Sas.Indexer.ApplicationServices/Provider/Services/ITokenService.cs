@@ -2,6 +2,8 @@
 {
     public interface ITokenService
     {
-        string GetToken();
+        string GetRoatpToken();
+        string GetFeedbackToken();
+
     }
 }
