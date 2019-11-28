@@ -884,7 +884,8 @@ INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10005101','PILOT IMS LIMITED','
 GO
 INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10005109','DERBY BUSINESS COLLEGE LIMITED','Private Sector Public Funded', '91.7', NULL,'64','36','2018/19', 2019) 
 GO
-INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10005113','SLOUGH PIT STOP PROJECT LIMITED','Private Sector Public Funded', NULL, 'There was not enough data to award a score','0','0','2018/19', 2019) GO
+INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10005113','SLOUGH PIT STOP PROJECT LIMITED','Private Sector Public Funded', NULL, 'There was not enough data to award a score','0','0','2018/19', 2019)
+GO
 INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10005124','PLUMPTON COLLEGE','Specialist College', '58.8', NULL,'145','53','2018/19', 2019) 
 GO
 INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10005126','PLYMOUTH CITY COUNCIL','Other Public Funded', NULL, 'There was not enough data to award a score','0','0','2018/19', 2019) 
@@ -1871,8 +1872,8 @@ INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10024751','FW SOLUTIONS LIMITED
 GO
 INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10024772','ROYAL COLLEGE MANCHESTER (SEASHELL TRUST)','Private Sector Public Funded', NULL, 'There was not enough data to award a score','0','0','2018/19', 2019) 
 GO
-INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10024806','ACCESS SKILLS LTD','Private Sector Public Funded', '89', NULL,'371','92','2018/19', 2019) GO
-
+INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10024806','ACCESS SKILLS LTD','Private Sector Public Funded', '89', NULL,'371','92','2018/19', 2019) 
+GO
 INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10024815','ROSEWOOD MANAGEMENT SERVICES LIMITED','Private Sector Public Funded', NULL, 'There was not enough data to award a score','0','0','2018/19', 2019) 
 GO
 INSERT INTO [dbo].[EmployerSatisfaction] VALUES('10024833','NTG TRAINING LTD','Private Sector Public Funded', '94.7', NULL,'73','57','2018/19', 2019) 
