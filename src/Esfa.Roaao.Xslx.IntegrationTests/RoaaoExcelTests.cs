@@ -212,12 +212,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             foreach (var epa in results.Organisations.Select(x => new string[] { x.EpaOrganisationIdentifier, x.WebsiteLink }))
             {
                 var website = epa[1];
-<<<<<<< HEAD
-                var websiteCheck = await CheckWebsiteLink(website);
-                if (!string.IsNullOrEmpty(website) && !websiteCheck.Key)
-=======
                 if (!string.IsNullOrEmpty(website))
->>>>>>> 858a1cd085253c0f0e81e816e83b82d8b716e189
                 {
                     var websiteCheck = await CheckWebsiteLink(website);
                     if (!websiteCheck.Key)
@@ -230,11 +225,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
 
-<<<<<<< HEAD
-        private async Task<KeyValuePair<bool, int>> CheckWebsiteLink(string website)
-=======
         private async Task<KeyValuePair<bool, string>> CheckWebsiteLink(string website)
->>>>>>> 858a1cd085253c0f0e81e816e83b82d8b716e189
         {
             var absolutePath = website.StartsWith("http") ? website : $"http://{website}";
             int noofattempts = 0;
@@ -255,10 +246,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                         using (var response = await httpClient.SendAsync(request))
                         {
                             var result = response;
-<<<<<<< HEAD
-=======
                             responseCode = result.StatusCode.ToString();
->>>>>>> 858a1cd085253c0f0e81e816e83b82d8b716e189
+				
                             if (result.StatusCode == HttpStatusCode.OK)
                             {
                                 return new KeyValuePair<bool, string>(true, $"{noofattempts}");
