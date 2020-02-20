@@ -30,9 +30,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.AssessmentOrgs.ElasticSearch
                 .Settings(settings => settings
                     .NumberOfShards(_elasticsearchConfiguration.LarsIndexShards())
                     .NumberOfReplicas(_elasticsearchConfiguration.LarsIndexReplicas()))
-                .Mappings(ms => ms
-                    .Map<OrganisationDocument>(m => m.AutoMap())
-                    .Map<StandardOrganisationDocument>(m => m.AutoMap())));
+                    .Map<AssessmentOrgsDocument>(m => m.AutoMap()));
         }
 
         public void IndexStandardOrganisationsData(string indexName, List<StandardOrganisationsData> standardOrganisationsData)

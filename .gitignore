@@ -208,3 +208,6 @@ spec/_Chutzpah*
 **/*/Tools/NUnit.ConsoleRunner*
 **/*/*.fake/*
 src/Tools/**/*.*
+
+# Rider
+.idea/

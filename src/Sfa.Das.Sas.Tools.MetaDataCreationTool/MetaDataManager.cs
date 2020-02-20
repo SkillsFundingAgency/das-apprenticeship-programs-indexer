@@ -185,6 +185,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool
                 standard.EffectiveFrom = standardFromLars.EffectiveFrom;
                 standard.EffectiveTo = standardFromLars.EffectiveTo;
                 standard.LastDateForNewStarts = standardFromLars.LastDateForNewStarts;
+                standard.RegulatedStandard = standardFromLars.RegulatedStandard;
                 updated++;
             }
 

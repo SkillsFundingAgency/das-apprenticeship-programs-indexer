@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sfa.Das.Sas.Indexer.Infrastructure</RootNamespace>
     <AssemblyName>Sfa.Das.Sas.Indexer.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -45,16 +45,15 @@
       <HintPath>..\packages\DFE.Edubase2.SoapAPI.Client.0.0.9\lib\net45\Dfe.Edubase2.SoapApi.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Elasticsearch.Net, Version=7.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elasticsearch.Net.7.2.0\lib\net461\Elasticsearch.Net.dll</HintPath>
+    </Reference>
     <Reference Include="FeatureToggle, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FeatureToggle.3.5.1\lib\net40\FeatureToggle.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FeatureToggle.Core, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FeatureToggle.Core.3.5.1\lib\portable-net40+sl50+wp81+wpa+win\FeatureToggle.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Elasticsearch.Net, Version=5.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Elasticsearch.Net.5.6.0\lib\net45\Elasticsearch.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="LINQtoCSV, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -65,25 +64,18 @@
       <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.1.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.Edm, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Edm.5.7.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.OData.5.7.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Data.Services.Client, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Services.Client.5.7.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Rest.ClientRuntime.0.9.6\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
@@ -100,9 +92,8 @@
       <HintPath>..\packages\WindowsAzure.Storage.7.1.2\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nest, Version=5.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
-      <HintPath>..\packages\NEST.5.6.0\lib\net45\Nest.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Nest, Version=7.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NEST.7.2.0\lib\net461\Nest.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -133,8 +124,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -143,9 +140,8 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Spatial, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Spatial.5.7.0\lib\net40\System.Spatial.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Spatial, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.4\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -170,10 +166,13 @@
   <ItemGroup>
     <Compile Include="Apprenticeship\DependencyResolution\ApprenticeshipInfrastructureRegistry.cs" />
     <Compile Include="Apprenticeship\ElasticSearch\ElasticsearchApprenticeshipIndexMaintainer.cs" />
+    <Compile Include="Apprenticeship\Models\ApprenticeshipDocument.Framework.cs" />
+    <Compile Include="Apprenticeship\Models\ApprenticeshipDocument.Standard.cs" />
     <Compile Include="AssessmentOrgs\DependencyResolution\AssessmentOrgsInfrastructureRegistry.cs" />
     <Compile Include="AssessmentOrgs\ElasticSearch\ElasticsearchAssessmentOrgsIndexMaintainer.cs" />
-    <Compile Include="AssessmentOrgs\Models\OrganisationDocument.cs" />
-    <Compile Include="AssessmentOrgs\Models\StandardOrganisationDocument.cs" />
+    <Compile Include="AssessmentOrgs\Models\AssessmentOrgsDocument.StandardOrganisationDocument.cs" />
+    <Compile Include="AssessmentOrgs\Models\AssessmentOrgsDocument.OrgainisationDocument.cs" />
+    <Compile Include="AssessmentOrgs\Models\AssessmentOrgsDocument.cs" />
     <Compile Include="FeatureToggles\IgnoreSslCertificateFeature.cs" />
     <Compile Include="Lars\DependencyResolution\LarsInfrastructureRegistry.cs" />
     <Compile Include="Lars\Models\ApprenticeshipComponentTypeDocument.cs" />
@@ -181,15 +180,16 @@
     <Compile Include="Lars\Models\FrameworkAimDocument.cs" />
     <Compile Include="Lars\Models\FrameworkLars.cs" />
     <Compile Include="Lars\Models\FundingDocument.cs" />
+    <Compile Include="Lars\Models\LarsDocument.cs" />
     <Compile Include="Lars\Models\LearningDeliveryDocument.cs" />
     <Compile Include="Lars\Models\StandardLars.cs" />
     <Compile Include="Provider\CourseDirectory\EmployerProviderVstsClient.cs" />
     <Compile Include="Provider\DapperBD\AchievementRatesNational.cs" />
     <Compile Include="Provider\DapperBD\LearnerSatisfactionRatesProvider.cs" />
     <Compile Include="Provider\DependencyResolution\ProviderInfrastructureRegistry.cs" />
-    <Compile Include="Provider\Models\ElasticSearch\ProviderApiDocument.cs" />
-    <Compile Include="Shared\Azure\AzureCloudQueueService.cs" />
-    <Compile Include="Shared\Azure\AzureQueueMessage.cs" />
+    <Compile Include="Provider\Models\ElasticSearch\ProviderDocument.cs" />
+    <Compile Include="Provider\Mapping\RoatpMapper.cs" />
+    <Compile Include="Provider\Roatp\RoatpApiClient.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataService.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderDataServiceExtensions.cs" />
     <Compile Include="Provider\CourseDirectory\CourseDirectoryProviderMapper.cs" />
@@ -211,14 +211,10 @@
     <Compile Include="Shared\Elasticsearch\IElasticsearchCustomClient.cs" />
     <Compile Include="Apprenticeship\Models\ApprenticeshipDocument.cs" />
     <Compile Include="Shared\Elasticsearch\BulkProviderClient.cs" />
-    <Compile Include="Apprenticeship\Models\FrameworkDocument.cs" />
     <Compile Include="Shared\Elasticsearch\IElasticsearchClientFactory.cs" />
     <Compile Include="Shared\Elasticsearch\IElasticsearchMapper.cs" />
     <Compile Include="Provider\Models\ElasticSearch\Address.cs" />
-    <Compile Include="Provider\Models\ElasticSearch\FrameworkProvider.cs" />
-    <Compile Include="Provider\Models\ElasticSearch\IProviderApprenticeshipDocument.cs" />
     <Compile Include="Apprenticeship\Models\JobRoleItem.cs" />
-    <Compile Include="Provider\Models\ElasticSearch\StandardProvider.cs" />
     <Compile Include="Provider\Models\ElasticSearch\TrainingLocation.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Provider\Mapping\UkrlpProviderMapper.cs" />
@@ -240,13 +236,13 @@
     <Compile Include="Shared\Services\VstsClient.cs" />
     <Compile Include="Shared\Services\ZipFileExtractor.cs" />
     <Compile Include="Shared\Settings\AppConfigSettingsProvider.cs" />
+    <Compile Include="Shared\Settings\ElasticsearchDocumentTypes.cs" />
     <Compile Include="Shared\Settings\ElasticsearchSettings.cs" />
     <Compile Include="Shared\Settings\IElasticsearchSettings.cs" />
     <Compile Include="Shared\Settings\InfrastructureSettings.cs" />
     <Compile Include="Shared\Settings\IInfrastructureSettings.cs" />
     <Compile Include="Shared\Settings\LarsSettings.cs" />
     <Compile Include="Shared\Settings\ILarsSettings.cs" />
-    <Compile Include="Apprenticeship\Models\StandardDocument.cs" />
     <Compile Include="Shared\Settings\MachineSettings.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.Infrastructure.Elasticsearch
             MockElasticClient = new Mock<IElasticsearchCustomClient>();
         }
 
-        internal class StubResponse : ICreateIndexResponse
+        internal class StubResponse : CreateIndexResponse
         {
             private readonly IApiCallDetails _apiCallDetails;
 

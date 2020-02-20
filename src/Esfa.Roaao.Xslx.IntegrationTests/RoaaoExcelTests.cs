@@ -8,6 +8,8 @@ using System;
 using System.Configuration;
 using System.Net.Http;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
 using System.Threading.Tasks;
 
@@ -31,8 +33,12 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             results = sut.GetAssessmentOrganisationsData();
             using (var prodContainer = container.GetNestedContainer())
             {
-                prodContainer.Configure(_ => { _.For<IAppServiceSettings>().Use<ProdAppSettings>(); });
-                prodsut = prodContainer.GetInstance<IGetAssessmentOrgsData>();
+                prodContainer.Configure(_ =>
+                {
+	                _.For<IAppServiceSettings>().Use<ProdAppSettings>();
+	                _.For<IGetAssessmentOrgsData>().Use<AssessmentOrgsXlsxIntegrationService>();
+				});
+				prodsut = prodContainer.GetInstance<IGetAssessmentOrgsData>();
             }
             Assert.IsNotNull(results, "GetAssessmentOrganisationsData returned null may be vsts internal server error or an unauthorized error");
         }
@@ -206,19 +212,33 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             foreach (var epa in results.Organisations.Select(x => new string[] { x.EpaOrganisationIdentifier, x.WebsiteLink }))
             {
                 var website = epa[1];
+<<<<<<< HEAD
                 var websiteCheck = await CheckWebsiteLink(website);
                 if (!string.IsNullOrEmpty(website) && !websiteCheck.Key)
+=======
+                if (!string.IsNullOrEmpty(website))
+>>>>>>> 858a1cd085253c0f0e81e816e83b82d8b716e189
                 {
-                    errors.Add($"{epa[0]} EPA Org has a broken website link {epa[1]}, no of attempts {websiteCheck.Value}");
+                    var websiteCheck = await CheckWebsiteLink(website);
+                    if (!websiteCheck.Key)
+                    {
+                        errors.Add($"{epa[0]} EPA Org has a broken website link {epa[1]}, no of attempts {websiteCheck.Value}");
+                    }
                 }
+                
             }
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
 
+<<<<<<< HEAD
         private async Task<KeyValuePair<bool, int>> CheckWebsiteLink(string website)
+=======
+        private async Task<KeyValuePair<bool, string>> CheckWebsiteLink(string website)
+>>>>>>> 858a1cd085253c0f0e81e816e83b82d8b716e189
         {
             var absolutePath = website.StartsWith("http") ? website : $"http://{website}";
             int noofattempts = 0;
+            var responseCode = "";
             try
             {
                 using (var httpClient = new HttpClient())
@@ -226,7 +246,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                     for (var i = 0; i <= 2; i++)
                     {
                         noofattempts = i + 1;
-                        var request = new HttpRequestMessage(HttpMethod.Head, new Uri(absolutePath));
+                        var request = new HttpRequestMessage(HttpMethod.Get, new Uri(absolutePath));
                         request.Headers.Add("Accept", "text/html");
                         request.Headers.Add("Cache-Control", "no-cache");
                         request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0");
@@ -235,18 +255,23 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                         using (var response = await httpClient.SendAsync(request))
                         {
                             var result = response;
+<<<<<<< HEAD
+=======
+                            responseCode = result.StatusCode.ToString();
+>>>>>>> 858a1cd085253c0f0e81e816e83b82d8b716e189
                             if (result.StatusCode == HttpStatusCode.OK)
                             {
-                                return new KeyValuePair<bool, int>(true, noofattempts);
+                                return new KeyValuePair<bool, string>(true, $"{noofattempts}");
                             }
                         }
+                        Thread.Sleep(300);
                     }
-                    return new KeyValuePair<bool, int>(false, noofattempts);
+                    return new KeyValuePair<bool, string>(false , $"{noofattempts} response {responseCode}");
                 }
             }
             catch (Exception)
             {
-                return new KeyValuePair<bool, int>(false, noofattempts);
+                return new KeyValuePair<bool, string>(false, $"{noofattempts}");
             }
         }
     }

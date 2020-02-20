@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using Microsoft.Azure;
-using Sfa.Das.Sas.Indexer.ApplicationServices.Apprenticeship.Services;
 using Sfa.Das.Sas.Indexer.Core.Services;
 
 namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
@@ -46,8 +45,6 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string VstsAssessmentOrgsUrl => _settings.GetSetting("VstsAssessmentOrgsUrl");
 
-        public string VstsRoatpUrl => _settings.GetSetting("VstsRoatpUrl");
-
         public string GitUsername => _settings.GetSetting("GitUsername");
 
         public string GitPassword => _settings.GetSetting("GitPassword");
@@ -64,18 +61,37 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string GovWebsiteUrl => _settings.GetSetting("GovWebsiteUrl");
 
-        public string MetadataApiUri => CloudConfigurationManager.GetSetting("MetadataApiUri");
+        public string MetadataApiUri => ConfigurationManager.AppSettings["MetadataApiUri"];
 
-        private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
+        public string ProviderFeedbackApiUri
+        {
+            get
+            {
+                var uri = _settings.GetSetting("ProviderFeedbackApiUri");
+                return uri.EndsWith("/") ? uri : uri += "/";
+            }
+        }
+
+        public string ProviderFeedbackApiAuthenticationInstance => _settings.GetSetting("ProviderFeedbackApiAuthenticationInstance");
+        public string ProviderFeedbackApiAuthenticationTenantId => _settings.GetSetting("ProviderFeedbackApiAuthenticationTenantId");
+        public string ProviderFeedbackApiAuthenticationClientId => _settings.GetSetting("ProviderFeedbackApiAuthenticationClientId");
+        public string ProviderFeedbackApiAuthenticationClientSecret => _settings.GetSetting("ProviderFeedbackApiAuthenticationClientSecret");
+        public string ProviderFeedbackApiAuthenticationResourceId => _settings.GetSetting("ProviderFeedbackApiAuthenticationResourceId");
 
         public List<string> FrameworksExpiredRequired => GetFrameworksList(_settings.GetNullableSetting("FrameworksExpiredRequired"));
+       
+        public string RoatpApiClientBaseUrl => _settings.GetSetting("RoatpApiClientBaseUrl");
+
+        public string RoatpApiAuthenticationInstance => _settings.GetSetting("RoatpApiAuthenticationInstance");
+        public string RoatpApiAuthenticationTenantId => _settings.GetSetting("RoatpApiAuthenticationTenantId");
+        public string RoatpApiAuthenticationClientId => _settings.GetSetting("RoatpApiAuthenticationClientId");
+        public string RoatpApiAuthenticationClientSecret => _settings.GetSetting("RoatpApiAuthenticationClientSecret");
+        public string RoatpApiAuthenticationResourceId => _settings.GetSetting("RoatpApiAuthenticationResourceId");
 
         private List<string> GetFrameworksList(string frameworkIdList)
         {
             return !string.IsNullOrWhiteSpace(frameworkIdList) ? frameworkIdList.Split(',').Select(frameworkId => frameworkId.Trim()).ToList() : new List<string>();
         }
-
-        private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");
 
         public string QueueName(Type type)
         {
@@ -94,6 +110,10 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
             return value.Split(';');
         }
+
+        private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
+
+        private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");
 
         private static string TypeToName(Type type)
         {

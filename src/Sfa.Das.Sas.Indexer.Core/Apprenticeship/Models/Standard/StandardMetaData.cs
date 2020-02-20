@@ -37,12 +37,17 @@ namespace Sfa.Das.Sas.Indexer.Core.Models
         public double SectorSubjectAreaTier1 { get; set; }
 
         public double SectorSubjectAreaTier2 { get; set; }
+
         public DateTime? EffectiveFrom { get; set; }
+
         public DateTime? EffectiveTo { get; set; }
 
         public DateTime? LastDateForNewStarts { get; set; }
+
         public int SectorCode { get; set; }
 
         public List<FundingPeriod> FundingPeriods { get; set; }
+
+        public bool RegulatedStandard { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch
 
         public string LocationName { get; set; }
 
-        [GeoShape]
+        [GeoShape(Strategy = GeoStrategy.Recursive)]
         public CircleGeoShape Location { get; set; }
 
         public Address Address { get; set; }

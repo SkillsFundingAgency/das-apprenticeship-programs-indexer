@@ -20,21 +20,21 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string ElasticsearchPassword => _settingsProvider.GetSetting("ElasticsearchPassword");
 
-        public string FrameworkIdFormat => CloudConfigurationManager.GetSetting("FrameworkIdFormat");
+        public string FrameworkIdFormat => ConfigurationManager.AppSettings["FrameworkIdFormat"];
 
-        public string UkrlpStakeholderId => CloudConfigurationManager.GetSetting("UkrlpStakeholderId");
+        public string UkrlpStakeholderId => ConfigurationManager.AppSettings["UkrlpStakeholderId"];
 
-        public string UkrlpProviderStatus => CloudConfigurationManager.GetSetting("UkrlpProviderStatus");
+        public string UkrlpProviderStatus => ConfigurationManager.AppSettings["UkrlpProviderStatus"];
 
         public string UkrlpServiceEndpointUrl => _settingsProvider.GetSetting("UKRLP_EndpointUri");
 
-        public string CourseDirectoryUri => CloudConfigurationManager.GetSetting("CourseDirectoryUri");
+        public string CourseDirectoryUri => ConfigurationManager.AppSettings["CourseDirectoryUri"];
 
-        public string UkrlpEndpointName => CloudConfigurationManager.GetSetting("UkrlpEndpointName");
+        public string UkrlpEndpointName => ConfigurationManager.AppSettings["UkrlpEndpointName"];
 
-        public string EnvironmentName => CloudConfigurationManager.GetSetting("EnvironmentName");
+        public string EnvironmentName => ConfigurationManager.AppSettings["EnvironmentName"];
 
-        public string ApplicationName => CloudConfigurationManager.GetSetting("ApplicationName");
+        public string ApplicationName => ConfigurationManager.AppSettings["ApplicationName"];
 
         public double HttpClientTimeout => Convert.ToDouble(ConfigurationManager.AppSettings["HttpClient.Timeout"]);
 

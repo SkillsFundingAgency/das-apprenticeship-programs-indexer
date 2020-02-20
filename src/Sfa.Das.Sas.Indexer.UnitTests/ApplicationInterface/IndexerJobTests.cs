@@ -22,8 +22,8 @@ namespace Sfa.Das.Sas.Indexer.UnitTests.ApplicationInterface
             sut.Run();
 
             // Assert
-            mockConsumer.Verify(x => x.CheckMessage<IMaintainApprenticeshipIndex>());
-            mockConsumer.Verify(x => x.CheckMessage<IMaintainProviderIndex>());
+            mockConsumer.Verify(x => x.StartIndexer<IMaintainApprenticeshipIndex>());
+            mockConsumer.Verify(x => x.StartIndexer<IMaintainProviderIndex>());
         }
     }
 }

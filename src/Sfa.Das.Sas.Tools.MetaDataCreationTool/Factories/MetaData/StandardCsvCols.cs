@@ -11,5 +11,6 @@
         public const int UrlLink = 8;
         public const int SectorSubjectAreaTier1 = 9;
         public const int SectorSubjectAreaTier2 = 10;
-    }
+        public const int RegulatedStandard = 12;
+	}
 }

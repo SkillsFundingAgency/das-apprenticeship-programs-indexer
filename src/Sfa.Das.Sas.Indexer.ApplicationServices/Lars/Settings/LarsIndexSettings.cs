@@ -8,12 +8,6 @@
 
     public class LarsIndexSettings : IIndexSettings<IMaintainLarsIndex>
     {
-        public string IndexesAlias => CloudConfigurationManager.GetSetting("LarsIndexAlias");
-
-        public string PauseTime => ConfigurationManager.AppSettings["PauseTime"];
-
-        public string StandardProviderDocumentType => ConfigurationManager.AppSettings["StandardProviderDocumentType"];
-
-        public string FrameworkProviderDocumentType => ConfigurationManager.AppSettings["FrameworkProviderDocumentType"];
+        public string IndexesAlias => ConfigurationManager.AppSettings["LarsIndexAlias"];
     }
 }

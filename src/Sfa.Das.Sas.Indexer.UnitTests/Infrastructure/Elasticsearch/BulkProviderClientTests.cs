@@ -7,6 +7,7 @@
     using SFA.DAS.NLog.Logger;
     using Sfa.Das.Sas.Indexer.Infrastructure.Elasticsearch;
     using Sfa.Das.Sas.Indexer.Infrastructure.Provider.Models.ElasticSearch;
+    using Sfa.Das.Sas.Indexer.Infrastructure.Shared.Settings;
 
     [TestFixture]
     public class BulkProviderClientTests
@@ -22,8 +23,8 @@
 
             for (int i = 0; i < provideCount; i++)
             {
-                var frameworkProvider = new FrameworkProvider();
-                sut.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
+                var frameworkProvider = new ProviderDocument(ElasticsearchDocumentTypes.PROVIDER_FRAMEWORK_DOCUMENT);
+                sut.Index<ProviderDocument>(c => c.Document(frameworkProvider));
             }
 
             sut.GetTasks().Count.Should().Be(tasks);
@@ -42,8 +43,8 @@
 
             for (int i = 0; i < provideCount; i++)
             {
-                var frameworkProvider = new FrameworkProvider();
-                sut.Index<FrameworkProvider>(c => c.Document(frameworkProvider));
+                var frameworkProvider = new ProviderDocument(ElasticsearchDocumentTypes.PROVIDER_FRAMEWORK_DOCUMENT);
+                sut.Index<ProviderDocument>(c => c.Document(frameworkProvider));
             }
 
             sut.GetTasks();
