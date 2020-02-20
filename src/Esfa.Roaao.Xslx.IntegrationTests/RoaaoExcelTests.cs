@@ -11,6 +11,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using System.Threading.Tasks;
 
 namespace Esfa.Roaao.Xslx.IntegrationTests
 {
@@ -246,6 +247,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                         {
                             var result = response;
                             responseCode = result.StatusCode.ToString();
+				
                             if (result.StatusCode == HttpStatusCode.OK)
                             {
                                 return new KeyValuePair<bool, string>(true, $"{noofattempts}");
