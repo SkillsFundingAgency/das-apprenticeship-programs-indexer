@@ -40,11 +40,8 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
                 _log.Debug("Downloading ROAAO", new Dictionary<string, object> {{"Url", _appServiceSettings.VstsAssessmentOrgsUrl}});
                 IEnumerable<Organisation> assessmentOrgs;
                 IEnumerable<StandardOrganisationsData> standardOrganisationsData;
-<<<<<<< HEAD
-                using (var stream = new FileStream(_appServiceSettings.VstsAssessmentOrgsUrl,FileMode.Open))
-=======
+
                 using (var stream = GetFileStream())
->>>>>>> 858a1cd085253c0f0e81e816e83b82d8b716e189
                 using (var package = new ExcelPackage(stream))
                 {
                     assessmentOrgs = _assessmentOrgsExcelPackageService.GetAssessmentOrganisations(package).ToList();
