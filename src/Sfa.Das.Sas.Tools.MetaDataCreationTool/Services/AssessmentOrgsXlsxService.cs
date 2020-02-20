@@ -33,19 +33,14 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             IDictionary<string, object> extras = new Dictionary<string, object>();
             extras.Add("DependencyLogEntry.Url", _appServiceSettings.VstsAssessmentOrgsUrl);
-
-            if (!string.IsNullOrEmpty(_appServiceSettings.GitUsername))
-            {
-                var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_appServiceSettings.GitUsername}:{_appServiceSettings.GitPassword}"));
-                _webClient.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
-            }
+            
 
             try
             {
                 _log.Debug("Downloading ROAAO", new Dictionary<string, object> {{"Url", _appServiceSettings.VstsAssessmentOrgsUrl}});
                 IEnumerable<Organisation> assessmentOrgs;
                 IEnumerable<StandardOrganisationsData> standardOrganisationsData;
-                using (var stream = new MemoryStream(_webClient.DownloadData(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl))))
+                using (var stream = new FileStream(_appServiceSettings.VstsAssessmentOrgsUrl,FileMode.Open))
                 using (var package = new ExcelPackage(stream))
                 {
                     assessmentOrgs = _assessmentOrgsExcelPackageService.GetAssessmentOrganisations(package).ToList();

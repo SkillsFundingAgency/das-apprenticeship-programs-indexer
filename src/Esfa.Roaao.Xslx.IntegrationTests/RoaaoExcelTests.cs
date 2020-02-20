@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Net.Http;
 using System.Net;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
+using System.Threading.Tasks;
 
 namespace Esfa.Roaao.Xslx.IntegrationTests
 {
@@ -199,13 +200,13 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
 
         [TestMethod]
         [TestCategory("RoAAo Excel Tests")]
-        public void ShouldNotHaveBrokenWebsiteLink()
+        public async Task ShouldNotHaveBrokenWebsiteLink()
         {
             var errors = new List<string>();
             foreach (var epa in results.Organisations.Select(x => new string[] { x.EpaOrganisationIdentifier, x.WebsiteLink }))
             {
                 var website = epa[1];
-                var websiteCheck = CheckWebsiteLink(website);
+                var websiteCheck = await CheckWebsiteLink(website);
                 if (!string.IsNullOrEmpty(website) && !websiteCheck.Key)
                 {
                     errors.Add($"{epa[0]} EPA Org has a broken website link {epa[1]}, no of attempts {websiteCheck.Value}");
@@ -214,7 +215,7 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
 
-        private KeyValuePair<bool, int> CheckWebsiteLink(string website)
+        private async Task<KeyValuePair<bool, int>> CheckWebsiteLink(string website)
         {
             var absolutePath = website.StartsWith("http") ? website : $"http://{website}";
             int noofattempts = 0;
@@ -231,9 +232,9 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
                         request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0");
                         ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
-                        using (var response = httpClient.SendAsync(request))
+                        using (var response = await httpClient.SendAsync(request))
                         {
-                            var result = response.Result;
+                            var result = response;
                             if (result.StatusCode == HttpStatusCode.OK)
                             {
                                 return new KeyValuePair<bool, int>(true, noofattempts);
