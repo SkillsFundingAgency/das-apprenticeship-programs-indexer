@@ -68,6 +68,7 @@
     <Folder Include="Manual\CON-1697-UpdateAchievmentRates\Step2_InsertRatesToImportTable" />
     <Folder Include="Manual\CON-1697-UpdateAchievmentRates\Step3_Update_SSA" />
     <Folder Include="Manual\CON-1697-UpdateAchievmentRates\Step4_InsertImportTableIntoAchievementTables" />
+    <Folder Include="Manual\CON-1697-UpdateAchievmentRates\Step5_DropImportTable" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\LearnerSatisfaction.sql" />
@@ -86,6 +87,7 @@
     <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step3_Update_SSA\Update_SSA1CodeandSSA2Code_Provider.sql" />
     <Content Include="Manual\CON-1697-UpdateAchievmentRates\Step4_InsertImportTableIntoAchievementTables\InsertNewAchievementRatesNational.sql" />
     <Content Include="Manual\CON-1697-UpdateAchievmentRates\Step4_InsertImportTableIntoAchievementTables\InsertNewAchievementRatesProvider.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step5_DropImportTable\DropImportTables.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Database.publish.xml" />
