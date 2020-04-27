@@ -31,4 +31,4 @@ SELECT [UKPRN]
      ,null
      ,null
      ,[hybridyear]
-FROM ProviderRaw
+FROM [dbo].[ProviderRaw]

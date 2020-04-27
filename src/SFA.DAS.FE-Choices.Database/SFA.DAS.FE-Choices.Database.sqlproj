@@ -88,6 +88,7 @@
     <Content Include="Manual\CON-1697-UpdateAchievmentRates\Step4_InsertImportTableIntoAchievementTables\InsertNewAchievementRatesNational.sql" />
     <Content Include="Manual\CON-1697-UpdateAchievmentRates\Step4_InsertImportTableIntoAchievementTables\InsertNewAchievementRatesProvider.sql" />
     <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step5_DropImportTable\DropImportTables.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\AllSQLQuery.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Database.publish.xml" />
