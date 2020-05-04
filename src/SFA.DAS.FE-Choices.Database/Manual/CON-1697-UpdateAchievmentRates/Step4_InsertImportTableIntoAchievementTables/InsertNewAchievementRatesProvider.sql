@@ -28,7 +28,7 @@ SELECT [UKPRN]
      ,case when [Overall Achivement Rate %] in ('-', '*') then null
            else convert(float,replace( [Overall Achivement Rate %],',','')) end
 
-     ,null
-     ,null
+     ,[SSA1 Code]
+     ,[SSA2 Code]
      ,[hybridyear]
 FROM [dbo].[ProviderRaw]
