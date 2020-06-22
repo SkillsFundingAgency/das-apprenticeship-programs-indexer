@@ -5,6 +5,7 @@ using MediatR;
 using SFA.DAS.NLog.Logger;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Logging.Models;
 using Sfa.Das.Sas.Indexer.Core.Provider.Models;
+using Sfa.Das.Sas.Indexer.Infrastructure.Provider.CourseDirectory;
 using Sfa.Das.Sas.Indexer.Infrastructure.Settings;
 
 namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
@@ -31,6 +32,12 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.CourseDirectory
             _logger.Debug("Starting to retrieve Course Directory Providers");
             var stopwatch = Stopwatch.StartNew();
             _courseDirectoryProviderDataService.BaseUri = new Uri(_settings.CourseDirectoryUri);
+
+            if (!string.IsNullOrWhiteSpace(_settings.CourseDirectoryApiKey))
+            {
+                _courseDirectoryProviderDataService.Credentials = new ApiKeyServiceClientCredentials(_settings.CourseDirectoryApiKey);
+            }
+
             var responseAsync = await _courseDirectoryProviderDataService.BulkprovidersWithOperationResponseAsync();
 
             _logger.Debug(
