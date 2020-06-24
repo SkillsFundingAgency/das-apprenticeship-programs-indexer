@@ -61,7 +61,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-  - template: azure-pipelines-templates/dependency-check.yml@das-platform-building-blocks
+- template: azure-pipelines-templates/dependency-check.yml@das-platform-building-blocks
 
 - task: VSBuild@1
   displayName: 'Build DACPAC'
