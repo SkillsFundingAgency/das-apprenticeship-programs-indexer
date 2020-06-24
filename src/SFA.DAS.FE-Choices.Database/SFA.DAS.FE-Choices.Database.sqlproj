@@ -63,6 +63,12 @@
     <Folder Include="Manual\" />
     <Folder Include="Manual\CON-643-UpdateAchievementRates\" />
     <Folder Include="Manual\CON-643-UpdateAchievementRates\2017-18\" />
+    <Folder Include="Manual\CON-1697-UpdateAchievmentRates" />
+    <Folder Include="Manual\CON-1697-UpdateAchievmentRates\Step1_CreateImportTable" />
+    <Folder Include="Manual\CON-1697-UpdateAchievmentRates\Step2_InsertRatesToImportTable" />
+    <Folder Include="Manual\CON-1697-UpdateAchievmentRates\Step3_Update_SSA" />
+    <Folder Include="Manual\CON-1697-UpdateAchievmentRates\Step4_InsertImportTableIntoAchievementTables" />
+    <Folder Include="Manual\CON-1697-UpdateAchievmentRates\Step5_DropImportTable" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\LearnerSatisfaction.sql" />
@@ -73,6 +79,16 @@
     <Build Include="StoredProcedures\GetLatestEmployerSatisfaction.sql" />
     <Build Include="StoredProcedures\GetAchievementRatesNational.sql" />
     <Build Include="StoredProcedures\GetAchievementRatesProvider.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step1_CreateImportTable\CreateImportTableForAchievementRatesNational.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step1_CreateImportTable\CreateImportTableForAchievementRatesProvider.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step2_InsertRatesToImportTable\InsertRatesNational.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step2_InsertRatesToImportTable\InsertRatesProvider.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step3_Update_SSA\Update_SSA1andSSA2_National.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step3_Update_SSA\Update_SSA1CodeandSSA2Code_Provider.sql" />
+    <Content Include="Manual\CON-1697-UpdateAchievmentRates\Step4_InsertImportTableIntoAchievementTables\InsertNewAchievementRatesNational.sql" />
+    <Content Include="Manual\CON-1697-UpdateAchievmentRates\Step4_InsertImportTableIntoAchievementTables\InsertNewAchievementRatesProvider.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\Step5_DropImportTable\DropImportTables.sql" />
+    <Build Include="Manual\CON-1697-UpdateAchievmentRates\AllSQLQuery.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Database.publish.xml" />
