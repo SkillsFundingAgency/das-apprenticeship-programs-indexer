@@ -102,9 +102,6 @@
         "courseDirectoryUri": {
             "type": "string"
         },
-        "courseDirectoryApiKey": {
-            "type": "string"
-        },
         "vstsAssessmentOrgsUrl": {
             "type": "string"
         },
@@ -352,10 +349,6 @@
                             {
                                 "name": "CourseDirectoryUri",
                                 "value": "[parameters('courseDirectoryUri')]"
-                            },
-                            {
-                                "name": "CourseDirectoryApiKey",
-                                "value": "[parameters('courseDirectoryApiKey')]"
                             },
                             {
                                 "name": "VstsAssessmentOrgsUrl",
