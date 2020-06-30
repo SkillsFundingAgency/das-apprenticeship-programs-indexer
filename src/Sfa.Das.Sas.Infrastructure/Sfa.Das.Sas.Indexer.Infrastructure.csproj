@@ -183,6 +183,7 @@
     <Compile Include="Lars\Models\LarsDocument.cs" />
     <Compile Include="Lars\Models\LearningDeliveryDocument.cs" />
     <Compile Include="Lars\Models\StandardLars.cs" />
+    <Compile Include="Provider\CourseDirectory\ApiKeyServiceClientCredentials.cs" />
     <Compile Include="Provider\CourseDirectory\EmployerProviderVstsClient.cs" />
     <Compile Include="Provider\DapperBD\AchievementRatesNational.cs" />
     <Compile Include="Provider\DapperBD\LearnerSatisfactionRatesProvider.cs" />

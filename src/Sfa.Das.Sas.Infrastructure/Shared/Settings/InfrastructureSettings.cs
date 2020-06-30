@@ -30,6 +30,8 @@ namespace Sfa.Das.Sas.Indexer.Infrastructure.Settings
 
         public string CourseDirectoryUri => ConfigurationManager.AppSettings["CourseDirectoryUri"];
 
+        public string CourseDirectoryApiKey => ConfigurationManager.AppSettings["CourseDirectoryApiKey"];
+
         public string UkrlpEndpointName => ConfigurationManager.AppSettings["UkrlpEndpointName"];
 
         public string EnvironmentName => ConfigurationManager.AppSettings["EnvironmentName"];
