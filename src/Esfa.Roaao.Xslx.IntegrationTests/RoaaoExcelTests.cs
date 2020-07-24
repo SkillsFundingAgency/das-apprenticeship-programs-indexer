@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.MetaData;
 using Sfa.Das.Sas.Indexer.AzureWorkerRole.DependencyResolution;
 using Sfa.Das.Sas.Indexer.Core.AssessmentOrgs.Models;
@@ -11,18 +10,18 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings;
-using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace Esfa.Roaao.Xslx.IntegrationTests
 {
-    [TestClass]
+    [TestFixture]
     public class RoaaoExcelTests
     {
         private AssessmentOrganisationsDTO results;
 
         private IGetAssessmentOrgsData prodsut;
 
-        [TestInitialize]
+        [SetUp]
         public void Init()
         {
             // Arrange
@@ -43,8 +42,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.IsNotNull(results, "GetAssessmentOrganisationsData returned null may be vsts internal server error or an unauthorized error");
         }
 
-        [TestMethod]
-        [TestCategory("RoAAo Excel Tests")]
+        [Test]
+        [Category("RoAAo Excel Tests")]
         public void ShouldNotDeleteExistingOrganisationStandardAssociation()
         {
             List<string> errors = new List<string>();
@@ -70,8 +69,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.AreEqual(0, errors.Count, $"Following details are removed from 'Register - Standards' worksheet {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
         }
 
-        [TestMethod]
-        [TestCategory("RoAAo Excel Tests")]
+        [Test]
+        [Category("RoAAo Excel Tests")]
         public void ShouldNotDeleteExistingOrganisation()
         {
             var prodAssesmentOrgs = prodsut.GetAssessmentOrganisationsData().Organisations.Select(x => x.EpaOrganisationIdentifier).ToList();
@@ -82,8 +81,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.AreEqual(0, removedOrganisations.Count(), $"Following details are removed from 'Register - Organisations' worksheet  {Environment.NewLine}{string.Join(Environment.NewLine, removedOrganisations)}");
         }
 
-        [TestMethod]
-        [TestCategory("RoAAo Excel Tests")]
+        [Test]
+        [Category("RoAAo Excel Tests")]
         public void EpaShouldExist()
         {
             List<string> errors = new List<string>();
@@ -97,8 +96,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.AreEqual(0, errors.Count, $"Couldn't find the Assessment Org for {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
         }
 
-        [TestMethod]
-        [TestCategory("RoAAo Excel Tests")]
+        [Test]
+        [Category("RoAAo Excel Tests")]
         public void ShouldMatchExpectedOrganisationType()
         {
             var errors = new List<string>();
@@ -109,8 +108,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.AreEqual(0, errors.Count, $"Following assessment Org has an unmatched organisation type {Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
         }
 
-        [TestMethod]
-        [TestCategory("RoAAo Excel Tests")]
+        [Test]
+        [Category("RoAAo Excel Tests")]
         public void ShouldHaveAValidEffectiveFromDateForStandardPeriods()
         {
             List<string> errors = new List<string>();
@@ -124,8 +123,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
 
-        [TestMethod]
-        [TestCategory("RoAAo Excel Tests")]
+        [Test]
+        [Category("RoAAo Excel Tests")]
         public void ShouldNotHaveOverlappingPeriods()
         {
             List<string> errors = new List<string>();
@@ -151,8 +150,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
 
-        [TestMethod]
-        [TestCategory("RoAAo Excel Tests")]
+        [Test]
+        [Category("RoAAo Excel Tests")]
         public void ShouldNotHaveDuplicateCurrentPeriods()
         {
             var errors = new List<string>();
@@ -177,8 +176,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
 
-        [TestMethod]
-        [TestCategory("RoAAo Excel Tests")]
+        [Test]
+        [Category("RoAAo Excel Tests")]
         public void ShouldNotHaveInvalidPeriods()
         {
             var errors = new List<string>();
@@ -204,8 +203,8 @@ namespace Esfa.Roaao.Xslx.IntegrationTests
             Assert.IsTrue(errors.Count == 0, string.Join(Environment.NewLine, errors));
         }
 
-        [TestMethod]
-        [TestCategory("RoAAo Excel Tests")]
+        [Test]
+        [Category("RoAAo Excel Tests")]
         public async Task ShouldNotHaveBrokenWebsiteLink()
         {
             var errors = new List<string>();
