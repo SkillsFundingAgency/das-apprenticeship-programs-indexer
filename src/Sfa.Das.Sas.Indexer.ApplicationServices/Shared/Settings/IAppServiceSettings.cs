@@ -23,6 +23,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         string GitUsername { get; }
 
         string GitPassword { get; }
+        string GitAccessToken { get; }
 
         string GitBranch { get; }
 

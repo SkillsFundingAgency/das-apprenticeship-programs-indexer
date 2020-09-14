@@ -48,6 +48,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         public string GitUsername => _settings.GetSetting("GitUsername");
 
         public string GitPassword => _settings.GetSetting("GitPassword");
+        public string GitAccessToken => _settings.GetSetting("GitAccessToken");
 
         public string GitBranch => _settings.GetSetting("GitBranch");
 
@@ -114,6 +115,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
 
         private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");
+
+        
 
         private static string TypeToName(Type type)
         {

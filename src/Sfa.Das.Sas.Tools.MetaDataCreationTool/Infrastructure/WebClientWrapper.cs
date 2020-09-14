@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 
 namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Infrastructure
 {
@@ -12,21 +13,22 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Infrastructure
             client = new WebClient();
         }
 
-        public void DownloadFile(Uri address, string filePath)
-        {
-            client.DownloadFile(address, filePath);
-        }
-
-        public byte[] DownloadData(Uri address)
-        {
-            return client.DownloadData(address);
-        }
-
         public void Dispose()
         {
             client?.Dispose();
         }
 
-        public WebHeaderCollection Headers => client.Headers;
+        public byte[] DownloadData(Uri address, string accessToken)
+        {
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                var credentials = Convert.ToBase64String(
+                    Encoding.ASCII.GetBytes(
+                        string.Format("{0}:{1}", "", accessToken)));
+                client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
+            }
+
+            return client.DownloadData(address);
+        }
     }
 }

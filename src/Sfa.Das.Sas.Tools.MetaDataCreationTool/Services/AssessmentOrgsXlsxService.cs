@@ -33,11 +33,11 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
         {
             IDictionary<string, object> extras = new Dictionary<string, object>();
             extras.Add("DependencyLogEntry.Url", _appServiceSettings.VstsAssessmentOrgsUrl);
-            
+
 
             try
             {
-                _log.Debug("Downloading ROAAO", new Dictionary<string, object> {{"Url", _appServiceSettings.VstsAssessmentOrgsUrl}});
+                _log.Debug("Downloading ROAAO", new Dictionary<string, object> { { "Url", _appServiceSettings.VstsAssessmentOrgsUrl } });
                 IEnumerable<Organisation> assessmentOrgs;
                 IEnumerable<StandardOrganisationsData> standardOrganisationsData;
 
@@ -97,7 +97,9 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         public virtual Stream GetFileStream()
         {
-            return new MemoryStream(_webClient.DownloadData(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl)));
+            var data = _webClient.DownloadData(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl), _appServiceSettings.GitAccessToken);
+            return new MemoryStream(data);
+
         }
 
         private List<Organisation> FilterOrganisations(IEnumerable<Organisation> organisationsData)
