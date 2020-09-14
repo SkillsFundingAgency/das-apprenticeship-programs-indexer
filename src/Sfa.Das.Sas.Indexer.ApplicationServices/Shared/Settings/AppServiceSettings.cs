@@ -114,9 +114,7 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         private string VstsGitBaseUrl => _settings.GetSetting("VstsGitBaseUrl");
 
-        private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");
-
-        
+        private string VstsGitFrameworksFolderPath => _settings.GetSetting("VstsGitFrameworksFolderPath");      
 
         private static string TypeToName(Type type)
         {
