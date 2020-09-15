@@ -72,6 +72,9 @@
         "gitPassword": {
             "type": "securestring"
         },
+        "gitAccessToken": {
+            "type": "securestring"
+        },
         "achievementRateDataBaseConnectionString": {
             "type": "securestring"
         },
@@ -308,6 +311,10 @@
                             {
                                 "name": "GitPassword",
                                 "value": "[parameters('gitPassword')]"
+                            },
+                            {
+                                "name": "GitAccessToken",
+                                "value": "[parameters('gitAccessToken')]"
                             },
                             {
                                 "name": "AchievementRateDataBaseConnectionString",
