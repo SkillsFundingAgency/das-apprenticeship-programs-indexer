@@ -97,6 +97,7 @@ namespace Sfa.Das.Sas.Tools.MetaDataCreationTool.Services
 
         public virtual Stream GetFileStream()
         {
+            _webClient.DownloadFile(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl), "c:\\temp\\Filex.xlsx");
             return new MemoryStream(_webClient.DownloadData(new Uri(_appServiceSettings.VstsAssessmentOrgsUrl)));
         }
 

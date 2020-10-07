@@ -43,7 +43,8 @@ namespace Sfa.Das.Sas.Indexer.ApplicationServices.Shared.Settings
 
         public string VstsGitPushUrl => $"{VstsGitBaseUrl}/pushes?api-version=2.0-preview";
 
-        public string VstsAssessmentOrgsUrl => _settings.GetSetting("VstsAssessmentOrgsUrl");
+        public string VstsAssessmentOrgsUrl => "https://sfa-gov-uk.visualstudio.com/c39e0c0b-7aff-4606-b160-3566f3bbce23/_apis/git/repositories/9b4f676e-ce9a-4f10-a043-0ec9e5bf053c/items?path=%2FassessmentOrgs%2FAT%2FassessmentOrgs.xlsx&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=octetStream&api-version=5.0&download=true";
+        //    _settings.GetSetting("VstsAssessmentOrgsUrl");
 
         public string GitUsername => _settings.GetSetting("GitUsername");
 
