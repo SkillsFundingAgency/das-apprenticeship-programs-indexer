@@ -106,7 +106,7 @@
             "type": "string"
         },
         "courseDirectoryApiKey": {
-            "type": "string"
+            "type": "securestring"
         },
         "vstsAssessmentOrgsUrl": {
             "type": "string"
@@ -202,7 +202,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'),'app-service.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'),'app-service-v2.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -219,180 +219,182 @@
                         "value": false
                     },
                     "appServiceAppSettings": {
-                        "value": [
-                            {
-                                "name": "EnvironmentName",
-                                "value": "[parameters('environmentName')]"
-                            },
-                            {
-                                "name": "AzureWebJobsStorage",
-                                "value": "[reference('storage-account').outputs.storageConnectionString.value]"
-                            },
-                            {
-                                "name": "AzureWebJobsDashboard",
-                                "value": "[reference('storage-account').outputs.storageConnectionString.value]"
-                            },
-                            {
-                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference('worker-app-insights').outputs.InstrumentationKey.value]"
-                            },
-                            {
-                                "name": "LoggingRedisConnectionString",
-                                "value": "[parameters('loggingRedisConnectionString')]"
-                            },
-                            {
-                                "name": "ElasticsearchUsername",
-                                "value": "[parameters('elasticsearchUsername')]"
-                            },
-                            {
-                                "name": "ElasticsearchPassword",
-                                "value": "[parameters('elasticsearchPassword')]"
-                            },
-                            {
-                                "name": "EdubaseUsername",
-                                "value": "[parameters('edubaseUsername')]"
-                            },
-                            {
-                                "name": "EdubasePassword",
-                                "value": "[parameters('edubasePassword')]"
-                            },
-                            {
-                                "name": "ApprenticeshipIndexAlias",
-                                "value": "[parameters('apprenticeshipIndexAlias')]"
-                            },
-                            {
-                                "name": "ProviderIndexAlias",
-                                "value": "[parameters('providerIndexAlias')]"
-                            },
-                            {
-                                "name": "LarsIndexAlias",
-                                "value": "[parameters('larsIndexAlias')]"
-                            },
-                            {
-                                "name": "AssessmentOrgsIndexAlias",
-                                "value": "[parameters('assessmentOrgsIndexAlias')]"
-                            },
-                            {
-                                "name": "StorageConnectionString",
-                                "value": "[reference('storage-account').outputs.storageConnectionString.value]"
-                            },
-                            {
-                                "name": "ElasticServerUrls",
-                                "value": "[parameters('elasticServerUrls')]"
-                            },
-                            {
-                                "name": "MetadataApiUri",
-                                "value": "[parameters('metadataApiUri')]"
-                            },
-                            {
-                                "name": "ApprenticeshipIndexShards",
-                                "value": "3"
-                            },
-                            {
-                                "name": "ProviderIndexShards",
-                                "value": "3"
-                            },
-                            {
-                                "name": "LarsIndexShards",
-                                "value": "3"
-                            },
-                            {
-                                "name": "EmployerSatisfactionRatesTableName",
-                                "value": "[parameters('employerSatisfactionRatesTableName')]"
-                            },
-                            {
-                                "name": "LearnerSatisfactionRatesTableName",
-                                "value": "[parameters('learnerSatisfactionRatesTableName')]"
-                            },
-                            {
-                                "name": "GitUsername",
-                                "value": "[parameters('gitUsername')]"
-                            },
-                            {
-                                "name": "GitPassword",
-                                "value": "[parameters('gitPassword')]"
-                            },
-                            {
-                                "name": "GitAccessToken",
-                                "value": "[parameters('gitAccessToken')]"
-                            },
-                            {
-                                "name": "AchievementRateDataBaseConnectionString",
-                                "value": "[parameters('achievementRateDataBaseConnectionString')]"
-                            },
-                            {
-                                "name": "UKRLP_EndpointUri",
-                                "value": "[parameters('ukrlpEndpointUri')]"
-                            },
-                            {
-                                "name": "VstsGitStandardsFolderPath",
-                                "value": "[parameters('vstsGitStandardsFolderPath')]"
-                            },
-                            {
-                                "name": "VstsGitFrameworksFolderPath",
-                                "value": "[parameters('vstsGitFrameworksFolderPath')]"
-                            },
-                            {
-                                "name": "ProviderFeedbackApiUri",
-                                "value": "[parameters('providerFeedbackApiUri')]"
-                            },
-                            {
-                                "name": "ProviderFeedbackApiAuthenticationInstance",
-                                "value": "https://login.microsoftonline.com/"
-                            },
-                            {
-                                "name": "ProviderFeedbackApiAuthenticationTenantId",
-                                "value": "[parameters('providerFeedbackApiAuthenticationTenantId')]"
-                            },
-                            {
-                                "name": "ProviderFeedbackApiAuthenticationClientId",
-                                "value": "[parameters('providerFeedbackApiAuthenticationClientId')]"
-                            },
-                            {
-                                "name": "ProviderFeedbackApiAuthenticationClientSecret",
-                                "value": "[parameters('providerFeedbackApiAuthenticationClientSecret')]"
-                            },
-                            {
-                                "name": "ProviderFeedbackApiAuthenticationResourceId",
-                                "value": "[parameters('providerFeedbackApiAuthenticationResourceId')]"
-                            },
-                            {
-                                "name": "CourseDirectoryUri",
-                                "value": "[parameters('courseDirectoryUri')]"
-                            },
-                            {
-                                "name": "CourseDirectoryApiKey",
-                                "value": "[parameters('courseDirectoryApiKey')]"
-                            },
-                            {
-                                "name": "VstsAssessmentOrgsUrl",
-                                "value": "[parameters('vstsAssessmentOrgsUrl')]"
-                            },
-                            {
-                                "name": "RoatpApiClientBaseUrl",
-                                "value": "[parameters('roatpApiClientBaseUrl')]"
-                            },
-                            {
-                                "name": "RoatpApiAuthenticationInstance",
-                                "value": "https://login.microsoftonline.com/"
-                            },
-                            {
-                                "name": "RoatpApiAuthenticationTenantId",
-                                "value": "[parameters('roatpApiAuthenticationTenantId')]"
-                            },
-                            {
-                                "name": "RoatpApiAuthenticationClientId",
-                                "value": "[parameters('roatpApiAuthenticationClientId')]"
-                            },
-                            {
-                                "name": "RoatpApiAuthenticationClientSecret",
-                                "value": "[parameters('roatpApiAuthenticationClientSecret')]"
-                            },
-                            {
-                                "name": "RoatpApiAuthenticationResourceId",
-                                "value": "[parameters('roatpApiAuthenticationResourceId')]"
-                            }
-                        ]
+                        "value": {
+                            "array": [
+                                {
+                                    "name": "EnvironmentName",
+                                    "value": "[parameters('environmentName')]"
+                                },
+                                {
+                                    "name": "AzureWebJobsStorage",
+                                    "value": "[reference('storage-account').outputs.storageConnectionString.value]"
+                                },
+                                {
+                                    "name": "AzureWebJobsDashboard",
+                                    "value": "[reference('storage-account').outputs.storageConnectionString.value]"
+                                },
+                                {
+                                    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                    "value": "[reference('worker-app-insights').outputs.InstrumentationKey.value]"
+                                },
+                                {
+                                    "name": "LoggingRedisConnectionString",
+                                    "value": "[parameters('loggingRedisConnectionString')]"
+                                },
+                                {
+                                    "name": "ElasticsearchUsername",
+                                    "value": "[parameters('elasticsearchUsername')]"
+                                },
+                                {
+                                    "name": "ElasticsearchPassword",
+                                    "value": "[parameters('elasticsearchPassword')]"
+                                },
+                                {
+                                    "name": "EdubaseUsername",
+                                    "value": "[parameters('edubaseUsername')]"
+                                },
+                                {
+                                    "name": "EdubasePassword",
+                                    "value": "[parameters('edubasePassword')]"
+                                },
+                                {
+                                    "name": "ApprenticeshipIndexAlias",
+                                    "value": "[parameters('apprenticeshipIndexAlias')]"
+                                },
+                                {
+                                    "name": "ProviderIndexAlias",
+                                    "value": "[parameters('providerIndexAlias')]"
+                                },
+                                {
+                                    "name": "LarsIndexAlias",
+                                    "value": "[parameters('larsIndexAlias')]"
+                                },
+                                {
+                                    "name": "AssessmentOrgsIndexAlias",
+                                    "value": "[parameters('assessmentOrgsIndexAlias')]"
+                                },
+                                {
+                                    "name": "StorageConnectionString",
+                                    "value": "[reference('storage-account').outputs.storageConnectionString.value]"
+                                },
+                                {
+                                    "name": "ElasticServerUrls",
+                                    "value": "[parameters('elasticServerUrls')]"
+                                },
+                                {
+                                    "name": "MetadataApiUri",
+                                    "value": "[parameters('metadataApiUri')]"
+                                },
+                                {
+                                    "name": "ApprenticeshipIndexShards",
+                                    "value": "3"
+                                },
+                                {
+                                    "name": "ProviderIndexShards",
+                                    "value": "3"
+                                },
+                                {
+                                    "name": "LarsIndexShards",
+                                    "value": "3"
+                                },
+                                {
+                                    "name": "EmployerSatisfactionRatesTableName",
+                                    "value": "[parameters('employerSatisfactionRatesTableName')]"
+                                },
+                                {
+                                    "name": "LearnerSatisfactionRatesTableName",
+                                    "value": "[parameters('learnerSatisfactionRatesTableName')]"
+                                },
+                                {
+                                    "name": "GitUsername",
+                                    "value": "[parameters('gitUsername')]"
+                                },
+                                {
+                                    "name": "GitPassword",
+                                    "value": "[parameters('gitPassword')]"
+                                },
+                                {
+                                    "name": "GitAccessToken",
+                                    "value": "[parameters('gitAccessToken')]"
+                                },
+                                {
+                                    "name": "AchievementRateDataBaseConnectionString",
+                                    "value": "[parameters('achievementRateDataBaseConnectionString')]"
+                                },
+                                {
+                                    "name": "UKRLP_EndpointUri",
+                                    "value": "[parameters('ukrlpEndpointUri')]"
+                                },
+                                {
+                                    "name": "VstsGitStandardsFolderPath",
+                                    "value": "[parameters('vstsGitStandardsFolderPath')]"
+                                },
+                                {
+                                    "name": "VstsGitFrameworksFolderPath",
+                                    "value": "[parameters('vstsGitFrameworksFolderPath')]"
+                                },
+                                {
+                                    "name": "ProviderFeedbackApiUri",
+                                    "value": "[parameters('providerFeedbackApiUri')]"
+                                },
+                                {
+                                    "name": "ProviderFeedbackApiAuthenticationInstance",
+                                    "value": "https://login.microsoftonline.com/"
+                                },
+                                {
+                                    "name": "ProviderFeedbackApiAuthenticationTenantId",
+                                    "value": "[parameters('providerFeedbackApiAuthenticationTenantId')]"
+                                },
+                                {
+                                    "name": "ProviderFeedbackApiAuthenticationClientId",
+                                    "value": "[parameters('providerFeedbackApiAuthenticationClientId')]"
+                                },
+                                {
+                                    "name": "ProviderFeedbackApiAuthenticationClientSecret",
+                                    "value": "[parameters('providerFeedbackApiAuthenticationClientSecret')]"
+                                },
+                                {
+                                    "name": "ProviderFeedbackApiAuthenticationResourceId",
+                                    "value": "[parameters('providerFeedbackApiAuthenticationResourceId')]"
+                                },
+                                {
+                                    "name": "CourseDirectoryUri",
+                                    "value": "[parameters('courseDirectoryUri')]"
+                                },
+                                {
+                                    "name": "CourseDirectoryApiKey",
+                                    "value": "[parameters('courseDirectoryApiKey')]"
+                                },
+                                {
+                                    "name": "VstsAssessmentOrgsUrl",
+                                    "value": "[parameters('vstsAssessmentOrgsUrl')]"
+                                },
+                                {
+                                    "name": "RoatpApiClientBaseUrl",
+                                    "value": "[parameters('roatpApiClientBaseUrl')]"
+                                },
+                                {
+                                    "name": "RoatpApiAuthenticationInstance",
+                                    "value": "https://login.microsoftonline.com/"
+                                },
+                                {
+                                    "name": "RoatpApiAuthenticationTenantId",
+                                    "value": "[parameters('roatpApiAuthenticationTenantId')]"
+                                },
+                                {
+                                    "name": "RoatpApiAuthenticationClientId",
+                                    "value": "[parameters('roatpApiAuthenticationClientId')]"
+                                },
+                                {
+                                    "name": "RoatpApiAuthenticationClientSecret",
+                                    "value": "[parameters('roatpApiAuthenticationClientSecret')]"
+                                },
+                                {
+                                    "name": "RoatpApiAuthenticationResourceId",
+                                    "value": "[parameters('roatpApiAuthenticationResourceId')]"
+                                }
+                            ]
+                        }
                     }
                 }
             },
