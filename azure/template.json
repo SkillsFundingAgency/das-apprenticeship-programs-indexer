@@ -467,10 +467,7 @@
                 }
             },
             "dependsOn": [
-                "worker-app-service-subnet",
-                "worker-app-service-plan",
-                "worker-app-insights",
-                "storage-account"
+                "worker-app-service-plan"
             ]
         }
     ],
