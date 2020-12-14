@@ -475,7 +475,7 @@
         }
     ],
     "outputs": {
-        "appServiceName": {
+        "AppServiceName": {
             "type": "string",
             "value": "[variables('appServiceName')]"
         },
